@@ -2,6 +2,7 @@
 
 [![Made in Ukraine](https://img.shields.io/badge/made_in-ukraine-ffd700.svg?labelColor=0057b7)](https://tyrrrz.me/ukraine)
 [![Build](https://img.shields.io/github/actions/workflow/status/Tyrrrz/PolyShim/main.yml?branch=master)](https://github.com/Tyrrrz/PolyShim/actions)
+[![Coverage](https://img.shields.io/codecov/c/github/Tyrrrz/PolyShim/master)](https://codecov.io/gh/Tyrrrz/PolyShim)
 [![Version](https://img.shields.io/nuget/v/PolyShim.svg)](https://nuget.org/packages/PolyShim)
 [![Downloads](https://img.shields.io/nuget/dt/PolyShim.svg)](https://nuget.org/packages/PolyShim)
 [![Discord](https://img.shields.io/discord/869237470565392384?label=discord)](https://discord.gg/2SUWKFnHSm)

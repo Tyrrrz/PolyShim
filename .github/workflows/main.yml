@@ -6,7 +6,6 @@ jobs:
   main:
     uses: Tyrrrz/.github/.github/workflows/nuget.yml@master
     with:
-      windows-only: true
       dotnet-version: |
         3.1.x
         7.0.x
