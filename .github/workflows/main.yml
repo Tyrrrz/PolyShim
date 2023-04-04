@@ -7,7 +7,9 @@ jobs:
     uses: Tyrrrz/.github/.github/workflows/nuget.yml@master
     with:
       windows-only: true
-      dotnet-version: 7.0.x
+      dotnet-version: |
+        3.1.x
+        7.0.x
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
