@@ -1,0 +1,14 @@
+<Project>
+
+  <PropertyGroup>
+    <Version>1.0</Version>
+    <Company>Tyrrrz</Company>
+    <Copyright>Copyright (C) Oleksii Holub</Copyright>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+</Project>
