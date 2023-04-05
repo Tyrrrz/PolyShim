@@ -1,4 +1,4 @@
-﻿#if (NET20_OR_GREATER && !NET35_OR_GREATER)
+﻿#if (NETFRAMEWORK && !NET35_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace

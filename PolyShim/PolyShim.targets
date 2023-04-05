@@ -30,14 +30,14 @@
       <FeatureHashCode Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))">true</FeatureHashCode>
       <DefineConstants Condition="$(FeatureHashCode)">$(DefineConstants);FEATURE_HASHCODE</DefineConstants>
 
-      <FeatureHttp>false</FeatureHttp>
-      <FeatureHttp Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">true</FeatureHttp>
-      <FeatureHttp Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">true</FeatureHttp>
-      <FeatureHttp Condition="@(Reference->AnyHaveMetadataValue('Identity', 'Microsoft.Net.Http'))">true</FeatureHttp>
-      <FeatureHttp Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'Microsoft.Net.Http'))">true</FeatureHttp>
-      <FeatureHttp Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.1'))">true</FeatureHttp>
-      <FeatureHttp Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.0'))">true</FeatureHttp>
-      <DefineConstants Condition="$(FeatureHttp)">$(DefineConstants);FEATURE_HTTP</DefineConstants>
+      <FeatureHttpClient>false</FeatureHttpClient>
+      <FeatureHttpClient Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">true</FeatureHttpClient>
+      <FeatureHttpClient Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">true</FeatureHttpClient>
+      <FeatureHttpClient Condition="@(Reference->AnyHaveMetadataValue('Identity', 'Microsoft.Net.Http'))">true</FeatureHttpClient>
+      <FeatureHttpClient Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'Microsoft.Net.Http'))">true</FeatureHttpClient>
+      <FeatureHttpClient Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.1'))">true</FeatureHttpClient>
+      <FeatureHttpClient Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.0'))">true</FeatureHttpClient>
+      <DefineConstants Condition="$(FeatureHttpClient)">$(DefineConstants);FEATURE_HTTPCLIENT</DefineConstants>
 
       <FeatureManagement>false</FeatureManagement>
       <FeatureManagement Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Management'))">true</FeatureManagement>

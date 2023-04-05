@@ -1,4 +1,4 @@
-﻿#if (NETCOREAPP1_0_OR_GREATER && !NETCOREAPP3_0_OR_GREATER) || (NET35_OR_GREATER) || (NETSTANDARD1_0_OR_GREATER)
+﻿#if (NETCOREAPP && !NETCOREAPP3_0_OR_GREATER) || (NET35_OR_GREATER) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace

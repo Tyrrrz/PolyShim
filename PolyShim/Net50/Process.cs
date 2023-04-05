@@ -1,4 +1,5 @@
-﻿#if (NETCOREAPP1_0_OR_GREATER && !NET5_0_OR_GREATER) || (NET20_OR_GREATER) || (NETSTANDARD1_0_OR_GREATER)
+﻿#if FEATURE_PROCESS
+#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -13,12 +14,12 @@ using System.Threading.Tasks;
 [ExcludeFromCodeCoverage]
 internal static class _E5F55845EF964DA8B0A99B0086F4D357
 {
-#if FEATURE_PROCESS && FEATURE_TASK
+#if FEATURE_TASK
     // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync
     public static async Task WaitForExitAsync(this Process process, CancellationToken cancellationToken = default)
     {
         var tcs = new TaskCompletionSource<object?>(
-#if !(NET20_OR_GREATER && !NET46_OR_GREATER)
+#if !(NETFRAMEWORK && !NET46_OR_GREATER)
             TaskCreationOptions.RunContinuationsAsynchronously
 #endif
         );
@@ -49,4 +50,5 @@ internal static class _E5F55845EF964DA8B0A99B0086F4D357
     }
 #endif
 }
+#endif
 #endif

@@ -1,4 +1,5 @@
-﻿#if (NETCOREAPP1_0_OR_GREATER && !NET5_0_OR_GREATER) || (NET20_OR_GREATER) || (NETSTANDARD1_0_OR_GREATER)
+﻿#if FEATURE_HTTPCLIENT
+#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 [ExcludeFromCodeCoverage]
 internal static class _0F5BD49375DC4FC586A551C526A627DC
 {
-#if FEATURE_TASK && FEATURE_HTTP
+#if FEATURE_TASK
     // Documentation missing on docs.microsoft.com for this signature
     public static async Task<Stream> ReadAsStreamAsync(
         this HttpContent httpContent,
@@ -42,4 +43,5 @@ internal static class _0F5BD49375DC4FC586A551C526A627DC
     }
 #endif
 }
+#endif
 #endif

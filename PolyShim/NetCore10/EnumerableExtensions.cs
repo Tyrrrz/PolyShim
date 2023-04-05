@@ -1,4 +1,4 @@
-﻿#if (NET20_OR_GREATER && !NET471_OR_GREATER) || (NETSTANDARD1_0_OR_GREATER && !NETSTANDARD1_6_OR_GREATER)
+﻿#if (NETFRAMEWORK && !NET471_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_6_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -30,7 +30,7 @@ internal static class _25ACEBAC35F840B295CD58760791CBF4
         yield return item;
     }
 
-#if (NET20_OR_GREATER && !NET40_OR_GREATER)
+#if (NETFRAMEWORK && !NET40_OR_GREATER)
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1-2)))
     public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(
         this IEnumerable<TFirst> first,

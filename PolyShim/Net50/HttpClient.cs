@@ -1,4 +1,5 @@
-﻿#if (NETCOREAPP1_0_OR_GREATER && !NET5_0_OR_GREATER) || (NET20_OR_GREATER) || (NETSTANDARD1_0_OR_GREATER)
+﻿#if FEATURE_HTTPCLIENT
+#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 [ExcludeFromCodeCoverage]
 internal static class _BC854DB33E934B03A5E2C3C3F205367B
 {
-#if FEATURE_TASK && FEATURE_HTTP
+#if FEATURE_TASK
     // https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-string-system-threading-cancellationtoken)
     public static async Task<Stream> GetStreamAsync(
         this HttpClient httpClient,
@@ -119,4 +120,5 @@ internal static class _BC854DB33E934B03A5E2C3C3F205367B
         await httpClient.GetStringAsync(requestUri.ToString(), cancellationToken).ConfigureAwait(false);
 #endif
 }
+#endif
 #endif

@@ -1,6 +1,6 @@
 ﻿#if !FEATURE_RUNTIMEINFORMATION
 // No way to detect on .NET Standard lower than 1.3
-#if !(NETSTANDARD1_0_OR_GREATER && !NETSTANDARD1_3_OR_GREATER)
+#if !(NETSTANDARD && !NETSTANDARD1_3_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
