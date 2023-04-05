@@ -8,11 +8,11 @@
     <TargetFrameworks>netcoreapp3.1;net70</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(TargetFrameworks);net462</TargetFrameworks>
   </PropertyGroup>
-  
+
   <PropertyGroup>
-    <DefineConstants Condition="'$(OS)' == 'Windows_NT'">$(DefineConstants);PLATFORM_WINDOWS</DefineConstants>
-    <DefineConstants Condition="'$(OS)' == 'Linux'">$(DefineConstants);PLATFORM_LINUX</DefineConstants>
-    <DefineConstants Condition="'$(OS)' == 'OSX'">$(DefineConstants);PLATFORM_OSX</DefineConstants>
+    <DefineConstants Condition="$([MSBuild]::IsOsPlatform('Windows'))">$(DefineConstants);PLATFORM_WINDOWS</DefineConstants>
+    <DefineConstants Condition="$([MSBuild]::IsOsPlatform('Linux'))">$(DefineConstants);PLATFORM_LINUX</DefineConstants>
+    <DefineConstants Condition="$([MSBuild]::IsOsPlatform('OSX'))">$(DefineConstants);PLATFORM_OSX</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

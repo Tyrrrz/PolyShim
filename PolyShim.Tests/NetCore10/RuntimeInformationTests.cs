@@ -19,7 +19,7 @@ public class RuntimeInformationTests
         isWindows.Should().BeTrue();
         isLinux.Should().BeFalse();
         isOsx.Should().BeFalse();
-        #elif PLATFORM_LINUX
+#elif PLATFORM_LINUX
         isWindows.Should().BeFalse();
         isLinux.Should().BeTrue();
         isOsx.Should().BeFalse();
