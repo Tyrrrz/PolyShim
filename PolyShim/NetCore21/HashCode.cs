@@ -15,18 +15,19 @@ internal partial class HashCode
 {
     private int _hash;
 
-    public HashCode() => _hash = 0;
+    private void Add(int hashCode) =>
+        _hash = _hash * 31 + hashCode;
 
     public void Add<T>(T value)
     {
-        if (value != null)
-            _hash = _hash * 31 + value.GetHashCode();
+        if (value is not null)
+            Add(value.GetHashCode());
     }
 
     public void Add<T>(T value, IEqualityComparer<T> comparer)
     {
-        if (value != null)
-            _hash = _hash * 31 + comparer.GetHashCode(value);
+        if (value is not null)
+            Add(comparer.GetHashCode(value));
     }
 
     public int ToHashCode() => _hash;
