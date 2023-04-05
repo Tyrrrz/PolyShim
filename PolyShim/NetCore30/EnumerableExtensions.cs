@@ -12,12 +12,10 @@ namespace System.Linq;
 [ExcludeFromCodeCoverage]
 internal static class _B118719A088C4AAD9AFE93F23519FDAA
 {
-#if FEATURE_VALUETUPLE
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1)))
     public static IEnumerable<(TFirst left, TSecond right)> Zip<TFirst, TSecond>(
         this IEnumerable<TFirst> first,
         IEnumerable<TSecond> second) =>
         first.Zip(second, (x, y) => (x, y));
-#endif
 }
 #endif

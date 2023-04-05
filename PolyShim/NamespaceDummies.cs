@@ -6,6 +6,16 @@
 // even on frameworks that don't have the corresponding types.
 // This lets us write using declarations without worrying about #if guards.
 
+namespace System.IO
+{
+    internal static class __Dummy { }
+}
+
+namespace System.Management
+{
+    internal static class __Dummy { }
+}
+
 namespace System.Net.Http
 {
     internal static class __Dummy { }

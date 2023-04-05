@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
 
-  <Target Name="PolyShim_ResolveFeatures" AfterTargets="AfterResolveReferences">
+  <Target Name="PolyShim_ResolveFeatures" AfterTargets="AfterResolveReferences" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
       <IsNetStandard>false</IsNetStandard>
       <IsNetStandard Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard'">true</IsNetStandard>
@@ -15,14 +15,25 @@
     <!-- Identify feature compatibility -->
     <PropertyGroup>
       <FeatureAsyncInterfaces>false</FeatureAsyncInterfaces>
+      <FeatureAsyncInterfaces Condition="@(Reference->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.AsyncInterfaces'))">true</FeatureAsyncInterfaces>
       <FeatureAsyncInterfaces Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.AsyncInterfaces'))">true</FeatureAsyncInterfaces>
       <FeatureAsyncInterfaces Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))">true</FeatureAsyncInterfaces>
       <FeatureAsyncInterfaces Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '3.0'))">true</FeatureAsyncInterfaces>
       <DefineConstants Condition="$(FeatureAsyncInterfaces)">$(DefineConstants);FEATURE_ASYNCINTERFACES</DefineConstants>
 
+      <FeatureHashCode>false</FeatureHashCode>
+      <FeatureHashCode Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.HashCode'))">true</FeatureHashCode>
+      <FeatureHashCode Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.HashCode'))">true</FeatureHashCode>
+      <FeatureHashCode Condition="@(Reference->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.HashCode'))">true</FeatureHashCode>
+      <FeatureHashCode Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.HashCode'))">true</FeatureHashCode>
+      <FeatureHashCode Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))">true</FeatureHashCode>
+      <FeatureHashCode Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))">true</FeatureHashCode>
+      <DefineConstants Condition="$(FeatureHashCode)">$(DefineConstants);FEATURE_HASHCODE</DefineConstants>
+
       <FeatureHttp>false</FeatureHttp>
       <FeatureHttp Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">true</FeatureHttp>
       <FeatureHttp Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">true</FeatureHttp>
+      <FeatureHttp Condition="@(Reference->AnyHaveMetadataValue('Identity', 'Microsoft.Net.Http'))">true</FeatureHttp>
       <FeatureHttp Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'Microsoft.Net.Http'))">true</FeatureHttp>
       <FeatureHttp Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.1'))">true</FeatureHttp>
       <FeatureHttp Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.0'))">true</FeatureHttp>
@@ -34,6 +45,7 @@
       <DefineConstants Condition="$(FeatureManagement)">$(DefineConstants);FEATURE_MANAGEMENT</DefineConstants>
 
       <FeatureMemory>false</FeatureMemory>
+      <FeatureMemory Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Memory'))">true</FeatureMemory>
       <FeatureMemory Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.Memory'))">true</FeatureMemory>
       <FeatureMemory Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))">true</FeatureMemory>
       <FeatureMemory Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))">true</FeatureMemory>
@@ -41,13 +53,24 @@
 
       <FeatureProcess>false</FeatureProcess>
       <FeatureProcess Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Diagnostics.Process'))">true</FeatureProcess>
+      <FeatureProcess Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.Diagnostics.Process'))">true</FeatureProcess>
       <FeatureProcess Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))">true</FeatureProcess>
       <FeatureProcess Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.0'))">true</FeatureProcess>
       <FeatureProcess Condition="$(IsNetFramework) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))">true</FeatureProcess>
       <DefineConstants Condition="$(FeatureProcess)">$(DefineConstants);FEATURE_PROCESS</DefineConstants>
 
+      <FeatureRuntimeInformation>false</FeatureRuntimeInformation>
+      <FeatureRuntimeInformation Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Runtime.InteropServices.RuntimeInformation'))">true</FeatureRuntimeInformation>
+      <FeatureRuntimeInformation Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.Runtime.InteropServices.RuntimeInformation'))">true</FeatureRuntimeInformation>
+      <FeatureRuntimeInformation Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.1'))">true</FeatureRuntimeInformation>
+      <FeatureRuntimeInformation Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.0'))">true</FeatureRuntimeInformation>
+      <FeatureRuntimeInformation Condition="$(IsNetFramework) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.7.1'))">true</FeatureRuntimeInformation>
+      <DefineConstants Condition="$(FeatureRuntimeInformation)">$(DefineConstants);FEATURE_RUNTIMEINFORMATION</DefineConstants>
+
       <FeatureTask>false</FeatureTask>
+      <FeatureTask Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Threading.Tasks'))">true</FeatureTask>
       <FeatureTask Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.Threading.Tasks'))">true</FeatureTask>
+      <FeatureTask Condition="@(Reference->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Async'))">true</FeatureTask>
       <FeatureTask Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Async'))">true</FeatureTask>
       <FeatureTask Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.0'))">true</FeatureTask>
       <FeatureTask Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.0'))">true</FeatureTask>
@@ -55,12 +78,14 @@
       <DefineConstants Condition="$(FeatureTask)">$(DefineConstants);FEATURE_TASK</DefineConstants>
 
       <FeatureValueTask>false</FeatureValueTask>
+      <FeatureValueTask Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Threading.Tasks.Extensions'))">true</FeatureValueTask>
       <FeatureValueTask Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.Threading.Tasks.Extensions'))">true</FeatureValueTask>
       <FeatureValueTask Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))">true</FeatureValueTask>
       <FeatureValueTask Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))">true</FeatureValueTask>
       <DefineConstants Condition="$(FeatureValueTask)">$(DefineConstants);FEATURE_VALUETASK</DefineConstants>
 
       <FeatureValueTuple>false</FeatureValueTuple>
+      <FeatureValueTuple Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.ValueTuple'))">true</FeatureValueTuple>
       <FeatureValueTuple Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.ValueTuple'))">true</FeatureValueTuple>
       <FeatureValueTuple Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))">true</FeatureValueTuple>
       <FeatureValueTuple Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))">true</FeatureValueTuple>

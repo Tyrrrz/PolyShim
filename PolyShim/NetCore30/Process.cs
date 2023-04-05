@@ -1,5 +1,4 @@
-﻿#if FEATURE_PROCESS && FEATURE_MANAGEMENT
-#if (NETCOREAPP1_0_OR_GREATER && !NETCOREAPP3_0_OR_GREATER) || (NET35_OR_GREATER) || (NETSTANDARD1_0_OR_GREATER)
+﻿#if (NETCOREAPP1_0_OR_GREATER && !NETCOREAPP3_0_OR_GREATER) || (NET35_OR_GREATER) || (NETSTANDARD1_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -10,10 +9,12 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Management;
+using System.Runtime.InteropServices;
 
 [ExcludeFromCodeCoverage]
 internal static class _B51A2F7600DB4A4E851F782BA3C9FABA
 {
+#if FEATURE_PROCESS && FEATURE_MANAGEMENT
     private static void KillProcessTree(int processId)
     {
         using var searcher = new ManagementObjectSearcher(
@@ -52,7 +53,7 @@ internal static class _B51A2F7600DB4A4E851F782BA3C9FABA
         }
 
         // Currently, this polyfill only supports Windows
-        if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             process.Kill();
             return;
@@ -60,6 +61,6 @@ internal static class _B51A2F7600DB4A4E851F782BA3C9FABA
 
         KillProcessTree(process.Id);
     }
-}
 #endif
+}
 #endif

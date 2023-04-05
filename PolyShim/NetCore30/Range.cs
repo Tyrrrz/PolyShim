@@ -22,7 +22,6 @@ internal readonly struct Range : IEquatable<Range>
         End = end;
     }
 
-#if FEATURE_VALUETUPLE
     public (int Offset, int Length) GetOffsetAndLength(int length)
     {
         var start = Start.IsFromEnd
@@ -38,7 +37,6 @@ internal readonly struct Range : IEquatable<Range>
 
         return (start, end - start);
     }
-#endif
 
     public override bool Equals(object? value) =>
         value is Range r &&

@@ -9,7 +9,7 @@
     <TargetFrameworks>
       netstandard1.0;netstandard1.1;netstandard1.6;netstandard2.0;netstandard2.1;
       netcoreapp1.1;netcoreapp2.2;netcoreapp3.1;
-      net20;net35;net40;net45;net461;net462;net48;net50;net70
+      net35;net40;net45;net461;net462;net48;net50;net70
     </TargetFrameworks>
     <IsPackable>true</IsPackable>
     <NoPackageAnalysis>true</NoPackageAnalysis>

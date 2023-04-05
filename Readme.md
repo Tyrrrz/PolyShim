@@ -42,14 +42,16 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - Module initializers
   - & more...
 - Provides type polyfills for:
+  - `ValueTuple<T1, T2, ...>`
   - `Index` and `Range`
+  - `HashCode`
   - `SkipLocalsInitAttribute`
   - `CallerArgumentExpressionAttribute`
   - `ExcludeFromCodeCoverageAttribute`
   - & more...
 - Provides method shims for many built-in types
 - Adjusts polyfills based on available capabilities
-- Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 2.0+
+- Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
 - Imposes no run-time dependencies
 
 ## Usage
@@ -105,14 +107,15 @@ var contains = str.Contains('w');
 
 ### Compatibility packages
 
-Some features from newer versions of .NET can also be made available on older frameworks using special compatibility packages published by Microsoft.
-**PolyShim** automatically detects if any of these packages are installed and adjusts its polyfill coverage to provide missing APIs that rely on those features. 
+Some features from newer versions of .NET can also be made available on older frameworks using official compatibility packages published by Microsoft.
+**PolyShim** automatically detects if any of these packages are installed and adjusts its polyfill coverage accordingly — either by enabling additional polyfills that build upon those features, or by disabling polyfills for APIs that are already provided by the compatibility packages. 
 
 Currently, **PolyShim** has integration with the following packages:
 - [`System.Diagnostics.Process`](https://nuget.org/packages/System.Diagnostics.Process) — `Process`, `ProcessStartInfo`, etc.
 - [`System.Management`](https://nuget.org/packages/System.Management) — `ManagementObjectSearcher`, etc.
 - [`System.Memory`](https://nuget.org/packages/System.Memory) — `Memory<T>`, `Span<T>`, etc.
 - [`System.Net.Http`](https://nuget.org/packages/System.Net.Http) — `HttpClient`, `HttpContent`, etc.
+- [`System.Runtime.InteropServices.RuntimeInformation`](https://nuget.org/packages/System.Runtime.InteropServices.RuntimeInformation) — `RuntimeInformation`, `OSPlatform`, etc.
 - [`System.Threading.Tasks`](https://nuget.org/packages/System.Threading.Tasks) — `Task`, `Task<T>`, etc.
 - [`System.Threading.Tasks.Extensions`](https://nuget.org/packages/System.Threading.Tasks.Extensions) — `ValueTask`, `ValueTask<T>`, etc.
 - [`System.ValueTuple`](https://nuget.org/packages/System.ValueTuple) — `ValueTuple<T1, T2, ...>`, etc.
@@ -147,6 +150,34 @@ using var buffer = MemoryPool<byte>.Shared.Rent();
 
 // On older framworks, this is replaced by a polyfill
 var bytesRead = await stream.ReadAsync(buffer.Memory);
+```
+
+Conversely, adding a reference to the `System.ValueTuple` package will disable **PolyShim**'s own polyfills for `ValueTuple<T1, T2, ...>` and related types.
+You can use this approach to prioritize the official implementation where possible, while still relying on the polyfilled version for older target frameworks:
+
+```xml
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6;net35;net50</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PolyShim" Version="1.0.0" />
+    <PackageReference
+            Include="System.ValueTuple"
+            Version="4.5.0"
+            Condition="'$(TargetFramework)' == 'netstandard1.6'" />
+  </ItemGroup>
+
+</Project>
+```
+
+```csharp
+// On .NET 5.0, this will be provided natively
+// On .NET Standard 1.6, this will be provided by the System.ValueTuple package
+// On .NET Framework 3.5, this will be provided by PolyShim
+var (x, y) = ("hello world", 42);
 ```
 
 ### Limitations
