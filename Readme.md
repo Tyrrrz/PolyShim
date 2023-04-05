@@ -39,10 +39,11 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - Nullable reference types
   - Init-only properties and records
   - Required properties
+  - Named tuples
   - Module initializers
   - & more...
 - Provides type polyfills for:
-  - `ValueTuple<T1, T2, ...>`
+  - `ValueTuple<...>`
   - `Index` and `Range`
   - `HashCode`
   - `SkipLocalsInitAttribute`
@@ -108,7 +109,7 @@ var contains = str.Contains('w');
 ### Compatibility packages
 
 Some features from newer versions of .NET can also be made available on older frameworks using official compatibility packages published by Microsoft.
-**PolyShim** automatically detects if any of these packages are installed and adjusts its polyfill coverage accordingly — either by enabling additional polyfills that build upon those features, or by disabling polyfills for APIs that are already provided by the compatibility packages. 
+**PolyShim** automatically detects if any of these packages are installed and adjusts its polyfill coverage accordingly — either by enabling additional polyfills that build upon those features, or by disabling polyfills for APIs that are already provided in the compatibility packages. 
 
 Currently, **PolyShim** has integration with the following packages:
 - [`System.Diagnostics.Process`](https://nuget.org/packages/System.Diagnostics.Process) — `Process`, `ProcessStartInfo`, etc.
@@ -118,7 +119,7 @@ Currently, **PolyShim** has integration with the following packages:
 - [`System.Runtime.InteropServices.RuntimeInformation`](https://nuget.org/packages/System.Runtime.InteropServices.RuntimeInformation) — `RuntimeInformation`, `OSPlatform`, etc.
 - [`System.Threading.Tasks`](https://nuget.org/packages/System.Threading.Tasks) — `Task`, `Task<T>`, etc.
 - [`System.Threading.Tasks.Extensions`](https://nuget.org/packages/System.Threading.Tasks.Extensions) — `ValueTask`, `ValueTask<T>`, etc.
-- [`System.ValueTuple`](https://nuget.org/packages/System.ValueTuple) — `ValueTuple<T1, T2, ...>`, etc.
+- [`System.ValueTuple`](https://nuget.org/packages/System.ValueTuple) — `ValueTuple<...>`, etc.
 - [`Microsoft.Bcl.Async`](https://nuget.org/packages/Microsoft.Bcl.Async) — `Task`, `Task<T>`, etc (wider support than the `System.*` variant).
 - [`Microsoft.Bcl.AsyncInterfaces`](https://nuget.org/packages/Microsoft.Bcl.AsyncInterfaces) — `IAsyncEnumerable<T>`, `IAsyncDisposable`, etc.
 - [`Microsoft.Bcl.HashCode`](https://nuget.org/packages/Microsoft.Bcl.HashCode) — `HashCode`, etc.
@@ -152,7 +153,7 @@ using var buffer = MemoryPool<byte>.Shared.Rent();
 var bytesRead = await stream.ReadAsync(buffer.Memory);
 ```
 
-Conversely, adding a reference to the `System.ValueTuple` package will disable **PolyShim**'s own polyfills for `ValueTuple<T1, T2, ...>` and related types.
+Conversely, adding a reference to the `System.ValueTuple` package will disable **PolyShim**'s own polyfills for `ValueTuple<...>` and related types.
 You can use this approach to prioritize the official implementation where possible, while still relying on the polyfilled version for older target frameworks:
 
 ```xml
