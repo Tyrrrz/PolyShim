@@ -135,7 +135,7 @@ For example, adding a reference to the `System.Memory` package will enable **Pol
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="1.0.0" />
+    <PackageReference Include="PolyShim" Version="*" />
     <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
@@ -164,7 +164,7 @@ You can use this approach to prioritize the official implementation where possib
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="1.0.0" />
+    <PackageReference Include="PolyShim" Version="*" />
     <PackageReference
             Include="System.ValueTuple"
             Version="4.5.0"
