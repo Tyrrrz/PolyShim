@@ -1,5 +1,5 @@
 ﻿#if FEATURE_TASK
-#if (NETCOREAPP && !NET6_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
+#if (NETCOREAPP && !NET6_0_OR_GREATER) || (NET45_OR_GREATER) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
