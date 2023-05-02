@@ -80,7 +80,8 @@ internal partial class HashCode
         return hc.ToHashCode();
     }
 
-    public static int Combine<T1, T2, T3, T4, T5, T6>(T1 value1, T2 value2, T3 value3, T4 value4, T5 value5, T6 value6)
+    public static int Combine<T1, T2, T3, T4, T5, T6>(T1 value1, T2 value2, T3 value3, T4 value4, T5 value5,
+        T6 value6)
     {
         var hc = new HashCode();
         hc.Add(value1);
