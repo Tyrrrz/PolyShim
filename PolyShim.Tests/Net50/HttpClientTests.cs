@@ -13,7 +13,7 @@ namespace PolyShim.Tests.Net50;
 public class HttpClientTests
 {
     [Fact]
-    public async Task GetStreamAsync_Positive_Test()
+    public async Task GetStreamAsync_Test()
     {
         // Arrange
         var cancellationToken = new CancellationToken();
@@ -29,7 +29,7 @@ public class HttpClientTests
     }
 
     [Fact]
-    public async Task GetStreamAsync_Negative_Test()
+    public async Task GetStreamAsync_Cancellation_Test()
     {
         // Arrange
         var cancellationToken = new CancellationToken(true);
@@ -45,7 +45,7 @@ public class HttpClientTests
     }
 
     [Fact]
-    public async Task GetByteArrayAsync_Positive_Test()
+    public async Task GetByteArrayAsync_Test()
     {
         // Arrange
         var cancellationToken = new CancellationToken();
@@ -60,7 +60,7 @@ public class HttpClientTests
     }
 
     [Fact]
-    public async Task GetByteArrayAsync_Negative_Test()
+    public async Task GetByteArrayAsync_Cancellation_Test()
     {
         // Arrange
         var cancellationToken = new CancellationToken(true);
@@ -76,7 +76,7 @@ public class HttpClientTests
     }
 
     [Fact]
-    public async Task GetStringAsync_Positive_Test()
+    public async Task GetStringAsync_Test()
     {
         // Arrange
         var cancellationToken = new CancellationToken();
@@ -90,7 +90,7 @@ public class HttpClientTests
     }
 
     [Fact]
-    public async Task GetStringAsync_Negative_Test()
+    public async Task GetStringAsync_Cancellation_Test()
     {
         // Arrange
         var cancellationToken = new CancellationToken(true);

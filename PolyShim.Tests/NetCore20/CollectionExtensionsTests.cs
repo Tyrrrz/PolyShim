@@ -7,7 +7,7 @@ namespace PolyShim.Tests.NetCore20;
 public class CollectionExtensionsTests
 {
     [Fact]
-    public void GetValueOrDefault_Positive_Test()
+    public void GetValueOrDefault_Test()
     {
         // Arrange
         var dictionary = new Dictionary<string, string>
@@ -17,28 +17,8 @@ public class CollectionExtensionsTests
             ["c"] = "C"
         };
 
-        // Act
-        var value = dictionary.GetValueOrDefault("b");
-
-        // Assert
-        value.Should().Be("B");
-    }
-
-    [Fact]
-    public void GetValueOrDefault_Negative_Test()
-    {
-        // Arrange
-        var dictionary = new Dictionary<string, string>
-        {
-            ["a"] = "A",
-            ["b"] = "B",
-            ["c"] = "C"
-        };
-
-        // Act
-        var value = dictionary.GetValueOrDefault("d");
-
-        // Assert
-        value.Should().BeNull();
+        // Act & assert
+        dictionary.GetValueOrDefault("b").Should().Be("B");
+        dictionary.GetValueOrDefault("d").Should().BeNull();
     }
 }

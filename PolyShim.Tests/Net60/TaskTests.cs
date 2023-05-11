@@ -9,7 +9,7 @@ namespace PolyShim.Tests.Net60;
 public class TaskTests
 {
     [Fact]
-    public async Task WaitAsync_NoResult_Negative_ByTokenToken_Positive_Test()
+    public async Task WaitAsync_Void_Token_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
@@ -20,7 +20,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_NoResult_Negative_ByTokenToken_Negative_ByToken_Test()
+    public async Task WaitAsync_Void_Token_CancellationByToken_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.01));
@@ -36,7 +36,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_NoResult_TimeSpan_Positive_Test()
+    public async Task WaitAsync_Void_Timeout_Test()
     {
         // Arrange
         var task = Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
@@ -46,7 +46,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_NoResult_TimeSpan_Negative_ByTimeout_Test()
+    public async Task WaitAsync_Void_Timeout_CancellationByTimeout_Test()
     {
         // Arrange
         var task = Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
@@ -58,7 +58,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_NoResult_TimeSpanAndCancellationToken_Positive_Test()
+    public async Task WaitAsync_Void_TokenAndTimeout_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
@@ -69,7 +69,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_NoResult_TimeSpanAndCancellationToken_Negative_ByToken_Test()
+    public async Task WaitAsync_Void_TokenAndTimeout_CancellationByToken_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.01));
@@ -85,7 +85,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_NoResult_TimeSpanAndCancellationToken_Negative_ByTimeout_Test()
+    public async Task WaitAsync_Void_TokenAndTimeout_CancellationByTimeout_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
@@ -98,7 +98,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_WithResult_Negative_ByTokenToken_Positive_Test()
+    public async Task WaitAsync_Result_Token_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
@@ -116,7 +116,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_WithResult_Negative_ByTokenToken_Negative_ByToken_Test()
+    public async Task WaitAsync_Result_Token_CancellationByToken_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.01));
@@ -136,7 +136,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_WithResult_TimeSpan_Positive_Test()
+    public async Task WaitAsync_Result_Timeout_Test()
     {
         // Arrange
         var task = Task.Run(async () =>
@@ -153,7 +153,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_WithResult_TimeSpan_Negative_ByTimeout_Test()
+    public async Task WaitAsync_Result_Timeout_CancellationByTimeout_Test()
     {
         // Arrange
         var task = Task.Run(async () =>
@@ -169,7 +169,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_WithResult_TimeSpanAndCancellationToken_Positive_Test()
+    public async Task WaitAsync_Result_TokenAndTimeout_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
@@ -187,7 +187,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_WithResult_TimeSpanAndCancellationToken_Negative_ByToken_Test()
+    public async Task WaitAsync_Result_TokenAndTimeout_CancellationByToken_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.01));
@@ -207,7 +207,7 @@ public class TaskTests
     }
 
     [Fact]
-    public async Task WaitAsync_WithResult_TimeSpanAndCancellationToken_Negative_ByTimeout_Test()
+    public async Task WaitAsync_Result_TokenAndTimeout_CancellationByTimeout_Test()
     {
         // Arrange
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));

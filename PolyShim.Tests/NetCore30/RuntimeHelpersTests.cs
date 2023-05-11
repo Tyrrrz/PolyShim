@@ -11,10 +11,8 @@ public class RuntimeHelpersTests
         // Arrange
         var array = new[] { 1, 2, 3, 4, 5 };
 
-        // Act
-        var result = array[2..^1]; // implicitly calls GetSubArray(...)
-
-        // Assert
-        result.Should().BeEquivalentTo(new[] { 3, 4 });
+        // Act & assert
+        // Implicitly calls GetSubArray(...)
+        array[2..^1].Should().BeEquivalentTo(new[] { 3, 4 });
     }
 }

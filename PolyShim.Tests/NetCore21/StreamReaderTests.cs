@@ -56,7 +56,7 @@ public class StreamReaderTests
 
             // Assert
             charsRead.Should().Be(11);
-            buffer.AsSpan().ToArray().Should().StartWith("Hello world");
+            buffer.Should().StartWith("Hello world");
         }
         finally
         {
@@ -77,6 +77,6 @@ public class StreamReaderTests
 
         // Assert
         charsRead.Should().Be(11);
-        buffer.Memory.Span.ToArray().Should().StartWith("Hello world");
+        buffer.Memory.ToArray().Should().StartWith("Hello world");
     }
 }

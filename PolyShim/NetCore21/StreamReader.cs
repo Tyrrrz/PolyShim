@@ -19,7 +19,7 @@ internal static class _F21D610E49CC4FA0A62C2D9D0A1CBFC8
         reader.Read(buffer, 0, buffer.Length);
 
 #if FEATURE_TASK
-    // Signature-compatible replacement for ReadAsync(Memory<char>)
+    // Signature-compatible replacement for ReadAsync(Memory<char>, ...)
     // https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
     public static async Task<int> ReadAsync(
         this StreamReader reader,

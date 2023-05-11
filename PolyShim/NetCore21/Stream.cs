@@ -31,7 +31,7 @@ internal static class _929D34996BDD4F43B82E209622A11535
         CancellationToken cancellationToken = default) =>
         await stream.CopyToAsync(destination, 81920, cancellationToken).ConfigureAwait(false);
 
-    // Signature-compatible replacement for ReadAsync(Memory<byte>)
+    // Signature-compatible replacement for ReadAsync(Memory<byte>, ...)
     // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)
     public static async Task<int> ReadAsync(
         this Stream stream,
@@ -39,7 +39,7 @@ internal static class _929D34996BDD4F43B82E209622A11535
         CancellationToken cancellationToken = default) =>
         await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false);
 
-    // Signature-compatible replacement for WriteAsync(ReadOnlyMemory<byte>)
+    // Signature-compatible replacement for WriteAsync(ReadOnlyMemory<byte>, ...)
     // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)
     public static async Task WriteAsync(
         this Stream stream,

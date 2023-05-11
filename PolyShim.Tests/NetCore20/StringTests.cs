@@ -6,81 +6,36 @@ namespace PolyShim.Tests.NetCore20;
 public class StringTests
 {
     [Fact]
-    public void StartsWith_Positive_Test()
+    public void StartsWith_Test()
     {
         // Arrange
         const string str = "abc";
 
-        // Act
-        var result = str.StartsWith('a');
-
-        // Assert
-        result.Should().BeTrue();
+        // Act & assert
+        str.StartsWith('a').Should().BeTrue();
+        str.StartsWith('b').Should().BeFalse();
     }
 
     [Fact]
-    public void StartsWith_Negative_Test()
+    public void EndsWith_Test()
     {
         // Arrange
         const string str = "abc";
 
-        // Act
-        var result = str.StartsWith('b');
-
-        // Assert
-        result.Should().BeFalse();
+        // Act & assert
+        str.EndsWith('c').Should().BeTrue();
+        str.EndsWith('b').Should().BeFalse();
     }
 
     [Fact]
-    public void EndsWith_Positive_Test()
+    public void Contains_Test()
     {
         // Arrange
         const string str = "abc";
 
-        // Act
-        var result = str.EndsWith('c');
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Fact]
-    public void EndsWith_Negative_Test()
-    {
-        // Arrange
-        const string str = "abc";
-
-        // Act
-        var result = str.EndsWith('b');
-
-        // Assert
-        result.Should().BeFalse();
-    }
-
-    [Fact]
-    public void Contains_Positive_Test()
-    {
-        // Arrange
-        const string str = "abc";
-
-        // Act
-        var result = str.Contains('b');
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Fact]
-    public void Contains_Negative_Test()
-    {
-        // Arrange
-        const string str = "abc";
-
-        // Act
-        var result = str.Contains('d');
-
-        // Assert
-        result.Should().BeFalse();
+        // Act & assert
+        str.Contains('b').Should().BeTrue();
+        str.Contains('d').Should().BeFalse();
     }
 
     [Fact]

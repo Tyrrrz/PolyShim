@@ -7,28 +7,13 @@ namespace PolyShim.Tests.NetCore21;
 public class StringTests
 {
     [Fact]
-    public void Contains_Positive_Test()
+    public void Contains_Test()
     {
         // Arrange
         const string str = "abc";
 
-        // Act
-        var result = str.Contains("B", StringComparison.OrdinalIgnoreCase);
-
-        // Assert
-        result.Should().BeTrue();
-    }
-
-    [Fact]
-    public void Contains_Negative_Test()
-    {
-        // Arrange
-        const string str = "abc";
-
-        // Act
-        var result = str.Contains("D", StringComparison.OrdinalIgnoreCase);
-
-        // Assert
-        result.Should().BeFalse();
+        // Act & assert
+        str.Contains("B", StringComparison.OrdinalIgnoreCase).Should().BeTrue();
+        str.Contains("B", StringComparison.Ordinal).Should().BeFalse();
     }
 }

@@ -7,28 +7,13 @@ namespace PolyShim.Tests.NetCore30;
 public class IndexTests
 {
     [Fact]
-    public void Indexer_FromStart_Test()
+    public void Indexer_Test()
     {
         // Arrange
         var array = new[] { 1, 2, 3, 4, 5 };
 
-        // Act
-        var result = array[new Index(2)];
-
-        // Assert
-        result.Should().Be(3);
-    }
-
-    [Fact]
-    public void Indexer_FromEnd_Test()
-    {
-        // Arrange
-        var array = new[] { 1, 2, 3, 4, 5 };
-
-        // Act
-        var result = array[^2];
-
-        // Assert
-        result.Should().Be(4);
+        // Act & assert
+        array[new Index(2)].Should().Be(3);
+        array[^2].Should().Be(4);
     }
 }
