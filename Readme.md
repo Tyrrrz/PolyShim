@@ -64,6 +64,10 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 Once the package is installed, the polyfills will be automatically added to your project as internal source files.
 You can then use them in your code by referencing the corresponding types or methods as if they were defined natively.
 
+> **Note**:
+> Polyfills are only applied to types and methods that are not already provided.
+> When a native implementation of a symbol is available — either in the framework or through a referenced [compatibility package](#compatibility-packages) — it will always be prioritized over the corresponding polyfill.
+
 ### Type polyfills
 
 **PolyShim** provides various types that are not available natively on older target frameworks.
@@ -74,7 +78,7 @@ For example, with **PolyShim** you can use the `Index` and `Range` structs (adde
 ```csharp
 using System;
 
-// On older framworks, these are replaced by polyfills
+// On older framworks, these are provided by PolyShim
 var index = new Index(1, fromEnd: true);
 var range = new Range(
     new Index(3),
@@ -87,7 +91,7 @@ You can also use compiler features that rely on these types, such as the advance
 ```csharp
 var array = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-// On older framworks, these are replaced by polyfills
+// On older framworks, these are provided by PolyShim
 var last = array[^1];
 var part = array[3..^1];
 ```
@@ -102,7 +106,7 @@ For example, with **PolyShim** you can use the `String.Contains(char)` method (a
 ```csharp
 var str = "Hello world";
 
-// On older framworks, this is replaced by a polyfill
+// On older framworks, this is provided by PolyShim
 var contains = str.Contains('w');
 ```
 
@@ -147,37 +151,33 @@ using System.Buffers;
 using System.IO;
 
 using var stream = /* ... */;
-using var buffer = MemoryPool<byte>.Shared.Rent(128);
+using var buffer = MemoryPool<byte>.Shared.Rent(512);
 
-// On older framworks, this is replaced by a polyfill
+// System.Memory is referenced, so this polyfill is enabled
 var bytesRead = await stream.ReadAsync(buffer.Memory);
 ```
 
-Conversely, adding a reference to the `System.ValueTuple` package will disable **PolyShim**'s own polyfills for `ValueTuple<...>` and related types.
-You can use this approach to prioritize the official implementation where possible, while still relying on the polyfilled version for older target frameworks:
+Conversely, adding a reference to the `System.ValueTuple` package will disable **PolyShim**'s own version of `ValueTuple<...>` and related types.
+You can leverage this to prioritize the official implementation wherever possible, while still relying on the polyfilled version for older target frameworks:
 
 ```xml
 <Project>
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6;net35;net50</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="PolyShim" Version="*" />
-    <PackageReference
-            Include="System.ValueTuple"
-            Version="4.5.0"
-            Condition="'$(TargetFramework)' == 'netstandard1.6'" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
 </Project>
 ```
 
 ```csharp
-// On .NET 5.0, this will be provided natively
-// On .NET Standard 1.6, this will be provided by the System.ValueTuple package
-// On .NET Framework 3.5, this will be provided by PolyShim
+// System.ValueTuple is referenced, so this polyfill is disabled
+// (the native implementation is used instead)
 var (x, y) = ("hello world", 42);
 ```
 
