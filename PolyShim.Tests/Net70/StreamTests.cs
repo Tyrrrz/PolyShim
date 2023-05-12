@@ -67,7 +67,7 @@ public class StreamTests
     }
 
     [Fact]
-    public void ReadExactly_Array_OffsetCount_Test()
+    public void ReadExactly_Array_OffsetAndCount_Test()
     {
         // Arrange
         using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
@@ -138,7 +138,7 @@ public class StreamTests
     }
 
     [Fact]
-    public async Task ReadExactlyAsync_Array_OffsetCount_Test()
+    public async Task ReadExactlyAsync_Array_OffsetAndCount_Test()
     {
         // Arrange
         using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
