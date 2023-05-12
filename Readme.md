@@ -147,7 +147,7 @@ using System.Buffers;
 using System.IO;
 
 using var stream = /* ... */;
-using var buffer = MemoryPool<byte>.Shared.Rent();
+using var buffer = MemoryPool<byte>.Shared.Rent(128);
 
 // On older framworks, this is replaced by a polyfill
 var bytesRead = await stream.ReadAsync(buffer.Memory);
