@@ -125,11 +125,11 @@ internal static class _10E28E3BB5D6421E88F6140B084F7F0D
 
     // Signature-compatible replacement for ReadExactlyAsync(Memory<byte>, ...)
     // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)
-    public static Task ReadExactlyAsync(
+    public static async Task ReadExactlyAsync(
         this Stream stream,
         byte[] buffer,
         CancellationToken cancellationToken = default) =>
-        stream.ReadExactlyAsync(buffer, 0, buffer.Length, cancellationToken);
+        await stream.ReadExactlyAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false);
 #endif
 
 #if FEATURE_MEMORY

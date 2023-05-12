@@ -37,7 +37,6 @@ internal static class _F21D610E49CC4FA0A62C2D9D0A1CBFC8
     {
         var bufferArray = buffer.ToArray();
         var result = reader.Read(bufferArray, 0, bufferArray.Length);
-
         bufferArray.CopyTo(buffer);
 
         return result;
@@ -55,7 +54,6 @@ internal static class _F21D610E49CC4FA0A62C2D9D0A1CBFC8
 
         cancellationToken.ThrowIfCancellationRequested();
         var result = await reader.ReadAsync(bufferArray, 0, bufferArray.Length).ConfigureAwait(false);
-
         bufferArray.CopyTo(buffer);
 
         return result;

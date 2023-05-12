@@ -67,6 +67,20 @@ public class StreamTests
     }
 
     [Fact]
+    public void ReadExactly_Array_OffsetCount_Test()
+    {
+        // Arrange
+        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        var buffer = new byte[3];
+
+        // Act
+        stream.ReadExactly(buffer, 1, 1);
+
+        // Assert
+        buffer.Should().Equal(0, 1, 0);
+    }
+
+    [Fact]
     public async Task ReadAtLeastAsync_Array_Test()
     {
         // Arrange
@@ -121,6 +135,20 @@ public class StreamTests
 
         // Assert
         buffer.Should().Equal(1, 2, 3);
+    }
+
+    [Fact]
+    public async Task ReadExactlyAsync_Array_OffsetCount_Test()
+    {
+        // Arrange
+        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        var buffer = new byte[3];
+
+        // Act
+        await stream.ReadExactlyAsync(buffer, 1, 1);
+
+        // Assert
+        buffer.Should().Equal(0, 1, 0);
     }
 
     [Fact]
