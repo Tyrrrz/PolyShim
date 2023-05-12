@@ -8,218 +8,210 @@ namespace PolyShim.Tests.Net60;
 
 public class TaskTests
 {
-    [Fact]
-    public async Task WaitAsync_Void_Token_Test()
+    [Fact(Timeout = 5000)]
+    public async Task WaitAsync_Token_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
-        var task = Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+        var task = Task.Delay(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        await task.WaitAsync(cts.Token);
+        await task.WaitAsync(CancellationToken.None);
     }
 
-    [Fact]
-    public async Task WaitAsync_Void_Token_CancellationByToken_Test()
+    [Fact(Timeout = 5000)]
+    public async Task WaitAsync_Token_Cancellation_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.01));
-        var task = Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+        var task = Task.Delay(Timeout.InfiniteTimeSpan);
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
-        // Act
+        // Act & assert
         var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             await task.WaitAsync(cts.Token)
         );
 
-        // Assert
         ex.CancellationToken.Should().Be(cts.Token);
     }
 
-    [Fact]
-    public async Task WaitAsync_Void_Timeout_Test()
+    [Fact(Timeout = 5000)]
+    public async Task WaitAsync_Timeout_Test()
     {
         // Arrange
-        var task = Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+        var task = Task.Delay(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        await task.WaitAsync(TimeSpan.FromSeconds(1));
+        await task.WaitAsync(Timeout.InfiniteTimeSpan);
     }
 
-    [Fact]
-    public async Task WaitAsync_Void_Timeout_CancellationByTimeout_Test()
+    [Fact(Timeout = 5000)]
+    public async Task WaitAsync_Timeout_Cancellation_Test()
     {
         // Arrange
-        var task = Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+        var task = Task.Delay(Timeout.InfiniteTimeSpan);
 
         // Act & assert
         await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(0.01))
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1))
         );
     }
 
-    [Fact]
-    public async Task WaitAsync_Void_TokenAndTimeout_Test()
+    [Fact(Timeout = 5000)]
+    public async Task WaitAsync_TokenAndTimeout_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
-        var task = Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+        var task = Task.Delay(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        await task.WaitAsync(TimeSpan.FromSeconds(1), cts.Token);
+        await task.WaitAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
     }
 
-    [Fact]
-    public async Task WaitAsync_Void_TokenAndTimeout_CancellationByToken_Test()
+    [Fact(Timeout = 5000)]
+    public async Task WaitAsync_TokenAndTimeout_CancellationByToken_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.01));
-        var task = Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+        var task = Task.Delay(Timeout.InfiniteTimeSpan);
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
-        // Act
+        // Act & assert
         var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(1), cts.Token)
+            await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token)
         );
 
-        // Assert
         ex.CancellationToken.Should().Be(cts.Token);
     }
 
-    [Fact]
-    public async Task WaitAsync_Void_TokenAndTimeout_CancellationByTimeout_Test()
+    [Fact(Timeout = 5000)]
+    public async Task WaitAsync_TokenAndTimeout_CancellationByTimeout_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
-        var task = Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+        var task = Task.Delay(Timeout.InfiniteTimeSpan);
 
         // Act & assert
         await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(0.01), cts.Token)
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None)
         );
     }
 
-    [Fact]
+    [Fact(Timeout = 5000)]
     public async Task WaitAsync_Result_Token_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
         var task = Task.Run(async () =>
         {
-            await Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+            await Task.Delay(TimeSpan.FromSeconds(0.1));
             return 42;
-        }, CancellationToken.None);
+        });
 
         // Act
-        var result = await task.WaitAsync(cts.Token);
+        var result = await task.WaitAsync(CancellationToken.None);
 
         // Assert
         result.Should().Be(42);
     }
 
-    [Fact]
-    public async Task WaitAsync_Result_Token_CancellationByToken_Test()
+    [Fact(Timeout = 5000)]
+    public async Task WaitAsync_Result_Token_Cancellation_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.01));
         var task = Task.Run(async () =>
         {
-            await Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+            await Task.Delay(Timeout.InfiniteTimeSpan);
             return 42;
-        }, CancellationToken.None);
+        });
 
-        // Act
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
+
+        // Act & assert
         var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
             await task.WaitAsync(cts.Token)
         );
 
-        // Assert
         ex.CancellationToken.Should().Be(cts.Token);
     }
 
-    [Fact]
+    [Fact(Timeout = 5000)]
     public async Task WaitAsync_Result_Timeout_Test()
     {
         // Arrange
         var task = Task.Run(async () =>
         {
-            await Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+            await Task.Delay(TimeSpan.FromSeconds(0.1));
             return 42;
-        }, CancellationToken.None);
+        });
 
         // Act
-        var result = await task.WaitAsync(TimeSpan.FromSeconds(1));
+        var result = await task.WaitAsync(Timeout.InfiniteTimeSpan);
 
         // Assert
         result.Should().Be(42);
     }
 
-    [Fact]
-    public async Task WaitAsync_Result_Timeout_CancellationByTimeout_Test()
+    [Fact(Timeout = 5000)]
+    public async Task WaitAsync_Result_Timeout_Cancellation_Test()
     {
         // Arrange
         var task = Task.Run(async () =>
         {
-            await Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+            await Task.Delay(Timeout.InfiniteTimeSpan);
             return 42;
-        }, CancellationToken.None);
+        });
 
         // Act & assert
         await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(0.01))
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1))
         );
     }
 
-    [Fact]
+    [Fact(Timeout = 5000)]
     public async Task WaitAsync_Result_TokenAndTimeout_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
         var task = Task.Run(async () =>
         {
-            await Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+            await Task.Delay(TimeSpan.FromSeconds(0.1));
             return 42;
-        }, CancellationToken.None);
+        });
 
         // Act
-        var result = await task.WaitAsync(TimeSpan.FromSeconds(1), cts.Token);
+        var result = await task.WaitAsync(Timeout.InfiniteTimeSpan, CancellationToken.None);
 
         // Assert
         result.Should().Be(42);
     }
 
-    [Fact]
+    [Fact(Timeout = 5000)]
     public async Task WaitAsync_Result_TokenAndTimeout_CancellationByToken_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.01));
         var task = Task.Run(async () =>
         {
-            await Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+            await Task.Delay(Timeout.InfiniteTimeSpan);
             return 42;
-        }, CancellationToken.None);
+        });
 
-        // Act
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
+
+        // Act & assert
         var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(1), cts.Token)
+            await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token)
         );
 
-        // Assert
         ex.CancellationToken.Should().Be(cts.Token);
     }
 
-    [Fact]
+    [Fact(Timeout = 5000)]
     public async Task WaitAsync_Result_TokenAndTimeout_CancellationByTimeout_Test()
     {
         // Arrange
-        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1));
         var task = Task.Run(async () =>
         {
-            await Task.Delay(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+            await Task.Delay(Timeout.InfiniteTimeSpan);
             return 42;
-        }, CancellationToken.None);
+        });
 
         // Act & assert
         await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(0.01), cts.Token)
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None)
         );
     }
 }
