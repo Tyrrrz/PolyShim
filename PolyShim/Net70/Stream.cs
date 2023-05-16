@@ -30,7 +30,7 @@ internal static class _10E28E3BB5D6421E88F6140B084F7F0D
                 Math.Min(minimumBytes, buffer.Length - totalBytesRead)
             );
 
-            if (bytesRead == 0)
+            if (bytesRead <= 0)
                 break;
 
             totalBytesRead += bytesRead;
@@ -54,7 +54,7 @@ internal static class _10E28E3BB5D6421E88F6140B084F7F0D
                 count - totalBytesRead
             );
 
-            if (bytesRead == 0)
+            if (bytesRead <= 0)
                 throw new EndOfStreamException();
 
             totalBytesRead += bytesRead;
@@ -86,7 +86,7 @@ internal static class _10E28E3BB5D6421E88F6140B084F7F0D
                 cancellationToken
             ).ConfigureAwait(false);
 
-            if (bytesRead == 0)
+            if (bytesRead <= 0)
                 break;
 
             totalBytesRead += bytesRead;
@@ -116,7 +116,7 @@ internal static class _10E28E3BB5D6421E88F6140B084F7F0D
                 cancellationToken
             ).ConfigureAwait(false);
 
-            if (bytesRead == 0)
+            if (bytesRead <= 0)
                 throw new EndOfStreamException();
 
             totalBytesRead += bytesRead;
@@ -144,7 +144,7 @@ internal static class _10E28E3BB5D6421E88F6140B084F7F0D
         while (totalBytesRead < buffer.Length)
         {
             var bytesRead = stream.Read(buffer.Slice(totalBytesRead));
-            if (bytesRead == 0)
+            if (bytesRead <= 0)
                 break;
 
             totalBytesRead += bytesRead;
@@ -182,7 +182,7 @@ internal static class _10E28E3BB5D6421E88F6140B084F7F0D
                 cancellationToken
             ).ConfigureAwait(false);
 
-            if (bytesRead == 0)
+            if (bytesRead <= 0)
                 break;
 
             totalBytesRead += bytesRead;
