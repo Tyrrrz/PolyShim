@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1;net70</TargetFrameworks>
-    <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(TargetFrameworks);net462</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOsPlatform('Windows'))">$(TargetFrameworks);net462</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>
