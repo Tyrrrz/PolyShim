@@ -4,15 +4,14 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-[ExcludeFromCodeCoverage]
-internal static class _0F5BD49375DC4FC586A551C526A627DC
+internal static partial class PolyfillExtensions
 {
 #if FEATURE_TASK
     // Documentation missing on docs.microsoft.com for this signature

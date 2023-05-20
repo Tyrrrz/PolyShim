@@ -4,14 +4,13 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
-[ExcludeFromCodeCoverage]
-internal static class _D314682FE30A40479B425C42FF0A3E9C
+internal static partial class PolyfillExtensions
 {
     // https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
     public static async Task WaitAsync(this Task task, TimeSpan timeout, CancellationToken cancellationToken)

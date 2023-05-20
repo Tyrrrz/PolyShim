@@ -3,14 +3,13 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace System.Linq;
 
-[ExcludeFromCodeCoverage]
-internal static class _25ACEBAC35F840B295CD58760791CBF4
+internal static partial class PolyfillExtensions
 {
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.prepend
     public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T item)

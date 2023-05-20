@@ -3,14 +3,13 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace System.Linq;
 
-[ExcludeFromCodeCoverage]
-internal static class _B118719A088C4AAD9AFE93F23519FDAA
+internal static partial class PolyfillExtensions
 {
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1)))
     public static IEnumerable<(TFirst left, TSecond right)> Zip<TFirst, TSecond>(

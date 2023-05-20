@@ -1,6 +1,7 @@
 ﻿// ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 // Define dummy classes for several built-in namespaces to allow using declarations
 // even on frameworks that don't have the corresponding types.
@@ -8,20 +9,20 @@
 
 namespace System.IO
 {
-    internal static class __Dummy { }
+    internal static partial class PolyfillExtensions { }
 }
 
 namespace System.Management
 {
-    internal static class __Dummy { }
+    internal static partial class PolyfillExtensions { }
 }
 
 namespace System.Net.Http
 {
-    internal static class __Dummy { }
+    internal static partial class PolyfillExtensions { }
 }
 
 namespace System.Threading.Tasks
 {
-    internal static class __Dummy { }
+    internal static partial class PolyfillExtensions { }
 }

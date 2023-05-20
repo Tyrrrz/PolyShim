@@ -3,14 +3,13 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace System.Linq;
 
-[ExcludeFromCodeCoverage]
-internal static class _5F37AE3F29344B63A302CBE9D66BBA2D
+internal static partial class PolyfillExtensions
 {
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
     public static T? MinBy<T, TKey>(

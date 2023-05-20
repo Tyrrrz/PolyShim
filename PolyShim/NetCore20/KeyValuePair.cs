@@ -3,12 +3,11 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-internal static class _64F03D47DB334E9CB037CD415288DC86
+internal static partial class PolyfillExtensions
 {
     // Used to implement tuple deconstruction, but tuple support is technically not required
     // https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct

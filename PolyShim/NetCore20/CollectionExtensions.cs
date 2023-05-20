@@ -3,13 +3,11 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
-
-using System.Diagnostics.CodeAnalysis;
+// ReSharper disable PartialTypeWithSinglePart
 
 namespace System.Collections.Generic;
 
-[ExcludeFromCodeCoverage]
-internal static class _9C779971A35845D5AE81C3FB2D09DEBC
+internal static partial class PolyfillExtensions
 {
     // https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1)
     public static TValue? GetValueOrDefault<TKey, TValue>(

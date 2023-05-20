@@ -3,6 +3,7 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

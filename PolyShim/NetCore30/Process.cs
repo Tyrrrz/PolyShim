@@ -3,16 +3,15 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 
-[ExcludeFromCodeCoverage]
-internal static class _B51A2F7600DB4A4E851F782BA3C9FABA
+internal static partial class PolyfillExtensions
 {
 #if FEATURE_PROCESS && FEATURE_MANAGEMENT
     private static void KillProcessTree(int processId)

@@ -3,15 +3,14 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-[ExcludeFromCodeCoverage]
-internal static class _10E28E3BB5D6421E88F6140B084F7F0D
+internal static partial class PolyfillExtensions
 {
     // Signature-compatible replacement for ReadAtLeast(Span<byte>, ...)
     // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleast

@@ -4,15 +4,14 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
-[ExcludeFromCodeCoverage]
-internal static class _E5F55845EF964DA8B0A99B0086F4D357
+internal static partial class PolyfillExtensions
 {
 #if FEATURE_TASK
     // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync

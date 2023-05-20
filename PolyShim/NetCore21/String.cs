@@ -3,12 +3,11 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-internal static class _EE3C55ACEF074DFBADB42711B8F9764E
+internal static partial class PolyfillExtensions
 {
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.contains#system-string-contains(system-string-system-stringcomparison)
     public static bool Contains(this string str, string sub, StringComparison comparison) =>

@@ -3,12 +3,11 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-internal static class _10FC43AF6E904C9F84F06D406E44A84D
+internal static partial class PolyfillExtensions
 {
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith#system-string-startswith(system-char)
     public static bool StartsWith(this string str, char c) =>
