@@ -49,5 +49,23 @@ internal static partial class PolyfillExtensions
         this IEnumerable<T> source,
         Func<T, TKey> keySelector) =>
         source.DistinctBy(keySelector, EqualityComparer<TKey>.Default);
+
+    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk
+    public static IEnumerable<T[]> Chunk<T>(this IEnumerable<T> source, int size)
+    {
+        var chunk = new List<T>(size);
+        foreach (var item in source)
+        {
+            chunk.Add(item);
+            if (chunk.Count == size)
+            {
+                yield return chunk.ToArray();
+                chunk.Clear();
+            }
+        }
+
+        if (chunk.Count > 0)
+            yield return chunk.ToArray();
+    }
 }
 #endif

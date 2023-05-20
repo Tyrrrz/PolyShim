@@ -74,4 +74,23 @@ public class EnumerableExtensionsTests
             new KeyValuePair<string, int>("Baz", 69)
         );
     }
+
+    [Fact]
+    public void Chunk_Test()
+    {
+        // Arrange
+        var source = Enumerable.Range(1, 10);
+
+        // Act
+        var result = source.Chunk(3);
+
+        // Assert
+        result.Should().BeEquivalentTo(new[]
+        {
+            new[] { 1, 2, 3 },
+            new[] { 4, 5, 6 },
+            new[] { 7, 8, 9 },
+            new[] { 10 }
+        });
+    }
 }
