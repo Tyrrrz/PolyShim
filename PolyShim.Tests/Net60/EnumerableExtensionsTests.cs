@@ -132,6 +132,37 @@ public class EnumerableExtensionsTests
     }
 
     [Fact]
+    public void UnionBy_Test()
+    {
+        // Arrange
+        var source = new[]
+        {
+            new KeyValuePair<string, int>("Foo", 42),
+            new KeyValuePair<string, int>("Bar", 13),
+            new KeyValuePair<string, int>("Baz", 69),
+            new KeyValuePair<string, int>("Qux", 17)
+        };
+
+        var other = new[]
+        {
+            new KeyValuePair<string, int>("Bar", 15),
+            new KeyValuePair<string, int>("Qux", 11),
+            new KeyValuePair<string, int>("Baz", 54)
+        };
+
+        // Act
+        var result = source.UnionBy(other, x => x.Key);
+
+        // Assert
+        result.Should().Equal(
+            new KeyValuePair<string, int>("Foo", 42),
+            new KeyValuePair<string, int>("Bar", 13),
+            new KeyValuePair<string, int>("Baz", 69),
+            new KeyValuePair<string, int>("Qux", 17)
+        );
+    }
+
+    [Fact]
     public void Chunk_Test()
     {
         // Arrange

@@ -89,6 +89,35 @@ internal static partial class PolyfillExtensions
         }
     }
 
+    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.unionby#system-linq-enumerable-unionby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+    public static IEnumerable<T> UnionBy<T, TKey>(
+        this IEnumerable<T> source,
+        IEnumerable<T> other,
+        Func<T, TKey> keySelector,
+        IEqualityComparer<TKey>? comparer)
+    {
+        var set = new HashSet<TKey>(comparer);
+
+        foreach (var item in source)
+        {
+            if (set.Add(keySelector(item)))
+                yield return item;
+        }
+
+        foreach (var item in other)
+        {
+            if (set.Add(keySelector(item)))
+                yield return item;
+        }
+    }
+
+    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.unionby#system-linq-enumerable-unionby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-func((-0-1)))
+    public static IEnumerable<T> UnionBy<T, TKey>(
+        this IEnumerable<T> source,
+        IEnumerable<T> other,
+        Func<T, TKey> keySelector) =>
+        source.UnionBy(other, keySelector, EqualityComparer<TKey>.Default);
+
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.intersectby#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))
     public static IEnumerable<T> IntersectBy<T, TKey>(
         this IEnumerable<T> source,
