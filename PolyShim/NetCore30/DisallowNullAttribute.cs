@@ -13,7 +13,7 @@ namespace System.Diagnostics.CodeAnalysis;
     AttributeTargets.Parameter |
     AttributeTargets.Property)]
 [ExcludeFromCodeCoverage]
-internal class DiallowNullAttribute : Attribute
+internal class DisallowNullAttribute : Attribute
 {
 }
 #endif
