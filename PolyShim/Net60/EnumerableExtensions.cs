@@ -50,6 +50,52 @@ internal static partial class PolyfillExtensions
         Func<T, TKey> keySelector) =>
         source.DistinctBy(keySelector, EqualityComparer<TKey>.Default);
 
+    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+    public static IEnumerable<T> ExceptBy<T, TKey>(
+        this IEnumerable<T> source,
+        IEnumerable<TKey> other,
+        Func<T, TKey> keySelector,
+        IEqualityComparer<TKey>? comparer)
+    {
+        var set = new HashSet<TKey>(other, comparer);
+
+        foreach (var item in source)
+        {
+            if (!set.Contains(keySelector(item)))
+                yield return item;
+        }
+    }
+
+    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))
+    public static IEnumerable<T> ExceptBy<T, TKey>(
+        this IEnumerable<T> source,
+        IEnumerable<TKey> other,
+        Func<T, TKey> keySelector) =>
+        source.ExceptBy(other, keySelector, EqualityComparer<TKey>.Default);
+
+    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.intersectby#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+    public static IEnumerable<T> IntersectBy<T, TKey>(
+        this IEnumerable<T> source,
+        IEnumerable<TKey> other,
+        Func<T, TKey> keySelector,
+        IEqualityComparer<TKey>? comparer)
+    {
+        var set = new HashSet<TKey>(other, comparer);
+
+        foreach (var item in source)
+        {
+            if (set.Contains(keySelector(item)))
+                yield return item;
+        }
+    }
+
+    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.intersectby#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))
+    public static IEnumerable<T> IntersectBy<T, TKey>(
+        this IEnumerable<T> source,
+        IEnumerable<TKey> other,
+        Func<T, TKey> keySelector) =>
+        source.IntersectBy(other, keySelector, EqualityComparer<TKey>.Default);
+
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk
     public static IEnumerable<T[]> Chunk<T>(this IEnumerable<T> source, int size)
     {

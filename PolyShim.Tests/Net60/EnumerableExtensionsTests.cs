@@ -76,6 +76,62 @@ public class EnumerableExtensionsTests
     }
 
     [Fact]
+    public void ExceptBy_Test()
+    {
+        // Arrange
+        var source = new[]
+        {
+            new KeyValuePair<string, int>("Foo", 42),
+            new KeyValuePair<string, int>("Bar", 13),
+            new KeyValuePair<string, int>("Baz", 69),
+            new KeyValuePair<string, int>("Qux", 17)
+        };
+
+        var other = new[]
+        {
+            "Bar",
+            "Qux"
+        };
+
+        // Act
+        var result = source.ExceptBy(other, x => x.Key);
+
+        // Assert
+        result.Should().Equal(
+            new KeyValuePair<string, int>("Foo", 42),
+            new KeyValuePair<string, int>("Baz", 69)
+        );
+    }
+
+    [Fact]
+    public void IntersectBy_Test()
+    {
+        // Arrange
+        var source = new[]
+        {
+            new KeyValuePair<string, int>("Foo", 42),
+            new KeyValuePair<string, int>("Bar", 13),
+            new KeyValuePair<string, int>("Baz", 69),
+            new KeyValuePair<string, int>("Qux", 17)
+        };
+
+        var other = new[]
+        {
+            "Bar",
+            "Qux"
+        };
+
+        // Act
+        var result = source.IntersectBy(other, x => x.Key);
+
+        // Assert
+        result.Should().Equal(
+            new KeyValuePair<string, int>("Bar", 13),
+            new KeyValuePair<string, int>("Qux", 17)
+        );
+    }
+
+    [Fact]
     public void Chunk_Test()
     {
         // Arrange
