@@ -16,7 +16,14 @@ internal static partial class PolyfillExtensions
     {
         if (index.IsFromEnd)
         {
-            var asCollection = source as ICollection<T> ?? source.ToArray();
+            var asCollection =
+#if !NET45_OR_GREATER
+                source as ICollection<T> ??
+#else
+                source as IReadOnlyCollection<T> ??
+#endif
+                source.ToArray();
+
             return asCollection.ElementAt(asCollection.Count - index.Value);
         }
         else
@@ -30,7 +37,14 @@ internal static partial class PolyfillExtensions
     {
         if (index.IsFromEnd)
         {
-            var asCollection = source as ICollection<T> ?? source.ToArray();
+            var asCollection =
+#if !NET45_OR_GREATER
+                source as ICollection<T> ??
+#else
+                source as IReadOnlyCollection<T> ??
+#endif
+                source.ToArray();
+
             return asCollection.ElementAtOrDefault(asCollection.Count - index.Value);
         }
         else
@@ -127,7 +141,14 @@ internal static partial class PolyfillExtensions
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)
     public static IEnumerable<T> Take<T>(this IEnumerable<T> source, Range range)
     {
-        var asCollection = source as ICollection<T> ?? source.ToArray();
+        var asCollection =
+#if !NET45_OR_GREATER
+            source as ICollection<T> ??
+#else
+            source as IReadOnlyCollection<T> ??
+#endif
+            source.ToArray();
+
         var (offset, length) = range.GetOffsetAndLength(asCollection.Count);
 
         return asCollection.Skip(offset).Take(length);
