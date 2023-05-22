@@ -17,7 +17,8 @@ using System.Diagnostics.CodeAnalysis;
     AttributeTargets.Parameter |
     AttributeTargets.Property |
     AttributeTargets.ReturnValue |
-    AttributeTargets.Struct)]
+    AttributeTargets.Struct
+)]
 [ExcludeFromCodeCoverage]
 internal class TupleElementNamesAttribute : Attribute
 {

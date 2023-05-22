@@ -11,7 +11,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [AttributeUsage(
     AttributeTargets.Field |
     AttributeTargets.Parameter |
-    AttributeTargets.Property)]
+    AttributeTargets.Property
+)]
 [ExcludeFromCodeCoverage]
 internal class AllowNullAttribute : Attribute
 {
