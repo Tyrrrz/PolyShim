@@ -12,11 +12,8 @@ public class EnumerableExtensionsTests
         // Arrange
         var source = new[] { 1, 2, 3 };
 
-        // Act
-        var result = source.Prepend(0);
-
-        // Assert
-        result.Should().Equal(0, 1, 2, 3);
+        // Act & assert
+        source.Prepend(0).Should().Equal(0, 1, 2, 3);
     }
 
     [Fact]
@@ -25,10 +22,7 @@ public class EnumerableExtensionsTests
         // Arrange
         var source = new[] { 1, 2, 3 };
 
-        // Act
-        var result = source.Append(4);
-
-        // Assert
-        result.Should().Equal(1, 2, 3, 4);
+        // Act & assert
+        source.Append(4).Should().Equal(1, 2, 3, 4);
     }
 }

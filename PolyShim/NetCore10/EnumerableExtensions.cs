@@ -12,21 +12,21 @@ namespace System.Linq;
 internal static partial class PolyfillExtensions
 {
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.prepend
-    public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T item)
+    public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T element)
     {
-        yield return item;
+        yield return element;
 
-        foreach (var i in source)
-            yield return i;
+        foreach (var item in source)
+            yield return item;
     }
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append
-    public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T item)
+    public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T element)
     {
-        foreach (var i in source)
-            yield return i;
+        foreach (var item in source)
+            yield return item;
 
-        yield return item;
+        yield return element;
     }
 
 #if (NETFRAMEWORK && !NET40_OR_GREATER)

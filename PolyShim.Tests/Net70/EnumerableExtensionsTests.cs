@@ -12,11 +12,8 @@ public class EnumerableExtensionsTests
         // Arrange
         var source = new[] { 42, 13, 69, 17 };
 
-        // Act
-        var result = source.Order();
-
-        // Assert
-        result.Should().Equal(13, 17, 42, 69);
+        // Act & assert
+        source.Order().Should().Equal(13, 17, 42, 69);
     }
 
     [Fact]
@@ -25,10 +22,7 @@ public class EnumerableExtensionsTests
         // Arrange
         var source = new[] { 42, 13, 69, 17 };
 
-        // Act
-        var result = source.OrderDescending();
-
-        // Assert
-        result.Should().Equal(69, 42, 17, 13);
+        // Act & assert
+        source.OrderDescending().Should().Equal(69, 42, 17, 13);
     }
 }
