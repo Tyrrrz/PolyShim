@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.5 (05-Jun-2023)
+
+- Added polyfills for `Stream.CopyTo(...)`.
+- Added polyfills for `AggregateException`.
+
 ## v1.4 (25-May-2023)
 
 - Added polyfills for `IEnumerable<T>.Min(...)`, `IEnumerable<T>.MinBy(...)`, `IEnumerable<T>.Max(...)`, and `IEnumerable<T>.MaxBy(...)`.
