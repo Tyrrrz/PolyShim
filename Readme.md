@@ -1,15 +1,19 @@
 # PolyShim
 
+[![Status](https://img.shields.io/badge/status-active-47c219.svg)](https://github.com/Tyrrrz/.github/blob/master/docs/project-status.md)
 [![Made in Ukraine](https://img.shields.io/badge/made_in-ukraine-ffd700.svg?labelColor=0057b7)](https://tyrrrz.me/ukraine)
 [![Build](https://img.shields.io/github/actions/workflow/status/Tyrrrz/PolyShim/main.yml?branch=master)](https://github.com/Tyrrrz/PolyShim/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/Tyrrrz/PolyShim/master)](https://codecov.io/gh/Tyrrrz/PolyShim)
 [![Version](https://img.shields.io/nuget/v/PolyShim.svg)](https://nuget.org/packages/PolyShim)
 [![Downloads](https://img.shields.io/nuget/dt/PolyShim.svg)](https://nuget.org/packages/PolyShim)
 [![Discord](https://img.shields.io/discord/869237470565392384?label=discord)](https://discord.gg/2SUWKFnHSm)
-[![Donate](https://img.shields.io/badge/donate-$$$-8a2be2.svg)](https://tyrrrz.me/donate)
 [![Fuck Russia](https://img.shields.io/badge/fuck-russia-e4181c.svg?labelColor=000000)](https://twitter.com/tyrrrz/status/1495972128977571848)
 
-> 🟢 **Project status**: active<sup>[[?]](https://github.com/Tyrrrz/.github/blob/master/docs/project-status.md)</sup>
+<table>
+    <tr>
+        <td width="99999" align="center">Development of this project is entirely funded by the community. <b><a href="https://tyrrrz.me/donate">Consider donating to support!</a></b></td>
+    </tr>
+</table>
 
 **PolyShim** is a collection of polyfills that enable many modern BCL and compiler features for projects targeting older versions of .NET.
 It's distributed as a source-only package that can be referenced without imposing any run-time dependencies.
