@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.6 (06-Aug-2023)
+
+- Added polyfills for `Type.IsSubclassOf(...)`.
+- Added polyfills for `Type.IsAssignableTo(...)`.
+
 ## v1.5 (05-Jun-2023)
 
 - Added polyfills for `Stream.CopyTo(...)`.
