@@ -39,7 +39,7 @@ public class StringTests
     }
 
     [Fact]
-    public void Split_Test()
+    public void Split_Char_Test()
     {
         // Arrange
         const string str = "a b c";
@@ -49,5 +49,44 @@ public class StringTests
 
         // Assert
         result.Should().Equal("a", "b", "c");
+    }
+
+    [Fact]
+    public void Split_Char_Count_Test()
+    {
+        // Arrange
+        const string str = "a b c";
+
+        // Act
+        var result = str.Split(' ', 2);
+
+        // Assert
+        result.Should().Equal("a", "b c");
+    }
+
+    [Fact]
+    public void Split_String_Test()
+    {
+        // Arrange
+        const string str = "a b c";
+
+        // Act
+        var result = str.Split(" ");
+
+        // Assert
+        result.Should().Equal("a", "b", "c");
+    }
+
+    [Fact]
+    public void Split_String_Count_Test()
+    {
+        // Arrange
+        const string str = "a b c";
+
+        // Act
+        var result = str.Split(" ", 2);
+
+        // Assert
+        result.Should().Equal("a", "b c");
     }
 }

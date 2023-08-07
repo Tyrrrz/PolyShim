@@ -21,11 +21,34 @@ internal static partial class PolyfillExtensions
     public static bool Contains(this string str, char c) =>
         str.IndexOf(c) >= 0;
 
+    // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-char-system-int32-system-stringsplitoptions)
+    public static string[] Split(
+        this string str,
+        char separator,
+        int count,
+        StringSplitOptions options = StringSplitOptions.None) =>
+        str.Split(new[] { separator }, count, options);
+
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-char-system-stringsplitoptions)
     public static string[] Split(
         this string str,
         char separator,
         StringSplitOptions options = StringSplitOptions.None) =>
         str.Split(new[] { separator }, options);
+
+    // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-string-system-int32-system-stringsplitoptions)
+    public static string[] Split(
+        this string str,
+        string? separator,
+        int count,
+        StringSplitOptions options = StringSplitOptions.None) =>
+        str.Split(new[] { separator ?? "" }, count, options);
+
+    // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-string-system-stringsplitoptions)
+    public static string[] Split(
+        this string str,
+        string? separator,
+        StringSplitOptions options = StringSplitOptions.None) =>
+        str.Split(new[] { separator ?? "" }, options);
 }
 #endif
