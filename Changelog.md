@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7 (07-Aug-2023)
+
+- Added polyfills for `DictionaryEntry.Deconstruct(...)`.
+- Added polyfills for `string.Split(...)`.
+- Added polyfills for `Random.NextBytes(...)`.
+
 ## v1.6 (06-Aug-2023)
 
 - Added polyfills for `Type.IsSubclassOf(...)`.
