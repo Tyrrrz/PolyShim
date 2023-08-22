@@ -21,8 +21,10 @@ internal static partial class PolyfillExtensions
 
 #if !NET472_OR_GREATER
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))
-    public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source, IEqualityComparer<T> comparer) =>
-        new(source, comparer);
+    public static HashSet<T> ToHashSet<T>(
+        this IEnumerable<T> source,
+        IEqualityComparer<T> comparer
+    ) => new(source, comparer);
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0)))
     public static HashSet<T> ToHashSet<T>(this IEnumerable<T> source) =>

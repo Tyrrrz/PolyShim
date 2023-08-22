@@ -8,11 +8,7 @@
 namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.membernotnullwhenattribute
-[AttributeUsage(
-    AttributeTargets.Method |
-    AttributeTargets.Property,
-    Inherited = false
-)]
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, Inherited = false)]
 [ExcludeFromCodeCoverage]
 internal class MemberNotNullWhenAttribute : Attribute
 {

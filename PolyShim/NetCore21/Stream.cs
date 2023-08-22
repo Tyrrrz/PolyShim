@@ -27,24 +27,24 @@ internal static partial class PolyfillExtensions
     public static async Task CopyToAsync(
         this Stream stream,
         Stream destination,
-        CancellationToken cancellationToken = default) =>
-        await stream.CopyToAsync(destination, 81920, cancellationToken).ConfigureAwait(false);
+        CancellationToken cancellationToken = default
+    ) => await stream.CopyToAsync(destination, 81920, cancellationToken).ConfigureAwait(false);
 
     // Signature-compatible replacement for ReadAsync(Memory<byte>, ...)
     // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)
     public static async Task<int> ReadAsync(
         this Stream stream,
         byte[] buffer,
-        CancellationToken cancellationToken = default) =>
-        await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false);
+        CancellationToken cancellationToken = default
+    ) => await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false);
 
     // Signature-compatible replacement for WriteAsync(ReadOnlyMemory<byte>, ...)
     // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)
     public static async Task WriteAsync(
         this Stream stream,
         byte[] buffer,
-        CancellationToken cancellationToken = default) =>
-        await stream.WriteAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false);
+        CancellationToken cancellationToken = default
+    ) => await stream.WriteAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false);
 #endif
 
 #if FEATURE_MEMORY
@@ -71,10 +71,12 @@ internal static partial class PolyfillExtensions
     public static async Task<int> ReadAsync(
         this Stream stream,
         Memory<byte> buffer,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var bufferArray = buffer.ToArray();
-        var result = await stream.ReadAsync(bufferArray, 0, bufferArray.Length, cancellationToken)
+        var result = await stream
+            .ReadAsync(bufferArray, 0, bufferArray.Length, cancellationToken)
             .ConfigureAwait(false);
 
         bufferArray.CopyTo(buffer);
@@ -87,10 +89,12 @@ internal static partial class PolyfillExtensions
     public static async Task WriteAsync(
         this Stream stream,
         ReadOnlyMemory<byte> buffer,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var bufferArray = buffer.ToArray();
-        await stream.WriteAsync(bufferArray, 0, bufferArray.Length, cancellationToken)
+        await stream
+            .WriteAsync(bufferArray, 0, bufferArray.Length, cancellationToken)
             .ConfigureAwait(false);
     }
 #endif

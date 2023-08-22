@@ -26,7 +26,8 @@ internal static partial class PolyfillExtensions
     public static async Task WriteAsync(
         this StreamWriter writer,
         Memory<char> buffer,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var bufferArray = buffer.ToArray();
 

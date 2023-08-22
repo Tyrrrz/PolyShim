@@ -27,7 +27,6 @@ internal class LibraryImportAttribute : Attribute
 
     public Type? StringMarshallingCustomType { get; init; }
 
-    public LibraryImportAttribute(string libraryName) =>
-        LibraryName = libraryName;
+    public LibraryImportAttribute(string libraryName) => LibraryName = libraryName;
 }
 #endif

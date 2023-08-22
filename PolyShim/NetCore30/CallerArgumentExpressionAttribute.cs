@@ -16,7 +16,6 @@ internal class CallerArgumentExpressionAttribute : Attribute
 {
     public string ParameterName { get; }
 
-    public CallerArgumentExpressionAttribute(string parameterName) =>
-        ParameterName = parameterName;
+    public CallerArgumentExpressionAttribute(string parameterName) => ParameterName = parameterName;
 }
 #endif

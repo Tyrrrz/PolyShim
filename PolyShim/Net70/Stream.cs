@@ -18,7 +18,8 @@ internal static partial class PolyfillExtensions
         this Stream stream,
         byte[] buffer,
         int minimumBytes,
-        bool throwOnEndOfStream = true)
+        bool throwOnEndOfStream = true
+    )
     {
         var totalBytesRead = 0;
         while (totalBytesRead < buffer.Length)
@@ -47,11 +48,7 @@ internal static partial class PolyfillExtensions
         var totalBytesRead = 0;
         while (totalBytesRead < count)
         {
-            var bytesRead = stream.Read(
-                buffer,
-                offset + totalBytesRead,
-                count - totalBytesRead
-            );
+            var bytesRead = stream.Read(buffer, offset + totalBytesRead, count - totalBytesRead);
 
             if (bytesRead <= 0)
                 throw new EndOfStreamException();
@@ -73,17 +70,20 @@ internal static partial class PolyfillExtensions
         byte[] buffer,
         int minimumBytes,
         bool throwOnEndOfStream = true,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var totalBytesRead = 0;
         while (totalBytesRead < buffer.Length)
         {
-            var bytesRead = await stream.ReadAsync(
-                buffer,
-                totalBytesRead,
-                Math.Min(minimumBytes, buffer.Length - totalBytesRead),
-                cancellationToken
-            ).ConfigureAwait(false);
+            var bytesRead = await stream
+                .ReadAsync(
+                    buffer,
+                    totalBytesRead,
+                    Math.Min(minimumBytes, buffer.Length - totalBytesRead),
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
 
             if (bytesRead <= 0)
                 break;
@@ -103,17 +103,20 @@ internal static partial class PolyfillExtensions
         byte[] buffer,
         int offset,
         int count,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var totalBytesRead = 0;
         while (totalBytesRead < count)
         {
-            var bytesRead = await stream.ReadAsync(
-                buffer,
-                offset + totalBytesRead,
-                count - totalBytesRead,
-                cancellationToken
-            ).ConfigureAwait(false);
+            var bytesRead = await stream
+                .ReadAsync(
+                    buffer,
+                    offset + totalBytesRead,
+                    count - totalBytesRead,
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
 
             if (bytesRead <= 0)
                 throw new EndOfStreamException();
@@ -127,8 +130,11 @@ internal static partial class PolyfillExtensions
     public static async Task ReadExactlyAsync(
         this Stream stream,
         byte[] buffer,
-        CancellationToken cancellationToken = default) =>
-        await stream.ReadExactlyAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false);
+        CancellationToken cancellationToken = default
+    ) =>
+        await stream
+            .ReadExactlyAsync(buffer, 0, buffer.Length, cancellationToken)
+            .ConfigureAwait(false);
 #endif
 
 #if FEATURE_MEMORY
@@ -137,7 +143,8 @@ internal static partial class PolyfillExtensions
         this Stream stream,
         Span<byte> buffer,
         int minimumBytes,
-        bool throwOnEndOfStream = true)
+        bool throwOnEndOfStream = true
+    )
     {
         var totalBytesRead = 0;
         while (totalBytesRead < buffer.Length)
@@ -171,15 +178,15 @@ internal static partial class PolyfillExtensions
         Memory<byte> buffer,
         int minimumBytes,
         bool throwOnEndOfStream = true,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var totalBytesRead = 0;
         while (totalBytesRead < buffer.Length)
         {
-            var bytesRead = await stream.ReadAsync(
-                buffer.Slice(totalBytesRead),
-                cancellationToken
-            ).ConfigureAwait(false);
+            var bytesRead = await stream
+                .ReadAsync(buffer.Slice(totalBytesRead), cancellationToken)
+                .ConfigureAwait(false);
 
             if (bytesRead <= 0)
                 break;
@@ -197,10 +204,12 @@ internal static partial class PolyfillExtensions
     public static async Task ReadExactlyAsync(
         this Stream stream,
         Memory<byte> buffer,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var bufferArray = buffer.ToArray();
-        await stream.ReadExactlyAsync(bufferArray, 0, bufferArray.Length, cancellationToken)
+        await stream
+            .ReadExactlyAsync(bufferArray, 0, bufferArray.Length, cancellationToken)
             .ConfigureAwait(false);
 
         bufferArray.CopyTo(buffer);

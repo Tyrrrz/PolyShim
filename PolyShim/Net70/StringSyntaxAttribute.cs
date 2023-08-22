@@ -8,11 +8,7 @@
 namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute
-[AttributeUsage(
-    AttributeTargets.Field |
-    AttributeTargets.Parameter |
-    AttributeTargets.Property
-)]
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
 [ExcludeFromCodeCoverage]
 internal partial class StringSyntaxAttribute : Attribute
 {
@@ -27,9 +23,7 @@ internal partial class StringSyntaxAttribute : Attribute
     }
 
     public StringSyntaxAttribute(string syntax)
-        : this(syntax, new object[0])
-    {
-    }
+        : this(syntax, new object[0]) { }
 }
 
 internal partial class StringSyntaxAttribute

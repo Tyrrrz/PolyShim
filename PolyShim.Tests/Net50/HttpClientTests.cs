@@ -20,7 +20,10 @@ public class HttpClientTests
         using var httpClient = new HttpClient();
 
         // Act
-        using var stream = await httpClient.GetStreamAsync("https://example.com", cancellationToken);
+        using var stream = await httpClient.GetStreamAsync(
+            "https://example.com",
+            cancellationToken
+        );
         using var reader = new StreamReader(stream);
         var content = await reader.ReadToEndAsync();
 
@@ -36,8 +39,8 @@ public class HttpClientTests
         using var httpClient = new HttpClient();
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await httpClient.GetStreamAsync("https://example.com", cancellationToken)
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            async () => await httpClient.GetStreamAsync("https://example.com", cancellationToken)
         );
 
         ex.CancellationToken.Should().Be(cancellationToken);
@@ -66,8 +69,8 @@ public class HttpClientTests
         using var httpClient = new HttpClient();
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await httpClient.GetByteArrayAsync("https://example.com", cancellationToken)
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            async () => await httpClient.GetByteArrayAsync("https://example.com", cancellationToken)
         );
 
         ex.CancellationToken.Should().Be(cancellationToken);
@@ -95,8 +98,8 @@ public class HttpClientTests
         using var httpClient = new HttpClient();
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await httpClient.GetStringAsync("https://example.com", cancellationToken)
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            async () => await httpClient.GetStringAsync("https://example.com", cancellationToken)
         );
 
         ex.CancellationToken.Should().Be(cancellationToken);

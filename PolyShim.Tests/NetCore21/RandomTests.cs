@@ -19,7 +19,11 @@ public class RandomTests
             new Random(1234567).NextBytes(buffer.AsSpan());
 
             // Assert
-            buffer.Should().StartWith(new byte[] { 0x30, 0xE6, 0x63, 0xCA, 0x5F, 0x41, 0x21, 0x48, 0x1F, 0x8F });
+            buffer
+                .Should()
+                .StartWith(
+                    new byte[] { 0x30, 0xE6, 0x63, 0xCA, 0x5F, 0x41, 0x21, 0x48, 0x1F, 0x8F }
+                );
         }
         finally
         {

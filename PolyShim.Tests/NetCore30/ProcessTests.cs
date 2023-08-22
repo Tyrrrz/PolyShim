@@ -15,9 +15,7 @@ public class ProcessTests
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                    ? "cmd"
-                    : "sh",
+                FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "sh",
                 Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                     ? "/c timeout 1"
                     : "-c 'sleep 1'",

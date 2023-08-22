@@ -9,16 +9,13 @@ namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.notnullifnotnullattribute
 [AttributeUsage(
-    AttributeTargets.Parameter |
-    AttributeTargets.Property |
-    AttributeTargets.ReturnValue
+    AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue
 )]
 [ExcludeFromCodeCoverage]
 internal class NotNullIfNotNullAttribute : Attribute
 {
     public string ParameterName { get; }
 
-    public NotNullIfNotNullAttribute(string parameterName) =>
-        ParameterName = parameterName;
+    public NotNullIfNotNullAttribute(string parameterName) => ParameterName = parameterName;
 }
 #endif

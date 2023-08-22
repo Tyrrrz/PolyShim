@@ -6,6 +6,4 @@
 
 namespace System.Linq;
 
-internal static partial class PolyfillExtensions
-{
-}
+internal static partial class PolyfillExtensions { }

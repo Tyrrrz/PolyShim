@@ -11,20 +11,19 @@ using System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.tupleelementnamesattribute
 [AttributeUsage(
-    AttributeTargets.Class |
-    AttributeTargets.Event |
-    AttributeTargets.Field |
-    AttributeTargets.Parameter |
-    AttributeTargets.Property |
-    AttributeTargets.ReturnValue |
-    AttributeTargets.Struct
+    AttributeTargets.Class
+        | AttributeTargets.Event
+        | AttributeTargets.Field
+        | AttributeTargets.Parameter
+        | AttributeTargets.Property
+        | AttributeTargets.ReturnValue
+        | AttributeTargets.Struct
 )]
 [ExcludeFromCodeCoverage]
 internal class TupleElementNamesAttribute : Attribute
 {
     public string[] TransformNames { get; }
 
-    public TupleElementNamesAttribute(string[] transformNames) =>
-        TransformNames = transformNames;
+    public TupleElementNamesAttribute(string[] transformNames) => TransformNames = transformNames;
 }
 #endif

@@ -9,13 +9,11 @@ namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.notnullattribute
 [AttributeUsage(
-    AttributeTargets.Field |
-    AttributeTargets.Parameter |
-    AttributeTargets.Property |
-    AttributeTargets.ReturnValue
+    AttributeTargets.Field
+        | AttributeTargets.Parameter
+        | AttributeTargets.Property
+        | AttributeTargets.ReturnValue
 )]
 [ExcludeFromCodeCoverage]
-internal class NotNullAttribute : Attribute
-{
-}
+internal class NotNullAttribute : Attribute { }
 #endif

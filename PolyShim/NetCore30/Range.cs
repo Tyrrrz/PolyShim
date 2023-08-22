@@ -25,13 +25,9 @@ internal readonly struct Range : IEquatable<Range>
 
     public (int Offset, int Length) GetOffsetAndLength(int length)
     {
-        var start = Start.IsFromEnd
-            ? length - Start.Value
-            : Start.Value;
+        var start = Start.IsFromEnd ? length - Start.Value : Start.Value;
 
-        var end = End.IsFromEnd
-            ? length - End.Value
-            : End.Value;
+        var end = End.IsFromEnd ? length - End.Value : End.Value;
 
         if ((uint)end > (uint)length || (uint)start > (uint)end)
             throw new ArgumentOutOfRangeException(nameof(length));
@@ -40,9 +36,7 @@ internal readonly struct Range : IEquatable<Range>
     }
 
     public override bool Equals(object? value) =>
-        value is Range r &&
-        r.Start.Equals(Start) &&
-        r.End.Equals(End);
+        value is Range r && r.Start.Equals(Start) && r.End.Equals(End);
 
     public bool Equals(Range other) => other.Start.Equals(Start) && other.End.Equals(End);
 

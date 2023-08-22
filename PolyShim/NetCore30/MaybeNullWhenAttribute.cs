@@ -14,7 +14,6 @@ internal class MaybeNullWhenAttribute : Attribute
 {
     public bool ReturnValue { get; }
 
-    public MaybeNullWhenAttribute(bool returnValue) =>
-        ReturnValue = returnValue;
+    public MaybeNullWhenAttribute(bool returnValue) => ReturnValue = returnValue;
 }
 #endif

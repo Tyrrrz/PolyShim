@@ -23,7 +23,8 @@ internal static partial class PolyfillExtensions
     public static async Task<int> ReadAsync(
         this StreamReader reader,
         char[] buffer,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         cancellationToken.ThrowIfCancellationRequested();
         return await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
@@ -47,12 +48,15 @@ internal static partial class PolyfillExtensions
     public static async Task<int> ReadAsync(
         this StreamReader reader,
         Memory<char> buffer,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var bufferArray = buffer.ToArray();
 
         cancellationToken.ThrowIfCancellationRequested();
-        var result = await reader.ReadAsync(bufferArray, 0, bufferArray.Length).ConfigureAwait(false);
+        var result = await reader
+            .ReadAsync(bufferArray, 0, bufferArray.Length)
+            .ConfigureAwait(false);
         bufferArray.CopyTo(buffer);
 
         return result;

@@ -12,7 +12,5 @@ namespace System.Runtime.CompilerServices;
 // https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute
 [AttributeUsage(AttributeTargets.Method, Inherited = false)]
 [ExcludeFromCodeCoverage]
-internal class ModuleInitializerAttribute : Attribute
-{
-}
+internal class ModuleInitializerAttribute : Attribute { }
 #endif

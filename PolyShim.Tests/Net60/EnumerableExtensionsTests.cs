@@ -36,7 +36,10 @@ public class EnumerableExtensionsTests
     public void FirstOrDefault_Test()
     {
         // Act & assert
-        new[] { 1, 2, 3 }.FirstOrDefault(69).Should().Be(1);
+        new[] { 1, 2, 3 }
+            .FirstOrDefault(69)
+            .Should()
+            .Be(1);
         Array.Empty<int>().FirstOrDefault(69).Should().Be(69);
     }
 
@@ -55,7 +58,10 @@ public class EnumerableExtensionsTests
     public void LastOrDefault_Test()
     {
         // Act & assert
-        new[] { 1, 2, 3 }.LastOrDefault(69).Should().Be(3);
+        new[] { 1, 2, 3 }
+            .LastOrDefault(69)
+            .Should()
+            .Be(3);
         Array.Empty<int>().LastOrDefault(69).Should().Be(69);
     }
 
@@ -74,7 +80,10 @@ public class EnumerableExtensionsTests
     public void SingleOrDefault_Test()
     {
         // Act & assert
-        new[] { 1 }.SingleOrDefault(69).Should().Be(1);
+        new[] { 1 }
+            .SingleOrDefault(69)
+            .Should()
+            .Be(1);
         Array.Empty<int>().SingleOrDefault(69).Should().Be(69);
     }
 
@@ -176,12 +185,15 @@ public class EnumerableExtensionsTests
         };
 
         // Act & assert
-        source.DistinctBy(x => x.Key).Should().Equal(
-            new KeyValuePair<string, int>("Foo", 42),
-            new KeyValuePair<string, int>("Bar", 13),
-            new KeyValuePair<string, int>("Qux", 17),
-            new KeyValuePair<string, int>("Baz", 69)
-        );
+        source
+            .DistinctBy(x => x.Key)
+            .Should()
+            .Equal(
+                new KeyValuePair<string, int>("Foo", 42),
+                new KeyValuePair<string, int>("Bar", 13),
+                new KeyValuePair<string, int>("Qux", 17),
+                new KeyValuePair<string, int>("Baz", 69)
+            );
     }
 
     [Fact]
@@ -196,17 +208,16 @@ public class EnumerableExtensionsTests
             new KeyValuePair<string, int>("Qux", 17)
         };
 
-        var other = new[]
-        {
-            "Bar",
-            "Qux"
-        };
+        var other = new[] { "Bar", "Qux" };
 
         // Act & assert
-        source.ExceptBy(other, x => x.Key).Should().Equal(
-            new KeyValuePair<string, int>("Foo", 42),
-            new KeyValuePair<string, int>("Baz", 69)
-        );
+        source
+            .ExceptBy(other, x => x.Key)
+            .Should()
+            .Equal(
+                new KeyValuePair<string, int>("Foo", 42),
+                new KeyValuePair<string, int>("Baz", 69)
+            );
     }
 
     [Fact]
@@ -221,17 +232,16 @@ public class EnumerableExtensionsTests
             new KeyValuePair<string, int>("Qux", 17)
         };
 
-        var other = new[]
-        {
-            "Bar",
-            "Qux"
-        };
+        var other = new[] { "Bar", "Qux" };
 
         // Act & assert
-        source.IntersectBy(other, x => x.Key).Should().Equal(
-            new KeyValuePair<string, int>("Bar", 13),
-            new KeyValuePair<string, int>("Qux", 17)
-        );
+        source
+            .IntersectBy(other, x => x.Key)
+            .Should()
+            .Equal(
+                new KeyValuePair<string, int>("Bar", 13),
+                new KeyValuePair<string, int>("Qux", 17)
+            );
     }
 
     [Fact]
@@ -254,12 +264,15 @@ public class EnumerableExtensionsTests
         };
 
         // Act & assert
-        source.UnionBy(other, x => x.Key).Should().Equal(
-            new KeyValuePair<string, int>("Foo", 42),
-            new KeyValuePair<string, int>("Bar", 13),
-            new KeyValuePair<string, int>("Baz", 69),
-            new KeyValuePair<string, int>("Qux", 17)
-        );
+        source
+            .UnionBy(other, x => x.Key)
+            .Should()
+            .Equal(
+                new KeyValuePair<string, int>("Foo", 42),
+                new KeyValuePair<string, int>("Bar", 13),
+                new KeyValuePair<string, int>("Baz", 69),
+                new KeyValuePair<string, int>("Qux", 17)
+            );
     }
 
     [Fact]
@@ -269,12 +282,11 @@ public class EnumerableExtensionsTests
         var source = Enumerable.Range(1, 10);
 
         // Act & assert
-        source.Chunk(3).Should().BeEquivalentTo(new[]
-        {
-            new[] { 1, 2, 3 },
-            new[] { 4, 5, 6 },
-            new[] { 7, 8, 9 },
-            new[] { 10 }
-        });
+        source
+            .Chunk(3)
+            .Should()
+            .BeEquivalentTo(
+                new[] { new[] { 1, 2, 3 }, new[] { 4, 5, 6 }, new[] { 7, 8, 9 }, new[] { 10 } }
+            );
     }
 }

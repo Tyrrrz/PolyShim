@@ -32,10 +32,7 @@ public class AggregateExceptionTests
     {
         // Arrange
         var exception = new AggregateException(
-            new AggregateException(
-                new Exception("Exception 1"),
-                new Exception("Exception 2")
-            ),
+            new AggregateException(new Exception("Exception 1"), new Exception("Exception 2")),
             new Exception("Exception 3")
         );
 
@@ -43,11 +40,10 @@ public class AggregateExceptionTests
         var result = exception.Flatten();
 
         // Assert
-        result.InnerExceptions.Select(e => e.Message).Should().BeEquivalentTo(
-            "Exception 1",
-            "Exception 2",
-            "Exception 3"
-        );
+        result.InnerExceptions
+            .Select(e => e.Message)
+            .Should()
+            .BeEquivalentTo("Exception 1", "Exception 2", "Exception 3");
     }
 
     [Fact]
@@ -61,14 +57,14 @@ public class AggregateExceptionTests
         );
 
         // Act
-        var result = Assert.Throws<AggregateException>(void () =>
-            exception.Handle(ex => ex.Message == "Exception 2")
+        var result = Assert.Throws<AggregateException>(
+            void () => exception.Handle(ex => ex.Message == "Exception 2")
         );
 
         // Assert
-        result.InnerExceptions.Select(e => e.Message).Should().BeEquivalentTo(
-            "Exception 1",
-            "Exception 3"
-        );
+        result.InnerExceptions
+            .Select(e => e.Message)
+            .Should()
+            .BeEquivalentTo("Exception 1", "Exception 3");
     }
 }

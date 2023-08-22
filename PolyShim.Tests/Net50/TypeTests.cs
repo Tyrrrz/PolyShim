@@ -5,13 +5,9 @@ namespace PolyShim.Tests.Net50;
 
 public class TypeTests
 {
-    private class BaseClass
-    {
-    }
+    private class BaseClass { }
 
-    private class DerivedClass : BaseClass
-    {
-    }
+    private class DerivedClass : BaseClass { }
 
     [Fact]
     public void IsAssignableTo_Test()

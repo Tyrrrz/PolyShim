@@ -14,7 +14,6 @@ internal class NotNullWhenAttribute : Attribute
 {
     public bool ReturnValue { get; }
 
-    public NotNullWhenAttribute(bool returnValue) =>
-        ReturnValue = returnValue;
+    public NotNullWhenAttribute(bool returnValue) => ReturnValue = returnValue;
 }
 #endif

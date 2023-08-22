@@ -9,13 +9,11 @@ namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.maybenullattribute
 [AttributeUsage(
-    AttributeTargets.Field |
-    AttributeTargets.Parameter |
-    AttributeTargets.Property |
-    AttributeTargets.ReturnValue
+    AttributeTargets.Field
+        | AttributeTargets.Parameter
+        | AttributeTargets.Property
+        | AttributeTargets.ReturnValue
 )]
 [ExcludeFromCodeCoverage]
-internal class MaybeNullAttribute : Attribute
-{
-}
+internal class MaybeNullAttribute : Attribute { }
 #endif

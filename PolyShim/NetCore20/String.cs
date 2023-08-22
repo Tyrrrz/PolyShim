@@ -10,45 +10,42 @@ using System;
 internal static partial class PolyfillExtensions
 {
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith#system-string-startswith(system-char)
-    public static bool StartsWith(this string str, char c) =>
-        str.Length > 0 && str[0] == c;
+    public static bool StartsWith(this string str, char c) => str.Length > 0 && str[0] == c;
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith#system-string-endswith(system-char)
-    public static bool EndsWith(this string str, char c) =>
-        str.Length > 0 && str[^1] == c;
+    public static bool EndsWith(this string str, char c) => str.Length > 0 && str[^1] == c;
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.contains#system-string-contains(system-char)
-    public static bool Contains(this string str, char c) =>
-        str.IndexOf(c) >= 0;
+    public static bool Contains(this string str, char c) => str.IndexOf(c) >= 0;
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-char-system-int32-system-stringsplitoptions)
     public static string[] Split(
         this string str,
         char separator,
         int count,
-        StringSplitOptions options = StringSplitOptions.None) =>
-        str.Split(new[] { separator }, count, options);
+        StringSplitOptions options = StringSplitOptions.None
+    ) => str.Split(new[] { separator }, count, options);
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-char-system-stringsplitoptions)
     public static string[] Split(
         this string str,
         char separator,
-        StringSplitOptions options = StringSplitOptions.None) =>
-        str.Split(new[] { separator }, options);
+        StringSplitOptions options = StringSplitOptions.None
+    ) => str.Split(new[] { separator }, options);
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-string-system-int32-system-stringsplitoptions)
     public static string[] Split(
         this string str,
         string? separator,
         int count,
-        StringSplitOptions options = StringSplitOptions.None) =>
-        str.Split(new[] { separator ?? "" }, count, options);
+        StringSplitOptions options = StringSplitOptions.None
+    ) => str.Split(new[] { separator ?? "" }, count, options);
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-string-system-stringsplitoptions)
     public static string[] Split(
         this string str,
         string? separator,
-        StringSplitOptions options = StringSplitOptions.None) =>
-        str.Split(new[] { separator ?? "" }, options);
+        StringSplitOptions options = StringSplitOptions.None
+    ) => str.Split(new[] { separator ?? "" }, options);
 }
 #endif

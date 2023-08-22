@@ -27,39 +27,25 @@ public class AggregateException : Exception
     }
 
     public AggregateException(string? message, IEnumerable<Exception> innerExceptions)
-        : this(message, innerExceptions.ToArray())
-    {
-    }
+        : this(message, innerExceptions.ToArray()) { }
 
     public AggregateException(string? message, Exception innerException)
-        : this(message, new[] {innerException})
-    {
-    }
+        : this(message, new[] { innerException }) { }
 
     public AggregateException(params Exception[] innerExceptions)
-        : this("One or more errors occurred.", innerExceptions)
-    {
-    }
+        : this("One or more errors occurred.", innerExceptions) { }
 
     public AggregateException(IEnumerable<Exception> innerExceptions)
-        : this("One or more errors occurred.", innerExceptions)
-    {
-    }
+        : this("One or more errors occurred.", innerExceptions) { }
 
     public AggregateException(string? message)
-        : this(message, new Exception[0])
-    {
-    }
+        : this(message, new Exception[0]) { }
 
     public AggregateException()
-        : this("One or more errors occurred.", new Exception[0])
-    {
-    }
+        : this("One or more errors occurred.", new Exception[0]) { }
 
     public AggregateException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
+        : base(info, context) { }
 
     public AggregateException Flatten()
     {

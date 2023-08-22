@@ -17,8 +17,8 @@ internal static partial class PolyfillExtensions
         this IReadOnlyDictionary<TKey, TValue> dictionary,
 #endif
         TKey key,
-        TValue? defaultValue) =>
-        dictionary.TryGetValue(key, out var value) ? value : defaultValue;
+        TValue? defaultValue
+    ) => dictionary.TryGetValue(key, out var value) ? value : defaultValue;
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0)
     public static TValue? GetValueOrDefault<TKey, TValue>(
@@ -27,7 +27,7 @@ internal static partial class PolyfillExtensions
 #else
         this IReadOnlyDictionary<TKey, TValue> dictionary,
 #endif
-        TKey key) =>
-        dictionary.GetValueOrDefault(key, default);
+        TKey key
+    ) => dictionary.GetValueOrDefault(key, default);
 }
 #endif

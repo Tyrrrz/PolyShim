@@ -11,7 +11,11 @@ internal static partial class PolyfillExtensions
 {
     // Used to implement tuple deconstruction, but tuple support is technically not required
     // https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct
-    public static void Deconstruct<TKey, TValue>(this KeyValuePair<TKey, TValue> pair, out TKey key, out TValue value)
+    public static void Deconstruct<TKey, TValue>(
+        this KeyValuePair<TKey, TValue> pair,
+        out TKey key,
+        out TValue value
+    )
     {
         key = pair.Key;
         value = pair.Value;

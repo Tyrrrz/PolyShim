@@ -34,7 +34,8 @@ internal static partial class PolyfillExtensions
     public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(
         this IEnumerable<TFirst> first,
         IEnumerable<TSecond> second,
-        Func<TFirst, TSecond, TResult> resultSelector)
+        Func<TFirst, TSecond, TResult> resultSelector
+    )
     {
         using var e1 = first.GetEnumerator();
         using var e2 = second.GetEnumerator();

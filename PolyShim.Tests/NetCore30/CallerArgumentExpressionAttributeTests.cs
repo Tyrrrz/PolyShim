@@ -8,7 +8,8 @@ public class CallerArgumentExpressionAttributeTests
 {
     private static string? TestMethod(
         bool condition,
-        [CallerArgumentExpression("condition")] string? expression = null) => expression;
+        [CallerArgumentExpression("condition")] string? expression = null
+    ) => expression;
 
     [Fact]
     public void Initialization_Test()

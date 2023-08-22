@@ -32,9 +32,7 @@ public class StreamTests
         var buffer = new byte[10];
 
         // Act & assert
-        Assert.ThrowsAny<EndOfStreamException>(() =>
-            stream.ReadAtLeast(buffer, 10)
-        );
+        Assert.ThrowsAny<EndOfStreamException>(() => stream.ReadAtLeast(buffer, 10));
     }
 
     [Fact]
@@ -103,8 +101,8 @@ public class StreamTests
         var buffer = new byte[10];
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<EndOfStreamException>(async () =>
-            await stream.ReadAtLeastAsync(buffer, 10)
+        await Assert.ThrowsAnyAsync<EndOfStreamException>(
+            async () => await stream.ReadAtLeastAsync(buffer, 10)
         );
     }
 
@@ -183,9 +181,7 @@ public class StreamTests
         // Act & assert
         try
         {
-            Assert.Throws<EndOfStreamException>(() =>
-                stream.ReadAtLeast(buffer.AsSpan(), 10)
-            );
+            Assert.Throws<EndOfStreamException>(() => stream.ReadAtLeast(buffer.AsSpan(), 10));
         }
         finally
         {
@@ -259,8 +255,8 @@ public class StreamTests
         using var buffer = MemoryPool<byte>.Shared.Rent(10);
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<EndOfStreamException>(async () =>
-            await stream.ReadAtLeastAsync(buffer.Memory, 10)
+        await Assert.ThrowsAnyAsync<EndOfStreamException>(
+            async () => await stream.ReadAtLeastAsync(buffer.Memory, 10)
         );
     }
 

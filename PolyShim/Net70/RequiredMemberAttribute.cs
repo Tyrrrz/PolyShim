@@ -11,13 +11,12 @@ namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.requiredmemberattribute
 [AttributeUsage(
-    AttributeTargets.Class |
-    AttributeTargets.Field |
-    AttributeTargets.Property |
-    AttributeTargets.Struct,
-    Inherited = false)]
+    AttributeTargets.Class
+        | AttributeTargets.Field
+        | AttributeTargets.Property
+        | AttributeTargets.Struct,
+    Inherited = false
+)]
 [ExcludeFromCodeCoverage]
-internal class RequiredMemberAttribute : Attribute
-{
-}
+internal class RequiredMemberAttribute : Attribute { }
 #endif

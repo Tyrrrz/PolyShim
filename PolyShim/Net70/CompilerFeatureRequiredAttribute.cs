@@ -18,8 +18,7 @@ internal partial class CompilerFeatureRequiredAttribute : Attribute
 
     public bool IsOptional { get; init; }
 
-    public CompilerFeatureRequiredAttribute(string featureName) =>
-        FeatureName = featureName;
+    public CompilerFeatureRequiredAttribute(string featureName) => FeatureName = featureName;
 }
 
 internal partial class CompilerFeatureRequiredAttribute

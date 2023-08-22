@@ -16,11 +16,7 @@ public class RequiredMemberAttributeTests
     public void Initialization_Test()
     {
         // Act
-        var myClass = new MyClass
-        {
-            Foo = "hello world",
-            Bar = 42
-        };
+        var myClass = new MyClass { Foo = "hello world", Bar = 42 };
 
         // Assert
         myClass.Foo.Should().Be("hello world");

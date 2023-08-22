@@ -20,31 +20,28 @@ internal static class RuntimeInformation
     {
         if (osPlatform == OSPlatform.FreeBSD)
         {
-            return
-                Environment.OSVersion.Platform == PlatformID.Unix &&
-                File.Exists("/usr/bin/true");
+            return Environment.OSVersion.Platform == PlatformID.Unix
+                && File.Exists("/usr/bin/true");
         }
 
         if (osPlatform == OSPlatform.Linux)
         {
-            return
-                Environment.OSVersion.Platform == PlatformID.Unix &&
-                File.Exists("/proc/version");
+            return Environment.OSVersion.Platform == PlatformID.Unix
+                && File.Exists("/proc/version");
         }
 
         if (osPlatform == OSPlatform.OSX)
         {
-            return
-                Environment.OSVersion.Platform == PlatformID.Unix &&
-                File.Exists("/usr/bin/sw_vers");
+            return Environment.OSVersion.Platform == PlatformID.Unix
+                && File.Exists("/usr/bin/sw_vers");
         }
 
         if (osPlatform == OSPlatform.Windows)
         {
-            return Environment.OSVersion.Platform is
-                PlatformID.Win32NT or
-                PlatformID.Win32S or
-                PlatformID.Win32Windows;
+            return Environment.OSVersion.Platform
+                is PlatformID.Win32NT
+                    or PlatformID.Win32S
+                    or PlatformID.Win32Windows;
         }
 
         return false;

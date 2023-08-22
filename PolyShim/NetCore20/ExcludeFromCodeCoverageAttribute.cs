@@ -9,16 +9,15 @@ namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.excludefromcodecoverageattribute
 [AttributeUsage(
-    AttributeTargets.Assembly |
-    AttributeTargets.Class |
-    AttributeTargets.Constructor |
-    AttributeTargets.Event |
-    AttributeTargets.Method |
-    AttributeTargets.Property |
-    AttributeTargets.Struct,
-    Inherited = false)]
+    AttributeTargets.Assembly
+        | AttributeTargets.Class
+        | AttributeTargets.Constructor
+        | AttributeTargets.Event
+        | AttributeTargets.Method
+        | AttributeTargets.Property
+        | AttributeTargets.Struct,
+    Inherited = false
+)]
 [ExcludeFromCodeCoverage]
-internal class ExcludeFromCodeCoverageAttribute : Attribute
-{
-}
+internal class ExcludeFromCodeCoverageAttribute : Attribute { }
 #endif

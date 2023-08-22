@@ -11,7 +11,5 @@ namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.isexternalinit
 [ExcludeFromCodeCoverage]
-internal static class IsExternalInit
-{
-}
+internal static class IsExternalInit { }
 #endif

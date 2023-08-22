@@ -17,10 +17,6 @@ public class EnumerableExtensionsTests
         var result = left.Zip(right, (l, r) => (l, r));
 
         // Assert
-        result.Should().Equal(
-            (1, "a"),
-            (2, "b"),
-            (3, "c")
-        );
+        result.Should().Equal((1, "a"), (2, "b"), (3, "c"));
     }
 }

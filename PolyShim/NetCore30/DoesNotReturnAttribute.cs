@@ -10,7 +10,5 @@ namespace System.Diagnostics.CodeAnalysis;
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.doesnotreturnattribute
 [AttributeUsage(AttributeTargets.Method, Inherited = false)]
 [ExcludeFromCodeCoverage]
-internal class DoesNotReturnAttribute : Attribute
-{
-}
+internal class DoesNotReturnAttribute : Attribute { }
 #endif
