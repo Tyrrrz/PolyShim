@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.8 (19-Sep-2023)
+
+- Added polyfills for `DynamicallyAccessedMembersAttribute` and `DynamicallyAccessedMemberTypes`.
+- Fixed an issue where the polyfills for `AggregateException` were exposed as `public` instead of `internal`.
+
 ## v1.7 (07-Aug-2023)
 
 - Added polyfills for `DictionaryEntry.Deconstruct(...)`.
