@@ -9,7 +9,7 @@ namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembertypes
 [Flags]
-public enum DynamicallyAccessedMemberTypes
+internal enum DynamicallyAccessedMemberTypes
 {
     All = -1,
     None = 0,

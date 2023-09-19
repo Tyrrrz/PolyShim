@@ -16,7 +16,7 @@ namespace System;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.aggregateexception
 [ExcludeFromCodeCoverage]
-public class AggregateException : Exception
+internal class AggregateException : Exception
 {
     public ReadOnlyCollection<Exception> InnerExceptions { get; } = new(new Exception[0]);
 
