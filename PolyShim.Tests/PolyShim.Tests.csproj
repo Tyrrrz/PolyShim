@@ -10,6 +10,15 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <!--
+      Some packages are pulled against mismatching target frameworks.
+      Unfortunately, not a lot of packages support the old target frameworks we need to test on,
+      so we have to disable warnings about this.
+    -->
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <DefineConstants Condition="$([MSBuild]::IsOsPlatform('Windows'))">$(DefineConstants);PLATFORM_WINDOWS</DefineConstants>
     <DefineConstants Condition="$([MSBuild]::IsOsPlatform('Linux'))">$(DefineConstants);PLATFORM_LINUX</DefineConstants>
     <DefineConstants Condition="$([MSBuild]::IsOsPlatform('OSX'))">$(DefineConstants);PLATFORM_OSX</DefineConstants>
