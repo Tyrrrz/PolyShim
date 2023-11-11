@@ -12,9 +12,7 @@
       net35;net40;net45;net461;net462;net48;net50;net70
     </TargetFrameworks>
     <IsPackable>true</IsPackable>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -24,7 +22,8 @@
     <PackageProjectUrl>https://github.com/Tyrrrz/PolyShim</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Tyrrrz/PolyShim/blob/master/Changelog.md</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
     <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
 
