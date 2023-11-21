@@ -40,7 +40,8 @@ public class AggregateExceptionTests
         var result = exception.Flatten();
 
         // Assert
-        result.InnerExceptions
+        result
+            .InnerExceptions
             .Select(e => e.Message)
             .Should()
             .BeEquivalentTo("Exception 1", "Exception 2", "Exception 3");
@@ -62,7 +63,8 @@ public class AggregateExceptionTests
         );
 
         // Assert
-        result.InnerExceptions
+        result
+            .InnerExceptions
             .Select(e => e.Message)
             .Should()
             .BeEquivalentTo("Exception 1", "Exception 3");

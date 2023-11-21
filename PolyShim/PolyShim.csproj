@@ -13,6 +13,7 @@
     </TargetFrameworks>
     <IsPackable>true</IsPackable>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+    <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CSharpier.MsBuild" Version="0.25.0" PrivateAssets="all" />
+    <PackageReference Include="CSharpier.MsBuild" Version="0.26.2" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- Import official compatibilty packages for metadata references -->
