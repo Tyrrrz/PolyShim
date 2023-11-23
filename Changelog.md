@@ -1,5 +1,9 @@
 # Changelog
 
+> **Important**:
+> This changelog is no longer maintained and will be removed in the future.
+> Going forward, new versions of this package will have the corresponding release notes published on [GitHub Releases](https://githu.com/Tyrrrz/PolyShim/releases).
+
 ## v1.8 (19-Sep-2023)
 
 - Added polyfills for `DynamicallyAccessedMembersAttribute` and `DynamicallyAccessedMemberTypes`.

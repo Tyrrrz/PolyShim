@@ -21,7 +21,7 @@
     <Description>Collection of polyfills that enable modern BCL features for projects targeting older versions of .NET.</Description>
     <PackageTags>polyfill shims compat compatibility</PackageTags>
     <PackageProjectUrl>https://github.com/Tyrrrz/PolyShim</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Tyrrrz/PolyShim/blob/master/Changelog.md</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/Tyrrrz/PolyShim/releases/tag/$(Version)</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <IncludeBuildOutput>false</IncludeBuildOutput>
