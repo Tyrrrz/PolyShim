@@ -22,5 +22,5 @@ namespace System.Runtime.CompilerServices;
     Inherited = false
 )]
 [ExcludeFromCodeCoverage]
-internal class SkipLocalsInitAttribute : Attribute { }
+internal class SkipLocalsInitAttribute : Attribute;
 #endif

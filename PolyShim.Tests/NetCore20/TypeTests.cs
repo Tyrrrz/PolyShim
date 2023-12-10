@@ -5,9 +5,9 @@ namespace PolyShim.Tests.NetCore20;
 
 public class TypeTests
 {
-    private class BaseClass { }
+    private class BaseClass;
 
-    private class DerivedClass : BaseClass { }
+    private class DerivedClass : BaseClass;
 
     [Fact]
     public void IsSubclassOf_Test()

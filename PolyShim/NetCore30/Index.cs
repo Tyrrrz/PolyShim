@@ -11,33 +11,16 @@ namespace System;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.index
 [ExcludeFromCodeCoverage]
-internal readonly struct Index : IEquatable<Index>
+internal readonly struct Index(int value) : IEquatable<Index>
 {
-    private readonly int _value;
+    private readonly int _value = value;
 
     public Index(int value, bool fromEnd = false)
+        : this(fromEnd ? ~value : value)
     {
         if (value < 0)
             throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
-
-        _value = fromEnd ? ~value : value;
     }
-
-    private Index(int value) => _value = value;
-
-    public static Index Start => new(0);
-
-    public static Index End => new(~0);
-
-    public static Index FromStart(int value) =>
-        value >= 0
-            ? new Index(value)
-            : throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
-
-    public static Index FromEnd(int value) =>
-        value >= 0
-            ? new Index(~value)
-            : throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
 
     public int Value => _value < 0 ? ~_value : _value;
 
@@ -58,8 +41,6 @@ internal readonly struct Index : IEquatable<Index>
 
     public override int GetHashCode() => _value;
 
-    public static implicit operator Index(int value) => FromStart(value);
-
     public override string ToString()
     {
         if (IsFromEnd)
@@ -67,5 +48,21 @@ internal readonly struct Index : IEquatable<Index>
 
         return ((uint)Value).ToString();
     }
+
+    public static Index Start => new(0);
+
+    public static Index End => new(~0);
+
+    public static Index FromStart(int value) =>
+        value >= 0
+            ? new Index(value)
+            : throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
+
+    public static Index FromEnd(int value) =>
+        value >= 0
+            ? new Index(~value)
+            : throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
+
+    public static implicit operator Index(int value) => FromStart(value);
 }
 #endif

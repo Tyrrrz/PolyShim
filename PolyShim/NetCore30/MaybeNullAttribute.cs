@@ -15,5 +15,5 @@ namespace System.Diagnostics.CodeAnalysis;
         | AttributeTargets.ReturnValue
 )]
 [ExcludeFromCodeCoverage]
-internal class MaybeNullAttribute : Attribute { }
+internal class MaybeNullAttribute : Attribute;
 #endif

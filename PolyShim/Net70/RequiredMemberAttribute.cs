@@ -18,5 +18,5 @@ namespace System.Runtime.CompilerServices;
     Inherited = false
 )]
 [ExcludeFromCodeCoverage]
-internal class RequiredMemberAttribute : Attribute { }
+internal class RequiredMemberAttribute : Attribute;
 #endif

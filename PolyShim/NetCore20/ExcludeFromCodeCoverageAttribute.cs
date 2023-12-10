@@ -19,5 +19,5 @@ namespace System.Diagnostics.CodeAnalysis;
     Inherited = false
 )]
 [ExcludeFromCodeCoverage]
-internal class ExcludeFromCodeCoverageAttribute : Attribute { }
+internal class ExcludeFromCodeCoverageAttribute : Attribute;
 #endif

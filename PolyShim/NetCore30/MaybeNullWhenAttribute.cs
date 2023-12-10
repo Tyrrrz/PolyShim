@@ -10,10 +10,8 @@ namespace System.Diagnostics.CodeAnalysis;
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.maybenullwhenattribute
 [AttributeUsage(AttributeTargets.Parameter)]
 [ExcludeFromCodeCoverage]
-internal class MaybeNullWhenAttribute : Attribute
+internal class MaybeNullWhenAttribute(bool returnValue) : Attribute
 {
-    public bool ReturnValue { get; }
-
-    public MaybeNullWhenAttribute(bool returnValue) => ReturnValue = returnValue;
+    public bool ReturnValue { get; } = returnValue;
 }
 #endif

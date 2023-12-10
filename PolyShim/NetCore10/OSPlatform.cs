@@ -11,11 +11,9 @@ namespace System.Runtime.InteropServices;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.osplatform
 [ExcludeFromCodeCoverage]
-internal readonly partial struct OSPlatform : IEquatable<OSPlatform>
+internal readonly partial struct OSPlatform(string name) : IEquatable<OSPlatform>
 {
-    private readonly string _name;
-
-    private OSPlatform(string name) => _name = name;
+    private readonly string _name = name;
 
     public override bool Equals(object? obj) => obj is OSPlatform other && Equals(other);
 

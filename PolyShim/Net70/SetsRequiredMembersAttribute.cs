@@ -10,5 +10,5 @@ namespace System.Diagnostics.CodeAnalysis;
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute
 [AttributeUsage(AttributeTargets.Constructor)]
 [ExcludeFromCodeCoverage]
-internal class SetsRequiredMembersAttribute : Attribute { }
+internal class SetsRequiredMembersAttribute : Attribute;
 #endif

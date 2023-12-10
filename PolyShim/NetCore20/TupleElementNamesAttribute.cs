@@ -20,10 +20,8 @@ using System.Diagnostics.CodeAnalysis;
         | AttributeTargets.Struct
 )]
 [ExcludeFromCodeCoverage]
-internal class TupleElementNamesAttribute : Attribute
+internal class TupleElementNamesAttribute(string[] transformNames) : Attribute
 {
-    public string[] TransformNames { get; }
-
-    public TupleElementNamesAttribute(string[] transformNames) => TransformNames = transformNames;
+    public string[] TransformNames { get; } = transformNames;
 }
 #endif

@@ -12,10 +12,8 @@ namespace System.Diagnostics.CodeAnalysis;
     AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue
 )]
 [ExcludeFromCodeCoverage]
-internal class NotNullIfNotNullAttribute : Attribute
+internal class NotNullIfNotNullAttribute(string parameterName) : Attribute
 {
-    public string ParameterName { get; }
-
-    public NotNullIfNotNullAttribute(string parameterName) => ParameterName = parameterName;
+    public string ParameterName { get; } = parameterName;
 }
 #endif

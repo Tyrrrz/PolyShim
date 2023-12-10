@@ -15,9 +15,9 @@ namespace System.Runtime.InteropServices;
 // https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.libraryimportattribute
 [AttributeUsage(AttributeTargets.Method, Inherited = false)]
 [ExcludeFromCodeCoverage]
-internal class LibraryImportAttribute : Attribute
+internal class LibraryImportAttribute(string libraryName) : Attribute
 {
-    public string LibraryName { get; }
+    public string LibraryName { get; } = libraryName;
 
     public string? EntryPoint { get; init; }
 
@@ -26,7 +26,5 @@ internal class LibraryImportAttribute : Attribute
     public StringMarshalling StringMarshalling { get; init; }
 
     public Type? StringMarshallingCustomType { get; init; }
-
-    public LibraryImportAttribute(string libraryName) => LibraryName = libraryName;
 }
 #endif

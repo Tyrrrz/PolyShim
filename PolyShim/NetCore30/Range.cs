@@ -11,17 +11,11 @@ namespace System;
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.range
 [ExcludeFromCodeCoverage]
-internal readonly struct Range : IEquatable<Range>
+internal readonly struct Range(Index start, Index end) : IEquatable<Range>
 {
-    public Index Start { get; }
+    public Index Start { get; } = start;
 
-    public Index End { get; }
-
-    public Range(Index start, Index end)
-    {
-        Start = start;
-        End = end;
-    }
+    public Index End { get; } = end;
 
     public (int Offset, int Length) GetOffsetAndLength(int length)
     {

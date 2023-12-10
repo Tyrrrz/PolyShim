@@ -12,13 +12,11 @@ namespace System.Runtime.CompilerServices;
 // https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
 [ExcludeFromCodeCoverage]
-internal partial class CompilerFeatureRequiredAttribute : Attribute
+internal partial class CompilerFeatureRequiredAttribute(string featureName) : Attribute
 {
-    public string FeatureName { get; }
+    public string FeatureName { get; } = featureName;
 
     public bool IsOptional { get; init; }
-
-    public CompilerFeatureRequiredAttribute(string featureName) => FeatureName = featureName;
 }
 
 internal partial class CompilerFeatureRequiredAttribute

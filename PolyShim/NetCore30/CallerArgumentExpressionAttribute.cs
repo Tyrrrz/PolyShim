@@ -12,10 +12,8 @@ namespace System.Runtime.CompilerServices;
 // https://docs.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute
 [AttributeUsage(AttributeTargets.Parameter)]
 [ExcludeFromCodeCoverage]
-internal class CallerArgumentExpressionAttribute : Attribute
+internal class CallerArgumentExpressionAttribute(string parameterName) : Attribute
 {
-    public string ParameterName { get; }
-
-    public CallerArgumentExpressionAttribute(string parameterName) => ParameterName = parameterName;
+    public string ParameterName { get; } = parameterName;
 }
 #endif
