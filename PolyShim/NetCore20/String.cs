@@ -66,14 +66,12 @@ internal static partial class PolyfillExtensions
         var lastIndex = 0;
         while (true)
         {
-            index = (culture ?? CultureInfo.CurrentCulture)
-                .CompareInfo
-                .IndexOf(
-                    str,
-                    oldValue,
-                    index,
-                    ignoreCase ? CompareOptions.IgnoreCase : CompareOptions.None
-                );
+            index = (culture ?? CultureInfo.CurrentCulture).CompareInfo.IndexOf(
+                str,
+                oldValue,
+                index,
+                ignoreCase ? CompareOptions.IgnoreCase : CompareOptions.None
+            );
 
             if (index < 0)
             {
