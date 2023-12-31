@@ -70,11 +70,9 @@ public class StringTests
         // Arrange
         const string str = "a b c";
 
-        // Act
-        var result = str.Split(' ');
-
-        // Assert
-        result.Should().Equal("a", "b", "c");
+        // Act & assert
+        str.Split(' ').Should().Equal("a", "b", "c");
+        str.Split('b').Should().Equal("a ", " c");
     }
 
     [Fact]
@@ -83,11 +81,10 @@ public class StringTests
         // Arrange
         const string str = "a b c";
 
-        // Act
-        var result = str.Split(' ', 2);
-
-        // Assert
-        result.Should().Equal("a", "b c");
+        // Act & assert
+        str.Split(' ', 3).Should().Equal("a", "b", "c");
+        str.Split(' ', 2).Should().Equal("a", "b c");
+        str.Split(' ', 1).Should().Equal("a b c");
     }
 
     [Fact]
@@ -96,11 +93,9 @@ public class StringTests
         // Arrange
         const string str = "a b c";
 
-        // Act
-        var result = str.Split(" ");
-
-        // Assert
-        result.Should().Equal("a", "b", "c");
+        // Act & assert
+        str.Split(" ").Should().Equal("a", "b", "c");
+        str.Split("b").Should().Equal("a ", " c");
     }
 
     [Fact]
@@ -109,10 +104,9 @@ public class StringTests
         // Arrange
         const string str = "a b c";
 
-        // Act
-        var result = str.Split(" ", 2);
-
-        // Assert
-        result.Should().Equal("a", "b c");
+        // Act & assert
+        str.Split(" ", 3).Should().Equal("a", "b", "c");
+        str.Split(" ", 2).Should().Equal("a", "b c");
+        str.Split(" ", 1).Should().Equal("a b c");
     }
 }
