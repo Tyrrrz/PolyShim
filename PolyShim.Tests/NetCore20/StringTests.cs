@@ -1,4 +1,6 @@
-﻿using FluentAssertions;
+﻿using System;
+using System.Globalization;
+using FluentAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.NetCore20;
@@ -36,6 +38,30 @@ public class StringTests
         // Act & assert
         str.Contains('b').Should().BeTrue();
         str.Contains('d').Should().BeFalse();
+    }
+
+    [Fact]
+    public void Replace_StringComparison_Test()
+    {
+        // Arrange
+        const string str = "abcFooABCbar";
+
+        // Act & assert
+        str.Replace("ab", "XY", StringComparison.Ordinal).Should().Be("XYcFooABCbar");
+        str.Replace("ab", "XY", StringComparison.OrdinalIgnoreCase).Should().Be("XYcFooXYCbar");
+        str.Replace("ab", null, StringComparison.OrdinalIgnoreCase).Should().Be("cFooCbar");
+    }
+
+    [Fact]
+    public void Replace_CultureInfo_Test()
+    {
+        // Arrange
+        const string str = "abcFooABCbar";
+
+        // Act & assert
+        str.Replace("ab", "XY", false, CultureInfo.InvariantCulture).Should().Be("XYcFooABCbar");
+        str.Replace("ab", "XY", true, CultureInfo.InvariantCulture).Should().Be("XYcFooXYCbar");
+        str.Replace("ab", null, true, CultureInfo.InvariantCulture).Should().Be("cFooCbar");
     }
 
     [Fact]
