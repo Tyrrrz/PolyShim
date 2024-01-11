@@ -99,17 +99,12 @@ internal readonly struct ValueTuple : IEquatable<ValueTuple>, IComparable<ValueT
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-1
 [ExcludeFromCodeCoverage]
-internal readonly struct ValueTuple<T1>
+internal readonly struct ValueTuple<T1>(T1 item1)
     : IEquatable<ValueTuple<T1>>,
         IComparable<ValueTuple<T1>>,
         IComparable
 {
-    public readonly T1 Item1;
-
-    public ValueTuple(T1 item1)
-    {
-        Item1 = item1;
-    }
+    public readonly T1 Item1 = item1;
 
     public override bool Equals(object? obj) => obj is ValueTuple<T1> other && Equals(other);
 
@@ -150,19 +145,13 @@ internal readonly struct ValueTuple<T1>
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-2
 [ExcludeFromCodeCoverage]
-internal readonly struct ValueTuple<T1, T2>
+internal readonly struct ValueTuple<T1, T2>(T1 item1, T2 item2)
     : IEquatable<ValueTuple<T1, T2>>,
         IComparable<ValueTuple<T1, T2>>,
         IComparable
 {
-    public readonly T1 Item1;
-    public readonly T2 Item2;
-
-    public ValueTuple(T1 item1, T2 item2)
-    {
-        Item1 = item1;
-        Item2 = item2;
-    }
+    public readonly T1 Item1 = item1;
+    public readonly T2 Item2 = item2;
 
     public override bool Equals(object? obj) => obj is ValueTuple<T1, T2> other && Equals(other);
 
@@ -208,21 +197,14 @@ internal readonly struct ValueTuple<T1, T2>
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-3
 [ExcludeFromCodeCoverage]
-internal readonly struct ValueTuple<T1, T2, T3>
+internal readonly struct ValueTuple<T1, T2, T3>(T1 item1, T2 item2, T3 item3)
     : IEquatable<ValueTuple<T1, T2, T3>>,
         IComparable<ValueTuple<T1, T2, T3>>,
         IComparable
 {
-    public readonly T1 Item1;
-    public readonly T2 Item2;
-    public readonly T3 Item3;
-
-    public ValueTuple(T1 item1, T2 item2, T3 item3)
-    {
-        Item1 = item1;
-        Item2 = item2;
-        Item3 = item3;
-    }
+    public readonly T1 Item1 = item1;
+    public readonly T2 Item2 = item2;
+    public readonly T3 Item3 = item3;
 
     public override bool Equals(object? obj) =>
         obj is ValueTuple<T1, T2, T3> other && Equals(other);
@@ -272,23 +254,15 @@ internal readonly struct ValueTuple<T1, T2, T3>
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-4
 [ExcludeFromCodeCoverage]
-internal readonly struct ValueTuple<T1, T2, T3, T4>
+internal readonly struct ValueTuple<T1, T2, T3, T4>(T1 item1, T2 item2, T3 item3, T4 item4)
     : IEquatable<ValueTuple<T1, T2, T3, T4>>,
         IComparable<ValueTuple<T1, T2, T3, T4>>,
         IComparable
 {
-    public readonly T1 Item1;
-    public readonly T2 Item2;
-    public readonly T3 Item3;
-    public readonly T4 Item4;
-
-    public ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4)
-    {
-        Item1 = item1;
-        Item2 = item2;
-        Item3 = item3;
-        Item4 = item4;
-    }
+    public readonly T1 Item1 = item1;
+    public readonly T2 Item2 = item2;
+    public readonly T3 Item3 = item3;
+    public readonly T4 Item4 = item4;
 
     public override bool Equals(object? obj) =>
         obj is ValueTuple<T1, T2, T3, T4> other && Equals(other);
@@ -353,25 +327,22 @@ internal readonly struct ValueTuple<T1, T2, T3, T4>
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-5
 [ExcludeFromCodeCoverage]
-internal readonly struct ValueTuple<T1, T2, T3, T4, T5>
+internal readonly struct ValueTuple<T1, T2, T3, T4, T5>(
+    T1 item1,
+    T2 item2,
+    T3 item3,
+    T4 item4,
+    T5 item5
+)
     : IEquatable<ValueTuple<T1, T2, T3, T4, T5>>,
         IComparable<ValueTuple<T1, T2, T3, T4, T5>>,
         IComparable
 {
-    public readonly T1 Item1;
-    public readonly T2 Item2;
-    public readonly T3 Item3;
-    public readonly T4 Item4;
-    public readonly T5 Item5;
-
-    public ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5)
-    {
-        Item1 = item1;
-        Item2 = item2;
-        Item3 = item3;
-        Item4 = item4;
-        Item5 = item5;
-    }
+    public readonly T1 Item1 = item1;
+    public readonly T2 Item2 = item2;
+    public readonly T3 Item3 = item3;
+    public readonly T4 Item4 = item4;
+    public readonly T5 Item5 = item5;
 
     public override bool Equals(object? obj) =>
         obj is ValueTuple<T1, T2, T3, T4, T5> other && Equals(other);
@@ -442,27 +413,24 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5>
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-6
 [ExcludeFromCodeCoverage]
-internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6>
+internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6>(
+    T1 item1,
+    T2 item2,
+    T3 item3,
+    T4 item4,
+    T5 item5,
+    T6 item6
+)
     : IEquatable<ValueTuple<T1, T2, T3, T4, T5, T6>>,
         IComparable<ValueTuple<T1, T2, T3, T4, T5, T6>>,
         IComparable
 {
-    public readonly T1 Item1;
-    public readonly T2 Item2;
-    public readonly T3 Item3;
-    public readonly T4 Item4;
-    public readonly T5 Item5;
-    public readonly T6 Item6;
-
-    public ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6)
-    {
-        Item1 = item1;
-        Item2 = item2;
-        Item3 = item3;
-        Item4 = item4;
-        Item5 = item5;
-        Item6 = item6;
-    }
+    public readonly T1 Item1 = item1;
+    public readonly T2 Item2 = item2;
+    public readonly T3 Item3 = item3;
+    public readonly T4 Item4 = item4;
+    public readonly T5 Item5 = item5;
+    public readonly T6 Item6 = item6;
 
     public override bool Equals(object? obj) =>
         obj is ValueTuple<T1, T2, T3, T4, T5, T6> other && Equals(other);
@@ -536,29 +504,26 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6>
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-7
 [ExcludeFromCodeCoverage]
-internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7>
+internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7>(
+    T1 item1,
+    T2 item2,
+    T3 item3,
+    T4 item4,
+    T5 item5,
+    T6 item6,
+    T7 item7
+)
     : IEquatable<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>,
         IComparable<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>,
         IComparable
 {
-    public readonly T1 Item1;
-    public readonly T2 Item2;
-    public readonly T3 Item3;
-    public readonly T4 Item4;
-    public readonly T5 Item5;
-    public readonly T6 Item6;
-    public readonly T7 Item7;
-
-    public ValueTuple(T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7)
-    {
-        Item1 = item1;
-        Item2 = item2;
-        Item3 = item3;
-        Item4 = item4;
-        Item5 = item5;
-        Item6 = item6;
-        Item7 = item7;
-    }
+    public readonly T1 Item1 = item1;
+    public readonly T2 Item2 = item2;
+    public readonly T3 Item3 = item3;
+    public readonly T4 Item4 = item4;
+    public readonly T5 Item5 = item5;
+    public readonly T6 Item6 = item6;
+    public readonly T7 Item7 = item7;
 
     public override bool Equals(object? obj) =>
         obj is ValueTuple<T1, T2, T3, T4, T5, T6, T7> other && Equals(other);
@@ -637,40 +602,28 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7>
 
 // https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-8
 [ExcludeFromCodeCoverage]
-internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>
+internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>(
+    T1 item1,
+    T2 item2,
+    T3 item3,
+    T4 item4,
+    T5 item5,
+    T6 item6,
+    T7 item7,
+    TRest rest
+)
     : IEquatable<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>,
         IComparable<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>,
         IComparable
 {
-    public readonly T1 Item1;
-    public readonly T2 Item2;
-    public readonly T3 Item3;
-    public readonly T4 Item4;
-    public readonly T5 Item5;
-    public readonly T6 Item6;
-    public readonly T7 Item7;
-    public readonly TRest Rest;
-
-    public ValueTuple(
-        T1 item1,
-        T2 item2,
-        T3 item3,
-        T4 item4,
-        T5 item5,
-        T6 item6,
-        T7 item7,
-        TRest rest
-    )
-    {
-        Item1 = item1;
-        Item2 = item2;
-        Item3 = item3;
-        Item4 = item4;
-        Item5 = item5;
-        Item6 = item6;
-        Item7 = item7;
-        Rest = rest;
-    }
+    public readonly T1 Item1 = item1;
+    public readonly T2 Item2 = item2;
+    public readonly T3 Item3 = item3;
+    public readonly T4 Item4 = item4;
+    public readonly T5 Item5 = item5;
+    public readonly T6 Item6 = item6;
+    public readonly T7 Item7 = item7;
+    public readonly TRest Rest = rest;
 
     public override bool Equals(object? obj) =>
         obj is ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> other && Equals(other);
