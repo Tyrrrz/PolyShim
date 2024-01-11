@@ -6,7 +6,6 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-using System.Collections;
 using System.Threading;
 using System.Threading.Tasks;
 
