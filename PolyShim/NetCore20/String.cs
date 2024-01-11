@@ -95,14 +95,14 @@ internal static partial class PolyfillExtensions
         char separator,
         int count,
         StringSplitOptions options = StringSplitOptions.None
-    ) => str.Split(new[] { separator }, count, options);
+    ) => str.Split([separator], count, options);
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-char-system-stringsplitoptions)
     public static string[] Split(
         this string str,
         char separator,
         StringSplitOptions options = StringSplitOptions.None
-    ) => str.Split(new[] { separator }, options);
+    ) => str.Split([separator], options);
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-string-system-int32-system-stringsplitoptions)
     public static string[] Split(
@@ -110,13 +110,13 @@ internal static partial class PolyfillExtensions
         string? separator,
         int count,
         StringSplitOptions options = StringSplitOptions.None
-    ) => str.Split(new[] { separator ?? "" }, count, options);
+    ) => str.Split([separator ?? ""], count, options);
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-string-system-stringsplitoptions)
     public static string[] Split(
         this string str,
         string? separator,
         StringSplitOptions options = StringSplitOptions.None
-    ) => str.Split(new[] { separator ?? "" }, options);
+    ) => str.Split([separator ?? ""], options);
 }
 #endif

@@ -10,22 +10,10 @@ namespace System.Diagnostics.CodeAnalysis;
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.membernotnullwhenattribute
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, Inherited = false)]
 [ExcludeFromCodeCoverage]
-internal class MemberNotNullWhenAttribute : Attribute
+internal class MemberNotNullWhenAttribute(bool returnValue, params string[] members) : Attribute
 {
-    public bool ReturnValue { get; }
+    public bool ReturnValue { get; } = returnValue;
 
-    public string[] Members { get; }
-
-    public MemberNotNullWhenAttribute(bool returnValue, string member)
-    {
-        ReturnValue = returnValue;
-        Members = new[] { member };
-    }
-
-    public MemberNotNullWhenAttribute(bool returnValue, params string[] members)
-    {
-        ReturnValue = returnValue;
-        Members = members;
-    }
+    public string[] Members { get; } = members;
 }
 #endif

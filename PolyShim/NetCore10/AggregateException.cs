@@ -30,7 +30,7 @@ internal class AggregateException : Exception
         : this(message, innerExceptions.ToArray()) { }
 
     public AggregateException(string? message, Exception innerException)
-        : this(message, new[] { innerException }) { }
+        : this(message, [innerException]) { }
 
     public AggregateException(params Exception[] innerExceptions)
         : this("One or more errors occurred.", innerExceptions) { }

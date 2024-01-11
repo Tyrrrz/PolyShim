@@ -10,12 +10,8 @@ namespace System.Diagnostics.CodeAnalysis;
 // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.membernotnullattribute
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, Inherited = false)]
 [ExcludeFromCodeCoverage]
-internal class MemberNotNullAttribute : Attribute
+internal class MemberNotNullAttribute(params string[] members) : Attribute
 {
-    public string[] Members { get; }
-
-    public MemberNotNullAttribute(string member) => Members = new[] { member };
-
-    public MemberNotNullAttribute(params string[] members) => Members = members;
+    public string[] Members { get; } = members;
 }
 #endif

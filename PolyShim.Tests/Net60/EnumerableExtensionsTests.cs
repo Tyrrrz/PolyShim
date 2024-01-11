@@ -285,8 +285,13 @@ public class EnumerableExtensionsTests
         source
             .Chunk(3)
             .Should()
-            .BeEquivalentTo(
-                new[] { new[] { 1, 2, 3 }, new[] { 4, 5, 6 }, new[] { 7, 8, 9 }, new[] { 10 } }
+            .BeEquivalentTo<int[]>(
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                    [10]
+                ]
             );
     }
 }

@@ -21,13 +21,9 @@ namespace System.Diagnostics.CodeAnalysis;
     Inherited = false
 )]
 [ExcludeFromCodeCoverage]
-internal class DynamicallyAccessedMembersAttribute : Attribute
+internal class DynamicallyAccessedMembersAttribute(DynamicallyAccessedMemberTypes memberTypes)
+    : Attribute
 {
-    public DynamicallyAccessedMemberTypes MemberTypes { get; }
-
-    public DynamicallyAccessedMembersAttribute(DynamicallyAccessedMemberTypes memberTypes)
-    {
-        MemberTypes = memberTypes;
-    }
+    public DynamicallyAccessedMemberTypes MemberTypes { get; } = memberTypes;
 }
 #endif

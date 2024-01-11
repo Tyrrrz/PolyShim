@@ -13,6 +13,6 @@ public class RuntimeHelpersTests
 
         // Act & assert
         // Implicitly calls GetSubArray(...)
-        array[2..^1].Should().BeEquivalentTo(new[] { 3, 4 });
+        array[2..^1].Should().BeEquivalentTo([3, 4]);
     }
 }
