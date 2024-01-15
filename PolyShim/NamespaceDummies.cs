@@ -9,20 +9,20 @@
 
 namespace System.IO
 {
-    internal static partial class PolyfillExtensions { }
+    internal static partial class PolyfillExtensions;
 }
 
 namespace System.Management
 {
-    internal static partial class PolyfillExtensions { }
+    internal static partial class PolyfillExtensions;
 }
 
 namespace System.Net.Http
 {
-    internal static partial class PolyfillExtensions { }
+    internal static partial class PolyfillExtensions;
 }
 
 namespace System.Threading.Tasks
 {
-    internal static partial class PolyfillExtensions { }
+    internal static partial class PolyfillExtensions;
 }
