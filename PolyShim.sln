@@ -4,7 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolyShim", "PolyShim\PolySh
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{2E401512-C98F-487D-8F62-02973D1B4918}"
 	ProjectSection(SolutionItems) = preProject
-		Changelog.md = Changelog.md
 		Directory.Build.props = Directory.Build.props
 		Readme.md = Readme.md
 		License.txt = License.txt
