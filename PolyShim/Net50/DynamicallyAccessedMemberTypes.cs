@@ -26,6 +26,6 @@ internal enum DynamicallyAccessedMemberTypes
     NonPublicProperties = 1024,
     PublicEvents = 2048,
     NonPublicEvents = 4096,
-    Interfaces = 8192,
+    Interfaces = 8192
 }
 #endif
