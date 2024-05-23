@@ -14,6 +14,7 @@ namespace System.Diagnostics.CodeAnalysis;
         | AttributeTargets.Property,
     Inherited = false
 )]
+[ExcludeFromCodeCoverage]
 internal class RequiresAssemblyFilesAttribute(string? message) : Attribute
 {
     public RequiresAssemblyFilesAttribute()
