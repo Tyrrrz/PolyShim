@@ -27,8 +27,15 @@ namespace System.Runtime.Versioning;
 )]
 [ExcludeFromCodeCoverage]
 internal class ObsoletedOSPlatformAttribute(string platformName, string? message = null)
-    : OSPlatformAttribute(platformName)
+// OSPlatformAttribute's constructor is not accessible where that type is natively defined
+#if !(NETCOREAPP && NET5_0_OR_GREATER)
+    : OSPlatformAttribute(platformName);
+#endif
 {
+    #if (NETCOREAPP && NET5_0_OR_GREATER)
+    public string PlatformName { get; } = platformName;
+    #endif
+
     public string? Message { get; } = message;
 
     public string? Url { get; init; }

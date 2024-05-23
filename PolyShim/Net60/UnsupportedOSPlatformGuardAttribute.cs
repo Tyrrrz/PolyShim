@@ -17,5 +17,12 @@ namespace System.Runtime.Versioning;
 )]
 [ExcludeFromCodeCoverage]
 internal class UnsupportedOSPlatformGuardAttribute(string platformName)
+// OSPlatformAttribute's constructor is not accessible where that type is natively defined
+#if !(NETCOREAPP && NET5_0_OR_GREATER)
     : OSPlatformAttribute(platformName);
+#else
+{
+    public string PlatformName { get; } = platformName;
+}
+#endif
 #endif
