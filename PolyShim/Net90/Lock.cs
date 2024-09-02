@@ -20,7 +20,8 @@ internal partial class Lock
 
     public bool TryEnter(TimeSpan timeout) => Monitor.TryEnter(this, timeout);
 
-    public bool TryEnter(int millisecondsTimeout) => TryEnter(TimeSpan.FromMilliseconds(millisecondsTimeout));
+    public bool TryEnter(int millisecondsTimeout) =>
+        TryEnter(TimeSpan.FromMilliseconds(millisecondsTimeout));
 
     public void Exit() => Monitor.Exit(this);
 
