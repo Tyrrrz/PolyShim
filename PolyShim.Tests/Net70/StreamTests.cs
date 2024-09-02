@@ -13,7 +13,7 @@ public class StreamTests
     public void ReadAtLeast_Array_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[3];
 
         // Act
@@ -28,7 +28,7 @@ public class StreamTests
     public void ReadAtLeast_Array_Overflow_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[10];
 
         // Act & assert
@@ -39,7 +39,7 @@ public class StreamTests
     public void ReadAtLeast_Array_SilentOverflow_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[10];
 
         // Act
@@ -54,7 +54,7 @@ public class StreamTests
     public void ReadExactly_Array_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[3];
 
         // Act
@@ -68,7 +68,7 @@ public class StreamTests
     public void ReadExactly_Array_OffsetAndCount_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[3];
 
         // Act
@@ -82,7 +82,7 @@ public class StreamTests
     public async Task ReadAtLeastAsync_Array_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[3];
 
         // Act
@@ -97,7 +97,7 @@ public class StreamTests
     public async Task ReadAtLeastAsync_Array_Overflow_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[10];
 
         // Act & assert
@@ -110,7 +110,7 @@ public class StreamTests
     public async Task ReadAtLeastAsync_Array_SilentOverflow_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[10];
 
         // Act
@@ -125,7 +125,7 @@ public class StreamTests
     public async Task ReadExactlyAsync_Array_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[3];
 
         // Act
@@ -139,7 +139,7 @@ public class StreamTests
     public async Task ReadExactlyAsync_Array_OffsetAndCount_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[3];
 
         // Act
@@ -153,7 +153,7 @@ public class StreamTests
     public void ReadAtLeast_Span_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = ArrayPool<byte>.Shared.Rent(3);
 
         try
@@ -175,7 +175,7 @@ public class StreamTests
     public void ReadAtLeast_Span_Overflow_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = ArrayPool<byte>.Shared.Rent(10);
 
         // Act & assert
@@ -193,7 +193,7 @@ public class StreamTests
     public void ReadAtLeast_Span_SilentOverflow_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = ArrayPool<byte>.Shared.Rent(10);
 
         try
@@ -215,7 +215,7 @@ public class StreamTests
     public void ReadExactly_Span_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = ArrayPool<byte>.Shared.Rent(3);
 
         try
@@ -236,7 +236,7 @@ public class StreamTests
     public async Task ReadAtLeastAsync_Memory_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         using var buffer = MemoryPool<byte>.Shared.Rent(3);
 
         // Act
@@ -251,7 +251,7 @@ public class StreamTests
     public async Task ReadAtLeastAsync_Memory_Overflow_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         using var buffer = MemoryPool<byte>.Shared.Rent(10);
 
         // Act & assert
@@ -264,7 +264,7 @@ public class StreamTests
     public async Task ReadAtLeastAsync_Memory_SilentOverflow_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         using var buffer = MemoryPool<byte>.Shared.Rent(10);
 
         // Act
@@ -279,7 +279,7 @@ public class StreamTests
     public async Task ReadExactlyAsync_Memory_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         using var buffer = MemoryPool<byte>.Shared.Rent(3);
 
         // Act

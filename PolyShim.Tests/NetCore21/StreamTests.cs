@@ -13,7 +13,7 @@ public class StreamTests
     public void Read_Array_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[5];
 
         // Act
@@ -42,7 +42,7 @@ public class StreamTests
     public async Task CopyToAsync_Test()
     {
         // Arrange
-        using var source = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var source = new MemoryStream([1, 2, 3, 4, 5]);
         using var destination = new MemoryStream();
 
         // Act
@@ -56,7 +56,7 @@ public class StreamTests
     public async Task ReadAsync_Array_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = new byte[stream.Length];
 
         // Act
@@ -85,7 +85,7 @@ public class StreamTests
     public void Read_Span_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         var buffer = ArrayPool<byte>.Shared.Rent((int)stream.Length);
 
         try
@@ -134,7 +134,7 @@ public class StreamTests
     public async Task ReadAsync_Memory_Test()
     {
         // Arrange
-        using var stream = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
         using var buffer = MemoryPool<byte>.Shared.Rent((int)stream.Length);
 
         // Act

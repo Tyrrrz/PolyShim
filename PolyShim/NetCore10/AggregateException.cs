@@ -39,10 +39,10 @@ internal class AggregateException : Exception
         : this("One or more errors occurred.", innerExceptions) { }
 
     public AggregateException(string? message)
-        : this(message, new Exception[0]) { }
+        : this(message, []) { }
 
     public AggregateException()
-        : this("One or more errors occurred.", new Exception[0]) { }
+        : this("One or more errors occurred.", []) { }
 
     public AggregateException(SerializationInfo info, StreamingContext context)
         : base(info, context) { }

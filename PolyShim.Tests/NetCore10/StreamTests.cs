@@ -10,7 +10,7 @@ public class StreamTests
     public void CopyTo_Test()
     {
         // Arrange
-        using var source = new MemoryStream(new byte[] { 1, 2, 3, 4, 5 });
+        using var source = new MemoryStream([1, 2, 3, 4, 5]);
         using var destination = new MemoryStream();
 
         // Act

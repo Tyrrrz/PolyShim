@@ -23,7 +23,7 @@ internal partial class StringSyntaxAttribute : Attribute
     }
 
     public StringSyntaxAttribute(string syntax)
-        : this(syntax, new object[0]) { }
+        : this(syntax, []) { }
 }
 
 internal partial class StringSyntaxAttribute
