@@ -1,9 +1,9 @@
-﻿#nullable enable
-// ReSharper disable RedundantUsingDirective
+﻿// ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-namespace System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
+[ExcludeFromCodeCoverage]
 internal static partial class PolyfillExtensions;
