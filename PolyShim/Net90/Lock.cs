@@ -8,6 +8,7 @@
 
 namespace System.Threading;
 
+// https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock
 internal partial class Lock
 {
 #if (NETCOREAPP) || (NETFRAMEWORK && NET45_OR_GREATER) || (NETSTANDARD)
