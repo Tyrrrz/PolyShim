@@ -11,6 +11,12 @@ namespace System.Linq;
 
 internal static partial class PolyfillExtensions
 {
+    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.index
+    public static IEnumerable<(int index, T value)> Index<T>(
+        this IEnumerable<T> source
+    ) =>
+        source.Select((value, index) => (index, value));
+
     // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.countby
     public static IEnumerable<KeyValuePair<TKey, int>> CountBy<TSource, TKey>(
         this IEnumerable<TSource> source,
