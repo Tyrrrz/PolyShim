@@ -8,6 +8,19 @@ namespace PolyShim.Tests.Net90;
 public class EnumerableExtensionsTests
 {
     [Fact]
+    public void Index_Test()
+    {
+        // Arrange
+        var source = new[] { 42, 13, 69, 17 };
+
+        // Act
+        var result = source.Index();
+
+        // Assert
+        result.Should().Equal((0, 42), (1, 13), (2, 69), (3, 17));
+    }
+
+    [Fact]
     public void CountBy_Test()
     {
         // Arrange
