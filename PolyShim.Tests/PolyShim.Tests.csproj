@@ -5,7 +5,7 @@
   <Import Project="../PolyShim/PolyShim.targets" />
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net80</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net8.0</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOsPlatform('Windows'))">$(TargetFrameworks);net462</TargetFrameworks>
   </PropertyGroup>
 
