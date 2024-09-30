@@ -18,8 +18,6 @@ namespace System;
 [ExcludeFromCodeCoverage]
 internal class AggregateException : Exception
 {
-    public ReadOnlyCollection<Exception> InnerExceptions { get; } = new(new Exception[0]);
-
     public AggregateException(string? message, params Exception[] innerExceptions)
         : base(message, innerExceptions.FirstOrDefault())
     {
@@ -46,6 +44,8 @@ internal class AggregateException : Exception
 
     public AggregateException(SerializationInfo info, StreamingContext context)
         : base(info, context) { }
+
+    public ReadOnlyCollection<Exception> InnerExceptions { get; } = new(new Exception[0]);
 
     public AggregateException Flatten()
     {
