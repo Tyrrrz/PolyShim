@@ -18,7 +18,7 @@ internal static partial class PolyfillExtensions
     public static async Task WaitForExitAsync(this Process process, CancellationToken cancellationToken = default)
     {
         var tcs = new TaskCompletionSource<object?>(
-#if !(NETFRAMEWORK && !NET46_OR_GREATER)
+#if !NETFRAMEWORK || NET46_OR_GREATER
             TaskCreationOptions.RunContinuationsAsynchronously
 #endif
         );
