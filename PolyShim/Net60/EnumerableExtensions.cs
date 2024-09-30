@@ -17,7 +17,7 @@ internal static partial class PolyfillExtensions
         if (index.IsFromEnd)
         {
             var asCollection =
-#if !NET45_OR_GREATER
+#if NETFRAMEWORK && !NET45_OR_GREATER
                 source as ICollection<T> ??
 #else
                 source as IReadOnlyCollection<T> ??
@@ -38,7 +38,7 @@ internal static partial class PolyfillExtensions
         if (index.IsFromEnd)
         {
             var asCollection =
-#if !NET45_OR_GREATER
+#if NETFRAMEWORK && !NET45_OR_GREATER
                 source as ICollection<T> ??
 #else
                 source as IReadOnlyCollection<T> ??
@@ -154,7 +154,7 @@ internal static partial class PolyfillExtensions
     public static IEnumerable<T> Take<T>(this IEnumerable<T> source, Range range)
     {
         var asCollection =
-#if !NET45_OR_GREATER
+#if NETFRAMEWORK && !NET45_OR_GREATER
             source as ICollection<T> ??
 #else
             source as IReadOnlyCollection<T> ??
