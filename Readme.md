@@ -45,6 +45,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - Required properties
   - Named tuples
   - Module initializers
+  - Overload priority
   - & more...
 - Provides type polyfills for:
   - `ValueTuple<...>`
