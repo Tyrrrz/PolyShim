@@ -132,6 +132,7 @@ Currently, **PolyShim** has integration with the following packages:
 - [`Microsoft.Bcl.Async`](https://nuget.org/packages/Microsoft.Bcl.Async) — `Task`, `Task<T>`, etc (wider support than the `System.*` variant).
 - [`Microsoft.Bcl.AsyncInterfaces`](https://nuget.org/packages/Microsoft.Bcl.AsyncInterfaces) — `IAsyncEnumerable<T>`, `IAsyncDisposable`, etc.
 - [`Microsoft.Bcl.HashCode`](https://nuget.org/packages/Microsoft.Bcl.HashCode) — `HashCode`, etc.
+- [`Microsoft.Bcl.Memory`](https://nuget.org/packages/Microsoft.Bcl.Memory) — `Index`, `Range`, etc.
 - [`Microsoft.Net.Http`](https://nuget.org/packages/Microsoft.Net.Http) — `HttpClient`, `HttpContent`, etc (wider support than the `System.*` variant).
 
 For example, adding a reference to the `System.Memory` package will enable **PolyShim**'s polyfills that offer `Span<T>` and `Memory<T>`-based method overloads on various built-in types, such as `Stream`:
