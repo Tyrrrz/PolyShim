@@ -39,6 +39,13 @@
       <FeatureHttpClient Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.0'))">true</FeatureHttpClient>
       <DefineConstants Condition="$(FeatureHttpClient)">$(DefineConstants);FEATURE_HTTPCLIENT</DefineConstants>
 
+      <FeatureIndexRange>false</FeatureIndexRange>
+      <FeatureIndexRange Condition="@(Reference->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Memory'))">true</FeatureIndexRange>
+      <FeatureIndexRange Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Memory'))">true</FeatureIndexRange>
+      <FeatureIndexRange Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))">true</FeatureIndexRange>
+      <FeatureIndexRange Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '3.0'))">true</FeatureIndexRange>
+      <DefineConstants Condition="$(FeatureIndexRange)">$(DefineConstants);FEATURE_INDEXRANGE</DefineConstants>
+
       <FeatureManagement>false</FeatureManagement>
       <FeatureManagement Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.Management'))">true</FeatureManagement>
       <FeatureManagement Condition="@(PackageDependencies->AnyHaveMetadataValue('Identity', 'System.Management'))">true</FeatureManagement>
