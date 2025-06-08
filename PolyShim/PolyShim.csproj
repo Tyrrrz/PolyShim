@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <!-- Include polyfill props and targets -->
   <Import Project="PolyShim.props" />
   <Import Project="PolyShim.targets" />
-
   <PropertyGroup>
     <!-- Target frameworks here are only used to verify source compatibility with different API levels -->
     <TargetFrameworks>
@@ -15,7 +13,6 @@
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
-
   <PropertyGroup>
     <Authors>$(Company)</Authors>
     <Description>Collection of polyfills that enable modern BCL features for projects targeting older versions of .NET.</Description>
@@ -27,42 +24,132 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
-
   <ItemGroup>
     <Content Include="PolyShim.props" Pack="true" PackagePath="build" />
     <Content Include="PolyShim.targets" Pack="true" PackagePath="build" />
-    <Content Include="**/*.cs" Pack="true" PackagePath="contentFiles/cs/any/PolyShim" Visible="false" BuildAction="compile" />
-    <Content Include="**/*.cs" Pack="true" PackagePath="content/PolyShim" Visible="false" BuildAction="compile" />
+    <Content
+      Include="**/*.cs"
+      Pack="true"
+      PackagePath="contentFiles/cs/any/PolyShim"
+      Visible="false"
+      BuildAction="compile"
+    />
+    <Content
+      Include="**/*.cs"
+      Pack="true"
+      PackagePath="content/PolyShim"
+      Visible="false"
+      BuildAction="compile"
+    />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="CSharpier.MsBuild" Version="0.26.7" PrivateAssets="all" />
+    <PackageReference Include="CSharpier.MsBuild" Version="1.0.2" PrivateAssets="all" />
   </ItemGroup>
-
   <!-- Import official compatibilty packages for metadata references -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '3.0'))" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))" />
-    <PackageReference Include="System.Management" Version="8.0.0" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))" />
-    <PackageReference Include="System.Management" Version="8.0.0" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '5.0'))" />
-    <PackageReference Include="System.Memory" Version="4.5.5" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.1')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.1'))" />
-    <PackageReference Include="System.Memory" Version="4.5.5" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.1'))" />
-    <PackageReference Include="System.Memory" Version="4.5.5" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.0'))" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.0'))" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))" />
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.0'))" />
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))" />
-    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.0'))" />
-    <PackageReference Include="Microsoft.Bcl.Memory" Version="9.0.1" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.6.2'))" />
-    <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" PrivateAssets="all" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.0'))" />
+    <PackageReference
+      Include="Microsoft.Bcl.AsyncInterfaces"
+      Version="7.0.0"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))"
+    />
+    <PackageReference
+      Include="Microsoft.Bcl.AsyncInterfaces"
+      Version="7.0.0"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '3.0'))"
+    />
+    <PackageReference
+      Include="Microsoft.Bcl.AsyncInterfaces"
+      Version="7.0.0"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))"
+    />
+    <PackageReference
+      Include="System.Management"
+      Version="8.0.0"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))"
+    />
+    <PackageReference
+      Include="System.Management"
+      Version="8.0.0"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '5.0'))"
+    />
+    <PackageReference
+      Include="System.Memory"
+      Version="4.5.5"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.1')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.1'))"
+    />
+    <PackageReference
+      Include="System.Memory"
+      Version="4.5.5"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.1'))"
+    />
+    <PackageReference
+      Include="System.Memory"
+      Version="4.5.5"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))"
+    />
+    <PackageReference
+      Include="System.ValueTuple"
+      Version="4.5.0"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.0'))"
+    />
+    <PackageReference
+      Include="System.ValueTuple"
+      Version="4.5.0"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.0'))"
+    />
+    <PackageReference
+      Include="System.ValueTuple"
+      Version="4.5.0"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))"
+    />
+    <PackageReference
+      Include="System.Threading.Tasks.Extensions"
+      Version="4.5.4"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.0'))"
+    />
+    <PackageReference
+      Include="System.Threading.Tasks.Extensions"
+      Version="4.5.4"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))"
+    />
+    <PackageReference
+      Include="Microsoft.Bcl.Async"
+      Version="1.0.168"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.0'))"
+    />
+    <PackageReference
+      Include="Microsoft.Bcl.Memory"
+      Version="9.0.1"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.6.2'))"
+    />
+    <PackageReference
+      Include="Microsoft.Net.Http"
+      Version="2.2.29"
+      PrivateAssets="all"
+      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.0'))"
+    />
   </ItemGroup>
-
   <!-- Import common .NET Framework libraries for metadata references -->
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
     <Reference Include="System.Management" />
-    <Reference Include="System.Net.Http" Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.5'))" />
+    <Reference
+      Include="System.Net.Http"
+      Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.5'))"
+    />
   </ItemGroup>
-
 </Project>

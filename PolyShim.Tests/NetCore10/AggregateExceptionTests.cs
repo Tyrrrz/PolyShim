@@ -57,8 +57,8 @@ public class AggregateExceptionTests
         );
 
         // Act
-        var result = Assert.Throws<AggregateException>(
-            void () => exception.Handle(ex => ex.Message == "Exception 2")
+        var result = Assert.Throws<AggregateException>(void () =>
+            exception.Handle(ex => ex.Message == "Exception 2")
         );
 
         // Assert

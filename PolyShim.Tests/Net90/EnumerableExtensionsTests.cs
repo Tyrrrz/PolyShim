@@ -38,7 +38,7 @@ public class EnumerableExtensionsTests
                     [42] = 3,
                     [13] = 2,
                     [69] = 3,
-                    [17] = 2
+                    [17] = 2,
                 }
             );
     }
@@ -61,7 +61,7 @@ public class EnumerableExtensionsTests
                     [42] = 126,
                     [13] = 26,
                     [69] = 207,
-                    [17] = 34
+                    [17] = 34,
                 }
             );
     }

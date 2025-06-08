@@ -21,8 +21,8 @@ public class ProcessTests
                     ? "/c timeout 1"
                     : "-c 'sleep 1'",
                 CreateNoWindow = true,
-                UseShellExecute = false
-            }
+                UseShellExecute = false,
+            },
         };
 
         process.Start();

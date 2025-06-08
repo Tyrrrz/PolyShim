@@ -14,7 +14,7 @@ public class CollectionExtensionsTests
         {
             ["a"] = "A",
             ["b"] = "B",
-            ["c"] = "C"
+            ["c"] = "C",
         };
 
         // Act & assert

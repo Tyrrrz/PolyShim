@@ -127,7 +127,7 @@ public class EnumerableExtensionsTests
             new KeyValuePair<string, int>("Foo", 42),
             new KeyValuePair<string, int>("Bar", 13),
             new KeyValuePair<string, int>("Baz", 69),
-            new KeyValuePair<string, int>("Qux", 17)
+            new KeyValuePair<string, int>("Qux", 17),
         };
 
         // Act
@@ -157,7 +157,7 @@ public class EnumerableExtensionsTests
             new KeyValuePair<string, int>("Foo", 42),
             new KeyValuePair<string, int>("Bar", 13),
             new KeyValuePair<string, int>("Baz", 69),
-            new KeyValuePair<string, int>("Qux", 17)
+            new KeyValuePair<string, int>("Qux", 17),
         };
 
         // Act
@@ -181,7 +181,7 @@ public class EnumerableExtensionsTests
             new KeyValuePair<string, int>("Bar", 15),
             new KeyValuePair<string, int>("Baz", 69),
             new KeyValuePair<string, int>("Qux", 11),
-            new KeyValuePair<string, int>("Baz", 54)
+            new KeyValuePair<string, int>("Baz", 54),
         };
 
         // Act & assert
@@ -205,7 +205,7 @@ public class EnumerableExtensionsTests
             new KeyValuePair<string, int>("Foo", 42),
             new KeyValuePair<string, int>("Bar", 13),
             new KeyValuePair<string, int>("Baz", 69),
-            new KeyValuePair<string, int>("Qux", 17)
+            new KeyValuePair<string, int>("Qux", 17),
         };
 
         var other = new[] { "Bar", "Qux" };
@@ -229,7 +229,7 @@ public class EnumerableExtensionsTests
             new KeyValuePair<string, int>("Foo", 42),
             new KeyValuePair<string, int>("Bar", 13),
             new KeyValuePair<string, int>("Baz", 69),
-            new KeyValuePair<string, int>("Qux", 17)
+            new KeyValuePair<string, int>("Qux", 17),
         };
 
         var other = new[] { "Bar", "Qux" };
@@ -253,14 +253,14 @@ public class EnumerableExtensionsTests
             new KeyValuePair<string, int>("Foo", 42),
             new KeyValuePair<string, int>("Bar", 13),
             new KeyValuePair<string, int>("Baz", 69),
-            new KeyValuePair<string, int>("Qux", 17)
+            new KeyValuePair<string, int>("Qux", 17),
         };
 
         var other = new[]
         {
             new KeyValuePair<string, int>("Bar", 15),
             new KeyValuePair<string, int>("Qux", 11),
-            new KeyValuePair<string, int>("Baz", 54)
+            new KeyValuePair<string, int>("Baz", 54),
         };
 
         // Act & assert
@@ -290,7 +290,7 @@ public class EnumerableExtensionsTests
                     [1, 2, 3],
                     [4, 5, 6],
                     [7, 8, 9],
-                    [10]
+                    [10],
                 ]
             );
     }

@@ -26,8 +26,8 @@ public class TaskTests
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await task.WaitAsync(cts.Token)
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+            await task.WaitAsync(cts.Token)
         );
 
         ex.CancellationToken.Should().Be(cts.Token);
@@ -50,8 +50,8 @@ public class TaskTests
         var task = Task.Delay(Timeout.InfiniteTimeSpan);
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<TimeoutException>(
-            async () => await task.WaitAsync(TimeSpan.FromSeconds(0.1))
+        await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1))
         );
     }
 
@@ -73,8 +73,8 @@ public class TaskTests
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token)
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+            await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token)
         );
 
         ex.CancellationToken.Should().Be(cts.Token);
@@ -87,8 +87,8 @@ public class TaskTests
         var task = Task.Delay(Timeout.InfiniteTimeSpan);
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<TimeoutException>(
-            async () => await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None)
+        await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None)
         );
     }
 
@@ -122,8 +122,8 @@ public class TaskTests
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await task.WaitAsync(cts.Token)
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+            await task.WaitAsync(cts.Token)
         );
 
         ex.CancellationToken.Should().Be(cts.Token);
@@ -157,8 +157,8 @@ public class TaskTests
         });
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<TimeoutException>(
-            async () => await task.WaitAsync(TimeSpan.FromSeconds(0.1))
+        await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1))
         );
     }
 
@@ -192,8 +192,8 @@ public class TaskTests
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token)
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+            await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token)
         );
 
         ex.CancellationToken.Should().Be(cts.Token);
@@ -210,8 +210,8 @@ public class TaskTests
         });
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<TimeoutException>(
-            async () => await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None)
+        await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None)
         );
     }
 }

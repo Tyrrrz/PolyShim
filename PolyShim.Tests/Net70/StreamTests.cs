@@ -101,8 +101,8 @@ public class StreamTests
         var buffer = new byte[10];
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<EndOfStreamException>(
-            async () => await stream.ReadAtLeastAsync(buffer, 10)
+        await Assert.ThrowsAnyAsync<EndOfStreamException>(async () =>
+            await stream.ReadAtLeastAsync(buffer, 10)
         );
     }
 
@@ -255,8 +255,8 @@ public class StreamTests
         using var buffer = MemoryPool<byte>.Shared.Rent(10);
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<EndOfStreamException>(
-            async () => await stream.ReadAtLeastAsync(buffer.Memory, 10)
+        await Assert.ThrowsAnyAsync<EndOfStreamException>(async () =>
+            await stream.ReadAtLeastAsync(buffer.Memory, 10)
         );
     }
 
