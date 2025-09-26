@@ -83,7 +83,7 @@ For example, with **PolyShim** you can use the `Index` and `Range` structs (adde
 ```csharp
 using System;
 
-// On older framworks, these are provided by PolyShim
+// On older frameworks, these are provided by PolyShim
 var index = new Index(1, fromEnd: true);
 var range = new Range(
     new Index(3),
@@ -96,7 +96,7 @@ You can also use compiler features that rely on these types, such as the advance
 ```csharp
 var array = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-// On older framworks, these are provided by PolyShim
+// On older frameworks, these are provided by PolyShim
 var last = array[^1];
 var part = array[3..^1];
 ```
@@ -111,7 +111,7 @@ For example, with **PolyShim** you can use the `String.Contains(char)` method (a
 ```csharp
 var str = "Hello world";
 
-// On older framworks, this is provided by PolyShim
+// On older frameworks, this is provided by PolyShim
 var contains = str.Contains('w');
 ```
 
