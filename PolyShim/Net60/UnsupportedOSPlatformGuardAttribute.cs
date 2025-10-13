@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.Versioning;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.unsupportedosplatformguardattribute
+// https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformguardattribute
 [AttributeUsage(
     AttributeTargets.Field | AttributeTargets.Method | AttributeTargets.Property,
     AllowMultiple = true,

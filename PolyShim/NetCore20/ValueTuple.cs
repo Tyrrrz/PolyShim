@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple
+// https://learn.microsoft.com/dotnet/api/system.valuetuple
 [ExcludeFromCodeCoverage]
 internal readonly struct ValueTuple : IEquatable<ValueTuple>, IComparable<ValueTuple>, IComparable
 {
@@ -100,7 +100,7 @@ internal readonly struct ValueTuple : IEquatable<ValueTuple>, IComparable<ValueT
     ) => new(item1, item2, item3, item4, item5, item6, item7, item8);
 }
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-1
+// https://learn.microsoft.com/dotnet/api/system.valuetuple-1
 [ExcludeFromCodeCoverage]
 internal readonly struct ValueTuple<T1>(T1 item1)
     : IEquatable<ValueTuple<T1>>,
@@ -146,7 +146,7 @@ internal readonly struct ValueTuple<T1>(T1 item1)
         left.CompareTo(right) >= 0;
 }
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-2
+// https://learn.microsoft.com/dotnet/api/system.valuetuple-2
 [ExcludeFromCodeCoverage]
 internal readonly struct ValueTuple<T1, T2>(T1 item1, T2 item2)
     : IEquatable<ValueTuple<T1, T2>>,
@@ -198,7 +198,7 @@ internal readonly struct ValueTuple<T1, T2>(T1 item1, T2 item2)
         left.CompareTo(right) >= 0;
 }
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-3
+// https://learn.microsoft.com/dotnet/api/system.valuetuple-3
 [ExcludeFromCodeCoverage]
 internal readonly struct ValueTuple<T1, T2, T3>(T1 item1, T2 item2, T3 item3)
     : IEquatable<ValueTuple<T1, T2, T3>>,
@@ -255,7 +255,7 @@ internal readonly struct ValueTuple<T1, T2, T3>(T1 item1, T2 item2, T3 item3)
         left.CompareTo(right) >= 0;
 }
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-4
+// https://learn.microsoft.com/dotnet/api/system.valuetuple-4
 [ExcludeFromCodeCoverage]
 internal readonly struct ValueTuple<T1, T2, T3, T4>(T1 item1, T2 item2, T3 item3, T4 item4)
     : IEquatable<ValueTuple<T1, T2, T3, T4>>,
@@ -328,7 +328,7 @@ internal readonly struct ValueTuple<T1, T2, T3, T4>(T1 item1, T2 item2, T3 item3
     ) => left.CompareTo(right) >= 0;
 }
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-5
+// https://learn.microsoft.com/dotnet/api/system.valuetuple-5
 [ExcludeFromCodeCoverage]
 internal readonly struct ValueTuple<T1, T2, T3, T4, T5>(
     T1 item1,
@@ -414,7 +414,7 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5>(
     ) => left.CompareTo(right) >= 0;
 }
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-6
+// https://learn.microsoft.com/dotnet/api/system.valuetuple-6
 [ExcludeFromCodeCoverage]
 internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6>(
     T1 item1,
@@ -505,7 +505,7 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6>(
     ) => left.CompareTo(right) >= 0;
 }
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-7
+// https://learn.microsoft.com/dotnet/api/system.valuetuple-7
 [ExcludeFromCodeCoverage]
 internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7>(
     T1 item1,
@@ -603,7 +603,7 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7>(
     ) => left.CompareTo(right) >= 0;
 }
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.valuetuple-8
+// https://learn.microsoft.com/dotnet/api/system.valuetuple-8
 [ExcludeFromCodeCoverage]
 internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>(
     T1 item1,

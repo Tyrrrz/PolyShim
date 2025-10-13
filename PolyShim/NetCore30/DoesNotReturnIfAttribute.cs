@@ -10,7 +10,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.doesnotreturnifattribute
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.doesnotreturnifattribute
 [AttributeUsage(AttributeTargets.Parameter)]
 [ExcludeFromCodeCoverage]
 internal class DoesNotReturnIfAttribute(bool parameterValue) : Attribute

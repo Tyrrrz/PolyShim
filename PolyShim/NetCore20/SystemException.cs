@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.systemexception
+// https://learn.microsoft.com/dotnet/api/system.systemexception
 [ExcludeFromCodeCoverage]
 internal class SystemException(string? message = null, Exception? innerException = null)
     : Exception(message, innerException);

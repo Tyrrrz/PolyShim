@@ -14,11 +14,11 @@ namespace System.Linq;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.index
+    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.index
     public static IEnumerable<(int index, T value)> Index<T>(this IEnumerable<T> source) =>
         source.Select((value, index) => (index, value));
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.countby
+    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.countby
     public static IEnumerable<KeyValuePair<TKey, int>> CountBy<TSource, TKey>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
@@ -37,7 +37,7 @@ internal static partial class PolyfillExtensions
         return counts;
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregateby#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-func((-1-2))-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
+    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.aggregateby#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-func((-1-2))-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
     public static IEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<
         TSource,
         TKey,
@@ -66,7 +66,7 @@ internal static partial class PolyfillExtensions
         return aggregates;
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregateby#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-2-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
+    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.aggregateby#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-2-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
     public static IEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<
         TSource,
         TKey,

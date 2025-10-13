@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.skiplocalsinitattribute
+// https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.skiplocalsinitattribute
 [AttributeUsage(
     AttributeTargets.Module
         | AttributeTargets.Class

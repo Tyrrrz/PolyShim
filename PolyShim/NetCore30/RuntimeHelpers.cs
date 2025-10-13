@@ -16,7 +16,7 @@ namespace System.Runtime.CompilerServices;
 internal static class RuntimeHelpers
 {
     // Enables range-based slice on arrays
-    // https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.runtimehelpers.getsubarray
+    // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.runtimehelpers.getsubarray
     public static T[] GetSubArray<T>(T[] array, Range range)
     {
         var start = range.Start.GetOffset(array.Length);

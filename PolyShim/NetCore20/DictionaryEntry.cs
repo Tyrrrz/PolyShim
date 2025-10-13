@@ -13,7 +13,7 @@ using System.Collections;
 internal static partial class PolyfillExtensions
 {
     // Used to implement tuple deconstruction, but tuple support is technically not required
-    // https://learn.microsoft.com/en-us/dotnet/api/system.collections.dictionaryentry.deconstruct
+    // https://learn.microsoft.com/dotnet/api/system.collections.dictionaryentry.deconstruct
     public static void Deconstruct(this DictionaryEntry entry, out object key, out object? value)
     {
         key = entry.Key;

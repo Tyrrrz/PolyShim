@@ -13,11 +13,11 @@ using System.Reflection;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignablefrom
+    // https://learn.microsoft.com/dotnet/api/system.type.isassignablefrom
     public static bool IsAssignableFrom(this Type type, Type otherType) =>
         type.GetTypeInfo().IsAssignableFrom(otherType.GetTypeInfo());
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.type.issubclassof
+    // https://learn.microsoft.com/dotnet/api/system.type.issubclassof
     public static bool IsSubclassOf(this Type type, Type otherType)
     {
         var currentType = type;

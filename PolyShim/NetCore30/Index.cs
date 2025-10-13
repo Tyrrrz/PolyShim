@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.index
+// https://learn.microsoft.com/dotnet/api/system.index
 [ExcludeFromCodeCoverage]
 internal readonly struct Index(int value) : IEquatable<Index>
 {

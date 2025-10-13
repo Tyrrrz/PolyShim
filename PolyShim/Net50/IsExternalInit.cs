@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.isexternalinit
+// https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.isexternalinit
 [ExcludeFromCodeCoverage]
 internal static class IsExternalInit;
 #endif

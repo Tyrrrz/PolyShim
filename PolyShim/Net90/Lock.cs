@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Threading;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock
+// https://learn.microsoft.com/dotnet/api/system.threading.lock
 [ExcludeFromCodeCoverage]
 internal partial class Lock
 {

@@ -10,7 +10,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.membernotnullattribute
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.membernotnullattribute
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, Inherited = false)]
 [ExcludeFromCodeCoverage]
 internal class MemberNotNullAttribute(params string[] members) : Attribute

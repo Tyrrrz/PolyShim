@@ -10,7 +10,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.notnullwhenattribute
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.notnullwhenattribute
 [AttributeUsage(AttributeTargets.Parameter)]
 [ExcludeFromCodeCoverage]
 internal class NotNullWhenAttribute(bool returnValue) : Attribute

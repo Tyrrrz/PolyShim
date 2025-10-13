@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Threading;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.threading.threadabortexception
+// https://learn.microsoft.com/dotnet/api/system.threading.threadabortexception
 [ExcludeFromCodeCoverage]
 internal class ThreadAbortException : SystemException
 {

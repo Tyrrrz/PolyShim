@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 internal static partial class PolyfillExtensions
 {
 #if FEATURE_TASK
-    // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync
+    // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitasync
     public static async Task WaitForExitAsync(this Process process, CancellationToken cancellationToken = default)
     {
         var tcs = new TaskCompletionSource<object?>(

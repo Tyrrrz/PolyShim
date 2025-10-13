@@ -15,7 +15,7 @@ using System.IO;
 
 namespace System.Runtime.InteropServices;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.runtimeinformation
+// https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.runtimeinformation
 [ExcludeFromCodeCoverage]
 internal static class RuntimeInformation
 {

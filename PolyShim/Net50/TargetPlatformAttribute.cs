@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.Versioning;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.targetplatformattribute
+// https://learn.microsoft.com/dotnet/api/system.runtime.versioning.targetplatformattribute
 [AttributeUsage(AttributeTargets.Assembly)]
 [ExcludeFromCodeCoverage]
 internal class TargetPlatformAttribute(string platformName) : OSPlatformAttribute(platformName);

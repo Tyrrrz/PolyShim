@@ -10,7 +10,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.notnullifnotnullattribute
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.notnullifnotnullattribute
 [AttributeUsage(
     AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue
 )]

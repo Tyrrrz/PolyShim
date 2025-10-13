@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 internal static partial class PolyfillExtensions
 {
 #if FEATURE_TASK
-    // https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-string-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-string-system-threading-cancellationtoken)
     public static async Task<Stream> GetStreamAsync(
         this HttpClient httpClient,
         string requestUri,
@@ -46,14 +46,14 @@ internal static partial class PolyfillExtensions
         }
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-uri-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-uri-system-threading-cancellationtoken)
     public static async Task<Stream> GetStreamAsync(
         this HttpClient httpClient,
         Uri requestUri,
         CancellationToken cancellationToken = default) =>
         await httpClient.GetStreamAsync(requestUri.ToString(), cancellationToken).ConfigureAwait(false);
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken)
     public static async Task<byte[]> GetByteArrayAsync(
         this HttpClient httpClient,
         string requestUri,
@@ -80,14 +80,14 @@ internal static partial class PolyfillExtensions
         }
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-uri-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-uri-system-threading-cancellationtoken)
     public static async Task<byte[]> GetByteArrayAsync(
         this HttpClient httpClient,
         Uri requestUri,
         CancellationToken cancellationToken = default) =>
         await httpClient.GetByteArrayAsync(requestUri.ToString(), cancellationToken).ConfigureAwait(false);
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken)
     public static async Task<string> GetStringAsync(
         this HttpClient httpClient,
         string requestUri,
@@ -114,7 +114,7 @@ internal static partial class PolyfillExtensions
         }
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken)
     public static async Task<string> GetStringAsync(
         this HttpClient httpClient,
         Uri requestUri,

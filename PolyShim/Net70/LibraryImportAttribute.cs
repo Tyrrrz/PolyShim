@@ -15,7 +15,7 @@ namespace System.Runtime.InteropServices;
 // Unfortunately, the source generator that uses this attribute is only available on .NET 7 and above
 // https://github.com/dotnet/runtime/issues/60595#issuecomment-1111086988
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.libraryimportattribute
+// https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.libraryimportattribute
 [AttributeUsage(AttributeTargets.Method, Inherited = false)]
 [ExcludeFromCodeCoverage]
 internal class LibraryImportAttribute(string libraryName) : Attribute

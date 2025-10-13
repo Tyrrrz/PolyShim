@@ -10,7 +10,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
 [ExcludeFromCodeCoverage]
 internal class UnconditionalSuppressMessageAttribute(string category, string checkId) : Attribute

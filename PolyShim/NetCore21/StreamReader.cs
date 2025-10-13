@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 internal static partial class PolyfillExtensions
 {
     // Signature-compatible replacement for Read(Span<char>)
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))
+    // https://learn.microsoft.com/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))
     public static int Read(this StreamReader reader, char[] buffer) =>
         reader.Read(buffer, 0, buffer.Length);
 
 #if FEATURE_TASK
     // Signature-compatible replacement for ReadAsync(Memory<char>, ...)
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
     public static async Task<int> ReadAsync(
         this StreamReader reader,
         char[] buffer,
@@ -35,7 +35,7 @@ internal static partial class PolyfillExtensions
 #endif
 
 #if FEATURE_MEMORY
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))
+    // https://learn.microsoft.com/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))
     public static int Read(this StreamReader reader, Span<char> buffer)
     {
         var bufferArray = buffer.ToArray();
@@ -47,7 +47,7 @@ internal static partial class PolyfillExtensions
 #endif
 
 #if FEATURE_TASK && FEATURE_MEMORY
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
     public static async Task<int> ReadAsync(
         this StreamReader reader,
         Memory<char> buffer,

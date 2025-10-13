@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 internal static partial class PolyfillExtensions
 {
     // Signature-compatible replacement for ReadAtLeast(Span<byte>, ...)
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleast
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast
     public static int ReadAtLeast(
         this Stream stream,
         byte[] buffer,
@@ -45,7 +45,7 @@ internal static partial class PolyfillExtensions
         return totalBytesRead;
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)
     public static void ReadExactly(this Stream stream, byte[] buffer, int offset, int count)
     {
         var totalBytesRead = 0;
@@ -61,13 +61,13 @@ internal static partial class PolyfillExtensions
     }
 
     // Signature-compatible replacement for ReadExactly(Span<byte>)
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))
     public static void ReadExactly(this Stream stream, byte[] buffer) =>
         stream.ReadExactly(buffer, 0, buffer.Length);
 
 #if FEATURE_TASK
     // Signature-compatible replacement for ReadAtLeastAsync(Memory<byte>, ...)
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleastasync
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleastasync
     public static async Task<int> ReadAtLeastAsync(
         this Stream stream,
         byte[] buffer,
@@ -100,7 +100,7 @@ internal static partial class PolyfillExtensions
         return totalBytesRead;
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken)
     public static async Task ReadExactlyAsync(
         this Stream stream,
         byte[] buffer,
@@ -129,7 +129,7 @@ internal static partial class PolyfillExtensions
     }
 
     // Signature-compatible replacement for ReadExactlyAsync(Memory<byte>, ...)
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)
     public static async Task ReadExactlyAsync(
         this Stream stream,
         byte[] buffer,
@@ -141,7 +141,7 @@ internal static partial class PolyfillExtensions
 #endif
 
 #if FEATURE_MEMORY
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleast
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast
     public static int ReadAtLeast(
         this Stream stream,
         Span<byte> buffer,
@@ -165,7 +165,7 @@ internal static partial class PolyfillExtensions
         return totalBytesRead;
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)
     public static void ReadExactly(this Stream stream, Span<byte> buffer)
     {
         var bufferArray = buffer.ToArray();
@@ -175,7 +175,7 @@ internal static partial class PolyfillExtensions
 #endif
 
 #if FEATURE_TASK && FEATURE_MEMORY
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleastasync
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleastasync
     public static async Task<int> ReadAtLeastAsync(
         this Stream stream,
         Memory<byte> buffer,
@@ -203,7 +203,7 @@ internal static partial class PolyfillExtensions
         return totalBytesRead;
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)
     public static async Task ReadExactlyAsync(
         this Stream stream,
         Memory<byte> buffer,

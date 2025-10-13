@@ -14,7 +14,7 @@ namespace System.Linq;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.prepend
+    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.prepend
     public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T element)
     {
         yield return element;
@@ -23,7 +23,7 @@ internal static partial class PolyfillExtensions
             yield return item;
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append
+    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.append
     public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T element)
     {
         foreach (var item in source)
@@ -33,7 +33,7 @@ internal static partial class PolyfillExtensions
     }
 
 #if (NETFRAMEWORK && !NET40_OR_GREATER)
-    // https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1-2)))
+    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1-2)))
     public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(
         this IEnumerable<TFirst> first,
         IEnumerable<TSecond> second,

@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.extensionattribute
+// https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.extensionattribute
 [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Method)]
 [ExcludeFromCodeCoverage]
 internal class ExtensionAttribute : Attribute;

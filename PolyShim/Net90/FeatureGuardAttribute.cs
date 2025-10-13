@@ -11,7 +11,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.featureguardattribute
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.featureguardattribute
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Property, AllowMultiple=true)]
 internal class FeatureGuardAttribute(Type featureType) : Attribute

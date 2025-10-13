@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync
+    // https://learn.microsoft.com/dotnet/api/system.threading.cancellationtokensource.cancelasync
     public static Task CancelAsync(this CancellationTokenSource cts)
     {
 #if (NETFRAMEWORK && !NET45_OR_GREATER)

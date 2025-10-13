@@ -10,7 +10,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.requiresassemblyfilesattribute
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.requiresassemblyfilesattribute
 [AttributeUsage(
     AttributeTargets.Constructor
         | AttributeTargets.Event

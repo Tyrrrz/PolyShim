@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.Versioning;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.unsupportedosplatformattribute
+// https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformattribute
 [AttributeUsage(
     AttributeTargets.Assembly
         | AttributeTargets.Class

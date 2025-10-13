@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 // So the best we can do is provide some commonly used polyfills for IEnumerable<Match>.
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator
+    // https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator
     public static IEnumerable<Match> AsEnumerable(this MatchCollection matchCollection) =>
         matchCollection.Cast<Match>();
 

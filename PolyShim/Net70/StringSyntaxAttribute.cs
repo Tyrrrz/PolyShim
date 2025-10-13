@@ -10,7 +10,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
 [ExcludeFromCodeCoverage]
 internal partial class StringSyntaxAttribute : Attribute

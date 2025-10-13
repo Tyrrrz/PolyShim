@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.range
+// https://learn.microsoft.com/dotnet/api/system.range
 [ExcludeFromCodeCoverage]
 internal readonly struct Range(Index start, Index end) : IEquatable<Range>
 {

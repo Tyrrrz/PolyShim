@@ -13,7 +13,7 @@ using System;
 internal static partial class PolyfillExtensions
 {
 #if FEATURE_MEMORY
-    // https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
+    // https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
     public static void NextBytes(this Random random, Span<byte> buffer)
     {
         var bufferArray = buffer.ToArray();

@@ -13,7 +13,7 @@ using System.Reflection;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto
+    // https://learn.microsoft.com/dotnet/api/system.type.isassignableto
     public static bool IsAssignableTo(this Type type, Type? otherType) =>
         otherType?.IsAssignableFrom(type) == true;
 }

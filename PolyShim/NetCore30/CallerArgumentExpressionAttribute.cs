@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices;
 
-// https://docs.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute
+// https://docs.microsoft.com/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute
 [AttributeUsage(AttributeTargets.Parameter)]
 [ExcludeFromCodeCoverage]
 internal class CallerArgumentExpressionAttribute(string parameterName) : Attribute

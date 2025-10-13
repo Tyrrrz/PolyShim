@@ -12,7 +12,7 @@ using System.IO;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream-system-int32)
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream-system-int32)
     public static void CopyTo(this Stream source, Stream destination, int bufferSize)
     {
         var buffer = new byte[bufferSize];
@@ -26,7 +26,7 @@ internal static partial class PolyfillExtensions
         }
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream)
+    // https://learn.microsoft.com/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream)
     public static void CopyTo(this Stream source, Stream destination) =>
         source.CopyTo(destination, 81920);
 }

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 internal static partial class PolyfillExtensions
 {
 #if FEATURE_MEMORY
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.write#system-io-streamwriter-write(system-readonlyspan((system-char)))
+    // https://learn.microsoft.com/dotnet/api/system.io.streamwriter.write#system-io-streamwriter-write(system-readonlyspan((system-char)))
     public static void Write(this StreamWriter writer, ReadOnlySpan<char> buffer)
     {
         var bufferArray = buffer.ToArray();
@@ -25,7 +25,7 @@ internal static partial class PolyfillExtensions
 #endif
 
 #if FEATURE_TASK && FEATURE_MEMORY
-    // https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
     public static async Task WriteAsync(
         this StreamWriter writer,
         Memory<char> buffer,

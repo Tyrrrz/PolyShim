@@ -12,7 +12,7 @@ namespace System.Runtime.CompilerServices;
 
 using System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.tupleelementnamesattribute
+// https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.tupleelementnamesattribute
 [AttributeUsage(
     AttributeTargets.Class
         | AttributeTargets.Event

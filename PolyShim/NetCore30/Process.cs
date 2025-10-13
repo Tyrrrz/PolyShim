@@ -45,7 +45,7 @@ internal static partial class PolyfillExtensions
         }
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)
+    // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)
     public static void Kill(this Process process, bool entireProcessTree)
     {
         if (!entireProcessTree)

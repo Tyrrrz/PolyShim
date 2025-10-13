@@ -17,7 +17,7 @@ using System.Runtime.Serialization;
 
 namespace System;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.aggregateexception
+// https://learn.microsoft.com/dotnet/api/system.aggregateexception
 [ExcludeFromCodeCoverage]
 internal class AggregateException : Exception
 {

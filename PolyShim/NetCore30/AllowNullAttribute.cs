@@ -10,7 +10,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.allownullattribute
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.allownullattribute
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
 [ExcludeFromCodeCoverage]
 internal class AllowNullAttribute : Attribute;

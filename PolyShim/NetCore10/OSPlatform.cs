@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.InteropServices;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.osplatform
+// https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform
 [ExcludeFromCodeCoverage]
 internal readonly partial struct OSPlatform(string name) : IEquatable<OSPlatform>
 {

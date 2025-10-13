@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.hashcode
+// https://learn.microsoft.com/dotnet/api/system.hashcode
 [ExcludeFromCodeCoverage]
 internal partial class HashCode
 {

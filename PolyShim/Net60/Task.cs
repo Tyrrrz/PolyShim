@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
     public static async Task WaitAsync(
         this Task task,
         TimeSpan timeout,
@@ -32,15 +32,15 @@ internal static partial class PolyfillExtensions
             throw new TimeoutException("The operation has timed out.");
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
     public static async Task WaitAsync(this Task task, CancellationToken cancellationToken) =>
         await task.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)
+    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)
     public static async Task WaitAsync(this Task task, TimeSpan timeout) =>
         await task.WaitAsync(timeout, CancellationToken.None).ConfigureAwait(false);
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)
     public static async Task<T> WaitAsync<T>(
         this Task<T> task,
         TimeSpan timeout,
@@ -60,13 +60,13 @@ internal static partial class PolyfillExtensions
         return task.Result;
     }
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)
+    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)
     public static async Task<T> WaitAsync<T>(
         this Task<T> task,
         CancellationToken cancellationToken
     ) => await task.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
 
-    // https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)
+    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)
     public static async Task<T> WaitAsync<T>(this Task<T> task, TimeSpan timeout) =>
         await task.WaitAsync(timeout, CancellationToken.None).ConfigureAwait(false);
 }

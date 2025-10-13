@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.InteropServices;
 
-// https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.stringmarshalling
+// https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.stringmarshalling
 internal enum StringMarshalling
 {
     Custom = 0,
