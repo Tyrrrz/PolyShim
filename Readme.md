@@ -63,8 +63,9 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 ## Usage
 
 **PolyShim** polyfills come in two forms:
-- Type polyfills, which define missing built-in types
-- Method polyfills, which define extension methods that shim missing methods on existing built-in types
+
+- **Type polyfills**, which define missing built-in types by reimplementing them from scratch.
+- **Method polyfills**, which are provided through global extension methods that substitute missing methods on existing built-in types.
 
 Once the package is installed, the polyfills will be automatically added to your project as internal source files.
 You can then use them in your code by referencing the corresponding types or methods as if they were defined natively.
@@ -83,7 +84,9 @@ For example, with **PolyShim** you can use the `Index` and `Range` structs (adde
 ```csharp
 using System;
 
-// On older frameworks, these are provided by PolyShim
+// On newer frameworks, this relies on the native implementations.
+// On older frameworks, this relies on PolyShim.
+// Same code seamlessly works everywhere.
 var index = new Index(1, fromEnd: true);
 var range = new Range(
     new Index(3),
@@ -96,7 +99,9 @@ You can also use compiler features that rely on these types, such as the advance
 ```csharp
 var array = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-// On older frameworks, these are provided by PolyShim
+// On newer frameworks, this relies on the native implementations.
+// On older frameworks, this relies on PolyShim.
+// Same code seamlessly works everywhere.
 var last = array[^1];
 var part = array[3..^1];
 ```
@@ -111,7 +116,9 @@ For example, with **PolyShim** you can use the `String.Contains(char)` method (a
 ```csharp
 var str = "Hello world";
 
-// On older frameworks, this is provided by PolyShim
+// On newer frameworks, this call uses the native implementation.
+// On older frameworks, this call is implemented by PolyShim.
+// Same code seamlessly works everywhere.
 var contains = str.Contains('w');
 ```
 
