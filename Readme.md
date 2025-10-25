@@ -15,7 +15,7 @@
     </tr>
 </table>
 
-**PolyShim** is a collection of polyfills that enable many modern BCL and compiler features for projects targeting older versions of .NET.
+**PolyShim** is a collection of polyfills that enable many modern framework APIs and compiler features for projects targeting older versions of .NET.
 It's distributed as a source-only package that can be referenced without imposing any run-time dependencies.
 
 ## Terms of use<sup>[[?]](https://github.com/Tyrrrz/.github/blob/master/docs/why-so-political.md)</sup>

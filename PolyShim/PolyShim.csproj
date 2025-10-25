@@ -15,7 +15,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <Authors>$(Company)</Authors>
-    <Description>Collection of polyfills that enable modern BCL features for projects targeting older versions of .NET.</Description>
+    <Description>Collection of polyfills that enable many modern framework APIs and compiler features for projects targeting older versions of .NET.</Description>
     <PackageTags>polyfill shims compat compatibility</PackageTags>
     <PackageProjectUrl>https://github.com/Tyrrrz/PolyShim</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Tyrrrz/PolyShim/releases</PackageReleaseNotes>
