@@ -86,7 +86,7 @@ using System;
 
 // On newer frameworks, this relies on the native implementations.
 // On older frameworks, this relies on PolyShim.
-// Same code seamlessly works everywhere.
+// Same code works everywhere without any changes.
 var index = new Index(1, fromEnd: true);
 var range = new Range(
     new Index(3),
@@ -101,7 +101,7 @@ var array = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
 // On newer frameworks, this relies on the native implementations.
 // On older frameworks, this relies on PolyShim.
-// Same code seamlessly works everywhere.
+// Same code works everywhere without any changes.
 var last = array[^1];
 var part = array[3..^1];
 ```
@@ -118,7 +118,7 @@ var str = "Hello world";
 
 // On newer frameworks, this call uses the native implementation.
 // On older frameworks, this call is implemented by PolyShim.
-// Same code seamlessly works everywhere.
+// Same code works everywhere without any changes.
 var contains = str.Contains('w');
 ```
 
