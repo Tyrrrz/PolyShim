@@ -7,7 +7,8 @@
     <TargetFrameworks>
       netstandard1.0;netstandard1.1;netstandard1.6;netstandard2.0;netstandard2.1;
       netcoreapp1.1;netcoreapp2.2;netcoreapp3.1;
-      net35;net40;net45;net461;net462;net48;net50;net70
+      net35;net40;net45;net461;net462;net48;
+      net5.0;net7.0;net8.0
     </TargetFrameworks>
     <IsPackable>true</IsPackable>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
