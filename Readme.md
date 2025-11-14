@@ -55,7 +55,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `CallerArgumentExpressionAttribute`
   - `ExcludeFromCodeCoverageAttribute`
   - & more...
-- Provides method shims for many built-in types
+- Provides member shims for many built-in types
 - Adjusts polyfills based on available capabilities
 - Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
 - Imposes no run-time dependencies
@@ -65,13 +65,13 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 **PolyShim** polyfills come in two forms:
 
 - **Type polyfills**, which define missing built-in types by reimplementing them from scratch.
-- **Method polyfills**, which are provided through global extension methods that substitute missing methods on existing built-in types.
+- **Member polyfills**, which are provided through global extension members that substitute missing members on existing built-in types.
 
 Once the package is installed, the polyfills will be automatically added to your project as internal source files.
-You can then use them in your code by referencing the corresponding types or methods as if they were defined natively.
+You can then use them in your code by referencing the corresponding types or members as if they were defined natively.
 
 > **Note**:
-> Polyfills are only applied to types and methods that are not already provided.
+> Polyfills are only applied to types and members that are not already provided.
 > When a native implementation of a symbol is available — either in the framework or through a referenced [compatibility package](#compatibility-packages) — it will always be prioritized over the corresponding polyfill.
 
 ### Type polyfills
@@ -106,10 +106,10 @@ var last = array[^1];
 var part = array[3..^1];
 ```
 
-### Method polyfills
+### Member polyfills
 
-**PolyShim** provides a number of extension methods that act as shims for instance methods that are not available natively on older target frameworks.
-These extension methods are typically defined within the global namespace, so they can be called on the corresponding types just like instance methods, without any additional `using` directives.
+**PolyShim** provides a number of extension members that act as shims for instance members that are not available natively on older target frameworks.
+These extension members are typically defined within the global namespace, so they can be called on the corresponding types just like instance members, without any additional `using` directives.
 
 For example, with **PolyShim** you can use the `String.Contains(char)` method (added in .NET Core 2.0) on any older version of .NET:
 
