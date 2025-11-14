@@ -22,8 +22,15 @@ internal static partial class PolyfillExtensions
         {
             get
             {
-                using var process = Process.GetCurrentProcess();
-                return process.MainModule?.FileName;
+                try
+                {
+                    using var process = Process.GetCurrentProcess();
+                    return process.MainModule?.FileName;
+                }
+                catch
+                {
+                    return null;
+                }
             }
         }
 #endif
