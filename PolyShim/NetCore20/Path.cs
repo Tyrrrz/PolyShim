@@ -48,7 +48,6 @@ internal static partial class PolyfillExtensions
                     .Repeat("..", basePathSegments.Length - commonSegmentsCount)
                     .Concat(pathSegments.Skip(commonSegmentsCount)).ToArray()
             );
-
         }
 #endif
     }
