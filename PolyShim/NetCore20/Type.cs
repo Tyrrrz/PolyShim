@@ -13,27 +13,30 @@ using System.Reflection;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/dotnet/api/system.type.isassignablefrom
-    public static bool IsAssignableFrom(this Type type, Type otherType) =>
-        type.GetTypeInfo().IsAssignableFrom(otherType.GetTypeInfo());
-
-    // https://learn.microsoft.com/dotnet/api/system.type.issubclassof
-    public static bool IsSubclassOf(this Type type, Type otherType)
+    extension(Type type)
     {
-        var currentType = type;
+        // https://learn.microsoft.com/dotnet/api/system.type.isassignablefrom
+        public bool IsAssignableFrom(Type otherType) =>
+            type.GetTypeInfo().IsAssignableFrom(otherType.GetTypeInfo());
 
-        if (currentType == otherType)
-            return false;
-
-        while (currentType != null)
+        // https://learn.microsoft.com/dotnet/api/system.type.issubclassof
+        public bool IsSubclassOf(Type otherType)
         {
+            var currentType = type;
+
             if (currentType == otherType)
-                return true;
+                return false;
 
-            currentType = currentType.GetTypeInfo().BaseType;
+            while (currentType != null)
+            {
+                if (currentType == otherType)
+                    return true;
+
+                currentType = currentType.GetTypeInfo().BaseType;
+            }
+
+            return false;
         }
-
-        return false;
     }
 }
 #endif

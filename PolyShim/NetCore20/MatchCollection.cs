@@ -12,19 +12,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-// MatchCollection started implementing IEnumerable<Match> in .NET Core 2.0,
-// but we can't implement an interface with extension methods.
-// So the best we can do is provide some commonly used polyfills for IEnumerable<Match>.
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator
-    public static IEnumerable<Match> AsEnumerable(this MatchCollection matchCollection) =>
-        matchCollection.Cast<Match>();
+    // MatchCollection started implementing IEnumerable<Match> in .NET Core 2.0,
+    // but we can't implement an interface with extension methods.
+    // So the best we can do is provide some commonly used polyfills for IEnumerable<Match>.
+    extension(MatchCollection matchCollection)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator
+        public IEnumerable<Match> AsEnumerable() =>
+            matchCollection.Cast<Match>();
 
-    public static IEnumerator<Match> GetEnumerator(this MatchCollection matchCollection) =>
-        matchCollection.AsEnumerable().GetEnumerator();
+        public IEnumerator<Match> GetEnumerator() =>
+            matchCollection.AsEnumerable().GetEnumerator();
 
-    public static Match[] ToArray(this MatchCollection matchCollection) =>
-        matchCollection.AsEnumerable().ToArray();
+        public Match[] ToArray() =>
+            matchCollection.AsEnumerable().ToArray();
+    }
 }
 #endif

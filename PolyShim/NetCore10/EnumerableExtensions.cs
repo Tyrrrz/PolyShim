@@ -14,38 +14,43 @@ namespace System.Linq;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.prepend
-    public static IEnumerable<T> Prepend<T>(this IEnumerable<T> source, T element)
+    extension<T>(IEnumerable<T> source)
     {
-        yield return element;
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.prepend
+        public IEnumerable<T> Prepend(T element)
+        {
+            yield return element;
 
-        foreach (var item in source)
-            yield return item;
+            foreach (var item in source)
+                yield return item;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.append
+        public IEnumerable<T> Append(T element)
+        {
+            foreach (var item in source)
+                yield return item;
+
+            yield return element;
+        }
     }
 
-    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.append
-    public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T element)
+    extension<TFirst, TSecond>(IEnumerable<TFirst> first)
     {
-        foreach (var item in source)
-            yield return item;
-
-        yield return element;
-    }
-
 #if (NETFRAMEWORK && !NET40_OR_GREATER)
-    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1-2)))
-    public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(
-        this IEnumerable<TFirst> first,
-        IEnumerable<TSecond> second,
-        Func<TFirst, TSecond, TResult> resultSelector
-    )
-    {
-        using var e1 = first.GetEnumerator();
-        using var e2 = second.GetEnumerator();
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1-2)))
+        public IEnumerable<TResult> Zip<TResult>(
+            IEnumerable<TSecond> second,
+            Func<TFirst, TSecond, TResult> resultSelector
+        )
+        {
+            using var e1 = first.GetEnumerator();
+            using var e2 = second.GetEnumerator();
 
-        while (e1.MoveNext() && e2.MoveNext())
-            yield return resultSelector(e1.Current, e2.Current);
-    }
+            while (e1.MoveNext() && e2.MoveNext())
+                yield return resultSelector(e1.Current, e2.Current);
+        }
 #endif
+    }
 }
 #endif

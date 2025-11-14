@@ -193,12 +193,3 @@ You can leverage this to prioritize the official implementation wherever possibl
 // (the native implementation is used instead)
 var (x, y) = ("hello world", 42);
 ```
-
-### Limitations
-
-Despite best efforts, **PolyShim** is not able to polyfill all the missing APIs due to limitations in the C# language.
-At least until some form of the [Extension Everything](https://github.com/dotnet/csharplang/discussions/5498) feature is implemented, below are some of the things that currently cannot be polyfilled:
-- Properties
-- Indexers
-- Interface implementations
-- Static members

@@ -15,60 +15,56 @@ using System.Threading.Tasks;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
-    public static async Task WaitAsync(
-        this Task task,
-        TimeSpan timeout,
-        CancellationToken cancellationToken
-    )
+    extension(Task task)
     {
-        var cancellationTask = Task.Delay(timeout, cancellationToken);
-        var finishedTask = await Task.WhenAny(task, cancellationTask).ConfigureAwait(false);
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
+        public async Task WaitAsync(TimeSpan timeout, CancellationToken cancellationToken)
+        {
+            var cancellationTask = Task.Delay(timeout, cancellationToken);
+            var finishedTask = await Task.WhenAny(task, cancellationTask).ConfigureAwait(false);
 
-        // Finalize and propagate exceptions
-        await finishedTask.ConfigureAwait(false);
+            // Finalize and propagate exceptions
+            await finishedTask.ConfigureAwait(false);
 
-        if (finishedTask == cancellationTask)
-            throw new TimeoutException("The operation has timed out.");
+            if (finishedTask == cancellationTask)
+                throw new TimeoutException("The operation has timed out.");
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
+        public async Task WaitAsync(CancellationToken cancellationToken) =>
+            await task.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
+
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)
+        public async Task WaitAsync(TimeSpan timeout) =>
+            await task.WaitAsync(timeout, CancellationToken.None).ConfigureAwait(false);
     }
 
-    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
-    public static async Task WaitAsync(this Task task, CancellationToken cancellationToken) =>
-        await task.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
-
-    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)
-    public static async Task WaitAsync(this Task task, TimeSpan timeout) =>
-        await task.WaitAsync(timeout, CancellationToken.None).ConfigureAwait(false);
-
-    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)
-    public static async Task<T> WaitAsync<T>(
-        this Task<T> task,
-        TimeSpan timeout,
-        CancellationToken cancellationToken
-    )
+    extension<T>(Task<T> task)
     {
-        var cancellationTask = Task.Delay(timeout, cancellationToken);
-        var finishedTask = await Task.WhenAny(task, cancellationTask).ConfigureAwait(false);
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)
+        public async Task<T> WaitAsync(TimeSpan timeout, CancellationToken cancellationToken)
+        {
+            var cancellationTask = Task.Delay(timeout, cancellationToken);
+            var finishedTask = await Task.WhenAny(task, cancellationTask).ConfigureAwait(false);
 
-        // Finalize and propagate exceptions
-        await finishedTask.ConfigureAwait(false);
+            // Finalize and propagate exceptions
+            await finishedTask.ConfigureAwait(false);
 
-        if (finishedTask == cancellationTask)
-            throw new TimeoutException("The operation has timed out.");
+            if (finishedTask == cancellationTask)
+                throw new TimeoutException("The operation has timed out.");
 
-        // If the exception is not thrown, we can safely assume that the main task is completed
-        return task.Result;
+            // If the exception is not thrown, we can safely assume that the main task is completed
+            return task.Result;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)
+        public async Task<T> WaitAsync(CancellationToken cancellationToken) =>
+            await task.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
+
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)
+        public async Task<T> WaitAsync(TimeSpan timeout) =>
+            await task.WaitAsync(timeout, CancellationToken.None).ConfigureAwait(false);
     }
-
-    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)
-    public static async Task<T> WaitAsync<T>(
-        this Task<T> task,
-        CancellationToken cancellationToken
-    ) => await task.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
-
-    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)
-    public static async Task<T> WaitAsync<T>(this Task<T> task, TimeSpan timeout) =>
-        await task.WaitAsync(timeout, CancellationToken.None).ConfigureAwait(false);
 }
 #endif
 #endif

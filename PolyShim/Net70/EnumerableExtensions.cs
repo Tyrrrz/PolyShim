@@ -14,24 +14,22 @@ namespace System.Linq;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.order#system-linq-enumerable-order-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
-    public static IOrderedEnumerable<T> Order<T>(
-        this IEnumerable<T> source,
-        IComparer<T>? comparer
-    ) => source.OrderBy(x => x, comparer);
+    extension<T>(IEnumerable<T> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.order#system-linq-enumerable-order-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
+        public IOrderedEnumerable<T> Order(IComparer<T>? comparer) => source.OrderBy(x => x, comparer);
 
-    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.order#system-linq-enumerable-order-1(system-collections-generic-ienumerable((-0)))
-    public static IOrderedEnumerable<T> Order<T>(this IEnumerable<T> source) =>
-        source.Order(Comparer<T>.Default);
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.order#system-linq-enumerable-order-1(system-collections-generic-ienumerable((-0)))
+        public IOrderedEnumerable<T> Order() =>
+            source.Order(Comparer<T>.Default);
 
-    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.orderdescending#system-linq-enumerable-orderdescending-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
-    public static IOrderedEnumerable<T> OrderDescending<T>(
-        this IEnumerable<T> source,
-        IComparer<T>? comparer
-    ) => source.OrderByDescending(x => x, comparer);
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.orderdescending#system-linq-enumerable-orderdescending-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
+        public IOrderedEnumerable<T> OrderDescending(IComparer<T>? comparer) =>
+            source.OrderByDescending(x => x, comparer);
 
-    // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.orderdescending#system-linq-enumerable-orderdescending-1(system-collections-generic-ienumerable((-0)))
-    public static IOrderedEnumerable<T> OrderDescending<T>(this IEnumerable<T> source) =>
-        source.OrderDescending(Comparer<T>.Default);
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.orderdescending#system-linq-enumerable-orderdescending-1(system-collections-generic-ienumerable((-0)))
+        public IOrderedEnumerable<T> OrderDescending() =>
+            source.OrderDescending(Comparer<T>.Default);
+    }
 }
 #endif

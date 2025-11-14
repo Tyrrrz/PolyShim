@@ -12,14 +12,17 @@ using System;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/dotnet/api/system.string.replacelineendings#system-string-replacelineendings(system-string)
-    public static string ReplaceLineEndings(this string str, string replacementText) =>
-        str.Replace("\r\n", "\n", StringComparison.Ordinal)
-            .Replace("\r", "\n", StringComparison.Ordinal)
-            .Replace("\n", replacementText, StringComparison.Ordinal);
+    extension(string str)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.string.replacelineendings#system-string-replacelineendings(system-string)
+        public string ReplaceLineEndings(string replacementText) =>
+            str.Replace("\r\n", "\n", StringComparison.Ordinal)
+                .Replace("\r", "\n", StringComparison.Ordinal)
+                .Replace("\n", replacementText, StringComparison.Ordinal);
 
-    // https://learn.microsoft.com/dotnet/api/system.string.replacelineendings#system-string-replacelineendings
-    public static string ReplaceLineEndings(this string str) =>
-        str.ReplaceLineEndings(Environment.NewLine);
+        // https://learn.microsoft.com/dotnet/api/system.string.replacelineendings#system-string-replacelineendings
+        public string ReplaceLineEndings() =>
+            str.ReplaceLineEndings(Environment.NewLine);
+    }
 }
 #endif

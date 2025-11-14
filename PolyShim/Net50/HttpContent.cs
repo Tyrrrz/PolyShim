@@ -17,31 +17,28 @@ using System.Threading.Tasks;
 internal static partial class PolyfillExtensions
 {
 #if FEATURE_TASK
-    // Documentation missing on docs.microsoft.com for this signature
-    public static async Task<Stream> ReadAsStreamAsync(
-        this HttpContent httpContent,
-        CancellationToken cancellationToken = default)
+    extension(HttpContent httpContent)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        return await httpContent.ReadAsStreamAsync().ConfigureAwait(false);
-    }
+        // Documentation missing on docs.microsoft.com for this signature
+        public async Task<Stream> ReadAsStreamAsync(CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return await httpContent.ReadAsStreamAsync().ConfigureAwait(false);
+        }
 
-    // Documentation missing on docs.microsoft.com for this signature
-    public static async Task<byte[]> ReadAsByteArrayAsync(
-        this HttpContent httpContent,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        return await httpContent.ReadAsByteArrayAsync().ConfigureAwait(false);
-    }
+        // Documentation missing on docs.microsoft.com for this signature
+        public async Task<byte[]> ReadAsByteArrayAsync(CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return await httpContent.ReadAsByteArrayAsync().ConfigureAwait(false);
+        }
 
-    // Documentation missing on docs.microsoft.com for this signature
-    public static async Task<string> ReadAsStringAsync(
-        this HttpContent httpContent,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        return await httpContent.ReadAsStringAsync().ConfigureAwait(false);
+        // Documentation missing on docs.microsoft.com for this signature
+        public async Task<string> ReadAsStringAsync(CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return await httpContent.ReadAsStringAsync().ConfigureAwait(false);
+        }
     }
 #endif
 }

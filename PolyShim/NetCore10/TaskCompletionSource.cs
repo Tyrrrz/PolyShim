@@ -15,11 +15,12 @@ using System.Threading.Tasks;
 
 internal static partial class PolyfillExtensions
 {
-    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetcanceled#system-threading-tasks-taskcompletionsource-1-trysetcanceled(system-threading-cancellationtoken)
-    public static bool TrySetCanceled<T>(
-        this TaskCompletionSource<T> source,
-        CancellationToken cancellationToken
-    ) => source.TrySetException(new OperationCanceledException(cancellationToken));
+    extension<T>(TaskCompletionSource<T> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetcanceled#system-threading-tasks-taskcompletionsource-1-trysetcanceled(system-threading-cancellationtoken)
+        public bool TrySetCanceled(CancellationToken cancellationToken) =>
+            source.TrySetException(new OperationCanceledException(cancellationToken));
+    }
 }
 #endif
 #endif

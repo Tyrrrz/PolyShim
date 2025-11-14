@@ -12,16 +12,15 @@ using System.Collections.Generic;
 
 internal static partial class PolyfillExtensions
 {
-    // Used to implement tuple deconstruction, but tuple support is technically not required
-    // https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct
-    public static void Deconstruct<TKey, TValue>(
-        this KeyValuePair<TKey, TValue> pair,
-        out TKey key,
-        out TValue value
-    )
+    extension<TKey, TValue>(KeyValuePair<TKey, TValue> pair)
     {
-        key = pair.Key;
-        value = pair.Value;
+        // Used to implement tuple deconstruction, but tuple support is technically not required
+        // https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct
+        public void Deconstruct(out TKey key, out TValue value)
+        {
+            key = pair.Key;
+            value = pair.Value;
+        }
     }
 }
 #endif

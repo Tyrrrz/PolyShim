@@ -17,51 +17,54 @@ using System.Runtime.InteropServices;
 internal static partial class PolyfillExtensions
 {
 #if FEATURE_PROCESS && FEATURE_MANAGEMENT
-    private static void KillProcessTree(int processId)
+    extension(Process process)
     {
-        using var searcher = new ManagementObjectSearcher(
-            $"SELECT * FROM Win32_Process WHERE ParentProcessID={processId}"
-        );
-
-        using var results = searcher.Get();
-
-        // Kill the parent process
-        try
+        // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)
+        public void Kill(bool entireProcessTree)
         {
-            using var proc = Process.GetProcessById(processId);
-            if (!proc.HasExited)
-                proc.Kill();
-        }
-        catch
-        {
-            // Do our best and ignore race conditions
-        }
+            static void KillProcessTree(int processId)
+            {
+                using var searcher = new ManagementObjectSearcher(
+                    $"SELECT * FROM Win32_Process WHERE ParentProcessID={processId}"
+                );
 
-        // Kill the descendants
-        foreach (var managementObject in results.Cast<ManagementObject>())
-        {
-            var childProcessId = Convert.ToInt32(managementObject["ProcessID"]);
-            KillProcessTree(childProcessId);
-        }
-    }
+                using var results = searcher.Get();
 
-    // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)
-    public static void Kill(this Process process, bool entireProcessTree)
-    {
-        if (!entireProcessTree)
-        {
-            process.Kill();
-            return;
-        }
+                // Kill the parent process
+                try
+                {
+                    using var proc = Process.GetProcessById(processId);
+                    if (!proc.HasExited)
+                        proc.Kill();
+                }
+                catch
+                {
+                    // Do our best and ignore race conditions
+                }
 
-        // Currently, this polyfill only supports Windows
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            process.Kill();
-            return;
-        }
+                // Kill the descendants
+                foreach (var managementObject in results.Cast<ManagementObject>())
+                {
+                    var childProcessId = Convert.ToInt32(managementObject["ProcessID"]);
+                    KillProcessTree(childProcessId);
+                }
+            }
 
-        KillProcessTree(process.Id);
+            if (!entireProcessTree)
+            {
+                process.Kill();
+                return;
+            }
+
+            // Currently, this polyfill only supports Windows
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                process.Kill();
+                return;
+            }
+
+            KillProcessTree(process.Id);
+        }
     }
 #endif
 }
