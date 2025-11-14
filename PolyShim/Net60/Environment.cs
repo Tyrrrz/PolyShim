@@ -17,6 +17,7 @@ internal static partial class PolyfillExtensions
     {
 // No Process class in .NET Standard 1.x
 #if !NETSTANDARD || NETSTANDARD2_0_OR_GREATER
+        // https://learn.microsoft.com/dotnet/api/system.environment.processpath
         public static string? ProcessPath
         {
             get
