@@ -43,6 +43,19 @@ internal static partial class PolyfillExtensions
                 commonSegmentsCount++;
             }
 
+            // All segments are common, return "."
+            if (commonSegmentsCount == basePathSegments.Length && commonSegmentsCount == pathSegments.Length)
+            {
+                return ".";
+            }
+
+            // No segments are common and the first segment is a disk label, return the original path
+            if (commonSegmentsCount == 0 && pathSegments.Length > 0 && pathSegments[0].EndsWith(":", StringComparison.Ordinal))
+            {
+                return path;
+            }
+
+            // Some segments are common, build the relative path
             return string.Join(
                 Path.DirectorySeparatorChar.ToString(),
                 Enumerable
