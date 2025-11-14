@@ -46,7 +46,8 @@ internal static partial class PolyfillExtensions
                 Path.DirectorySeparatorChar.ToString(),
                 Enumerable
                     .Repeat("..", basePathSegments.Length - commonSegmentsCount)
-                    .Concat(pathSegments.Skip(commonSegmentsCount)).ToArray()
+                    .Concat(pathSegments.Skip(commonSegmentsCount))
+                    .ToArray()
             );
         }
 #endif
