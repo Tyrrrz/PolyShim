@@ -29,9 +29,10 @@ internal static partial class PolyfillExtensions
             var basePathSegments = relativeTo.Split(
                 Path.DirectorySeparatorChar,
                 Path.AltDirectorySeparatorChar
-            );
+            ).Where(s => !string.IsNullOrEmpty(s)).ToArray();
 
-            var pathSegments = path.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            var pathSegments = path.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                .Where(s => !string.IsNullOrEmpty(s)).ToArray();
 
             var commonSegmentsCount = 0;
             for (var i = 0; i < basePathSegments.Length && i < pathSegments.Length; i++)
