@@ -17,7 +17,7 @@ internal static partial class PolyfillExtensions
 {
     extension(Path)
     {
-// Can only detect platform on .NET Standard 1.3+
+// Can only detect the platform on .NET Standard 1.3+
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.io.path.getrelativepath
         public static string GetRelativePath(string relativeTo, string path)
