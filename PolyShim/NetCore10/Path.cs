@@ -17,7 +17,7 @@ internal static partial class PolyfillExtensions
     {
         // https://learn.microsoft.com/dotnet/api/system.io.path.combine#system-io-path-combine(system-string())
         public static string Combine(params string[] paths) =>
-            paths.Aggregate(Path.Combine);
+            paths.Aggregate(string.Empty, Path.Combine);
     }
 }
 #endif
