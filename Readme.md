@@ -84,7 +84,7 @@ For example, with **PolyShim** you can use the `Index` and `Range` structs (adde
 ```csharp
 using System;
 
-// On newer frameworks, this relies on the native implementations.
+// On newer frameworks, this relies on the native implementation.
 // On older frameworks, this relies on PolyShim.
 // Same code works everywhere without any changes.
 var index = new Index(1, fromEnd: true);
@@ -99,7 +99,7 @@ You can also use compiler features that rely on these types, such as the advance
 ```csharp
 var array = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-// On newer frameworks, this relies on the native implementations.
+// On newer frameworks, this relies on the native implementation.
 // On older frameworks, this relies on PolyShim.
 // Same code works everywhere without any changes.
 var last = array[^1];
@@ -108,10 +108,10 @@ var part = array[3..^1];
 
 ### Member polyfills
 
-**PolyShim** provides a number of extension members that act as shims for instance members that are not available natively on older target frameworks.
-These extension members are typically defined within the global namespace, so they can be called on the corresponding types just like instance members, without any additional `using` directives.
+**PolyShim** provides a number of extension members that act as shims for instance or static members that are not available natively on older target frameworks.
+These extension members are typically defined within the global namespace, so they can be used on the corresponding types just like regular members, without any additional `using` directives.
 
-For example, with **PolyShim** you can use the `String.Contains(char)` method (added in .NET Core 2.0) on any older version of .NET:
+For example, with **PolyShim** you can call the `string.Contains(char)` method (added in .NET Core 2.0) on any older version of .NET:
 
 ```csharp
 var str = "Hello world";
@@ -120,6 +120,17 @@ var str = "Hello world";
 // On older frameworks, this call is implemented by PolyShim.
 // Same code works everywhere without any changes.
 var contains = str.Contains('w');
+```
+
+Similarly, you can also reference the `Environment.ProcessId` static property (added in .NET 5.0) and **PolyShim** will make it work on older versions of .NET:
+
+```csharp
+using System;
+
+// On newer frameworks, this relies on the native implementation.
+// On older frameworks, this relies on PolyShim.
+// Same code works everywhere without any changes.
+var processId = Environment.ProcessId;
 ```
 
 ### Compatibility packages
