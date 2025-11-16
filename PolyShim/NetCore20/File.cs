@@ -107,7 +107,7 @@ internal static partial class PolyfillExtensions
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.readalllinesasync#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)
-        public static async Task<string[]> ReadAllLinesAsync(string path, Encoding encoding,  CancellationToken cancellationToken = default)
+        public static async Task<string[]> ReadAllLinesAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
         {
             var lines = new List<string>();
 
