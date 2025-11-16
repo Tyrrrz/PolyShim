@@ -21,7 +21,7 @@ internal static partial class PolyfillExtensions
         public static Task CompletedTask => _completedTask;
 
 // .NET Framework 4.0 supports Task but does not have Task.FromResult(...) so we have to improvise it
-#if NETFRAMEWORK && !NETFRAMEWORK40_OR_GREATER
+#if NETFRAMEWORK && !NET45_OR_GREATER
 #pragma warning disable CS1998
         public static async Task<T?> FromResult<T>(T? result) => result;
 #pragma warning restore CS1998
