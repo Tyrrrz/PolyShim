@@ -10,7 +10,7 @@
 
 using System;
 
-internal static partial class PolyfillExtensions
+internal static partial class PolyfillExtensions2
 {
     extension(DateTimeOffset)
     {
