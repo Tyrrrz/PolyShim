@@ -146,7 +146,7 @@ internal static partial class PolyfillExtensions
             var totalBytesRead = 0;
             while (totalBytesRead < buffer.Length)
             {
-                var bytesRead = stream.Read(buffer.Slice(totalBytesRead));
+                var bytesRead = stream.Read(buffer[totalBytesRead..]);
                 if (bytesRead <= 0)
                     break;
 
@@ -181,7 +181,7 @@ internal static partial class PolyfillExtensions
             while (totalBytesRead < buffer.Length)
             {
                 var bytesRead = await stream
-                    .ReadAsync(buffer.Slice(totalBytesRead), cancellationToken)
+                    .ReadAsync(buffer[totalBytesRead..], cancellationToken)
                     .ConfigureAwait(false);
 
                 if (bytesRead <= 0)
