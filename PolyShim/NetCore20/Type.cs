@@ -27,7 +27,7 @@ internal static partial class PolyfillExtensions
             if (currentType == otherType)
                 return false;
 
-            while (currentType != null)
+            while (currentType is not null)
             {
                 if (currentType == otherType)
                     return true;
