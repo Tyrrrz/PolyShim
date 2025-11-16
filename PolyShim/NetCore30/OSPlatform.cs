@@ -9,7 +9,6 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Linq;
 using System.Management;
 using System.Runtime.InteropServices;
 
