@@ -13,7 +13,7 @@ internal static partial class PolyfillExtensions
     {
         // https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64-system-int64)
         public static TimeSpan FromMilliseconds(long milliseconds, long microseconds) =>
-            TimeSpan.FromSeconds(milliseconds / 1_000.0 + microseconds / 1_000_000.0);
+            TimeSpan.FromMilliseconds(milliseconds + microseconds / 1_000.0);
     }
 }
 #endif
