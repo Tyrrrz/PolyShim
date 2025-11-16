@@ -20,11 +20,14 @@ internal static partial class PolyfillExtensions
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask
         public static Task CompletedTask => _completedTask;
 
-// .NET Framework 4.0 supports Task but does not have Task.FromResult(...) so we have to improvise it
 #if NETFRAMEWORK && !NET45_OR_GREATER
-#pragma warning disable CS1998
-        public static async Task<T?> FromResult<T>(T? result) => result;
-#pragma warning restore CS1998
+        public static Task<T?> FromResult<T>(T? result)
+        {
+            var tcs = new TaskCompletionSource<T?>();
+            tcs.TrySetResult(result);
+
+            return tcs.Task;
+        }
 #endif
     }
 }
