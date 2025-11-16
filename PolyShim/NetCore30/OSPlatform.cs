@@ -8,7 +8,6 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-using System;
 using System.Management;
 using System.Runtime.InteropServices;
 
