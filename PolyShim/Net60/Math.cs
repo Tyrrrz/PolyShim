@@ -17,10 +17,14 @@ internal static partial class PolyfillExtensions
         // https://learn.microsoft.com/dotnet/api/system.math.clamp#system-math-clamp(system-intptr-system-intptr-system-intptr)
         public static IntPtr Clamp(IntPtr value, IntPtr min, IntPtr max)
         {
-            if (value.ToInt64() < min.ToInt64())
+            var valueAsLong = value.ToInt64();
+            var minAsLong = min.ToInt64();
+            var maxAsLong = max.ToInt64();
+
+            if (valueAsLong < minAsLong)
                 return min;
 
-            if (value.ToInt64() > max.ToInt64())
+            if (valueAsLong > maxAsLong)
                 return max;
 
             return value;
