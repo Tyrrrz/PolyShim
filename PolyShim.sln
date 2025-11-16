@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{2E401512-C
 		Directory.Build.props = Directory.Build.props
 		Readme.md = Readme.md
 		License.txt = License.txt
+		global.json = global.json
+		NuGet.config = NuGet.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolyShim.Tests", "PolyShim.Tests\PolyShim.Tests.csproj", "{91CB527A-0E61-4689-9B41-89CB09C8C218}"
