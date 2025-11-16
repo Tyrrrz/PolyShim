@@ -16,5 +16,5 @@ namespace System;
 [ExcludeFromCodeCoverage]
 internal class OperatingSystem;
 // This should include members, but currently this polyfill is incomplete and
-// serves only as a placeholder so that poyfills for static methods have a type to extend.
+// serves only as a placeholder so that polyfills for static methods have a type to extend.
 #endif
