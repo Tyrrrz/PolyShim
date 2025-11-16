@@ -15,8 +15,8 @@ internal static partial class PolyfillExtensions
 {
     extension(OperatingSystem)
     {
-// Can only detect the OS on .NET Standard 2.0+ and .NET Core App 2.0+
-#if (!NETSTANDARD || NETSTANDARD2_0_OR_GREATER) && (!NETCOREAPP || NETCOREAPP2_0_OR_GREATER)
+// Can only detect the platform on .NET Standard 1.3+
+#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.operatingsystem.isfreebsd
         public static bool IsFreeBSD() => RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
 
@@ -29,6 +29,8 @@ internal static partial class PolyfillExtensions
         // https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindows
         public static bool IsWindows() => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
+// Can only detect OS version on .NET Standard 2.0+ and .NET Core 2.0
+#if (!NETSTANDARD || NETSTANDARD2_0_OR_GREATER) && (!NETCOREAPP || NETCOREAPP2_0_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindowsversionatleast
         public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
         {
@@ -48,6 +50,7 @@ internal static partial class PolyfillExtensions
 
             return version.Revision >= revision;
         }
+#endif
 #endif
     }
 }
