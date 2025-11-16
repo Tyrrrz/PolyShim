@@ -32,6 +32,8 @@ internal static partial class PolyfillExtensions
                 cancellationToken.ThrowIfCancellationRequested();
                 await writer.WriteLineAsync(line).ConfigureAwait(false);
             }
+
+            await writer.FlushAsync().ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)
@@ -45,6 +47,8 @@ internal static partial class PolyfillExtensions
                 cancellationToken.ThrowIfCancellationRequested();
                 await writer.WriteLineAsync(line).ConfigureAwait(false);
             }
+
+            await writer.FlushAsync().ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)
@@ -55,6 +59,7 @@ internal static partial class PolyfillExtensions
 
             cancellationToken.ThrowIfCancellationRequested();
             await writer.WriteAsync(contents).ConfigureAwait(false);
+            await writer.FlushAsync().ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-string-system-threading-cancellationtoken)
@@ -65,6 +70,7 @@ internal static partial class PolyfillExtensions
 
             cancellationToken.ThrowIfCancellationRequested();
             await writer.WriteAsync(contents).ConfigureAwait(false);
+            await writer.FlushAsync().ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.readallbytesasync
@@ -178,6 +184,7 @@ internal static partial class PolyfillExtensions
         {
             using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true);
             await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
+            await stream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)
@@ -191,6 +198,8 @@ internal static partial class PolyfillExtensions
                 cancellationToken.ThrowIfCancellationRequested();
                 await writer.WriteLineAsync(line).ConfigureAwait(false);
             }
+
+            await writer.FlushAsync().ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)
@@ -204,6 +213,8 @@ internal static partial class PolyfillExtensions
                 cancellationToken.ThrowIfCancellationRequested();
                 await writer.WriteLineAsync(line).ConfigureAwait(false);
             }
+
+            await writer.FlushAsync().ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.writealltextasync#system-io-file-writealltextasync(system-string-system-string-system-threading-cancellationtoken)
@@ -214,6 +225,7 @@ internal static partial class PolyfillExtensions
 
             cancellationToken.ThrowIfCancellationRequested();
             await writer.WriteAsync(contents).ConfigureAwait(false);
+            await writer.FlushAsync().ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.writealltextasync#system-io-file-writealltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)
@@ -224,6 +236,7 @@ internal static partial class PolyfillExtensions
 
             cancellationToken.ThrowIfCancellationRequested();
             await writer.WriteAsync(contents).ConfigureAwait(false);
+            await writer.FlushAsync().ConfigureAwait(false);
         }
 #endif
     }
