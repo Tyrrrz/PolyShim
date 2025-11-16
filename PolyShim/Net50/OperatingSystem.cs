@@ -23,7 +23,7 @@ internal static partial class PolyfillExtensions
         // https://learn.microsoft.com/dotnet/api/system.operatingsystem.islinux
         public static bool IsLinux() => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
-        // https://learn.microsoft.com/dotnet/api/system.operatingsystem.isosx
+        // https://learn.microsoft.com/dotnet/api/system.operatingsystem.ismacos
         public static bool IsMacOS() => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
         // https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindows
