@@ -22,7 +22,7 @@ internal static partial class PolyfillExtensions
                 throw new ArgumentNullException(paramName);
 
             if (string.IsNullOrEmpty(argument))
-                throw new ArgumentException("Value cannot be null or empty.", paramName);
+                throw new ArgumentException("The value cannot be an empty string.", paramName);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorwhitespace
