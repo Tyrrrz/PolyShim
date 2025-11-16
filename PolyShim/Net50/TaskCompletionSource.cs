@@ -9,21 +9,45 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+namespace System.Threading.Tasks;
+
+// https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource
+[ExcludeFromCodeCoverage]
+internal class TaskCompletionSource(object? state, TaskCreationOptions creationOptions)
 {
-    extension<T>(TaskCompletionSource<T> source)
+    private readonly TaskCompletionSource<object?> _source = new(state, creationOptions);
+
+    public TaskCompletionSource(object? state) : this(state, TaskCreationOptions.None)
     {
-        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)
-        public void SetCanceled(CancellationToken cancellationToken)
-        {
-            if (!source.TrySetCanceled(cancellationToken))
-                throw new InvalidOperationException("The task is already completed, canceled, or failed.");
-        }
     }
+
+    public TaskCompletionSource(TaskCreationOptions creationOptions) : this(null, creationOptions)
+    {
+    }
+
+    public TaskCompletionSource() : this(null, TaskCreationOptions.None)
+    {
+    }
+
+    public Task Task => _source.Task;
+
+    public void SetResult() => _source.SetResult(null);
+
+    public void SetException(Exception exception) => _source.SetException(exception);
+
+    public void SetCanceled() => _source.SetCanceled();
+
+    public void SetCanceled(CancellationToken cancellationToken) => _source.SetCanceled(cancellationToken);
+
+    public bool TrySetResult() => _source.TrySetResult(null);
+
+    public bool TrySetException(Exception exception) => _source.TrySetException(exception);
+
+    public bool TrySetCanceled() => _source.TrySetCanceled();
+
+    public bool TrySetCanceled(CancellationToken cancellationToken) => _source.TrySetCanceled(cancellationToken);
 }
 #endif
 #endif
