@@ -21,6 +21,7 @@ internal static partial class PolyfillExtensions
         public static Task CompletedTask => _completedTask;
 
 #if NETFRAMEWORK && !NET45_OR_GREATER
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult
         public static Task<T?> FromResult<T>(T? result)
         {
             var tcs = new TaskCompletionSource<T?>();
