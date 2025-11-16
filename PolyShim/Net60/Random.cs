@@ -12,12 +12,13 @@ using System;
 
 internal static partial class PolyfillExtensions
 {
-    private static readonly Random _sharedRandom = new();
+    [ThreadStatic]
+    private static Random? _threadRandom;
 
     extension(Random)
     {
         // https://learn.microsoft.com/dotnet/api/system.random.shared
-        public static Random Shared => _sharedRandom;
+        public static Random Shared => _threadRandom ??= new Random();
     }
 }
 #endif
