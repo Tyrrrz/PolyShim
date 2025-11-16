@@ -26,6 +26,9 @@ public class PathTests
         Path.TrimEndingDirectorySeparator("C:\\Folder\\Subfolder\\")
             .Should()
             .Be("C:\\Folder\\Subfolder");
+        Path.TrimEndingDirectorySeparator("C:\\Folder\\Subfolder\\\\")
+            .Should()
+            .Be("C:\\Folder\\Subfolder\\");
         Path.TrimEndingDirectorySeparator("C:/Folder/Subfolder/")
             .Should()
             .Be("C:/Folder/Subfolder");
@@ -34,6 +37,7 @@ public class PathTests
             .Be("C:\\Folder\\Subfolder");
         Path.TrimEndingDirectorySeparator("C:/Folder/Subfolder").Should().Be("C:/Folder/Subfolder");
         Path.TrimEndingDirectorySeparator("/a/b/c/").Should().Be("/a/b/c");
+        Path.TrimEndingDirectorySeparator("/a/b/c//").Should().Be("/a/b/c/");
         Path.TrimEndingDirectorySeparator("/a/b/c").Should().Be("/a/b/c");
         Path.TrimEndingDirectorySeparator(string.Empty).Should().Be(string.Empty);
     }
