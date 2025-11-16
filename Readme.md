@@ -34,7 +34,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 - 📦 [NuGet](https://nuget.org/packages/PolyShim): `dotnet add package PolyShim`
 
 > **Important**:
-> To use this package, you must have the latest version of the .NET SDK installed.
+> To reference this package, your project must use the latest version of the .NET SDK and the C# language.
 > This is only required for the build process, and does not affect which version of the runtime you can target.
 
 ## Features
@@ -46,17 +46,11 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - Named tuples
   - Module initializers
   - Overload priority
+  - Caller member information
   - & more...
-- Provides type polyfills for:
-  - `ValueTuple<...>`
-  - `Index` and `Range`
-  - `HashCode`
-  - `SkipLocalsInitAttribute`
-  - `CallerArgumentExpressionAttribute`
-  - `ExcludeFromCodeCoverageAttribute`
-  - & more...
-- Provides member shims for many built-in types
-- Adjusts polyfills based on available capabilities
+- Provides polyfills for many missing built-in types
+- Provides polyfills for many missing members on built-in types
+- Adjusts coverage based on available capabilities
 - Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
 - Imposes no run-time dependencies
 
