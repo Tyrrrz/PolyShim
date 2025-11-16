@@ -38,6 +38,8 @@ internal static partial class PolyfillExtensions
 
             await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken)
                 .ConfigureAwait(false);
+
+            await stream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
 #endif
     }

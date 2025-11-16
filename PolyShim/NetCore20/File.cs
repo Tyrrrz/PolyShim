@@ -77,24 +77,11 @@ internal static partial class PolyfillExtensions
         public static async Task<byte[]> ReadAllBytesAsync(string path, CancellationToken cancellationToken = default)
         {
             using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
+            using var buffer = new MemoryStream();
 
-            var buffer = new byte[stream.Length];
-            var totalBytesRead = 0;
+            await stream.CopyToAsync(buffer, 81920, cancellationToken).ConfigureAwait(false);
 
-            while (totalBytesRead < buffer.Length)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                var bytesRead = await stream.ReadAsync(buffer, totalBytesRead, buffer.Length - totalBytesRead, cancellationToken).ConfigureAwait(false);
-                if (bytesRead == 0)
-                {
-                    break;
-                }
-
-                totalBytesRead += bytesRead;
-            }
-
-            return buffer;
+            return buffer.ToArray();
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.readalllinesasync#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken)
@@ -110,7 +97,7 @@ internal static partial class PolyfillExtensions
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var line = await reader.ReadLineAsync().ConfigureAwait(false);
-                if (line != null)
+                if (line is not null)
                 {
                     lines.Add(line);
                 }
@@ -132,7 +119,7 @@ internal static partial class PolyfillExtensions
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var line = await reader.ReadLineAsync().ConfigureAwait(false);
-                if (line != null)
+                if (line is not null)
                 {
                     lines.Add(line);
                 }
@@ -149,6 +136,8 @@ internal static partial class PolyfillExtensions
 
             var content = new StringBuilder();
             var buffer = new char[4096];
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             int charsRead;
             while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
@@ -168,6 +157,8 @@ internal static partial class PolyfillExtensions
 
             var content = new StringBuilder();
             var buffer = new char[4096];
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             int charsRead;
             while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
