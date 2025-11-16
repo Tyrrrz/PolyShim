@@ -10,3 +10,13 @@ using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
 internal static partial class PolyfillExtensions;
+
+// Additional classes may be necessary to avoid collisions when an extension member
+// with the same name is defined for different type within the same extension class.
+// See DateTime.UnixEpoch and DateTimeOffset.UnixEpoch for an example.
+
+[ExcludeFromCodeCoverage]
+internal static partial class PolyfillExtensions2;
+
+[ExcludeFromCodeCoverage]
+internal static partial class PolyfillExtensions3;
