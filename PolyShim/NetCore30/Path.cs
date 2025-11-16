@@ -15,12 +15,12 @@ internal static partial class PolyfillExtensions
     extension(Path)
     {
         // https://learn.microsoft.com/dotnet/api/system.io.path.endsindirectoryseparator#system-io-path-endsindirectoryseparator(system-string)
-        public static bool EndsInDirectorySeparator(string path)
+        public static bool EndsInDirectorySeparator(string? path)
         {
             if (string.IsNullOrEmpty(path))
                 return false;
 
-            var lastChar = path[^1];
+            var lastChar = path![^1];
 
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
             return lastChar == Path.DirectorySeparatorChar || lastChar == Path.AltDirectorySeparatorChar;
@@ -30,30 +30,10 @@ internal static partial class PolyfillExtensions
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.path.trimendingdirectoryseparator#system-io-path-trimendingdirectoryseparator(system-string)
-        public static string TrimEndingDirectorySeparator(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-                return path;
-
-            var endIndex = path.Length;
-            while (endIndex > 0)
-            {
-                var lastChar = path[endIndex - 1];
-
-#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
-                if (lastChar != Path.DirectorySeparatorChar && lastChar != Path.AltDirectorySeparatorChar)
-#else
-                if (lastChar is not '\\' and not '/')
-#endif
-                {
-                    break;
-                }
-
-                endIndex--;
-            }
-
-            return path[..endIndex];
-        }
+        public static string TrimEndingDirectorySeparator(string path) =>
+            EndsInDirectorySeparator(path) && !Path.GetPathRoot(path).Equals(path, System.StringComparison.Ordinal)
+                ? path[..^1]
+                : path;
     }
 }
 #endif
