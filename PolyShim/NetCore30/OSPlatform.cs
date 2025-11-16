@@ -14,7 +14,7 @@ internal static partial class PolyfillExtensions
 {
     extension(OSPlatform)
     {
-        public static OSPlatform FreeBSD => OSPlatform.Create("FREEBSD");
+        public static OSPlatform FreeBSD => OSPlatform.Create("FreeBSD");
     }
 }
 #endif
