@@ -1,7 +1,12 @@
 #!/usr/bin/env pwsh
 param(
-    [string]$OutputFile = "$PSScriptRoot/Signatures.md"
+    [string]$OutputPath = $PSScriptRoot
 )
+
+# If the output path is a directory, append the default filename
+if (Test-Path $OutputPath -PathType Container) {
+    $OutputPath = Join-Path $OutputPath "Signatures.md"
+}
 
 $codeFiles = Get-ChildItem -Path $PSScriptRoot -Filter "*.cs" -Recurse |
     Where-Object { $_.FullName -notmatch '\\obj\\|\\bin\\' }
@@ -406,10 +411,10 @@ foreach ($typeGroup in $groupedByType) {
 }
 
 # Write output
-$markdown | Out-File -FilePath $OutputFile -Encoding UTF8
+$markdown | Out-File -FilePath $OutputPath -Encoding UTF8
 
 # Console summary
-Write-Host "Generated signature list: $OutputFile" -ForegroundColor Green
+Write-Host "Generated signature list: $OutputPath" -ForegroundColor Green
 Write-Host "Total: $($stats.Total)" -ForegroundColor Cyan
 Write-Host "Types: $($stats.Types)" -ForegroundColor Yellow
 Write-Host "Members: $($stats.Members)" -ForegroundColor Yellow
