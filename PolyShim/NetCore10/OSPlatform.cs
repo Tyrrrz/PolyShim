@@ -32,8 +32,6 @@ internal partial struct OSPlatform
 {
     public static OSPlatform Create(string osPlatform) => new(osPlatform);
 
-    public static OSPlatform FreeBSD { get; } = new("FreeBSD");
-
     public static OSPlatform Linux { get; } = new("Linux");
 
     public static OSPlatform OSX { get; } = new("OSX");
