@@ -153,4 +153,13 @@
       Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.5'))"
     />
   </ItemGroup>
+  <!-- Generate the list of polyfill signatures -->
+  <!-- (condition added to run it once per build, not per TFM) -->
+  <Target
+    Name="ListSignatures"
+    AfterTargets="AfterBuild"
+    Condition="'$(TargetFramework)' == 'netstandard2.0'"
+  >
+    <Exec Command="pwsh -ExecutionPolicy Bypass -File $(ProjectDir)/List-Signatures.ps1" />
+  </Target>
 </Project>

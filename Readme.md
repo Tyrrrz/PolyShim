@@ -18,6 +18,8 @@
 **PolyShim** is a collection of polyfills that enable many modern framework APIs and compiler features for projects targeting older versions of .NET.
 It's distributed as a source-only package that can be referenced without imposing any run-time dependencies.
 
+You can find the full list of polyfilled signatures [here](PolyShim/Signatures.md).
+
 ## Terms of use<sup>[[?]](https://github.com/Tyrrrz/.github/blob/master/docs/why-so-political.md)</sup>
 
 By using this project or its source code, for any purpose and in any shape or form, you grant your **implicit agreement** to all the following statements:
@@ -36,23 +38,6 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 > **Important**:
 > To reference this package, your project must use the latest version of the .NET SDK and the C# language.
 > This is only required for the build process, and does not affect which version of the runtime you can target.
-
-## Features
-
-- Enables compiler support for:
-  - Nullable reference types
-  - Init-only properties and records
-  - Required properties
-  - Named tuples
-  - Module initializers
-  - Overload priority
-  - Caller member information
-  - & more...
-- Provides polyfills for many missing built-in types
-- Provides polyfills for many missing members on built-in types
-- Adjusts coverage based on available capabilities
-- Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
-- Imposes no run-time dependencies
 
 ## Usage
 
@@ -100,6 +85,9 @@ var last = array[^1];
 var part = array[3..^1];
 ```
 
+> **Note**:
+> You can find the full list of polyfilled signatures [here](PolyShim/Signatures.md).
+
 ### Member polyfills
 
 **PolyShim** provides a number of extension members that act as shims for instance or static members that are not available natively on older target frameworks.
@@ -126,6 +114,9 @@ using System;
 // Same code works everywhere without any changes.
 var processId = Environment.ProcessId;
 ```
+
+> **Note**:
+> You can find the full list of polyfilled signatures [here](PolyShim/Signatures.md).
 
 ### Compatibility packages
 
