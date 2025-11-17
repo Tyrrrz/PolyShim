@@ -193,7 +193,7 @@ ___
 - `RequiresUnreferencedCodeAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.requiresunreferencedcodeattribute) <sup><sub>.NET 5.0</sub></sup>
 - `RuntimeHelpers`
-  - **[class]** <sup><sub>.NET Core 3.0</sub></sup>
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.runtimehelpers) <sup><sub>.NET Core 3.0</sub></sup>
 - `RuntimeInformation`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.runtimeinformation) <sup><sub>.NET Core 1.0</sub></sup>
 - `SetsRequiredMembersAttribute`

@@ -10,6 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Runtime.CompilerServices;
 
 [ExcludeFromCodeCoverage]
+// https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.runtimehelpers
 internal static class RuntimeHelpers
 {
     // Enables range-based slice on arrays
