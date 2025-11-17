@@ -283,6 +283,11 @@ function Remove-DuplicateSignatures {
             $deduplicated[$existingIndex] = $item
             $seenTypes[$key] = $item
         }
+        elseif (-not $item.Url -and $seenTypes[$key].Url) {
+            # Current item has no URL but existing one does, update FilePath to track all locations
+            # Keep the one with URL
+            continue
+        }
     }
 
     return $deduplicated
@@ -340,22 +345,28 @@ foreach ($file in $codeFiles) {
 
         $typeUrl = Find-DocumentationUrl $content $match.Index
 
-        if (-not $typeUrl) {
-            Write-Warning "Missing documentation URL for type '$typeName' in '$relativePath'."
-        }
-
         $signatures += [PSCustomObject]@{
             Type = $typeName
             Member = ''
             Kind = $typeKind
             Framework = $framework
             Url = $typeUrl
+            FilePath = $relativePath
         }
     }
 }
 
 # Deduplicate signatures
 $deduplicatedSignatures = Remove-DuplicateSignatures $signatures
+
+# Check for types missing documentation URLs (after deduplication)
+$typesWithoutUrls = $deduplicatedSignatures |
+    Where-Object { $_.Kind -ne 'Extension' -and -not $_.Url } |
+    Select-Object -Property Type, FilePath
+
+foreach ($type in $typesWithoutUrls) {
+    Write-Warning "Missing documentation URL for type '$($type.Type)' in '$($type.FilePath)'."
+}
 
 # Calculate statistics
 $stats = @{
