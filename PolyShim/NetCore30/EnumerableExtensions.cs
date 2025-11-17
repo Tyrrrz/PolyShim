@@ -11,12 +11,11 @@ namespace System.Linq;
 
 internal static partial class PolyfillExtensions
 {
-    extension<TFirst>(IEnumerable<TFirst> first)
+    extension<T>(IEnumerable<T> source)
     {
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1)))
-        public IEnumerable<(TFirst left, TSecond right)> Zip<TSecond>(
-            IEnumerable<TSecond> second
-        ) => first.Zip(second, (x, y) => (x, y));
+        public IEnumerable<(T left, TOther right)> Zip<TOther>(IEnumerable<TOther> second) =>
+            source.Zip(second, (x, y) => (x, y));
     }
 }
 #endif

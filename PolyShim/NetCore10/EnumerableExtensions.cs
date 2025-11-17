@@ -30,18 +30,15 @@ internal static partial class PolyfillExtensions
 
             yield return element;
         }
-    }
 
-    extension<TFirst, TSecond>(IEnumerable<TFirst> first)
-    {
 #if (NETFRAMEWORK && !NET40_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1-2)))
-        public IEnumerable<TResult> Zip<TResult>(
-            IEnumerable<TSecond> second,
-            Func<TFirst, TSecond, TResult> resultSelector
+        public IEnumerable<TResult> Zip<TOther, TResult>(
+            IEnumerable<TOther> second,
+            Func<T, TOther, TResult> resultSelector
         )
         {
-            using var e1 = first.GetEnumerator();
+            using var e1 = source.GetEnumerator();
             using var e2 = second.GetEnumerator();
 
             while (e1.MoveNext() && e2.MoveNext())
