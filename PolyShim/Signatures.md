@@ -11,7 +11,7 @@ ___
 - `AllowNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.allownullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `AppContext`
-  - **[class]** <sup><sub>.NET Core 1.0</sub></sup>
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.appcontext) <sup><sub>.NET Core 1.0</sub></sup>
   - [`string? TargetFrameworkName`](https://learn.microsoft.com/dotnet/api/system.appcontext.targetframeworkname) <sup><sub>.NET Core 1.0</sub></sup>
 - `ArgumentException`
   - [`void ThrowIfNullOrEmpty(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorempty) <sup><sub>.NET 7.0</sub></sup>

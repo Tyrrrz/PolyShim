@@ -32,6 +32,7 @@ internal static partial class PolyfillExtensions
 #if (NETFRAMEWORK && !NET46_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_3_OR_GREATER)
 namespace System
 {
+    // https://learn.microsoft.com/dotnet/api/system.appcontext
     [ExcludeFromCodeCoverage]
     internal static class AppContext;
 }
