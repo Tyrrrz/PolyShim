@@ -31,7 +31,7 @@ ___
 - `DictionaryEntry`
   - [`void Deconstruct(out object, out object?)`](https://learn.microsoft.com/dotnet/api/system.collections.dictionaryentry.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `DisallowNullAttribute`
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.allownullattribute) <sup><sub>.NET Core 3.0</sub></sup>
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.disallownullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `DoesNotReturnAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.doesnotreturnattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `DoesNotReturnIfAttribute`
