@@ -16,21 +16,21 @@ internal static partial class PolyfillExtensions
 #if FEATURE_TASK
     extension(HttpContent httpContent)
     {
-        // Documentation missing on docs.microsoft.com for this signature
+        // https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)
         public async Task<Stream> ReadAsStreamAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             return await httpContent.ReadAsStreamAsync().ConfigureAwait(false);
         }
 
-        // Documentation missing on docs.microsoft.com for this signature
+        // https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)
         public async Task<byte[]> ReadAsByteArrayAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             return await httpContent.ReadAsByteArrayAsync().ConfigureAwait(false);
         }
 
-        // Documentation missing on docs.microsoft.com for this signature
+        // https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)
         public async Task<string> ReadAsStringAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
