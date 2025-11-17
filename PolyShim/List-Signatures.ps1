@@ -137,7 +137,7 @@ function Clean-Signature {
 
 # Validates type name extracted from extension block
 function Test-TypeName {
-    param([string]$typeName, [string]$relativePath)
+    param([string]$typeName, [string]$relativePath, [int]$lineNumber)
 
     # Check for empty, preprocessor directives, or whitespace outside generics
     $invalid = [string]::IsNullOrWhiteSpace($typeName) -or
@@ -145,7 +145,7 @@ function Test-TypeName {
                 ($typeName -replace '<[^>]+>', '') -match '\s'
 
     if ($invalid) {
-        Write-Warning "Skipped signature in '$($relativePath.TrimStart('\', '/')). Unable to extract type information."
+        Write-Warning "Unable to extract type information on line $lineNumber in '$relativePath'."
         return $false
     }
 
@@ -157,7 +157,8 @@ function Get-ExtensionMembers {
     param(
         [string]$block,
         [string]$typeName,
-        [string]$framework
+        [string]$framework,
+        [string]$relativePath
     )
 
     $members = @()
@@ -173,9 +174,15 @@ function Get-ExtensionMembers {
         if ($line -match '^\s*public\s+') {
             # Save previous signature if exists
             if ($currentSignature) {
+                $cleanedSig = Clean-Signature ($currentSignature.Trim() -replace '\s+', ' ')
+
+                if (-not $currentUrl) {
+                    Write-Warning "Missing documentation URL for '$typeName.$cleanedSig' in '$relativePath'."
+                }
+
                 $members += [PSCustomObject]@{
                     Type = $typeName
-                    Member = (Clean-Signature ($currentSignature.Trim() -replace '\s+', ' '))
+                    Member = $cleanedSig
                     Kind = 'Extension'
                     Framework = $framework
                     Url = $currentUrl
@@ -220,9 +227,15 @@ function Get-ExtensionMembers {
 
     # Save last signature
     if ($currentSignature) {
+        $cleanedSig = Clean-Signature ($currentSignature.Trim() -replace '\s+', ' ')
+
+        if (-not $currentUrl) {
+            Write-Warning "Missing documentation URL for '$typeName.$cleanedSig' in '$relativePath'."
+        }
+
         $members += [PSCustomObject]@{
             Type = $typeName
-            Member = (Clean-Signature ($currentSignature.Trim() -replace '\s+', ' '))
+            Member = $cleanedSig
             Kind = 'Extension'
             Framework = $framework
             Url = $currentUrl
@@ -297,8 +310,11 @@ foreach ($file in $codeFiles) {
     foreach ($match in $extensionMatches) {
         $typeName = Get-ExtensionTypeName $match.Groups[1].Value.Trim()
 
+        # Calculate line number for error reporting
+        $lineNumber = ($content.Substring(0, $match.Index) -split '\r?\n').Count
+
         # Validate type name
-        if (-not (Test-TypeName $typeName $relativePath)) {
+        if (-not (Test-TypeName $typeName $relativePath $lineNumber)) {
             continue
         }
 
@@ -306,7 +322,7 @@ foreach ($file in $codeFiles) {
         $endPos = Find-ClosingBrace $content ($match.Index + $match.Length)
         $block = $content.Substring($match.Index + $match.Length, $endPos - $match.Index - $match.Length - 1)
 
-        $signatures += Get-ExtensionMembers $block $typeName $framework
+        $signatures += Get-ExtensionMembers $block $typeName $framework $relativePath
     }
 
     # Extract type declarations (must be internal)
@@ -323,6 +339,11 @@ foreach ($file in $codeFiles) {
         }
 
         $typeUrl = Find-DocumentationUrl $content $match.Index
+
+        if (-not $typeUrl) {
+            Write-Warning "Missing documentation URL for type '$typeName' in '$relativePath'."
+        }
+
         $signatures += [PSCustomObject]@{
             Type = $typeName
             Member = ''
