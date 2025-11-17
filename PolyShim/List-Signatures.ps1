@@ -22,12 +22,25 @@ function Get-FrameworkName {
     return $null
 }
 
-# Extracts documentation URL from a comment line
-function Get-DocumentationUrl {
-    param([string]$line)
+# Finds documentation URL in preceding lines before a given position
+function Find-DocumentationUrl {
+    param([string]$content, [int]$position, [int]$maxLinesToSearch = 20)
 
-    if ($line -match '//\s*(https://(?:learn\.microsoft\.com|docs\.microsoft\.com)[^\s]+)') {
-        return $matches[1]
+    $lines = $content.Substring(0, $position) -split '\r?\n'
+
+    for ($i = $lines.Count - 1; $i -ge 0 -and $i -ge $lines.Count - $maxLinesToSearch; $i--) {
+        $trimmedLine = $lines[$i].Trim()
+
+        # Found URL comment
+        if ($trimmedLine -match '^//\s*(https://(?:learn\.microsoft\.com|docs\.microsoft\.com)\S+)') {
+            return $matches[1]
+        }
+
+        # Stop if we hit another declaration or namespace
+        if ($trimmedLine -match '^(public|internal|private|protected)\s+(class|struct|enum|interface|record|static|readonly)' -or
+            $trimmedLine -match '^namespace\s+') {
+            break
+        }
     }
 
     return $null
@@ -126,14 +139,12 @@ function Clean-Signature {
 function Test-TypeName {
     param([string]$typeName, [string]$relativePath)
 
-    if ([string]::IsNullOrWhiteSpace($typeName) -or $typeName -match '#if|#else|#endif') {
-        Write-Warning "Skipped signature in '$($relativePath.TrimStart('\', '/')). Unable to extract type information."
-        return $false
-    }
+    # Check for empty, preprocessor directives, or whitespace outside generics
+    $invalid = [string]::IsNullOrWhiteSpace($typeName) -or
+                $typeName -match '#if|#else|#endif' -or
+                ($typeName -replace '<[^>]+>', '') -match '\s'
 
-    # Check if type has whitespace outside angle brackets
-    $typeWithoutGenerics = $typeName -replace '<[^>]+>', ''
-    if ($typeWithoutGenerics -match '\s') {
+    if ($invalid) {
         Write-Warning "Skipped signature in '$($relativePath.TrimStart('\', '/')). Unable to extract type information."
         return $false
     }
@@ -150,30 +161,33 @@ function Get-ExtensionMembers {
     )
 
     $members = @()
-    $lines = $block -split '\r?\n'
     $currentSignature = ''
     $currentUrl = $null
     $inSignature = $false
 
-    foreach ($line in $lines) {
-        # Check for documentation URL
-        $url = Get-DocumentationUrl $line
-        if ($url) {
-            $currentUrl = $url
-        }
+    $lines = $block -split '\r?\n'
+    for ($lineIndex = 0; $lineIndex -lt $lines.Count; $lineIndex++) {
+        $line = $lines[$lineIndex]
 
         # Check if this is a public declaration (extensions must be public)
         if ($line -match '^\s*public\s+') {
             # Save previous signature if exists
             if ($currentSignature) {
-                $sig = $currentSignature.Trim() -replace '\s+', ' '
-                $sig = Clean-Signature $sig
                 $members += [PSCustomObject]@{
                     Type = $typeName
-                    Member = $sig
+                    Member = (Clean-Signature ($currentSignature.Trim() -replace '\s+', ' '))
                     Kind = 'Extension'
                     Framework = $framework
                     Url = $currentUrl
+                }
+            }
+
+            # Find documentation URL for this member (search backwards from current line)
+            $currentUrl = $null
+            for ($i = $lineIndex - 1; $i -ge 0 -and $i -ge $lineIndex - 5; $i--) {
+                if ($lines[$i] -match '^\s*//\s*(https://(?:learn\.microsoft\.com|docs\.microsoft\.com)\S+)') {
+                    $currentUrl = $matches[1]
+                    break
                 }
             }
 
@@ -206,11 +220,9 @@ function Get-ExtensionMembers {
 
     # Save last signature
     if ($currentSignature) {
-        $sig = $currentSignature.Trim() -replace '\s+', ' '
-        $sig = Clean-Signature $sig
         $members += [PSCustomObject]@{
             Type = $typeName
-            Member = $sig
+            Member = (Clean-Signature ($currentSignature.Trim() -replace '\s+', ' '))
             Kind = 'Extension'
             Framework = $framework
             Url = $currentUrl
@@ -225,38 +237,11 @@ function Get-ExtensionTypeName {
     param([string]$typeNameRaw)
 
     # Remove receiver variable name: Type<...> variableName or Type variableName
-    if ($typeNameRaw -match '^(.+>)\s+(\w+)$') {
-        return $matches[1]
-    }
-    elseif ($typeNameRaw -match '^(.+?)\s+(\w+)$') {
+    if ($typeNameRaw -match '^(.+?[>}])\s+\w+$' -or $typeNameRaw -match '^(.+?)\s+\w+$') {
         return $matches[1]
     }
 
     return $typeNameRaw
-}
-
-# Finds documentation URL before a type declaration
-function Get-TypeDocumentationUrl {
-    param([string]$content, [int]$matchIndex)
-
-    $lines = $content.Substring(0, $matchIndex) -split '\r?\n'
-
-    for ($i = $lines.Count - 1; $i -ge 0 -and $i -ge $lines.Count - 20; $i--) {
-        $trimmedLine = $lines[$i].Trim()
-
-        # Found URL comment
-        if ($trimmedLine -match '^//\s*(https://[^\s]+)') {
-            return $matches[1]
-        }
-
-        # Stop if we hit another declaration or namespace
-        if ($trimmedLine -match '^(public|internal|private|protected)\s+(class|struct|enum|interface|record|static|readonly)' -or
-            $trimmedLine -match '^namespace\s+') {
-            break
-        }
-    }
-
-    return $null
 }
 
 # Deduplicates type definitions, keeping the one with URL if available
@@ -337,7 +322,7 @@ foreach ($file in $codeFiles) {
             continue
         }
 
-        $typeUrl = Get-TypeDocumentationUrl $content $match.Index
+        $typeUrl = Find-DocumentationUrl $content $match.Index
         $signatures += [PSCustomObject]@{
             Type = $typeName
             Member = ''
@@ -378,23 +363,12 @@ foreach ($typeGroup in $groupedByType) {
 
     foreach ($item in $typeGroup.Group) {
         $frameworkTag = " <sup><sub>$($item.Framework)</sub></sup>"
+        $content = if ($item.Member) { "``$($item.Member)``" } else { "**[$($item.Kind)]**" }
 
-        if ($item.Member) {
-            # Extension member
-            $signature = "``$($item.Member)``"
-            $markdown += if ($item.Url) {
-                "  - [$signature]($($item.Url))$frameworkTag"
-            } else {
-                "  - $signature$frameworkTag"
-            }
+        $markdown += if ($item.Url) {
+            "  - [$content]($($item.Url))$frameworkTag"
         } else {
-            # Type definition
-            $marker = "**[$($item.Kind)]**"
-            $markdown += if ($item.Url) {
-                "  - [$marker]($($item.Url))$frameworkTag"
-            } else {
-                "  - $marker$frameworkTag"
-            }
+            "  - $content$frameworkTag"
         }
     }
 }
