@@ -41,4 +41,21 @@ public class PathTests
         Path.TrimEndingDirectorySeparator("/a/b/c").Should().Be("/a/b/c");
         Path.TrimEndingDirectorySeparator(string.Empty).Should().Be(string.Empty);
     }
+
+    [Fact]
+    public void Join_Test()
+    {
+        // Act & assert
+
+        // For some reason, dropping the array literals leads to nullability errors on .NET Framework
+        // ReSharper disable RedundantExplicitParamsArrayCreation
+        Path.Join(["C:/Program Files/", "Utilities/SystemUtilities"])
+            .Should()
+            .Be("C:/Program Files/Utilities/SystemUtilities");
+        Path.Join(["C:/", "/Program Files"]).Should().Be("C://Program Files");
+        Path.Join(["C:/Users/Public/Documents/", "C:/Users/User1/Documents/Financial/"])
+            .Should()
+            .Be("C:/Users/Public/Documents/C:/Users/User1/Documents/Financial/");
+        // ReSharper restore RedundantExplicitParamsArrayCreation
+    }
 }
