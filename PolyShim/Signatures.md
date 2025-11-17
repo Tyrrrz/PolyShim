@@ -1,8 +1,10 @@
-# PolyShim Polyfills
+# Signatures
 
-This document lists all polyfills provided by the PolyShim library.
+- **Total:** 217
+- **Types:** 62
+- **Members:** 155
 
-## Definitions
+___
 
 - `AggregateException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.aggregateexception) <sup><sub>.NET Core 1.0</sub></sup>
@@ -170,7 +172,6 @@ This document lists all polyfills provided by the PolyShim library.
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute) <sup><sub>.NET 9.0</sub></sup>
 - `Path`
   - [`bool EndsInDirectorySeparator(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.trimendingdirectoryseparator#system-io-path-trimendingdirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
-  - [`bool IsDirectorySeparator(char)`](https://learn.microsoft.com/dotnet/api/system.io.path.endsindirectoryseparator#system-io-path-endsindirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
   - [`string Combine(params string[])`](https://learn.microsoft.com/dotnet/api/system.io.path.combine#system-io-path-combine(system-string())) <sup><sub>.NET Core 1.0</sub></sup>
   - [`string GetRelativePath(string, string)`](https://learn.microsoft.com/dotnet/api/system.io.path.getrelativepath) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Join(params string?[])`](https://learn.microsoft.com/dotnet/api/system.io.path.join#system-io-path-join(system-string())) <sup><sub>.NET Core 3.0</sub></sup>
@@ -312,9 +313,3 @@ This document lists all polyfills provided by the PolyShim library.
 - `Version`
   - [`bool TryParse(string?, out Version?)`](https://learn.microsoft.com/dotnet/api/system.version.tryparse) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Version Parse(string)`](https://learn.microsoft.com/dotnet/api/system.version.tryparse) <sup><sub>.NET Core 1.0</sub></sup>
-
-## Statistics
-
-- **Total polyfills:** 218
-- **Types:** 62
-- **Members:** 156

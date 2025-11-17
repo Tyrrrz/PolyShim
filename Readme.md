@@ -18,7 +18,7 @@
 **PolyShim** is a collection of polyfills that enable many modern framework APIs and compiler features for projects targeting older versions of .NET.
 It's distributed as a source-only package that can be referenced without imposing any run-time dependencies.
 
-See [this document](PolyShim/Signatures.md) for the full list of polyfilled signatures.
+You can find the full list of polyfilled signatures [here](PolyShim/Signatures.md).
 
 ## Terms of use<sup>[[?]](https://github.com/Tyrrrz/.github/blob/master/docs/why-so-political.md)</sup>
 
