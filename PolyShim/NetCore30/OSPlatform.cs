@@ -11,6 +11,7 @@ internal static partial class PolyfillExtensions
 {
     extension(OSPlatform)
     {
+        // https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform.freebsd
         public static OSPlatform FreeBSD => OSPlatform.Create("FreeBSD");
     }
 }

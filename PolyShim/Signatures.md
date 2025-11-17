@@ -167,7 +167,7 @@ ___
   - [`bool IsWindowsVersionAtLeast(int, int, int, int)`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindowsversionatleast) <sup><sub>.NET 5.0</sub></sup>
 - `OSPlatform`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform) <sup><sub>.NET Core 1.0</sub></sup>
-  - `OSPlatform FreeBSD` <sup><sub>.NET Core 3.0</sub></sup>
+  - [`OSPlatform FreeBSD`](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform.freebsd) <sup><sub>.NET Core 3.0</sub></sup>
 - `OverloadResolutionPriorityAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute) <sup><sub>.NET 9.0</sub></sup>
 - `Path`
