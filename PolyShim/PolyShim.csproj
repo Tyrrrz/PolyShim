@@ -2,6 +2,7 @@
   <!-- Include polyfill props and targets -->
   <Import Project="PolyShim.props" />
   <Import Project="PolyShim.targets" />
+
   <PropertyGroup>
     <!-- Target frameworks here are only used to verify source compatibility with different API levels -->
     <TargetFrameworks>
@@ -14,17 +15,13 @@
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
+
   <PropertyGroup>
-    <Authors>$(Company)</Authors>
-    <Description>Collection of polyfills that enable many modern framework APIs and compiler features for projects targeting older versions of .NET.</Description>
-    <PackageTags>polyfill shims compat compatibility</PackageTags>
-    <PackageProjectUrl>https://github.com/Tyrrrz/PolyShim</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Tyrrrz/PolyShim/releases</PackageReleaseNotes>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <DevelopmentDependency>true</DevelopmentDependency>
   </PropertyGroup>
+
   <ItemGroup>
     <Content Include="PolyShim.props" Pack="true" PackagePath="build" />
     <Content Include="PolyShim.targets" Pack="true" PackagePath="build" />
@@ -43,9 +40,11 @@
       BuildAction="compile"
     />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="CSharpier.MsBuild" Version="1.2.1" PrivateAssets="all" />
   </ItemGroup>
+
   <!-- Import official compatibilty packages for metadata references -->
   <ItemGroup>
     <PackageReference
@@ -145,6 +144,7 @@
       Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.0'))"
     />
   </ItemGroup>
+
   <!-- Import common .NET Framework libraries for metadata references -->
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
     <Reference Include="System.Management" />
@@ -153,6 +153,7 @@
       Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.5'))"
     />
   </ItemGroup>
+
   <!-- Generate the list of polyfill signatures -->
   <!-- (condition added to run it once per build, not per TFM) -->
   <Target
