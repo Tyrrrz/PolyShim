@@ -35,8 +35,8 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 
 - 📦 [NuGet](https://nuget.org/packages/PolyShim): `dotnet add package PolyShim`
 
-> **Important**:
-> To reference this package, your project must use the latest version of the .NET SDK and the C# language.
+> [!IMPORTANT]
+> To reference this package, you must have the latest major version of the .NET SDK installed.
 > This is only required for the build process, and does not affect which version of the runtime you can target.
 
 ## Usage
@@ -49,7 +49,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 Once the package is installed, the polyfills will be automatically added to your project as internal source files.
 You can then use them in your code by referencing the corresponding types or members as if they were defined natively.
 
-> **Note**:
+> [!NOTE]
 > Polyfills are only applied to types and members that are not already provided.
 > When a native implementation of a symbol is available — either in the framework or through a referenced [compatibility package](#compatibility-packages) — it will always be prioritized over the corresponding polyfill.
 
@@ -85,7 +85,7 @@ var last = array[^1];
 var part = array[3..^1];
 ```
 
-> **Note**:
+> [!NOTE]
 > You can find the full list of polyfilled signatures [here](PolyShim/Signatures.md).
 
 ### Member polyfills
@@ -115,7 +115,7 @@ using System;
 var processId = Environment.ProcessId;
 ```
 
-> **Note**:
+> [!NOTE]
 > You can find the full list of polyfilled signatures [here](PolyShim/Signatures.md).
 
 ### Compatibility packages
