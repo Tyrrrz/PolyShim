@@ -19,7 +19,7 @@ ___
 - `ArgumentNullException`
   - [`void ThrowIfNull(object?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentnullexception.throwifnull#system-argumentnullexception-throwifnull(system-object-system-string)) <sup><sub>.NET 6.0</sub></sup>
 - `CallerArgumentExpressionAttribute`
-  - [**[class]**](https://docs.microsoft.com/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute) <sup><sub>.NET Core 3.0</sub></sup>
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `CancellationTokenSource`
   - [`Task CancelAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.cancellationtokensource.cancelasync) <sup><sub>.NET 8.0</sub></sup>
 - `CompilerFeatureRequiredAttribute`

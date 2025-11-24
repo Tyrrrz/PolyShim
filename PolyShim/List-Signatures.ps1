@@ -37,7 +37,7 @@ function Find-DocumentationUrl {
         $trimmedLine = $lines[$i].Trim()
 
         # Found URL comment
-        if ($trimmedLine -match '^//\s*(https://(?:learn\.microsoft\.com|docs\.microsoft\.com)\S+)') {
+        if ($trimmedLine -match '^//\s*(https?://\S+)') {
             return $matches[1]
         }
 
