@@ -33,8 +33,6 @@ public class EqualityComparerTests
         comparer.Equals(5, 5).Should().BeTrue();
         comparer.Equals(5, -5).Should().BeTrue();
         comparer.Equals(5, 4).Should().BeFalse();
-        Assert.Throws<NotSupportedException>(() =>
-            comparer.GetHashCode(5).Should().Be(comparer.GetHashCode(-5))
-        );
+        Assert.Throws<NotSupportedException>(() => comparer.GetHashCode(5));
     }
 }
