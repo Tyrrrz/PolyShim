@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 228
+- **Total:** 229
 - **Types:** 62
-- **Members:** 166
+- **Members:** 167
 
 ___
 
@@ -43,6 +43,8 @@ ___
 - `Environment`
   - [`int ProcessId`](https://learn.microsoft.com/dotnet/api/system.environment.processid) <sup><sub>.NET 5.0</sub></sup>
   - [`string? ProcessPath`](https://learn.microsoft.com/dotnet/api/system.environment.processpath) <sup><sub>.NET 6.0</sub></sup>
+- `EqualityComparer<T>`
+  - [`EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.equalitycomparer-1.create) <sup><sub>.NET 8.0</sub></sup>
 - `ExcludeFromCodeCoverageAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.excludefromcodecoverageattribute) <sup><sub>.NET Core 2.0</sub></sup>
 - `ExtensionAttribute`
