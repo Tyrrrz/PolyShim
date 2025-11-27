@@ -9,7 +9,8 @@ using System.Collections.Generic;
 
 internal static partial class PolyfillExtensions
 {
-    extension<TKey, TValue>(Dictionary<TKey, TValue> dictionary) where TKey : notnull
+    extension<TKey, TValue>(Dictionary<TKey, TValue> dictionary)
+        where TKey : notnull
     {
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2.tryadd
         public bool TryAdd(TKey key, TValue value)
