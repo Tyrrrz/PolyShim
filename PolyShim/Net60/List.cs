@@ -5,8 +5,8 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-
-namespace System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 internal static partial class PolyfillExtensions
 {
