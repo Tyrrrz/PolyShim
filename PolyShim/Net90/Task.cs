@@ -22,7 +22,7 @@ internal static partial class PolyfillExtensions
             [EnumeratorCancellation] CancellationToken cancellationToken = default
         )
         {
-            var remaining = new List<Task>(tasks);
+            var remaining = new HashSet<Task>(tasks);
             while (remaining.Count > 0)
             {
                 var completed = await Task.WhenAny(remaining).ConfigureAwait(false);
@@ -43,7 +43,7 @@ internal static partial class PolyfillExtensions
             [EnumeratorCancellation] CancellationToken cancellationToken = default
         )
         {
-            var remaining = new List<Task<T>>(tasks);
+            var remaining = new HashSet<Task<T>>(tasks);
             while (remaining.Count > 0)
             {
                 var completed = await Task.WhenAny(remaining).ConfigureAwait(false);
