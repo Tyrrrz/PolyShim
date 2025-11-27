@@ -18,9 +18,11 @@ internal static partial class PolyfillExtensions
         public void SetCanceled(CancellationToken cancellationToken)
         {
             if (!source.TrySetCanceled(cancellationToken))
+            {
                 throw new InvalidOperationException(
                     "The task is already completed, canceled, or failed."
                 );
+            }
         }
     }
 }

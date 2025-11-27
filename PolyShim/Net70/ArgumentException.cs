@@ -35,10 +35,12 @@ internal static partial class PolyfillExtensions
                 throw new ArgumentNullException(paramName);
 
             if (string.IsNullOrWhiteSpace(argument))
+            {
                 throw new ArgumentException(
                     "The value cannot be an empty string or composed entirely of whitespace.",
                     paramName
                 );
+            }
         }
     }
 }

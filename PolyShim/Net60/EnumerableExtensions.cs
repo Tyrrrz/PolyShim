@@ -130,9 +130,11 @@ internal static partial class PolyfillExtensions
                 if (predicate(item))
                 {
                     if (isResultSet)
+                    {
                         throw new InvalidOperationException(
                             "Sequence contains more than one element."
                         );
+                    }
 
                     result = item;
                     isResultSet = true;
