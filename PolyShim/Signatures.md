@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 225
+- **Total:** 226
 - **Types:** 62
-- **Members:** 163
+- **Members:** 164
 
 ___
 
@@ -136,6 +136,8 @@ ___
   - [`void Deconstruct(out TKey, out TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `LibraryImportAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.libraryimportattribute) <sup><sub>.NET 7.0</sub></sup>
+- `List<T>`
+  - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.ensurecapacity) <sup><sub>.NET 6.0</sub></sup>
 - `Lock`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.lock) <sup><sub>.NET 9.0</sub></sup>
 - `MatchCollection`
