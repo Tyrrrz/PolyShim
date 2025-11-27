@@ -9,7 +9,7 @@ if (Test-Path $OutputPath -PathType Container) {
 }
 
 $codeFiles = Get-ChildItem -Path $PSScriptRoot -Filter "*.cs" -Recurse |
-    Where-Object { $_.FullName -notmatch '\\obj\\|\\bin\\' }
+Where-Object { $_.FullName -notmatch '\\obj\\|\\bin\\' }
 
 $signatures = @()
 
@@ -36,8 +36,8 @@ function Find-DocumentationUrl {
     for ($i = $lines.Count - 1; $i -ge 0 -and $i -ge $lines.Count - $maxLinesToSearch; $i--) {
         $trimmedLine = $lines[$i].Trim()
 
-        # Found URL comment
-        if ($trimmedLine -match '^//\s*(https?://\S+)') {
+        # Found URL comment (only accept Microsoft documentation URLs)
+        if ($trimmedLine -match '^//\s*(https://(?:learn\.microsoft\.com|docs\.microsoft\.com)\S+)') {
             return $matches[1]
         }
 
@@ -132,7 +132,8 @@ function Clean-Signature {
         # Match everything up to the last word (which is the param name)
         if ($_ -match '^(.+)\s+\w+$') {
             $matches[1].Trim()
-        } else {
+        }
+        else {
             $_
         }
     }
@@ -146,8 +147,8 @@ function Test-TypeName {
 
     # Check for empty, preprocessor directives, or whitespace outside generics
     $invalid = [string]::IsNullOrWhiteSpace($typeName) -or
-                $typeName -match '#if|#else|#endif' -or
-                ($typeName -replace '<[^>]+>', '') -match '\s'
+    $typeName -match '#if|#else|#endif' -or
+    ($typeName -replace '<[^>]+>', '') -match '\s'
 
     if ($invalid) {
         Write-Warning "Unable to extract type information on line $lineNumber in '$relativePath'."
@@ -186,11 +187,11 @@ function Get-ExtensionMembers {
                 }
 
                 $members += [PSCustomObject]@{
-                    Type = $typeName
-                    Member = $cleanedSig
-                    Kind = 'Extension'
+                    Type      = $typeName
+                    Member    = $cleanedSig
+                    Kind      = 'Extension'
                     Framework = $framework
-                    Url = $currentUrl
+                    Url       = $currentUrl
                 }
             }
 
@@ -239,11 +240,11 @@ function Get-ExtensionMembers {
         }
 
         $members += [PSCustomObject]@{
-            Type = $typeName
-            Member = $cleanedSig
-            Kind = 'Extension'
+            Type      = $typeName
+            Member    = $cleanedSig
+            Kind      = 'Extension'
             Framework = $framework
-            Url = $currentUrl
+            Url       = $currentUrl
         }
     }
 
@@ -276,7 +277,7 @@ function Remove-DuplicateSignatures {
             continue
         }
 
-        # For type definitions, keep first or replace with one that has URL
+        # For type definitions, keep first URL found (don't replace with later URLs)
         $key = "$($item.Type)|$($item.Kind)"
         if (-not $seenTypes.ContainsKey($key)) {
             $seenTypes[$key] = $item
@@ -288,11 +289,7 @@ function Remove-DuplicateSignatures {
             $deduplicated[$existingIndex] = $item
             $seenTypes[$key] = $item
         }
-        elseif (-not $item.Url -and $seenTypes[$key].Url) {
-            # Current item has no URL but existing one does, update FilePath to track all locations
-            # Keep the one with URL
-            continue
-        }
+        # Otherwise skip: if existing item already has a URL, keep it (don't replace)
     }
 
     return $deduplicated
@@ -351,12 +348,12 @@ foreach ($file in $codeFiles) {
         $typeUrl = Find-DocumentationUrl $content $match.Index
 
         $signatures += [PSCustomObject]@{
-            Type = $typeName
-            Member = ''
-            Kind = $typeKind
+            Type      = $typeName
+            Member    = ''
+            Kind      = $typeKind
             Framework = $framework
-            Url = $typeUrl
-            FilePath = $relativePath
+            Url       = $typeUrl
+            FilePath  = $relativePath
         }
     }
 }
@@ -366,8 +363,8 @@ $deduplicatedSignatures = Remove-DuplicateSignatures $signatures
 
 # Check for types missing documentation URLs (after deduplication)
 $typesWithoutUrls = $deduplicatedSignatures |
-    Where-Object { $_.Kind -ne 'Extension' -and -not $_.Url } |
-    Select-Object -Property Type, FilePath
+Where-Object { $_.Kind -ne 'Extension' -and -not $_.Url } |
+Select-Object -Property Type, FilePath
 
 foreach ($type in $typesWithoutUrls) {
     Write-Warning "Missing documentation URL for type '$($type.Type)' in '$($type.FilePath)'."
@@ -375,8 +372,8 @@ foreach ($type in $typesWithoutUrls) {
 
 # Calculate statistics
 $stats = @{
-    Total = $deduplicatedSignatures.Count
-    Types = ($deduplicatedSignatures | Where-Object { $_.Kind -ne 'Extension' }).Count
+    Total   = $deduplicatedSignatures.Count
+    Types   = ($deduplicatedSignatures | Where-Object { $_.Kind -ne 'Extension' }).Count
     Members = ($deduplicatedSignatures | Where-Object { $_.Kind -eq 'Extension' }).Count
 }
 
@@ -404,7 +401,8 @@ foreach ($typeGroup in $groupedByType) {
 
         $markdown += if ($item.Url) {
             "  - [$content]($($item.Url))$frameworkTag"
-        } else {
+        }
+        else {
             "  - $content$frameworkTag"
         }
     }

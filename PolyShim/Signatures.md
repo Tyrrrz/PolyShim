@@ -137,7 +137,7 @@ ___
 - `LibraryImportAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.libraryimportattribute) <sup><sub>.NET 7.0</sub></sup>
 - `Lock`
-  - [**[class]**](https://github.com/Tyrrrz/PolyShim/pull/10#issuecomment-2381456516) <sup><sub>.NET 9.0</sub></sup>
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.lock) <sup><sub>.NET 9.0</sub></sup>
 - `MatchCollection`
   - [`IEnumerable<Match> AsEnumerable()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
   - [`IEnumerator<Match> GetEnumerator()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
