@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 231
+- **Total:** 232
 - **Types:** 62
-- **Members:** 169
+- **Members:** 170
 
 ___
 
@@ -28,6 +28,8 @@ ___
   - [`DateTime UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetime.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
 - `DateTimeOffset`
   - [`DateTimeOffset UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
+- `Dictionary<TKey, TValue>`
+  - [`bool TryAdd(TKey, TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2.tryadd) <sup><sub>.NET Core 2.0</sub></sup>
 - `DictionaryEntry`
   - [`void Deconstruct(out object, out object?)`](https://learn.microsoft.com/dotnet/api/system.collections.dictionaryentry.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `DisallowNullAttribute`
