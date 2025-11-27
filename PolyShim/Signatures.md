@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 221
+- **Total:** 225
 - **Types:** 62
-- **Members:** 159
+- **Members:** 163
 
 ___
 
@@ -137,7 +137,7 @@ ___
 - `LibraryImportAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.libraryimportattribute) <sup><sub>.NET 7.0</sub></sup>
 - `Lock`
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.lock) <sup><sub>.NET 9.0</sub></sup>
+  - [**[class]**](https://github.com/Tyrrrz/PolyShim/pull/10#issuecomment-2381456516) <sup><sub>.NET 9.0</sub></sup>
 - `MatchCollection`
   - [`IEnumerable<Match> AsEnumerable()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
   - [`IEnumerator<Match> GetEnumerator()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
@@ -266,12 +266,16 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.targetplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `Task`
   - [`bool IsCompletedSuccessfully`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.iscompletedsuccessfully) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`IAsyncEnumerable<Task> WhenEach(IEnumerable<Task>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET 9.0</sub></sup>
+  - [`IAsyncEnumerable<Task> WhenEach(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-threading-tasks-task())) <sup><sub>.NET 9.0</sub></sup>
   - [`Task CompletedTask`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T?> FromResult<T>(T?)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult) <sup><sub>.NET Core 1.0</sub></sup>
 - `Task<T>`
+  - [`IAsyncEnumerable<Task<T>> WhenEach(IEnumerable<Task<T>>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET 9.0</sub></sup>
+  - [`IAsyncEnumerable<Task<T>> WhenEach(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach-1(system-threading-tasks-task((-0))())) <sup><sub>.NET 9.0</sub></sup>
   - [`Task<T> WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)) <sup><sub>.NET 6.0</sub></sup>
