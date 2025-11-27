@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 226
+- **Total:** 228
 - **Types:** 62
-- **Members:** 164
+- **Members:** 166
 
 ___
 
@@ -186,6 +186,9 @@ ___
 - `Process`
   - [`Task WaitForExitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitasync) <sup><sub>.NET 5.0</sub></sup>
   - [`void Kill(bool)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
+- `Queue<T>`
+  - [`bool TryDequeue(out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.queue-1.trydequeue) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`bool TryPeek(out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.queue-1.trypeek) <sup><sub>.NET Core 2.0</sub></sup>
 - `Random`
   - [`Random Shared`](https://learn.microsoft.com/dotnet/api/system.random.shared) <sup><sub>.NET 6.0</sub></sup>
   - [`void NextBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
