@@ -15,6 +15,12 @@ internal static partial class PolyfillExtensions
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.sortedset-1.trygetvalue
         public bool TryGetValue(T equalValue, out T? actualValue)
         {
+            if (!set.Contains(equalValue))
+            {
+                actualValue = default;
+                return false;
+            }
+
             foreach (var item in set)
             {
                 if (set.Comparer.Compare(item, equalValue) == 0)
