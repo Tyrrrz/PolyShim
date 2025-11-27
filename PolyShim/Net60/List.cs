@@ -5,7 +5,6 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-using System.Runtime.CompilerServices;
 
 namespace System.Collections.Generic;
 
