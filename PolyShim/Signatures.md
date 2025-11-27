@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 229
+- **Total:** 231
 - **Types:** 62
-- **Members:** 167
+- **Members:** 169
 
 ___
 
@@ -72,6 +72,8 @@ ___
   - [`void Move(string, string, bool)`](https://learn.microsoft.com/dotnet/api/system.io.file.move#system-io-file-move(system-string-system-string-system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
 - `HashCode`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.hashcode) <sup><sub>.NET Core 2.1</sub></sup>
+- `HashSet<T>`
+  - [`bool TryGetValue(T, out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1.trygetvalue) <sup><sub>.NET Core 2.0</sub></sup>
 - `HttpClient`
   - [`Task<byte[]> GetByteArrayAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<byte[]> GetByteArrayAsync(Uri, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-uri-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
@@ -212,6 +214,8 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute) <sup><sub>.NET 7.0</sub></sup>
 - `SkipLocalsInitAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.skiplocalsinitattribute) <sup><sub>.NET 5.0</sub></sup>
+- `SortedSet<T>`
+  - [`bool TryGetValue(T, out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.sortedset-1.trygetvalue) <sup><sub>.NET Core 2.0</sub></sup>
 - `Stream`
   - [`int Read(byte[])`](https://learn.microsoft.com/dotnet/api/system.io.stream.read#system-io-stream-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int Read(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.read#system-io-stream-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>

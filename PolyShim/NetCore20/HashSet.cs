@@ -14,8 +14,6 @@ internal static partial class PolyfillExtensions
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1.trygetvalue
         public bool TryGetValue(T equalValue, out T? actualValue)
         {
-            // HashSet uses its comparer to find the element
-            // We need to iterate through the set to find the actual stored value
             foreach (var item in set)
             {
                 if (set.Comparer.Equals(item, equalValue))
