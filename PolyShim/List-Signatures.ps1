@@ -311,7 +311,7 @@ foreach ($file in $codeFiles) {
     }
 
     # Extract extension members
-    $extensionPattern = 'extension(?:<[^>]+>)?\(([^)]+)\)\s*\{'
+    $extensionPattern = 'extension(?:<[^>]+>)?\(([^)]+)\)(?:\s+where[^{]*)?\s*\{'
     $extensionMatches = [regex]::Matches($content, $extensionPattern)
 
     foreach ($match in $extensionMatches) {
