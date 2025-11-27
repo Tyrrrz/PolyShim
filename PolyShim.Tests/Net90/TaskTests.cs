@@ -1,5 +1,6 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -41,6 +42,20 @@ public class TaskTests
     }
 
     [Fact(Timeout = 5000)]
+    public async Task WhenEach_Empty_Test()
+    {
+        // Act
+        var tasks = new List<Task>();
+        await foreach (var completedTask in Task.WhenEach())
+        {
+            tasks.Add(completedTask);
+        }
+
+        // Assert
+        tasks.Should().BeEmpty();
+    }
+
+    [Fact(Timeout = 5000)]
     public async Task WhenEach_Result_Test()
     {
         // Arrange
@@ -79,5 +94,19 @@ public class TaskTests
         (await completedTasks[0]).Should().Be(11);
         (await completedTasks[1]).Should().Be(22);
         (await completedTasks[2]).Should().Be(33);
+    }
+
+    [Fact(Timeout = 5000)]
+    public async Task WhenEach_Result_Empty_Test()
+    {
+        // Act
+        var tasks = new List<Task<int>>();
+        await foreach (var completedTask in Task.WhenEach<int>())
+        {
+            tasks.Add(completedTask);
+        }
+
+        // Assert
+        tasks.Should().BeEmpty();
     }
 }
