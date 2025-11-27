@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
@@ -38,20 +39,18 @@ public class HashSetTests
     public void TryGetValue_CustomComparer_Test()
     {
         // Arrange
-        var set = new HashSet<int>(
-            EqualityComparer<int>.Create((x, y) => x % 10 == y % 10, x => x % 10)
-        )
+        var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
-            10,
-            20,
-            31,
+            "apple",
+            "banana",
+            "cherry",
         };
 
         // Act
-        var result = set.TryGetValue(2, out var actualValue);
+        var result = set.TryGetValue("BANANA", out var actualValue);
 
         // Assert
         result.Should().BeTrue();
-        actualValue.Should().Be(20);
+        actualValue.Should().Be("banana");
     }
 }
