@@ -13,7 +13,7 @@ public class EqualityComparerTests
         // Arrange
         var comparer = EqualityComparer<int>.Create(
             (x, y) => Math.Abs(x) == Math.Abs(y),
-            x => Math.Abs(x).GetHashCode()
+            x => Math.Abs(x)
         );
 
         // Act & Assert
