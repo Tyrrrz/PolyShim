@@ -22,6 +22,32 @@ internal static partial class PolyfillExtensions
         // https://learn.microsoft.com/dotnet/api/system.string.contains#system-string-contains(system-char)
         public bool Contains(char c) => str.IndexOf(c) >= 0;
 
+        // https://learn.microsoft.com/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison)
+        public int GetHashCode(StringComparison comparisonType)
+        {
+            return comparisonType switch
+            {
+                StringComparison.CurrentCulture => StringComparer.CurrentCulture.GetHashCode(str),
+                StringComparison.CurrentCultureIgnoreCase =>
+                    StringComparer.CurrentCultureIgnoreCase.GetHashCode(str),
+#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER || NETFRAMEWORK
+                StringComparison.InvariantCulture => StringComparer.InvariantCulture.GetHashCode(
+                    str
+                ),
+                StringComparison.InvariantCultureIgnoreCase =>
+                    StringComparer.InvariantCultureIgnoreCase.GetHashCode(str),
+#endif
+                StringComparison.Ordinal => StringComparer.Ordinal.GetHashCode(str),
+                StringComparison.OrdinalIgnoreCase => StringComparer.OrdinalIgnoreCase.GetHashCode(
+                    str
+                ),
+                _ => throw new ArgumentException(
+                    "Invalid string comparison.",
+                    nameof(comparisonType)
+                ),
+            };
+        }
+
         // https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-stringcomparison)
         public string Replace(string oldValue, string? newValue, StringComparison comparison)
         {

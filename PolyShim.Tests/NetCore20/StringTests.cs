@@ -41,6 +41,26 @@ public class StringTests
     }
 
     [Fact]
+    public void GetHashCode_Test()
+    {
+        // Arrange
+        const string str1 = "Hello";
+        const string str2 = "Hello";
+        const string str3 = "hello";
+
+        // Act & assert
+        str1.GetHashCode(StringComparison.Ordinal)
+            .Should()
+            .Be(str2.GetHashCode(StringComparison.Ordinal));
+        str1.GetHashCode(StringComparison.OrdinalIgnoreCase)
+            .Should()
+            .Be(str3.GetHashCode(StringComparison.OrdinalIgnoreCase));
+        str1.GetHashCode(StringComparison.Ordinal)
+            .Should()
+            .NotBe(str3.GetHashCode(StringComparison.Ordinal));
+    }
+
+    [Fact]
     public void Replace_StringComparison_Test()
     {
         // Arrange
