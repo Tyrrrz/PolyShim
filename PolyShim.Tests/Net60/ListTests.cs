@@ -8,7 +8,7 @@ namespace PolyShim.Tests.Net60;
 public class ListTests
 {
     [Fact]
-    public void EnsureCapacity_IncreasesCapacity_Test()
+    public void EnsureCapacity_HigherCapacity_Test()
     {
         // Arrange
         var list = new List<int> { 1, 2, 3 };
@@ -24,7 +24,7 @@ public class ListTests
     }
 
     [Fact]
-    public void EnsureCapacity_DoesNotDecreaseCapacity_Test()
+    public void EnsureCapacity_LowerCapacity_Test()
     {
         // Arrange
         var list = new List<int>(100) { 1, 2, 3 };
