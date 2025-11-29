@@ -26,7 +26,6 @@ internal static partial class PolyfillExtensions
             );
 
             stream.Write(bytes, 0, bytes.Length);
-            stream.Flush();
         }
 
 #if FEATURE_TASK
