@@ -242,7 +242,7 @@ ___
   - [`void CopyTo(Stream)`](https://learn.microsoft.com/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`void ReadExactly(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)) <sup><sub>.NET 7.0</sub></sup>
   - [`void ReadExactly(byte[])`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))) <sup><sub>.NET 7.0</sub></sup>
-  - [`void ReadExactly(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)) <sup><sub>.NET 7.0</sub></sup>
+  - [`void ReadExactly(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))) <sup><sub>.NET 7.0</sub></sup>
   - [`void Write(byte[])`](https://learn.microsoft.com/dotnet/api/system.io.stream.write#system-io-stream-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Write(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.write#system-io-stream-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `StreamReader`

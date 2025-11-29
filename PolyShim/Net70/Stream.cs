@@ -154,7 +154,7 @@ internal static partial class PolyfillExtensions
             return totalBytesRead;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)
+        // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))
         public void ReadExactly(Span<byte> buffer)
         {
             var bufferArray = buffer.ToArray();
