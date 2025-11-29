@@ -9,6 +9,18 @@ using System;
 
 internal static partial class PolyfillExtensions
 {
+    extension(Enum enumValue)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.enum.hasflag
+        public bool HasFlag(Enum flag)
+        {
+            var thisValue = Convert.ToUInt64(enumValue);
+            var flagValue = Convert.ToUInt64(flag);
+
+            return (thisValue & flagValue) == flagValue;
+        }
+    }
+
     extension(Enum)
     {
         // https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-system-boolean-0@)

@@ -7,6 +7,15 @@ namespace PolyShim.Tests.Net50;
 public class EnumTests
 {
     [Fact]
+    public void IsDefined_Test()
+    {
+        // Act & assert
+        Enum.IsDefined<DayOfWeek>((DayOfWeek)0).Should().BeTrue();
+        Enum.IsDefined<DayOfWeek>((DayOfWeek)3).Should().BeTrue();
+        Enum.IsDefined<DayOfWeek>((DayOfWeek)7).Should().BeFalse();
+    }
+
+    [Fact]
     public void GetNames_Test()
     {
         // Act & assert
