@@ -12,10 +12,11 @@ public class FileTests
     {
         // Arrange
         var tempFilePath = Path.GetTempFileName();
-        File.WriteAllBytes(tempFilePath, [0x00, 0x01, 0x02]);
 
         try
         {
+            File.WriteAllBytes(tempFilePath, [0x00, 0x01, 0x02]);
+
             // Act
             File.AppendAllBytes(tempFilePath, new byte[] { 0x0A, 0x0B, 0x0C, 0x0D, 0x0E });
 
@@ -41,10 +42,11 @@ public class FileTests
     {
         // Arrange
         var tempFilePath = Path.GetTempFileName();
-        await File.WriteAllBytesAsync(tempFilePath, [0x00, 0x01, 0x02]);
 
         try
         {
+            await File.WriteAllBytesAsync(tempFilePath, [0x00, 0x01, 0x02]);
+
             // Act
             await File.AppendAllBytesAsync(tempFilePath, [0x01, 0x02, 0x03, 0x04, 0x05]);
 
