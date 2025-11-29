@@ -12,7 +12,7 @@ internal static partial class PolyfillExtensions
     extension(Enum)
     {
         // https://learn.microsoft.com/dotnet/api/system.enum.isdefined#system-enum-isdefined-1(-0)
-        public static bool IsDefined<T>(object value)
+        public static bool IsDefined<T>(T value)
             where T : struct, Enum => Enum.IsDefined(typeof(T), value);
 
         // https://learn.microsoft.com/dotnet/api/system.enum.getnames#system-enum-getnames-1

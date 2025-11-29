@@ -14,8 +14,8 @@ internal static partial class PolyfillExtensions
         // https://learn.microsoft.com/dotnet/api/system.enum.hasflag
         public bool HasFlag(Enum flag)
         {
-            var thisValue = Convert.ToUInt64(enumValue);
-            var flagValue = Convert.ToUInt64(flag);
+            var thisValue = Convert.ToInt64(enumValue);
+            var flagValue = Convert.ToInt64(flag);
 
             return (thisValue & flagValue) == flagValue;
         }

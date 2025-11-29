@@ -10,9 +10,9 @@ public class EnumTests
     public void IsDefined_Test()
     {
         // Act & assert
-        Enum.IsDefined<DayOfWeek>((DayOfWeek)0).Should().BeTrue();
-        Enum.IsDefined<DayOfWeek>((DayOfWeek)3).Should().BeTrue();
-        Enum.IsDefined<DayOfWeek>((DayOfWeek)7).Should().BeFalse();
+        Enum.IsDefined((DayOfWeek)0).Should().BeTrue();
+        Enum.IsDefined((DayOfWeek)3).Should().BeTrue();
+        Enum.IsDefined((DayOfWeek)7).Should().BeFalse();
     }
 
     [Fact]
