@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 238
+- **Total:** 242
 - **Types:** 62
-- **Members:** 176
+- **Members:** 180
 
 ___
 
@@ -42,6 +42,11 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembersattribute) <sup><sub>.NET 5.0</sub></sup>
 - `DynamicallyAccessedMemberTypes`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembertypes) <sup><sub>.NET 5.0</sub></sup>
+- `Enum`
+  - [`string[] GetNames<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getnames#system-enum-getnames-1) <sup><sub>.NET 5.0</sub></sup>
+  - [`T Parse<T>(string, bool) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`T Parse<T>(string) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`T[] GetValues<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getvalues#system-enum-getvalues-1) <sup><sub>.NET 5.0</sub></sup>
 - `Environment`
   - [`int ProcessId`](https://learn.microsoft.com/dotnet/api/system.environment.processid) <sup><sub>.NET 5.0</sub></sup>
   - [`string? ProcessPath`](https://learn.microsoft.com/dotnet/api/system.environment.processpath) <sup><sub>.NET 6.0</sub></sup>
