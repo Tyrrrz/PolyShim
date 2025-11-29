@@ -15,8 +15,21 @@ internal static partial class PolyfillExtensions
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
     extension(File)
     {
-#if FEATURE_TASK
+        // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes?view=net-10.0#system-io-file-appendallbytes(system-string-system-byte())
+        public static void AppendAllBytes(string path, byte[] bytes)
+        {
+            using var stream = new FileStream(
+                path,
+                FileMode.Append,
+                FileAccess.Write,
+                FileShare.None
+            );
 
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Flush();
+        }
+
+#if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
         public static async Task AppendAllBytesAsync(
             string path,
