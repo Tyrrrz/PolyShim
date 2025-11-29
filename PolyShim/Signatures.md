@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 242
+- **Total:** 244
 - **Types:** 62
-- **Members:** 180
+- **Members:** 182
 
 ___
 
@@ -43,6 +43,8 @@ ___
 - `DynamicallyAccessedMemberTypes`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembertypes) <sup><sub>.NET 5.0</sub></sup>
 - `Enum`
+  - [`bool TryParse<T>(string, bool, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-system-boolean-0@)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`bool TryParse<T>(string, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-0@)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`string[] GetNames<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getnames#system-enum-getnames-1) <sup><sub>.NET 5.0</sub></sup>
   - [`T Parse<T>(string, bool) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`T Parse<T>(string) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string)) <sup><sub>.NET Core 2.0</sub></sup>
