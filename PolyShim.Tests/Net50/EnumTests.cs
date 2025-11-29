@@ -14,4 +14,21 @@ public class EnumTests
             .Should()
             .Equal("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
     }
+
+    [Fact]
+    public void GetValues_Test()
+    {
+        // Act & assert
+        Enum.GetValues<DayOfWeek>()
+            .Should()
+            .Equal(
+                DayOfWeek.Sunday,
+                DayOfWeek.Monday,
+                DayOfWeek.Tuesday,
+                DayOfWeek.Wednesday,
+                DayOfWeek.Thursday,
+                DayOfWeek.Friday,
+                DayOfWeek.Saturday
+            );
+    }
 }
