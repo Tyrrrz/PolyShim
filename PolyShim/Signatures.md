@@ -71,7 +71,7 @@ ___
   - [`Task<string[]> ReadAllLinesAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalllinesasync#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`Task<string> ReadAllTextAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`Task<string> ReadAllTextAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`void AppendAllBytes(string, byte[])`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes?view=net-10.0#system-io-file-appendallbytes(system-string-system-byte())) <sup><sub>.NET 9.0</sub></sup>
+  - [`void AppendAllBytes(string, byte[])`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-byte())) <sup><sub>.NET 9.0</sub></sup>
   - [`void Move(string, string, bool)`](https://learn.microsoft.com/dotnet/api/system.io.file.move#system-io-file-move(system-string-system-string-system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
 - `HashCode`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.hashcode) <sup><sub>.NET Core 2.1</sub></sup>

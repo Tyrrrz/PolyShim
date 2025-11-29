@@ -15,7 +15,7 @@ internal static partial class PolyfillExtensions
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
     extension(File)
     {
-        // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes?view=net-10.0#system-io-file-appendallbytes(system-string-system-byte())
+        // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-byte())
         public static void AppendAllBytes(string path, byte[] bytes)
         {
             using var stream = new FileStream(
