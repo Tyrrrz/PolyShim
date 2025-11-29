@@ -130,7 +130,7 @@ public class FileTests
     public async Task ReadAllTextAsync_Test()
     {
         // Arrange
-        var textToWrite = "This is a sample text for testing ReadAllTextAsync.";
+        const string textToWrite = "This is a sample text for testing ReadAllTextAsync.";
         var tempFilePath = Path.GetTempFileName();
 
         try
@@ -218,7 +218,7 @@ public class FileTests
     public async Task WriteAllTextAsync_Test()
     {
         // Arrange
-        var textToWrite = "Testing WriteAllTextAsync method.";
+        const string textToWrite = "Testing WriteAllTextAsync method.";
         var tempFilePath = Path.GetTempFileName();
 
         try
