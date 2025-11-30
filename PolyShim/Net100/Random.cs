@@ -19,7 +19,8 @@ internal static partial class PolyfillExtensions
             var bytes = new byte[(stringLength + 1) / 2];
             random.NextBytes(bytes);
 
-            return lowercase ? Convert.ToHexStringLower(bytes) : Convert.ToHexString(bytes);
+            var hex = lowercase ? Convert.ToHexStringLower(bytes) : Convert.ToHexString(bytes);
+            return hex.Substring(0, stringLength);
         }
 
         // Signature-compatible replacement for GetString(ReadOnlySpan<char>, int)
