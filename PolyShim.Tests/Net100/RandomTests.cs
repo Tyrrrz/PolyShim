@@ -17,6 +17,7 @@ public class RandomTests
         {
             random.GetHexString(16).Should().MatchRegex("^[0-9A-F]{16}$");
             random.GetHexString(16, true).Should().MatchRegex("^[0-9a-f]{16}$");
+            random.GetHexString(15).Should().MatchRegex("^[0-9A-F]{15}$");
         }
     }
 
