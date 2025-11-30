@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 244
+- **Total:** 246
 - **Types:** 62
-- **Members:** 182
+- **Members:** 184
 
 ___
 
@@ -43,6 +43,8 @@ ___
 - `DynamicallyAccessedMemberTypes`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembertypes) <sup><sub>.NET 5.0</sub></sup>
 - `Enum`
+  - [`bool HasFlag(Enum)`](https://learn.microsoft.com/dotnet/api/system.enum.hasflag) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`bool IsDefined<T>(T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.isdefined#system-enum-isdefined-1(-0)) <sup><sub>.NET 5.0</sub></sup>
   - [`bool TryParse<T>(string, bool, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-system-boolean-0@)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool TryParse<T>(string, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-0@)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`string[] GetNames<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getnames#system-enum-getnames-1) <sup><sub>.NET 5.0</sub></sup>
