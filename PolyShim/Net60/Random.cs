@@ -48,7 +48,7 @@ internal static partial class PolyfillExtensions
             random.NextBytes(buffer);
             var uintValue = BitConverter.ToUInt32(buffer, 0);
 
-            return uintValue / (float)uint.MaxValue;
+            return (uintValue >> 8) * (1.0f / (1u << 24));
         }
     }
 
