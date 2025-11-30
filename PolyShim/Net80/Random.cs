@@ -16,17 +16,10 @@ internal static partial class PolyfillExtensions
         public T[] GetItems<T>(T[] choices, int length)
         {
             var result = new T[length];
-            var selectedIndices = new HashSet<int>();
-
-            while (selectedIndices.Count < length)
+            for (var i = 0; i < length; i++)
             {
-                var index = random.Next(choices.Length);
-                if (selectedIndices.Add(index))
-                {
-                    result[selectedIndices.Count - 1] = choices[index];
-                }
+                result[i] = choices[random.Next(choices.Length)];
             }
-
             return result;
         }
 
