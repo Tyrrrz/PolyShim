@@ -1,0 +1,20 @@
+﻿#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+using System;
+using System.Globalization;
+
+internal static partial class PolyfillExtensions
+{
+    extension(DateTime)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@)
+        public static bool TryParse(string? s, IFormatProvider? provider, out DateTime result) =>
+            DateTime.TryParse(s, provider, DateTimeStyles.None, out result);
+    }
+}
+#endif

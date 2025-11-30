@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 273
+- **Total:** 275
 - **Types:** 62
-- **Members:** 211
+- **Members:** 213
 
 ___
 
@@ -33,8 +33,10 @@ ___
   - [`string ToHexStringLower(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte()-system-int32-system-int32)) <sup><sub>.NET 9.0</sub></sup>
   - [`string ToHexStringLower(byte[])`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte())) <sup><sub>.NET 9.0</sub></sup>
 - `DateTime`
+  - [`bool TryParse(string?, IFormatProvider?, out DateTime)`](https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@)) <sup><sub>.NET 7.0</sub></sup>
   - [`DateTime UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetime.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
 - `DateTimeOffset`
+  - [`bool TryParse(string?, IFormatProvider?, out DateTimeOffset)`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-string-system-iformatprovider-system-datetimeoffset@)) <sup><sub>.NET 7.0</sub></sup>
   - [`DateTimeOffset UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
 - `decimal`
   - [`bool TryParse(string, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-string-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
