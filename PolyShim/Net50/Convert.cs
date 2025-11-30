@@ -23,7 +23,7 @@ internal static partial class PolyfillExtensions
                 if (c is >= 'a' and <= 'f')
                     return c - 'a' + 10;
 
-                throw new FormatException($"Invalid hex character: {c}");
+                throw new FormatException($"Invalid hex character '{c}'.");
             }
 
             if (s.Length % 2 != 0)
