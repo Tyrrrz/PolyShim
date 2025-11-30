@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 264
+- **Total:** 273
 - **Types:** 62
-- **Members:** 202
+- **Members:** 211
 
 ___
 
@@ -226,8 +226,17 @@ ___
   - [`bool TryDequeue(out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.queue-1.trydequeue) <sup><sub>.NET Core 2.0</sub></sup>
   - [`bool TryPeek(out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.queue-1.trypeek) <sup><sub>.NET Core 2.0</sub></sup>
 - `Random`
+  - [`float NextSingle()`](https://learn.microsoft.com/dotnet/api/system.random.nextsingle) <sup><sub>.NET 6.0</sub></sup>
+  - [`long NextInt64()`](https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64) <sup><sub>.NET 6.0</sub></sup>
+  - [`long NextInt64(long, long)`](https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64-system-int64)) <sup><sub>.NET 6.0</sub></sup>
+  - [`long NextInt64(long)`](https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64)) <sup><sub>.NET 6.0</sub></sup>
   - [`Random Shared`](https://learn.microsoft.com/dotnet/api/system.random.shared) <sup><sub>.NET 6.0</sub></sup>
+  - [`string GetHexString(int, bool)`](https://learn.microsoft.com/dotnet/api/system.random.gethexstring#system-random-gethexstring(system-int32-system-boolean)) <sup><sub>.NET 10.0</sub></sup>
+  - [`string GetString(char[], int)`](https://learn.microsoft.com/dotnet/api/system.random.getstring) <sup><sub>.NET 10.0</sub></sup>
+  - [`string GetString(ReadOnlySpan<char>, int)`](https://learn.microsoft.com/dotnet/api/system.random.getstring) <sup><sub>.NET 10.0</sub></sup>
+  - [`T[] GetItems<T>(T[], int)`](https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(-0()-system-int32)) <sup><sub>.NET 8.0</sub></sup>
   - [`void NextBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void Shuffle<T>(T[])`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())) <sup><sub>.NET 8.0</sub></sup>
 - `Range`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.range) <sup><sub>.NET Core 3.0</sub></sup>
 - `Regex`
