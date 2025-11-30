@@ -23,7 +23,7 @@ public class ConvertTests
     {
         // Act & assert
         Convert.ToHexString("John"u8.ToArray()).Should().Be("4A6F686E");
-        Convert.ToHexString(Array.Empty<byte>()).Should().Be("");
+        Convert.ToHexString([]).Should().Be("");
         Convert.ToHexString("John"u8.ToArray(), 1, 2).Should().Be("6F68");
     }
 }
