@@ -8,6 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 namespace System;
 
@@ -15,13 +16,14 @@ namespace System;
 [ExcludeFromCodeCoverage]
 internal readonly ref struct Span<T>
 {
-    private readonly T[] _array;
+    private readonly T[]? _array;
     private readonly int _offset;
 
-    public Span(T[] array, int start, int length)
+    public Span(T[]? array, int start, int length)
     {
         if (array is null)
-            throw new ArgumentNullException(nameof(array));
+            return;
+
         if (start < 0 || start > array.Length)
             throw new ArgumentOutOfRangeException(nameof(start));
         if (length < 0 || start + length > array.Length)
@@ -32,14 +34,23 @@ internal readonly ref struct Span<T>
         Length = length;
     }
 
-    public Span(T[] array)
-        : this(array, 0, array.Length) { }
+    public Span(T[]? array)
+        : this(array, 0, array?.Length ?? 0) { }
+
+#if !NETFRAMEWORK || NET46_OR_GREATER
+    public unsafe Span(void* pointer, int length)
+        : this(new T[length])
+    {
+        for (var i = 0; i < length; i++)
+            _array![i] = Unsafe.Read<T>((byte*)pointer + i * Unsafe.SizeOf<T>());
+    }
+#endif
 
     public ref T this[int index]
     {
         get
         {
-            if ((uint)index >= (uint)Length)
+            if (_array is null || index >= Length)
                 throw new IndexOutOfRangeException();
 
             return ref _array[_offset + index];
@@ -50,21 +61,31 @@ internal readonly ref struct Span<T>
 
     public bool IsEmpty => Length == 0;
 
-    public static Span<T> Empty => default;
+    public Span<T> Slice(int start, int length)
+    {
+        if (start > Length || length > Length - start)
+            throw new ArgumentOutOfRangeException();
+
+        return new Span<T>(_array, _offset + start, length);
+    }
+
+    public Span<T> Slice(int start) => Slice(start, Length - start);
 
     public void Clear()
     {
-        if (_array is not null)
-            Array.Clear(_array, _offset, Length);
+        if (_array is null)
+            return;
+
+        Array.Clear(_array, _offset, Length);
     }
 
     public void Fill(T value)
     {
-        if (_array is not null)
-        {
-            for (var i = 0; i < Length; i++)
-                _array[_offset + i] = value;
-        }
+        if (_array is null)
+            return;
+
+        for (var i = 0; i < Length; i++)
+            _array[_offset + i] = value;
     }
 
     public void CopyTo(Span<T> destination)
@@ -72,7 +93,7 @@ internal readonly ref struct Span<T>
         if (Length > destination.Length)
             throw new ArgumentException("Destination is too short.", nameof(destination));
 
-        if (_array is not null)
+        if (_array is not null && destination._array is not null)
             Array.Copy(_array, _offset, destination._array, destination._offset, Length);
     }
 
@@ -81,44 +102,29 @@ internal readonly ref struct Span<T>
         if (Length > destination.Length)
             return false;
 
-        if (_array is not null)
+        if (_array is not null && destination._array is not null)
             Array.Copy(_array, _offset, destination._array, destination._offset, Length);
 
         return true;
     }
 
-    public Span<T> Slice(int start)
-    {
-        if ((uint)start > (uint)Length)
-            throw new ArgumentOutOfRangeException(nameof(start));
-
-        return new Span<T>(_array, _offset + start, Length - start);
-    }
-
-    public Span<T> Slice(int start, int length)
-    {
-        if ((uint)start > (uint)Length || (uint)length > (uint)(Length - start))
-            throw new ArgumentOutOfRangeException();
-
-        return new Span<T>(_array, _offset + start, length);
-    }
-
     public T[] ToArray()
     {
-        if (Length == 0)
+        if (Length == 0 || _array is null)
             return [];
 
         var result = new T[Length];
-        if (_array is not null)
-            Array.Copy(_array, _offset, result, 0, Length);
+        Array.Copy(_array, _offset, result, 0, Length);
 
         return result;
     }
 
+    public static Span<T> Empty => default;
+
     public static implicit operator Span<T>(T[] array) => new(array);
 
     public static implicit operator Span<T>(ArraySegment<T> segment) =>
-        new(segment.Array!, segment.Offset, segment.Count);
+        new(segment.Array, segment.Offset, segment.Count);
 
     public static implicit operator ReadOnlySpan<T>(Span<T> span) =>
         new(span._array, span._offset, span.Length);
@@ -136,19 +142,17 @@ internal readonly ref struct Span<T>
             _index = -1;
         }
 
+        public ref T Current => ref _span[_index];
+
         public bool MoveNext()
         {
             var index = _index + 1;
-            if (index < _span.Length)
-            {
-                _index = index;
-                return true;
-            }
+            if (index >= _span.Length)
+                return false;
 
-            return false;
+            _index = index;
+            return true;
         }
-
-        public ref T Current => ref _span[_index];
     }
 }
 #endif

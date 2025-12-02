@@ -15,10 +15,10 @@ namespace System;
 [ExcludeFromCodeCoverage]
 internal readonly ref struct ReadOnlySpan<T>
 {
-    private readonly T[] _array;
+    private readonly T[]? _array;
     private readonly int _offset;
 
-    public ReadOnlySpan(T[] array, int start, int length)
+    public ReadOnlySpan(T[]? array, int start, int length)
     {
         if (array is null)
             throw new ArgumentNullException(nameof(array));
@@ -32,14 +32,14 @@ internal readonly ref struct ReadOnlySpan<T>
         Length = length;
     }
 
-    public ReadOnlySpan(T[] array)
-        : this(array, 0, array.Length) { }
+    public ReadOnlySpan(T[]? array)
+        : this(array, 0, array?.Length ?? 0) { }
 
     public T this[int index]
     {
         get
         {
-            if ((uint)index >= (uint)Length)
+            if (_array is null || index >= Length)
                 throw new IndexOutOfRangeException();
 
             return _array[_offset + index];
@@ -50,66 +50,30 @@ internal readonly ref struct ReadOnlySpan<T>
 
     public bool IsEmpty => Length == 0;
 
-    public static ReadOnlySpan<T> Empty => default;
-
-    public void CopyTo(Span<T> destination)
-    {
-        if (Length > destination.Length)
-            throw new ArgumentException("Destination is too short.", nameof(destination));
-
-        if (_array is not null)
-        {
-            for (var i = 0; i < Length; i++)
-                destination[i] = _array[_offset + i];
-        }
-    }
-
-    public bool TryCopyTo(Span<T> destination)
-    {
-        if (Length > destination.Length)
-            return false;
-
-        if (_array is not null)
-        {
-            for (var i = 0; i < Length; i++)
-                destination[i] = _array[_offset + i];
-        }
-
-        return true;
-    }
-
-    public ReadOnlySpan<T> Slice(int start)
-    {
-        if ((uint)start > (uint)Length)
-            throw new ArgumentOutOfRangeException(nameof(start));
-
-        return new ReadOnlySpan<T>(_array, _offset + start, Length - start);
-    }
+    private Span<T> Span => new(_array, _offset, Length);
 
     public ReadOnlySpan<T> Slice(int start, int length)
     {
-        if ((uint)start > (uint)Length || (uint)length > (uint)(Length - start))
+        if (start > Length || length > Length - start)
             throw new ArgumentOutOfRangeException();
 
         return new ReadOnlySpan<T>(_array, _offset + start, length);
     }
 
-    public T[] ToArray()
-    {
-        if (Length == 0)
-            return [];
+    public ReadOnlySpan<T> Slice(int start) => Slice(start, Length - start);
 
-        var result = new T[Length];
-        if (_array is not null)
-            Array.Copy(_array, _offset, result, 0, Length);
+    public void CopyTo(Span<T> destination) => Span.CopyTo(destination);
 
-        return result;
-    }
+    public bool TryCopyTo(Span<T> destination) => Span.TryCopyTo(destination);
+
+    public T[] ToArray() => Span.ToArray();
+
+    public static ReadOnlySpan<T> Empty => default;
 
     public static implicit operator ReadOnlySpan<T>(T[] array) => new(array);
 
     public static implicit operator ReadOnlySpan<T>(ArraySegment<T> segment) =>
-        new(segment.Array!, segment.Offset, segment.Count);
+        new(segment.Array, segment.Offset, segment.Count);
 
     public Enumerator GetEnumerator() => new(this);
 
@@ -124,19 +88,17 @@ internal readonly ref struct ReadOnlySpan<T>
             _index = -1;
         }
 
+        public T Current => _span[_index];
+
         public bool MoveNext()
         {
             var index = _index + 1;
-            if (index < _span.Length)
-            {
-                _index = index;
-                return true;
-            }
+            if (index >= _span.Length)
+                return false;
 
-            return false;
+            _index = index;
+            return true;
         }
-
-        public T Current => _span[_index];
     }
 }
 #endif

@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 319
-- **Types:** 71
+- **Total:** 318
+- **Types:** 70
 - **Members:** 248
 
 ___
@@ -303,8 +303,6 @@ ___
   - `bool SequenceEqual(ReadOnlySpan<T>)` <sup><sub>.NET Core 2.1</sub></sup>
   - `int IndexOf(T)` <sup><sub>.NET Core 2.1</sub></sup>
   - `void Reverse()` <sup><sub>.NET Core 2.1</sub></sup>
-- `StandardFormat`
-  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.buffers.standardformat) <sup><sub>.NET Core 2.1</sub></sup>
 - `Stream`
   - [`int Read(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.read#system-io-stream-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int ReadAtLeast(Span<byte>, int, bool)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast) <sup><sub>.NET 7.0</sub></sup>

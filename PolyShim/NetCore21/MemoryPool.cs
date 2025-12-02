@@ -15,12 +15,12 @@ internal partial class MemoryPool<T> : IDisposable
 {
     public static MemoryPool<T> Shared { get; } = new();
 
-    public IMemoryOwner<T> Rent(int minimumLength = -1)
+    public IMemoryOwner<T> Rent(int minBufferSize = -1)
     {
-        if (minimumLength < -1)
-            throw new ArgumentOutOfRangeException(nameof(minimumLength));
+        if (minBufferSize < -1)
+            throw new ArgumentOutOfRangeException(nameof(minBufferSize));
 
-        return new MemoryOwner(minimumLength < 0 ? 0 : minimumLength);
+        return new MemoryOwner(minBufferSize < 0 ? 0 : minBufferSize);
     }
 
     public void Dispose() { }
