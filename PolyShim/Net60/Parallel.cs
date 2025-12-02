@@ -28,36 +28,40 @@ internal static partial class PolyfillExtensions
                 parallelOptions.MaxDegreeOfParallelism switch
                 {
                     > 0 => parallelOptions.MaxDegreeOfParallelism,
-                    -1 => Environment.ProcessorCount,
-                    _ => throw new ArgumentOutOfRangeException(
-                        nameof(parallelOptions.MaxDegreeOfParallelism),
-                        "Max degree of parallelism must be -1 (for unlimited) or greater than 0."
-                    ),
+                    _ => Environment.ProcessorCount,
                 }
             );
 
             var tasks = new List<Task>();
             foreach (var item in source)
             {
-                tasks.Add(Task.Run(async () =>
-                {
+                tasks.Add(
+                    Task.Factory.StartNew(
+                            async () =>
+                            {
 #if !NETFRAMEWORK || NET45_OR_GREATER
-                    await semaphore.WaitAsync(parallelOptions.CancellationToken).ConfigureAwait(false);
+                                await semaphore
+                                    .WaitAsync(parallelOptions.CancellationToken)
+                                    .ConfigureAwait(false);
 #else
-                    await Task.Run(
-                        () => semaphore.Wait(parallelOptions.CancellationToken),
-                        parallelOptions.CancellationToken
-                    ).ConfigureAwait(false);
+                                semaphore.Wait(parallelOptions.CancellationToken);
 #endif
-                    try
-                    {
-                        await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-                }, parallelOptions.CancellationToken));
+                                try
+                                {
+                                    await body(item, parallelOptions.CancellationToken)
+                                        .ConfigureAwait(false);
+                                }
+                                finally
+                                {
+                                    semaphore.Release();
+                                }
+                            },
+                            parallelOptions.CancellationToken,
+                            TaskCreationOptions.None,
+                            parallelOptions.TaskScheduler ?? TaskScheduler.Default
+                        )
+                        .Unwrap()
+                );
             }
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -71,10 +75,11 @@ internal static partial class PolyfillExtensions
             Func<T, CancellationToken, Task> body
         ) =>
             await ForEachAsync(
-                source,
-                new ParallelOptions { CancellationToken = cancellationToken },
-                body
-            ).ConfigureAwait(false);
+                    source,
+                    new ParallelOptions { CancellationToken = cancellationToken },
+                    body
+                )
+                .ConfigureAwait(false);
 
         // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
@@ -96,11 +101,7 @@ internal static partial class PolyfillExtensions
                 parallelOptions.MaxDegreeOfParallelism switch
                 {
                     > 0 => parallelOptions.MaxDegreeOfParallelism,
-                    -1 => Environment.ProcessorCount,
-                    _ => throw new ArgumentOutOfRangeException(
-                        nameof(parallelOptions.MaxDegreeOfParallelism),
-                        "Max degree of parallelism must be -1 (for unlimited) or greater than 0."
-                    ),
+                    _ => Environment.ProcessorCount,
                 }
             );
 
@@ -108,14 +109,14 @@ internal static partial class PolyfillExtensions
 
             await foreach (var item in source.WithCancellation(parallelOptions.CancellationToken))
             {
-                await semaphore.WaitAsync(parallelOptions.CancellationToken).ConfigureAwait(false);
-                var localItem = item; // Capture for closure
-                var task = Task.Factory.StartNew(
+                tasks.Add(Task.Factory.StartNew(
                     async () =>
                     {
+                        await semaphore.WaitAsync(parallelOptions.CancellationToken).ConfigureAwait(false);
+
                         try
                         {
-                            await body(localItem, parallelOptions.CancellationToken).ConfigureAwait(false);
+                            await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
                         }
                         finally
                         {
@@ -125,9 +126,7 @@ internal static partial class PolyfillExtensions
                     parallelOptions.CancellationToken,
                     TaskCreationOptions.None,
                     parallelOptions.TaskScheduler ?? TaskScheduler.Default
-                ).Unwrap();
-
-                tasks.Add(task);
+                ).Unwrap());
             }
 
             await Task.WhenAll(tasks).ConfigureAwait(false);

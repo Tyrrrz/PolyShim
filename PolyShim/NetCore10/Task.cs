@@ -89,7 +89,13 @@ internal static partial class PolyfillExtensions
         public static Task WhenAll(IEnumerable<Task> tasks) =>
             Task.Factory.ContinueWhenAll(
                 tasks as Task[] ?? tasks.ToArray(),
-                _ => { },
+                completedTasks =>
+                {
+                    foreach (var t in completedTasks)
+                    {
+                        t.GetAwaiter().GetResult();
+                    }
+                },
                 CancellationToken.None,
                 TaskContinuationOptions.None,
                 TaskScheduler.Default
