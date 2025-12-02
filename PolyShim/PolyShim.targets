@@ -38,6 +38,7 @@
       <DefineConstants Condition="$(FeatureAsyncInterfaces)"
         >$(DefineConstants);FEATURE_ASYNCINTERFACES</DefineConstants
       >
+
       <FeatureHashCode>false</FeatureHashCode>
       <FeatureHashCode
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.HashCode'))"
@@ -66,6 +67,7 @@
       <DefineConstants Condition="$(FeatureHashCode)"
         >$(DefineConstants);FEATURE_HASHCODE</DefineConstants
       >
+
       <FeatureHttpClient>false</FeatureHttpClient>
       <FeatureHttpClient
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Net.Http'))"
@@ -94,6 +96,7 @@
       <DefineConstants Condition="$(FeatureHttpClient)"
         >$(DefineConstants);FEATURE_HTTPCLIENT</DefineConstants
       >
+
       <FeatureIndexRange>false</FeatureIndexRange>
       <FeatureIndexRange
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Memory'))"
@@ -114,6 +117,7 @@
       <DefineConstants Condition="$(FeatureIndexRange)"
         >$(DefineConstants);FEATURE_INDEXRANGE</DefineConstants
       >
+
       <FeatureManagement>false</FeatureManagement>
       <FeatureManagement
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Management'))"
@@ -126,6 +130,7 @@
       <DefineConstants Condition="$(FeatureManagement)"
         >$(DefineConstants);FEATURE_MANAGEMENT</DefineConstants
       >
+
       <FeatureMemory>false</FeatureMemory>
       <FeatureMemory Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Memory'))"
         >true</FeatureMemory
@@ -145,6 +150,7 @@
       <DefineConstants Condition="$(FeatureMemory)"
         >$(DefineConstants);FEATURE_MEMORY</DefineConstants
       >
+
       <FeatureProcess>false</FeatureProcess>
       <FeatureProcess
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Diagnostics.Process'))"
@@ -169,6 +175,7 @@
       <DefineConstants Condition="$(FeatureProcess)"
         >$(DefineConstants);FEATURE_PROCESS</DefineConstants
       >
+
       <FeatureRuntimeInformation>false</FeatureRuntimeInformation>
       <FeatureRuntimeInformation
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Runtime.InteropServices.RuntimeInformation'))"
@@ -193,6 +200,7 @@
       <DefineConstants Condition="$(FeatureRuntimeInformation)"
         >$(DefineConstants);FEATURE_RUNTIMEINFORMATION</DefineConstants
       >
+
       <FeatureTask>false</FeatureTask>
       <FeatureTask
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Threading.Tasks'))"
@@ -223,6 +231,7 @@
         >true</FeatureTask
       >
       <DefineConstants Condition="$(FeatureTask)">$(DefineConstants);FEATURE_TASK</DefineConstants>
+
       <FeatureValueTask>false</FeatureValueTask>
       <FeatureValueTask
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Threading.Tasks.Extensions'))"
@@ -243,6 +252,7 @@
       <DefineConstants Condition="$(FeatureValueTask)"
         >$(DefineConstants);FEATURE_VALUETASK</DefineConstants
       >
+
       <FeatureValueTuple>false</FeatureValueTuple>
       <FeatureValueTuple
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.ValueTuple'))"
