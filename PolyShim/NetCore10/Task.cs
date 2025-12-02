@@ -36,7 +36,8 @@ internal static partial class PolyfillExtensions
             Task.Factory.StartNew(action, cancellationToken);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action)
-        public static Task Run(Action action) => Task.Factory.StartNew(action);
+        public static Task Run(Action action) =>
+            Task.Factory.StartNew(action, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task))-system-threading-cancellationtoken)
         public static Task Run(Func<Task> function, CancellationToken cancellationToken) =>
