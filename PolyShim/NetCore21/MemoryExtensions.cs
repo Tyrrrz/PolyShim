@@ -13,26 +13,46 @@ namespace System;
 [ExcludeFromCodeCoverage]
 internal static class MemoryExtensions
 {
-    extension<T>(T[] array)
+    extension<T>(T[]? array)
     {
-        public Span<T> AsSpan() => new(array);
-
         public Span<T> AsSpan(int start, int length) => new(array, start, length);
 
-        public Memory<T> AsMemory() => new(array);
+        public Span<T> AsSpan(int start) => array.AsSpan(start, array?.Length ?? 0 - start);
 
-        public Memory<T> AsMemory(int start) => new(array, start, array.Length - start);
+        public Span<T> AsSpan() => array.AsSpan(0);
 
         public Memory<T> AsMemory(int start, int length) => new(array, start, length);
+
+        public Memory<T> AsMemory(int start) => array.AsMemory(start, array?.Length ?? 0 - start);
+
+        public Memory<T> AsMemory() => array.AsMemory(0);
 
         public void CopyTo(Span<T> destination) => array.AsSpan().CopyTo(destination);
 
         public void CopyTo(Memory<T> destination) => array.AsSpan().CopyTo(destination.Span);
     }
 
-    extension<T>(ArraySegment<T> segment)
+    extension<T>(ArraySegment<T>? segment)
     {
-        public Span<T> AsSpan() => new(segment.Array!, segment.Offset, segment.Count);
+        public Span<T> AsSpan() => new(segment?.Array, segment?.Offset ?? 0, segment?.Count ?? 0);
+    }
+
+    extension(string text)
+    {
+        public ReadOnlySpan<char> AsSpan(int start, int length) =>
+            new(text.ToCharArray(), start, length);
+
+        public ReadOnlySpan<char> AsSpan(int start) => text.AsSpan(start, text.Length - start);
+
+        public ReadOnlySpan<char> AsSpan() => text.AsSpan(0);
+
+        public ReadOnlyMemory<char> AsMemory(int start, int length) =>
+            new(text.ToCharArray(), start, length);
+
+        public ReadOnlyMemory<char> AsMemory(int start) =>
+            text.AsMemory(start, text.Length - start);
+
+        public ReadOnlyMemory<char> AsMemory() => text.AsMemory(0);
     }
 
     extension<T>(Span<T> span)
@@ -126,25 +146,6 @@ internal static class MemoryExtensions
 
             return true;
         }
-    }
-
-    extension(string text)
-    {
-        public ReadOnlySpan<char> AsSpan() => new(text.ToCharArray());
-
-        public ReadOnlySpan<char> AsSpan(int start) =>
-            new(text.ToCharArray(), start, text.Length - start);
-
-        public ReadOnlySpan<char> AsSpan(int start, int length) =>
-            new(text.ToCharArray(), start, length);
-
-        public ReadOnlyMemory<char> AsMemory() => new(text.ToCharArray());
-
-        public ReadOnlyMemory<char> AsMemory(int start) =>
-            new(text.ToCharArray(), start, text.Length - start);
-
-        public ReadOnlyMemory<char> AsMemory(int start, int length) =>
-            new(text.ToCharArray(), start, length);
     }
 }
 #endif
