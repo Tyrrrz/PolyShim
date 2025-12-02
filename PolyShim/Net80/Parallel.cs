@@ -28,8 +28,11 @@ internal static partial class PolyfillExtensions
                 parallelOptions.MaxDegreeOfParallelism switch
                 {
                     > 0 => parallelOptions.MaxDegreeOfParallelism,
-                    -1 => int.MaxValue,
-                    _ => Environment.ProcessorCount,
+                    -1 => Environment.ProcessorCount,
+                    _ => throw new ArgumentOutOfRangeException(
+                        nameof(parallelOptions.MaxDegreeOfParallelism),
+                        "Max degree of parallelism must be greater than 0 or -1 for unlimited."
+                    ),
                 }
             );
 

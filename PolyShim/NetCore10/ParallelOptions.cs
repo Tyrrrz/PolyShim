@@ -16,7 +16,7 @@ internal class ParallelOptions
 {
     public CancellationToken CancellationToken { get; set; }
 
-    public int MaxDegreeOfParallelism { get; set; }
+    public int MaxDegreeOfParallelism { get; set; } = -1;
 
     public TaskScheduler? TaskScheduler { get; set; }
 }
