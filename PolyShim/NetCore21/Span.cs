@@ -50,7 +50,7 @@ internal readonly ref struct Span<T>
     {
         get
         {
-            if (_array is null || index >= Length)
+            if (_array is null || index < 0 || index >= Length)
                 throw new IndexOutOfRangeException();
 
             return ref _array[_offset + index];
