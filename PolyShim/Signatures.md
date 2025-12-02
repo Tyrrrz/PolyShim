@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 317
-- **Types:** 69
+- **Total:** 319
+- **Types:** 71
 - **Members:** 248
 
 ___
@@ -18,6 +18,8 @@ ___
   - [`void ThrowIfNullOrWhiteSpace(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorwhitespace) <sup><sub>.NET 7.0</sub></sup>
 - `ArgumentNullException`
   - [`void ThrowIfNull(object?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentnullexception.throwifnull#system-argumentnullexception-throwifnull(system-object-system-string)) <sup><sub>.NET 6.0</sub></sup>
+- `ArrayPool<T>`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `ArraySegment<T>`
   - `Span<T> AsSpan()` <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
@@ -159,6 +161,8 @@ ___
   - [`T? Min(IComparer<T>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.min#system-linq-enumerable-min-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))) <sup><sub>.NET 6.0</sub></sup>
   - [`T? MinBy<TKey>(Func<T, TKey>, IComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))) <sup><sub>.NET 6.0</sub></sup>
   - [`T? MinBy<TKey>(Func<T, TKey>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))) <sup><sub>.NET 6.0</sub></sup>
+- `IMemoryOwner<T>`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.buffers.imemoryowner-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `Index`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.index) <sup><sub>.NET Core 3.0</sub></sup>
 - `int`
@@ -199,8 +203,8 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.memory-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `MemoryExtensions`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.memoryextensions) <sup><sub>.NET Core 2.1</sub></sup>
-- `MemoryMarshal`
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.memorymarshal) <sup><sub>.NET Core 2.1</sub></sup>
+- `MemoryPool<T>`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.memorypool-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `ModuleInitializerAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute) <sup><sub>.NET 5.0</sub></sup>
 - `NotNullAttribute`
@@ -332,9 +336,9 @@ ___
   - `ReadOnlyMemory<char> AsMemory()` <sup><sub>.NET Core 2.1</sub></sup>
   - `ReadOnlyMemory<char> AsMemory(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
   - `ReadOnlyMemory<char> AsMemory(int)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `Span<char> AsSpan()` <sup><sub>.NET Core 2.1</sub></sup>
-  - `Span<char> AsSpan(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `Span<char> AsSpan(int)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `ReadOnlySpan<char> AsSpan()` <sup><sub>.NET Core 2.1</sub></sup>
+  - `ReadOnlySpan<char> AsSpan(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `ReadOnlySpan<char> AsSpan(int)` <sup><sub>.NET Core 2.1</sub></sup>
   - [`string Replace(string, string?, bool, CultureInfo?)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-boolean-system-globalization-cultureinfo)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Replace(string, string?, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string ReplaceLineEndings()`](https://learn.microsoft.com/dotnet/api/system.string.replacelineendings#system-string-replacelineendings) <sup><sub>.NET 6.0</sub></sup>

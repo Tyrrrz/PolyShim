@@ -1,4 +1,4 @@
-﻿#if (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
+﻿#if !FEATURE_ARRAYPOOL
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
