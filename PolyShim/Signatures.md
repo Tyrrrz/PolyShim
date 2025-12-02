@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 275
+- **Total:** 291
 - **Types:** 62
-- **Members:** 213
+- **Members:** 229
 
 ___
 
@@ -335,10 +335,26 @@ ___
   - [`IAsyncEnumerable<Task> WhenEach(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET 9.0</sub></sup>
   - [`IAsyncEnumerable<Task> WhenEach(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-threading-tasks-task())) <sup><sub>.NET 9.0</sub></sup>
   - [`Task CompletedTask`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task Run(Action, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task Run(Action)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task Run(Func<Task>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task Run(Func<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task)))) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)) <sup><sub>.NET 6.0</sub></sup>
+  - [`Task WhenAll(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task WhenAll(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall(system-threading-tasks-task())) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T?> FromResult<T>(T?)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<T[]> WhenAll<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<T[]> WhenAll<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-threading-tasks-task((-0))())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<T> Run<T>(Func<T>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<T> Run<T>(Func<T>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0)))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<T> Run<T>(Func<Task<T>>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0))))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<T> Run<T>(Func<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<Task<T>> WhenAny<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<Task<T>> WhenAny<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany-1(system-threading-tasks-task((-0))())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<Task> WhenAny(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<Task> WhenAny(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany(system-threading-tasks-task())) <sup><sub>.NET Core 1.0</sub></sup>
 - `Task<T>`
   - [`Task<T> WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
