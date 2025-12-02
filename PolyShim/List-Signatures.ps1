@@ -390,7 +390,7 @@ $markdown = @(
 )
 
 # Generate signature listings
-$groupedByType = $deduplicatedSignatures | Group-Object -Property Type | Sort-Object Name
+$groupedByType = $deduplicatedSignatures | Group-Object -Property { $_.Type -replace '\?$', '' } | Sort-Object Name
 
 foreach ($typeGroup in $groupedByType) {
     $markdown += "- ``$($typeGroup.Name)``"

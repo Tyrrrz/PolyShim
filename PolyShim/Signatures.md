@@ -20,7 +20,7 @@ ___
   - [`void ThrowIfNull(object?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentnullexception.throwifnull#system-argumentnullexception-throwifnull(system-object-system-string)) <sup><sub>.NET 6.0</sub></sup>
 - `ArrayPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1) <sup><sub>.NET Core 1.0</sub></sup>
-- `ArraySegment<T>?`
+- `ArraySegment<T>`
   - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
   - [`bool TryParse(string, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
@@ -337,7 +337,6 @@ ___
   - [`string[] Split(char, StringSplitOptions)`](https://learn.microsoft.com/dotnet/api/system.string.split#system-string-split(system-char-system-stringsplitoptions)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string[] Split(string?, int, StringSplitOptions)`](https://learn.microsoft.com/dotnet/api/system.string.split#system-string-split(system-string-system-int32-system-stringsplitoptions)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string[] Split(string?, StringSplitOptions)`](https://learn.microsoft.com/dotnet/api/system.string.split#system-string-split(system-string-system-stringsplitoptions)) <sup><sub>.NET Core 2.0</sub></sup>
-- `string?`
   - [`ReadOnlyMemory<char> AsMemory()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`ReadOnlyMemory<char> AsMemory(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`ReadOnlyMemory<char> AsMemory(int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
@@ -354,7 +353,7 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.supportedosplatformguardattribute) <sup><sub>.NET 6.0</sub></sup>
 - `SystemException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.systemexception) <sup><sub>.NET Core 2.0</sub></sup>
-- `T[]?`
+- `T[]`
   - [`Memory<T> AsMemory()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0())) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Memory<T> AsMemory(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Memory<T> AsMemory(int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
