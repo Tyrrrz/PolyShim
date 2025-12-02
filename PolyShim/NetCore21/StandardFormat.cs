@@ -34,7 +34,7 @@ internal readonly struct StandardFormat(char symbol, byte precision = 0)
         {
             var precisionStr = new string(format.Slice(1).ToArray());
             if (!byte.TryParse(precisionStr, out precision))
-                throw new FormatException("Invalid format.");
+                throw new FormatException("Invalid precision value in format string.");
         }
 
         return new StandardFormat(symbol, precision);
