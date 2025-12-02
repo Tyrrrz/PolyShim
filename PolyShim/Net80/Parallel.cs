@@ -22,47 +22,13 @@ internal static partial class PolyfillExtensions
             int toExclusive,
             ParallelOptions parallelOptions,
             Func<int, CancellationToken, Task> body
-        )
-        {
-            using var semaphore = new SemaphoreSlim(
-                parallelOptions.MaxDegreeOfParallelism switch
-                {
-                    > 0 => parallelOptions.MaxDegreeOfParallelism,
-                    -1 => Environment.ProcessorCount,
-                    _ => throw new ArgumentOutOfRangeException(
-                        nameof(parallelOptions.MaxDegreeOfParallelism),
-                        "Max degree of parallelism must be greater than 0 or -1 for unlimited."
-                    ),
-                }
+        ) =>
+            await Parallel.ForEachAsync(
+                Enumerable.Range(fromInclusive, toExclusive - fromInclusive),
+                parallelOptions,
+                // ValueTask conversion for newer targets
+                async (i, ct) => await body(i, ct).ConfigureAwait(false)
             );
-
-            var tasks = Enumerable
-                .Range(fromInclusive, toExclusive - fromInclusive)
-                .Select(async i =>
-                {
-#if !NETFRAMEWORK || NET45_OR_GREATER
-                    await semaphore
-                        .WaitAsync(parallelOptions.CancellationToken)
-                        .ConfigureAwait(false);
-#else
-                    await Task.Run(
-                        () => semaphore.Wait(parallelOptions.CancellationToken),
-                        parallelOptions.CancellationToken
-                    ).ConfigureAwait(false);
-#endif
-                    try
-                    {
-                        await body(i, parallelOptions.CancellationToken).ConfigureAwait(false);
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-                })
-                .ToArray();
-
-            await Task.WhenAll(tasks);
-        }
 
         // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))

@@ -91,7 +91,7 @@ internal static partial class PolyfillExtensions
                 tasks as Task[] ?? tasks.ToArray(),
                 _ => { },
                 CancellationToken.None,
-                TaskContinuationOptions.OnlyOnRanToCompletion,
+                TaskContinuationOptions.None,
                 TaskScheduler.Default
             );
 
@@ -104,7 +104,7 @@ internal static partial class PolyfillExtensions
                 tasks as Task<T>[] ?? tasks.ToArray(),
                 completedTasks => completedTasks.Select(t => t.GetAwaiter().GetResult()).ToArray(),
                 CancellationToken.None,
-                TaskContinuationOptions.OnlyOnRanToCompletion,
+                TaskContinuationOptions.None,
                 TaskScheduler.Default
             );
 

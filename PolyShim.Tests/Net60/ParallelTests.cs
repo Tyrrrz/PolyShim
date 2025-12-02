@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ public class ParallelTests
     {
         // Arrange
         var items = new[] { 'a', 'b', 'c', 'd', 'e' };
-        var results = new List<char>();
+        var results = new ConcurrentBag<char>();
 
         // Act
         await Parallel.ForEachAsync(
@@ -22,11 +23,7 @@ public class ParallelTests
             async (item, cancellationToken) =>
             {
                 await Task.Delay(10, cancellationToken);
-
-                lock (results)
-                {
-                    results.Add(item);
-                }
+                results.Add(item);
             }
         );
 
@@ -69,13 +66,16 @@ public class ParallelTests
             {
                 Interlocked.Increment(ref currentParallelism);
 
-                int initialValue, newValue;
+                int initialValue,
+                    newValue;
                 do
                 {
                     initialValue = maxObservedParallelism;
                     newValue = Math.Max(initialValue, currentParallelism);
-                }
-                while (Interlocked.CompareExchange(ref maxObservedParallelism, newValue, initialValue) != initialValue);
+                } while (
+                    Interlocked.CompareExchange(ref maxObservedParallelism, newValue, initialValue)
+                    != initialValue
+                );
 
                 await Task.Delay(50, cancellationToken);
                 Interlocked.Decrement(ref currentParallelism);
@@ -99,7 +99,7 @@ public class ParallelTests
             }
         }
 
-        var results = new List<int>();
+        var results = new ConcurrentBag<int>();
 
         // Act
         await Parallel.ForEachAsync(
@@ -107,11 +107,7 @@ public class ParallelTests
             async (item, cancellationToken) =>
             {
                 await Task.Delay(10, cancellationToken);
-
-                lock (results)
-                {
-                    results.Add(item);
-                }
+                results.Add(item);
             }
         );
 

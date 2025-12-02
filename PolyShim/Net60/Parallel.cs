@@ -36,32 +36,36 @@ internal static partial class PolyfillExtensions
                 }
             );
 
-            var tasks = source
-                .Select(async item =>
-                {
+            var tasks = source.Select(async item =>
+            {
 #if !NETFRAMEWORK || NET45_OR_GREATER
-                    await semaphore
-                        .WaitAsync(parallelOptions.CancellationToken)
-                        .ConfigureAwait(false);
+                await semaphore.WaitAsync(parallelOptions.CancellationToken).ConfigureAwait(false);
 #else
-                    await Task.Run(
-                        () => semaphore.Wait(parallelOptions.CancellationToken),
-                        parallelOptions.CancellationToken
-                    ).ConfigureAwait(false);
+                await Task.Run(
+                    () => semaphore.Wait(parallelOptions.CancellationToken),
+                    parallelOptions.CancellationToken
+                ).ConfigureAwait(false);
 #endif
 
-                    try
-                    {
-                        await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
-                    }
-                    finally
-                    {
-                        semaphore.Release();
-                    }
-                })
-                .ToArray();
+                try
+                {
+                    await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
+            });
 
-            await Task.WhenAll(tasks);
+            await Task
+                .Factory.ContinueWhenAll(
+                    tasks.ToArray(),
+                    _ => { },
+                    parallelOptions.CancellationToken,
+                    TaskContinuationOptions.None,
+                    parallelOptions.TaskScheduler ?? TaskScheduler.Default
+                )
+                .ConfigureAwait(false);
         }
 
         // Task instead of ValueTask for maximum compatibility
@@ -109,25 +113,21 @@ internal static partial class PolyfillExtensions
 
             await foreach (var item in source.WithCancellation(parallelOptions.CancellationToken))
             {
-                await semaphore
-                    .WaitAsync(parallelOptions.CancellationToken)
-                    .ConfigureAwait(false);
+                var task = Task.Factory.StartNew(async () =>
+                {
+                    await semaphore
+                        .WaitAsync(parallelOptions.CancellationToken)
+                        .ConfigureAwait(false);
 
-                var task = Task.Run(
-                    async () =>
+                    try
                     {
-                        try
-                        {
-                            await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
-                        }
-                        finally
-                        {
-                            semaphore.Release();
-                        }
-                    },
-
-                    parallelOptions.CancellationToken
-                );
+                        await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+                }, parallelOptions.CancellationToken, TaskCreationOptions.None, parallelOptions.TaskScheduler ?? TaskScheduler.Default);
 
                 tasks.Add(task);
             }
