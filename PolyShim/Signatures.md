@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 291
-- **Types:** 62
-- **Members:** 229
+- **Total:** 302
+- **Types:** 64
+- **Members:** 238
 
 ___
 
@@ -215,6 +215,19 @@ ___
   - [`OSPlatform FreeBSD`](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform.freebsd) <sup><sub>.NET Core 3.0</sub></sup>
 - `OverloadResolutionPriorityAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute) <sup><sub>.NET 9.0</sub></sup>
+- `Parallel`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task ForAsync(int, int, CancellationToken, Func<int, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
+  - [`Task ForAsync(int, int, Func<int, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
+  - [`Task ForAsync(int, int, ParallelOptions, Func<int, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
+  - [`Task ForEachAsync<T>(IAsyncEnumerable<T>, CancellationToken, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`Task ForEachAsync<T>(IAsyncEnumerable<T>, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`Task ForEachAsync<T>(IAsyncEnumerable<T>, ParallelOptions, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`Task ForEachAsync<T>(IEnumerable<T>, CancellationToken, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`Task ForEachAsync<T>(IEnumerable<T>, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`Task ForEachAsync<T>(IEnumerable<T>, ParallelOptions, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+- `ParallelOptions`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.paralleloptions) <sup><sub>.NET Core 1.0</sub></sup>
 - `Path`
   - [`bool EndsInDirectorySeparator(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.endsindirectoryseparator#system-io-path-endsindirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
   - [`string Combine(params string[])`](https://learn.microsoft.com/dotnet/api/system.io.path.combine#system-io-path-combine(system-string())) <sup><sub>.NET Core 1.0</sub></sup>
