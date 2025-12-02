@@ -91,7 +91,7 @@ internal static partial class PolyfillExtensions
                 tasks as Task[] ?? tasks.ToArray(),
                 _ => { },
                 CancellationToken.None,
-                TaskContinuationOptions.None,
+                TaskContinuationOptions.OnlyOnRanToCompletion,
                 TaskScheduler.Default
             );
 
@@ -102,9 +102,9 @@ internal static partial class PolyfillExtensions
         public static Task<T[]> WhenAll<T>(IEnumerable<Task<T>> tasks) =>
             Task.Factory.ContinueWhenAll(
                 tasks as Task<T>[] ?? tasks.ToArray(),
-                completedTasks => completedTasks.Select(t => t.Result).ToArray(),
+                completedTasks => completedTasks.Select(t => t.GetAwaiter().GetResult()).ToArray(),
                 CancellationToken.None,
-                TaskContinuationOptions.None,
+                TaskContinuationOptions.OnlyOnRanToCompletion,
                 TaskScheduler.Default
             );
 
@@ -118,7 +118,7 @@ internal static partial class PolyfillExtensions
                 tasks as Task[] ?? tasks.ToArray(),
                 t => t,
                 CancellationToken.None,
-                TaskContinuationOptions.None,
+                TaskContinuationOptions.OnlyOnRanToCompletion,
                 TaskScheduler.Default
             );
 
@@ -131,7 +131,7 @@ internal static partial class PolyfillExtensions
                 tasks as Task<T>[] ?? tasks.ToArray(),
                 t => t,
                 CancellationToken.None,
-                TaskContinuationOptions.None,
+                TaskContinuationOptions.OnlyOnRanToCompletion,
                 TaskScheduler.Default
             );
 
