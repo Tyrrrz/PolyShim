@@ -33,35 +33,57 @@ internal static partial class PolyfillExtensions
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)
         public static Task Run(Action action, CancellationToken cancellationToken) =>
-            Task.Factory.StartNew(action, cancellationToken, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
+            Task.Factory.StartNew(
+                action,
+                cancellationToken,
+                TaskCreationOptions.None,
+                TaskScheduler.Default
+            );
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action)
-        public static Task Run(Action action) =>
-            Task.Factory.StartNew(action, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
+        public static Task Run(Action action) => Task.Run(action, CancellationToken.None);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task))-system-threading-cancellationtoken)
         public static Task Run(Func<Task> function, CancellationToken cancellationToken) =>
-            Task.Factory.StartNew(function, cancellationToken, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).Unwrap();
+            Task
+                .Factory.StartNew(
+                    function,
+                    cancellationToken,
+                    TaskCreationOptions.None,
+                    TaskScheduler.Default
+                )
+                .Unwrap();
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task)))
-        public static Task Run(Func<Task> function) =>
-            Task.Factory.StartNew(function, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).Unwrap();
+        public static Task Run(Func<Task> function) => Task.Run(function, CancellationToken.None);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0))-system-threading-cancellationtoken)
         public static Task<T> Run<T>(Func<T> function, CancellationToken cancellationToken) =>
-            Task.Factory.StartNew(function, cancellationToken, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
+            Task.Factory.StartNew(
+                function,
+                cancellationToken,
+                TaskCreationOptions.None,
+                TaskScheduler.Default
+            );
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0)))
         public static Task<T> Run<T>(Func<T> function) =>
-            Task.Factory.StartNew(function, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
+            Task.Run(function, CancellationToken.None);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0))))-system-threading-cancellationtoken)
         public static Task<T> Run<T>(Func<Task<T>> function, CancellationToken cancellationToken) =>
-            Task.Factory.StartNew(function, cancellationToken, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).Unwrap();
+            Task
+                .Factory.StartNew(
+                    function,
+                    cancellationToken,
+                    TaskCreationOptions.None,
+                    TaskScheduler.Default
+                )
+                .Unwrap();
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0)))))
         public static Task<T> Run<T>(Func<Task<T>> function) =>
-            Task.Factory.StartNew(function, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default).Unwrap();
+            Task.Run(function, CancellationToken.None);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall(system-collections-generic-ienumerable((system-threading-tasks-task)))
         public static Task WhenAll(IEnumerable<Task> tasks) =>
