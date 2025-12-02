@@ -112,6 +112,44 @@ function Clean-Signature {
     # Remove default values (= value)
     $sig = $sig -replace '\s*=\s*[^,)]+', ''
 
+    # Clean tuple element names in generic type parameters: IEnumerable<(int index, T value)> -> IEnumerable<(int, T)>
+    # Only process tuples that are within angle brackets
+    $sig = [regex]::Replace($sig, '<\(([^()]+)\)>', {
+            param($match)
+            $tupleContent = $match.Groups[1].Value
+
+            # Check if this looks like a tuple with named elements (has commas and type-name pairs)
+            if ($tupleContent -match ',') {
+                $parts = $tupleContent -split ','
+
+                # Check if any part has a type followed by a name
+                $hasNamedElements = $false
+                foreach ($part in $parts) {
+                    if ($part.Trim() -match '^\S+.*\s+\w+$') {
+                        $hasNamedElements = $true
+                        break
+                    }
+                }
+
+                if ($hasNamedElements) {
+                    $cleanedParts = $parts | ForEach-Object {
+                        $part = $_.Trim()
+                        # Remove the last word (tuple element name) if it follows a type
+                        if ($part -match '^(.+)\s+\w+$') {
+                            $matches[1].Trim()
+                        }
+                        else {
+                            $part
+                        }
+                    }
+                    return "<($($cleanedParts -join ', '))>"
+                }
+            }
+
+            # Return unchanged if not a named tuple
+            return $match.Value
+        })
+
     # Find the parameter list by matching balanced parentheses
     if ($sig -notmatch '(.+?)\((.+)\)(.*)$') {
         return $sig
