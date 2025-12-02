@@ -127,7 +127,7 @@ internal static partial class PolyfillExtensions
                     {
                         semaphore.Release();
                     }
-                }, parallelOptions.CancellationToken, TaskCreationOptions.None, parallelOptions.TaskScheduler ?? TaskScheduler.Default);
+                }, parallelOptions.CancellationToken, TaskCreationOptions.None, parallelOptions.TaskScheduler ?? TaskScheduler.Default).Unwrap();
 
                 tasks.Add(task);
             }
