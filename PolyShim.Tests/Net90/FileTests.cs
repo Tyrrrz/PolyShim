@@ -18,7 +18,7 @@ public class FileTests
             File.WriteAllBytes(tempFilePath, [0x00, 0x01, 0x02]);
 
             // Act
-            File.AppendAllBytes(tempFilePath, new byte[] { 0x0A, 0x0B, 0x0C, 0x0D, 0x0E });
+            File.AppendAllBytes(tempFilePath, [0x0A, 0x0B, 0x0C, 0x0D, 0x0E]);
 
             // Assert
             var readBytes = File.ReadAllBytes(tempFilePath);

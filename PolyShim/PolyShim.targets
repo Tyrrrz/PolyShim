@@ -18,6 +18,27 @@
     </PropertyGroup>
     <!-- Identify feature compatibility -->
     <PropertyGroup>
+      <FeatureArrayPool>false</FeatureArrayPool>
+      <FeatureArrayPool
+        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Buffers'))"
+        >true</FeatureArrayPool
+      >
+      <FeatureArrayPool
+        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.Buffers'))"
+        >true</FeatureArrayPool
+      >
+      <FeatureArrayPool
+        Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))"
+        >true</FeatureArrayPool
+      >
+      <FeatureArrayPool
+        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.0'))"
+        >true</FeatureArrayPool
+      >
+      <DefineConstants Condition="$(FeatureArrayPool)"
+        >$(DefineConstants);FEATURE_ARRAYPOOL</DefineConstants
+      >
+
       <FeatureAsyncInterfaces>false</FeatureAsyncInterfaces>
       <FeatureAsyncInterfaces
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.AsyncInterfaces'))"

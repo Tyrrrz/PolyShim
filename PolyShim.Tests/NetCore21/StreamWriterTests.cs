@@ -10,7 +10,7 @@ namespace PolyShim.Tests.NetCore21;
 public class StreamWriterTests
 {
     [Fact]
-    public void Write_Span_Test()
+    public void Write_Test()
     {
         // Arrange
         using var stream = new MemoryStream();
@@ -45,7 +45,7 @@ public class StreamWriterTests
     }
 
     [Fact]
-    public async Task WriteAsync_Memory_Test()
+    public async Task WriteAsync_Test()
     {
         // Arrange
         using var stream = new MemoryStream();

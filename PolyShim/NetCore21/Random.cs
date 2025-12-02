@@ -9,7 +9,6 @@ using System;
 
 internal static partial class PolyfillExtensions
 {
-#if FEATURE_MEMORY
     extension(Random random)
     {
         // https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
@@ -20,6 +19,5 @@ internal static partial class PolyfillExtensions
             bufferArray.CopyTo(buffer);
         }
     }
-#endif
 }
 #endif

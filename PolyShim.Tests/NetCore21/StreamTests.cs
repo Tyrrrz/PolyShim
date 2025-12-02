@@ -10,35 +10,6 @@ namespace PolyShim.Tests.NetCore21;
 public class StreamTests
 {
     [Fact]
-    public void Read_Array_Test()
-    {
-        // Arrange
-        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
-        var buffer = new byte[5];
-
-        // Act
-        var bytesRead = stream.Read(buffer);
-
-        // Assert
-        bytesRead.Should().Be(5);
-        buffer.Should().Equal(1, 2, 3, 4, 5);
-    }
-
-    [Fact]
-    public void Write_Array_Test()
-    {
-        // Arrange
-        using var stream = new MemoryStream();
-        var buffer = new byte[] { 1, 2, 3, 4, 5 };
-
-        // Act
-        stream.Write(buffer);
-
-        // Assert
-        stream.ToArray().Should().Equal(1, 2, 3, 4, 5);
-    }
-
-    [Fact]
     public async Task CopyToAsync_Test()
     {
         // Arrange
@@ -53,36 +24,7 @@ public class StreamTests
     }
 
     [Fact]
-    public async Task ReadAsync_Array_Test()
-    {
-        // Arrange
-        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
-        var buffer = new byte[stream.Length];
-
-        // Act
-        var bytesRead = await stream.ReadAsync(buffer);
-
-        // Assert
-        bytesRead.Should().Be(5);
-        buffer.Should().Equal(1, 2, 3, 4, 5);
-    }
-
-    [Fact]
-    public async Task WriteAsync_Array_Test()
-    {
-        // Arrange
-        using var stream = new MemoryStream();
-        var buffer = new byte[] { 1, 2, 3, 4, 5 };
-
-        // Act
-        await stream.WriteAsync(buffer);
-
-        // Assert
-        stream.ToArray().Should().Equal(1, 2, 3, 4, 5);
-    }
-
-    [Fact]
-    public void Read_Span_Test()
+    public void Read_Test()
     {
         // Arrange
         using var stream = new MemoryStream([1, 2, 3, 4, 5]);
@@ -95,7 +37,7 @@ public class StreamTests
 
             // Assert
             bytesRead.Should().BeGreaterOrEqualTo(5);
-            buffer.Should().StartWith(new byte[] { 1, 2, 3, 4, 5 });
+            buffer.Should().StartWith([1, 2, 3, 4, 5]);
         }
         finally
         {
@@ -104,7 +46,7 @@ public class StreamTests
     }
 
     [Fact]
-    public void Write_Span_Test()
+    public void Write_Test()
     {
         // Arrange
         using var stream = new MemoryStream();
@@ -122,7 +64,7 @@ public class StreamTests
             stream.Write(buffer.AsSpan());
 
             // Assert
-            stream.ToArray().Should().StartWith(new byte[] { 1, 2, 3, 4, 5 });
+            stream.ToArray().Should().StartWith([1, 2, 3, 4, 5]);
         }
         finally
         {
@@ -131,7 +73,7 @@ public class StreamTests
     }
 
     [Fact]
-    public async Task ReadAsync_Memory_Test()
+    public async Task ReadAsync_Test()
     {
         // Arrange
         using var stream = new MemoryStream([1, 2, 3, 4, 5]);
@@ -142,11 +84,11 @@ public class StreamTests
 
         // Assert
         bytesRead.Should().BeGreaterOrEqualTo(5);
-        buffer.Memory.ToArray().Should().StartWith(new byte[] { 1, 2, 3, 4, 5 });
+        buffer.Memory.ToArray().Should().StartWith([1, 2, 3, 4, 5]);
     }
 
     [Fact]
-    public async Task WriteAsync_Memory_Test()
+    public async Task WriteAsync_Test()
     {
         // Arrange
         using var stream = new MemoryStream();
@@ -162,6 +104,6 @@ public class StreamTests
         await stream.WriteAsync(buffer.Memory);
 
         // Assert
-        stream.ToArray().Should().StartWith(new byte[] { 1, 2, 3, 4, 5 });
+        stream.ToArray().Should().StartWith([1, 2, 3, 4, 5]);
     }
 }

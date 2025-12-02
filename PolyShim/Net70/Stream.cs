@@ -14,31 +14,6 @@ internal static partial class PolyfillExtensions
 {
     extension(Stream stream)
     {
-        // Signature-compatible replacement for ReadAtLeast(Span<byte>, ...)
-        // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast
-        public int ReadAtLeast(byte[] buffer, int minimumBytes, bool throwOnEndOfStream = true)
-        {
-            var totalBytesRead = 0;
-            while (totalBytesRead < buffer.Length)
-            {
-                var bytesRead = stream.Read(
-                    buffer,
-                    totalBytesRead,
-                    Math.Min(minimumBytes, buffer.Length - totalBytesRead)
-                );
-
-                if (bytesRead <= 0)
-                    break;
-
-                totalBytesRead += bytesRead;
-            }
-
-            if (totalBytesRead < minimumBytes && throwOnEndOfStream)
-                throw new EndOfStreamException();
-
-            return totalBytesRead;
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)
         public void ReadExactly(byte[] buffer, int offset, int count)
         {
@@ -58,44 +33,7 @@ internal static partial class PolyfillExtensions
             }
         }
 
-        // Signature-compatible replacement for ReadExactly(Span<byte>)
-        // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))
-        public void ReadExactly(byte[] buffer) => stream.ReadExactly(buffer, 0, buffer.Length);
-
 #if FEATURE_TASK
-        // Signature-compatible replacement for ReadAtLeastAsync(Memory<byte>, ...)
-        // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleastasync
-        public async Task<int> ReadAtLeastAsync(
-            byte[] buffer,
-            int minimumBytes,
-            bool throwOnEndOfStream = true,
-            CancellationToken cancellationToken = default
-        )
-        {
-            var totalBytesRead = 0;
-            while (totalBytesRead < buffer.Length)
-            {
-                var bytesRead = await stream
-                    .ReadAsync(
-                        buffer,
-                        totalBytesRead,
-                        Math.Min(minimumBytes, buffer.Length - totalBytesRead),
-                        cancellationToken
-                    )
-                    .ConfigureAwait(false);
-
-                if (bytesRead <= 0)
-                    break;
-
-                totalBytesRead += bytesRead;
-            }
-
-            if (totalBytesRead < minimumBytes && throwOnEndOfStream)
-                throw new EndOfStreamException();
-
-            return totalBytesRead;
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken)
         public async Task ReadExactlyAsync(
             byte[] buffer,
@@ -122,19 +60,8 @@ internal static partial class PolyfillExtensions
                 totalBytesRead += bytesRead;
             }
         }
-
-        // Signature-compatible replacement for ReadExactlyAsync(Memory<byte>, ...)
-        // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)
-        public async Task ReadExactlyAsync(
-            byte[] buffer,
-            CancellationToken cancellationToken = default
-        ) =>
-            await stream
-                .ReadExactlyAsync(buffer, 0, buffer.Length, cancellationToken)
-                .ConfigureAwait(false);
 #endif
 
-#if FEATURE_MEMORY
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast
         public int ReadAtLeast(Span<byte> buffer, int minimumBytes, bool throwOnEndOfStream = true)
         {
@@ -161,9 +88,8 @@ internal static partial class PolyfillExtensions
             stream.ReadExactly(bufferArray, 0, bufferArray.Length);
             bufferArray.CopyTo(buffer);
         }
-#endif
 
-#if FEATURE_TASK && FEATURE_MEMORY
+#if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleastasync
         public async Task<int> ReadAtLeastAsync(
             Memory<byte> buffer,
