@@ -21,7 +21,8 @@ internal readonly struct ReadOnlyMemory<T> : IEquatable<ReadOnlyMemory<T>>
     public ReadOnlyMemory(T[]? array, int start, int length)
     {
         if (array is null)
-            throw new ArgumentNullException(nameof(array));
+            return;
+
         if (start < 0 || start > array.Length)
             throw new ArgumentOutOfRangeException(nameof(start));
         if (length < 0 || start + length > array.Length)
