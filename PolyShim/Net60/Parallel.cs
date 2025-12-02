@@ -30,26 +30,30 @@ internal static partial class PolyfillExtensions
                     : Environment.ProcessorCount
             );
 
-            var tasks = source.Select(async item =>
-            {
+            var tasks = source
+                .Select(async item =>
+                {
 #if !NETFRAMEWORK || NET45_OR_GREATER
-                await semaphore.WaitAsync(parallelOptions.CancellationToken).ConfigureAwait(false);
+                    await semaphore
+                        .WaitAsync(parallelOptions.CancellationToken)
+                        .ConfigureAwait(false);
 #else
-                await Task.Run(
-                    () => semaphore.Wait(parallelOptions.CancellationToken),
-                    parallelOptions.CancellationToken
-                ).ConfigureAwait(false);
+                    await Task.Run(
+                        () => semaphore.Wait(parallelOptions.CancellationToken),
+                        parallelOptions.CancellationToken
+                    ).ConfigureAwait(false);
 #endif
 
-                try
-                {
-                    await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
-                }
-                finally
-                {
-                    semaphore.Release();
-                }
-            });
+                    try
+                    {
+                        await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
+                    }
+                    finally
+                    {
+                        semaphore.Release();
+                    }
+                })
+                .ToArray();
 
             await Task.WhenAll(tasks);
         }

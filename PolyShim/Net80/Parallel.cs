@@ -52,7 +52,8 @@ internal static partial class PolyfillExtensions
                     {
                         semaphore.Release();
                     }
-                });
+                })
+                .ToArray();
 
             await Task.WhenAll(tasks);
         }
