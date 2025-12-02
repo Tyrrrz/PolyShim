@@ -27,7 +27,9 @@ internal static partial class PolyfillExtensions
             using var semaphore = new SemaphoreSlim(
                 parallelOptions.MaxDegreeOfParallelism > 0
                     ? parallelOptions.MaxDegreeOfParallelism
-                    : Environment.ProcessorCount
+                    : parallelOptions.MaxDegreeOfParallelism == -1
+                        ? int.MaxValue
+                        : Environment.ProcessorCount
             );
 
             var tasks = Enumerable
