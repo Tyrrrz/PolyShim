@@ -99,7 +99,7 @@ internal static partial class PolyfillExtensions
                     -1 => Environment.ProcessorCount,
                     _ => throw new ArgumentOutOfRangeException(
                         nameof(parallelOptions.MaxDegreeOfParallelism),
-                        "Max degree of parallelism must be greater than 0 or -1 for unlimited."
+                        "Max degree of parallelism must be -1 (for unlimited) or greater than 0."
                     ),
                 }
             );
