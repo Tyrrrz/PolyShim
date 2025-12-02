@@ -14,16 +14,14 @@ internal static partial class PolyfillExtensions
 {
     extension(StreamWriter writer)
     {
-#if FEATURE_MEMORY
         // https://learn.microsoft.com/dotnet/api/system.io.streamwriter.write#system-io-streamwriter-write(system-readonlyspan((system-char)))
         public void Write(ReadOnlySpan<char> buffer)
         {
             var bufferArray = buffer.ToArray();
             writer.Write(bufferArray, 0, bufferArray.Length);
         }
-#endif
 
-#if FEATURE_TASK && FEATURE_MEMORY
+#if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
         public async Task WriteAsync(
             Memory<char> buffer,

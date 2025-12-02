@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 302
-- **Types:** 64
-- **Members:** 238
+- **Total:** 317
+- **Types:** 69
+- **Members:** 248
 
 ___
 
@@ -18,6 +18,8 @@ ___
   - [`void ThrowIfNullOrWhiteSpace(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorwhitespace) <sup><sub>.NET 7.0</sub></sup>
 - `ArgumentNullException`
   - [`void ThrowIfNull(object?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentnullexception.throwifnull#system-argumentnullexception-throwifnull(system-object-system-string)) <sup><sub>.NET 6.0</sub></sup>
+- `ArraySegment<T>`
+  - `Span<T> AsSpan()` <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
   - [`bool TryParse(string, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
 - `CallerArgumentExpressionAttribute`
@@ -193,6 +195,12 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.membernotnullattribute) <sup><sub>.NET 5.0</sub></sup>
 - `MemberNotNullWhenAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.membernotnullwhenattribute) <sup><sub>.NET 5.0</sub></sup>
+- `Memory<T>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.memory-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `MemoryExtensions`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.memoryextensions) <sup><sub>.NET Core 2.1</sub></sup>
+- `MemoryMarshal`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.memorymarshal) <sup><sub>.NET Core 2.1</sub></sup>
 - `ModuleInitializerAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute) <sup><sub>.NET 5.0</sub></sup>
 - `NotNullAttribute`
@@ -247,13 +255,18 @@ ___
   - [`long NextInt64(long)`](https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64)) <sup><sub>.NET 6.0</sub></sup>
   - [`Random Shared`](https://learn.microsoft.com/dotnet/api/system.random.shared) <sup><sub>.NET 6.0</sub></sup>
   - [`string GetHexString(int, bool)`](https://learn.microsoft.com/dotnet/api/system.random.gethexstring#system-random-gethexstring(system-int32-system-boolean)) <sup><sub>.NET 10.0</sub></sup>
-  - [`string GetString(char[], int)`](https://learn.microsoft.com/dotnet/api/system.random.getstring) <sup><sub>.NET 10.0</sub></sup>
   - [`string GetString(ReadOnlySpan<char>, int)`](https://learn.microsoft.com/dotnet/api/system.random.getstring) <sup><sub>.NET 10.0</sub></sup>
   - [`T[] GetItems<T>(T[], int)`](https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(-0()-system-int32)) <sup><sub>.NET 8.0</sub></sup>
   - [`void NextBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Shuffle<T>(T[])`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())) <sup><sub>.NET 8.0</sub></sup>
 - `Range`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.range) <sup><sub>.NET Core 3.0</sub></sup>
+- `ReadOnlyMemory<T>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.readonlymemory-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `ReadOnlySpan<T>`
+  - `bool Contains(T)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `bool SequenceEqual(ReadOnlySpan<T>)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `int IndexOf(T)` <sup><sub>.NET Core 2.1</sub></sup>
 - `Regex`
   - [`int Count(string, string, RegexOptions, TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions-system-timespan)) <sup><sub>.NET 7.0</sub></sup>
   - [`int Count(string, string, RegexOptions)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions)) <sup><sub>.NET 7.0</sub></sup>
@@ -281,32 +294,29 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.skiplocalsinitattribute) <sup><sub>.NET 5.0</sub></sup>
 - `SortedSet<T>`
   - [`bool TryGetValue(T, out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.sortedset-1.trygetvalue) <sup><sub>.NET Core 2.0</sub></sup>
+- `Span<T>`
+  - `bool Contains(T)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `bool SequenceEqual(ReadOnlySpan<T>)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `int IndexOf(T)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `void Reverse()` <sup><sub>.NET Core 2.1</sub></sup>
+- `StandardFormat`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.buffers.standardformat) <sup><sub>.NET Core 2.1</sub></sup>
 - `Stream`
-  - [`int Read(byte[])`](https://learn.microsoft.com/dotnet/api/system.io.stream.read#system-io-stream-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int Read(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.read#system-io-stream-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`int ReadAtLeast(byte[], int, bool)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast) <sup><sub>.NET 7.0</sub></sup>
   - [`int ReadAtLeast(Span<byte>, int, bool)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast) <sup><sub>.NET 7.0</sub></sup>
   - [`Task CopyToAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.copytoasync#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`Task ReadExactlyAsync(byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
   - [`Task ReadExactlyAsync(byte[], int, int, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
   - [`Task ReadExactlyAsync(Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
-  - [`Task WriteAsync(byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Task WriteAsync(ReadOnlyMemory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`Task<int> ReadAsync(byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Task<int> ReadAsync(Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`Task<int> ReadAtLeastAsync(byte[], int, bool, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleastasync) <sup><sub>.NET 7.0</sub></sup>
   - [`Task<int> ReadAtLeastAsync(Memory<byte>, int, bool, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleastasync) <sup><sub>.NET 7.0</sub></sup>
   - [`void CopyTo(Stream, int)`](https://learn.microsoft.com/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream-system-int32)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`void CopyTo(Stream)`](https://learn.microsoft.com/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`void ReadExactly(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)) <sup><sub>.NET 7.0</sub></sup>
-  - [`void ReadExactly(byte[])`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))) <sup><sub>.NET 7.0</sub></sup>
   - [`void ReadExactly(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))) <sup><sub>.NET 7.0</sub></sup>
-  - [`void Write(byte[])`](https://learn.microsoft.com/dotnet/api/system.io.stream.write#system-io-stream-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Write(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.write#system-io-stream-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `StreamReader`
-  - [`int Read(char[])`](https://learn.microsoft.com/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`Task<int> ReadAsync(char[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Task<int> ReadAsync(Memory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
 - `StreamWriter`
   - [`Task WriteAsync(Memory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
@@ -319,6 +329,12 @@ ___
   - [`bool IsNullOrWhiteSpace(string?)`](https://learn.microsoft.com/dotnet/api/system.string.isnullorwhitespace) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool StartsWith(char)`](https://learn.microsoft.com/dotnet/api/system.string.startswith#system-string-startswith(system-char)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int GetHashCode(StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
+  - `ReadOnlyMemory<char> AsMemory()` <sup><sub>.NET Core 2.1</sub></sup>
+  - `ReadOnlyMemory<char> AsMemory(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `ReadOnlyMemory<char> AsMemory(int)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `Span<char> AsSpan()` <sup><sub>.NET Core 2.1</sub></sup>
+  - `Span<char> AsSpan(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `Span<char> AsSpan(int)` <sup><sub>.NET Core 2.1</sub></sup>
   - [`string Replace(string, string?, bool, CultureInfo?)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-boolean-system-globalization-cultureinfo)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Replace(string, string?, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string ReplaceLineEndings()`](https://learn.microsoft.com/dotnet/api/system.string.replacelineendings#system-string-replacelineendings) <sup><sub>.NET 6.0</sub></sup>
@@ -337,6 +353,14 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.supportedosplatformguardattribute) <sup><sub>.NET 6.0</sub></sup>
 - `SystemException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.systemexception) <sup><sub>.NET Core 2.0</sub></sup>
+- `T[]`
+  - `Memory<T> AsMemory()` <sup><sub>.NET Core 2.1</sub></sup>
+  - `Memory<T> AsMemory(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `Memory<T> AsMemory(int)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `Span<T> AsSpan()` <sup><sub>.NET Core 2.1</sub></sup>
+  - `Span<T> AsSpan(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `void CopyTo(Memory<T>)` <sup><sub>.NET Core 2.1</sub></sup>
+  - `void CopyTo(Span<T>)` <sup><sub>.NET Core 2.1</sub></sup>
 - `TargetFrameworkAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.targetframeworkattribute) <sup><sub>.NET Core 1.0</sub></sup>
 - `TargetPlatformAttribute`

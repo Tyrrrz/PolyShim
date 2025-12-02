@@ -10,39 +10,7 @@ namespace PolyShim.Tests.NetCore21;
 public class StreamReaderTests
 {
     [Fact]
-    public void Read_Array_Test()
-    {
-        // Arrange
-        using var stream = new MemoryStream("Hello world"u8.ToArray());
-        using var reader = new StreamReader(stream);
-        var buffer = new char[stream.Length];
-
-        // Act
-        var charsRead = reader.Read(buffer);
-
-        // Assert
-        charsRead.Should().Be(11);
-        buffer.Should().StartWith("Hello world");
-    }
-
-    [Fact]
-    public async Task ReadAsync_Array_Test()
-    {
-        // Arrange
-        using var stream = new MemoryStream("Hello world"u8.ToArray());
-        using var reader = new StreamReader(stream);
-        var buffer = new char[stream.Length];
-
-        // Act
-        var charsRead = await reader.ReadAsync(buffer);
-
-        // Assert
-        charsRead.Should().Be(11);
-        buffer.Should().StartWith("Hello world");
-    }
-
-    [Fact]
-    public void Read_Span_Test()
+    public void Read_Test()
     {
         // Arrange
         using var stream = new MemoryStream("Hello world"u8.ToArray());
@@ -65,7 +33,7 @@ public class StreamReaderTests
     }
 
     [Fact]
-    public async Task ReadAsync_Memory_Test()
+    public async Task ReadAsync_Test()
     {
         // Arrange
         using var stream = new MemoryStream("Hello world"u8.ToArray());

@@ -47,7 +47,7 @@ public class StreamTests
 
         // Assert
         bytesRead.Should().Be(5);
-        buffer.Should().StartWith(new byte[] { 1, 2, 3, 4, 5 });
+        buffer.Should().StartWith([1, 2, 3, 4, 5]);
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public class StreamTests
 
         // Assert
         bytesRead.Should().Be(5);
-        buffer.Should().StartWith(new byte[] { 1, 2, 3, 4, 5 });
+        buffer.Should().StartWith([1, 2, 3, 4, 5]);
     }
 
     [Fact]
@@ -163,7 +163,7 @@ public class StreamTests
 
             // Assert
             bytesRead.Should().BeGreaterOrEqualTo(3);
-            buffer.Should().StartWith(new byte[] { 1, 2, 3 });
+            buffer.Should().StartWith([1, 2, 3]);
         }
         finally
         {
@@ -203,7 +203,7 @@ public class StreamTests
 
             // Assert
             bytesRead.Should().BeGreaterOrEqualTo(5);
-            buffer.Should().StartWith(new byte[] { 1, 2, 3, 4, 5 });
+            buffer.Should().StartWith([1, 2, 3, 4, 5]);
         }
         finally
         {
@@ -224,7 +224,7 @@ public class StreamTests
             stream.ReadExactly(buffer.AsSpan()[..3]);
 
             // Assert
-            buffer.Should().StartWith(new byte[] { 1, 2, 3 });
+            buffer.Should().StartWith([1, 2, 3]);
         }
         finally
         {
@@ -244,7 +244,7 @@ public class StreamTests
 
         // Assert
         bytesRead.Should().BeGreaterOrEqualTo(3);
-        buffer.Memory.ToArray().Should().StartWith(new byte[] { 1, 2, 3 });
+        buffer.Memory.ToArray().Should().StartWith([1, 2, 3]);
     }
 
     [Fact]
@@ -272,7 +272,7 @@ public class StreamTests
 
         // Assert
         bytesRead.Should().BeGreaterOrEqualTo(5);
-        buffer.Memory.ToArray().Should().StartWith(new byte[] { 1, 2, 3, 4 });
+        buffer.Memory.ToArray().Should().StartWith([1, 2, 3, 4]);
     }
 
     [Fact]
@@ -286,6 +286,6 @@ public class StreamTests
         await stream.ReadExactlyAsync(buffer.Memory[..3]);
 
         // Assert
-        buffer.Memory.ToArray().Should().StartWith(new byte[] { 1, 2, 3 });
+        buffer.Memory.ToArray().Should().StartWith([1, 2, 3]);
     }
 }

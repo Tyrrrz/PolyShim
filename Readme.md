@@ -132,13 +132,13 @@ Currently, **PolyShim** has integration with the following packages:
 - [`System.Threading.Tasks`](https://nuget.org/packages/System.Threading.Tasks) — `Task`, `Task<T>`, etc.
 - [`System.Threading.Tasks.Extensions`](https://nuget.org/packages/System.Threading.Tasks.Extensions) — `ValueTask`, `ValueTask<T>`, etc.
 - [`System.ValueTuple`](https://nuget.org/packages/System.ValueTuple) — `ValueTuple<...>`, etc.
-- [`Microsoft.Bcl.Async`](https://nuget.org/packages/Microsoft.Bcl.Async) — `Task`, `Task<T>`, etc (wider support than the `System.*` variant).
+- [`Microsoft.Bcl.Async`](https://nuget.org/packages/Microsoft.Bcl.Async) — `Task`, `Task<T>`, etc. (wider support than the `System.*` variant).
 - [`Microsoft.Bcl.AsyncInterfaces`](https://nuget.org/packages/Microsoft.Bcl.AsyncInterfaces) — `IAsyncEnumerable<T>`, `IAsyncDisposable`, etc.
 - [`Microsoft.Bcl.HashCode`](https://nuget.org/packages/Microsoft.Bcl.HashCode) — `HashCode`, etc.
 - [`Microsoft.Bcl.Memory`](https://nuget.org/packages/Microsoft.Bcl.Memory) — `Index`, `Range`, etc.
-- [`Microsoft.Net.Http`](https://nuget.org/packages/Microsoft.Net.Http) — `HttpClient`, `HttpContent`, etc (wider support than the `System.*` variant).
+- [`Microsoft.Net.Http`](https://nuget.org/packages/Microsoft.Net.Http) — `HttpClient`, `HttpContent`, etc. (wider support than the `System.*` variant).
 
-For example, adding a reference to the `System.Memory` package will enable **PolyShim**'s polyfills that offer `Span<T>` and `Memory<T>`-based method overloads on various built-in types, such as `Stream`:
+For example, adding a reference to the `Microsoft.Bcl.AsyncInterfaces` package will enable **PolyShim**'s polyfills that work with `IAsyncEnumerable<T>`, such as `Parallel.ForEachAsync(...)`:
 
 ```xml
 <Project>
@@ -149,21 +149,33 @@ For example, adding a reference to the `System.Memory` package will enable **Pol
 
   <ItemGroup>
     <PackageReference Include="PolyShim" Version="*" />
-    <PackageReference Include="System.Memory" Version="4.5.5" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
   </ItemGroup>
 
 </Project>
 ```
 
 ```csharp
-using System.Buffers;
-using System.IO;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading.Tasks.Sources;
 
-using var stream = /* ... */;
-using var buffer = MemoryPool<byte>.Shared.Rent(512);
+async IAsyncEnumerable<int> GenerateNumbersAsync()
+{
+    for (int i = 1; i <= 5; i++)
+    {
+        await Task.Delay(100);
+        yield return i;
+    }
+}
 
-// System.Memory is referenced, so this polyfill is enabled
-var bytesRead = await stream.ReadAsync(buffer.Memory);
+// Microsoft.Bcl.AsyncInterfaces is referenced, so this polyfill is enabled
+await Parallel.ForEachAsync(GenerateNumbersAsync(), async (number, cancellationToken) =>
+{
+    await Task.Delay(Random.Shared.Next(0, 1000), cancellationToken);
+    Console.WriteLine(number);
+});
 ```
 
 Conversely, adding a reference to the `System.ValueTuple` package will disable **PolyShim**'s own version of `ValueTuple<...>` and related types.
@@ -178,7 +190,7 @@ You can leverage this to prioritize the official implementation wherever possibl
 
   <ItemGroup>
     <PackageReference Include="PolyShim" Version="*" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.6.1" />
   </ItemGroup>
 
 </Project>

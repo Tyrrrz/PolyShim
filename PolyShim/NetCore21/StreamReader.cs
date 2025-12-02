@@ -14,24 +14,6 @@ internal static partial class PolyfillExtensions
 {
     extension(StreamReader reader)
     {
-        // Signature-compatible replacement for Read(Span<char>)
-        // https://learn.microsoft.com/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))
-        public int Read(char[] buffer) => reader.Read(buffer, 0, buffer.Length);
-
-#if FEATURE_TASK
-        // Signature-compatible replacement for ReadAsync(Memory<char>, ...)
-        // https://learn.microsoft.com/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
-        public async Task<int> ReadAsync(
-            char[] buffer,
-            CancellationToken cancellationToken = default
-        )
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
-        }
-#endif
-
-#if FEATURE_MEMORY
         // https://learn.microsoft.com/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))
         public int Read(Span<char> buffer)
         {
@@ -41,9 +23,8 @@ internal static partial class PolyfillExtensions
 
             return result;
         }
-#endif
 
-#if FEATURE_TASK && FEATURE_MEMORY
+#if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
         public async Task<int> ReadAsync(
             Memory<char> buffer,
