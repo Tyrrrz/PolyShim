@@ -130,11 +130,13 @@ internal static class MemoryExtensions
 
     extension(string text)
     {
-        public Span<char> AsSpan() => new(text.ToCharArray());
+        public ReadOnlySpan<char> AsSpan() => new(text.ToCharArray());
 
-        public Span<char> AsSpan(int start) => new(text.ToCharArray(), start, text.Length - start);
+        public ReadOnlySpan<char> AsSpan(int start) =>
+            new(text.ToCharArray(), start, text.Length - start);
 
-        public Span<char> AsSpan(int start, int length) => new(text.ToCharArray(), start, length);
+        public ReadOnlySpan<char> AsSpan(int start, int length) =>
+            new(text.ToCharArray(), start, length);
 
         public ReadOnlyMemory<char> AsMemory() => new(text.ToCharArray());
 

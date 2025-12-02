@@ -11,7 +11,7 @@ namespace System.Buffers;
 
 // https://learn.microsoft.com/dotnet/api/system.buffers.memorypool-1
 [ExcludeFromCodeCoverage]
-internal class MemoryPool<T> : IDisposable
+internal partial class MemoryPool<T> : IDisposable
 {
     public static MemoryPool<T> Shared { get; } = new();
 
@@ -24,7 +24,10 @@ internal class MemoryPool<T> : IDisposable
     }
 
     public void Dispose() { }
+}
 
+internal partial class MemoryPool<T>
+{
     private class MemoryOwner(int length) : IMemoryOwner<T>
     {
         public Memory<T> Memory { get; } = new(new T[length]);

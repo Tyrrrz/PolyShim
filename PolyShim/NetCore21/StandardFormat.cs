@@ -11,22 +11,16 @@ namespace System.Buffers;
 
 // https://learn.microsoft.com/dotnet/api/system.buffers.standardformat
 [ExcludeFromCodeCoverage]
-internal readonly struct StandardFormat : IEquatable<StandardFormat>
+internal readonly struct StandardFormat(char symbol, byte precision = 0)
+    : IEquatable<StandardFormat>
 {
-    private readonly byte _format;
-    private readonly byte _precision;
-
-    public StandardFormat(char symbol, byte precision = default)
-    {
-        _format = (byte)symbol;
-        _precision = precision;
-    }
+    private readonly byte _format = (byte)symbol;
 
     public char Symbol => (char)_format;
 
-    public byte Precision => _precision;
+    public byte Precision { get; } = precision;
 
-    public bool IsDefault => _format == 0 && _precision == 0;
+    public bool IsDefault => _format == 0 && Precision == 0;
 
     public static StandardFormat Parse(ReadOnlySpan<char> format)
     {
@@ -51,9 +45,9 @@ internal readonly struct StandardFormat : IEquatable<StandardFormat>
     public override bool Equals(object? obj) => obj is StandardFormat other && Equals(other);
 
     public bool Equals(StandardFormat other) =>
-        _format == other._format && _precision == other._precision;
+        _format == other._format && Precision == other.Precision;
 
-    public override int GetHashCode() => _format.GetHashCode() ^ _precision.GetHashCode();
+    public override int GetHashCode() => _format.GetHashCode() ^ Precision.GetHashCode();
 
     public static bool operator ==(StandardFormat left, StandardFormat right) => left.Equals(right);
 
@@ -65,10 +59,10 @@ internal readonly struct StandardFormat : IEquatable<StandardFormat>
         if (IsDefault)
             return string.Empty;
 
-        if (_precision == 0)
+        if (Precision == 0)
             return Symbol.ToString();
 
-        return Symbol + _precision.ToString();
+        return Symbol + Precision.ToString();
     }
 }
 #endif

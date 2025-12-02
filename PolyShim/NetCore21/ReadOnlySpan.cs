@@ -17,7 +17,6 @@ internal readonly ref struct ReadOnlySpan<T>
 {
     private readonly T[] _array;
     private readonly int _offset;
-    private readonly int _length;
 
     public ReadOnlySpan(T[] array, int start, int length)
     {
@@ -30,7 +29,7 @@ internal readonly ref struct ReadOnlySpan<T>
 
         _array = array;
         _offset = start;
-        _length = length;
+        Length = length;
     }
 
     public ReadOnlySpan(T[] array)
@@ -40,39 +39,39 @@ internal readonly ref struct ReadOnlySpan<T>
     {
         get
         {
-            if ((uint)index >= (uint)_length)
+            if ((uint)index >= (uint)Length)
                 throw new IndexOutOfRangeException();
 
             return _array[_offset + index];
         }
     }
 
-    public int Length => _length;
+    public int Length { get; }
 
-    public bool IsEmpty => _length == 0;
+    public bool IsEmpty => Length == 0;
 
     public static ReadOnlySpan<T> Empty => default;
 
     public void CopyTo(Span<T> destination)
     {
-        if (_length > destination.Length)
+        if (Length > destination.Length)
             throw new ArgumentException("Destination is too short.", nameof(destination));
 
         if (_array is not null)
         {
-            for (var i = 0; i < _length; i++)
+            for (var i = 0; i < Length; i++)
                 destination[i] = _array[_offset + i];
         }
     }
 
     public bool TryCopyTo(Span<T> destination)
     {
-        if (_length > destination.Length)
+        if (Length > destination.Length)
             return false;
 
         if (_array is not null)
         {
-            for (var i = 0; i < _length; i++)
+            for (var i = 0; i < Length; i++)
                 destination[i] = _array[_offset + i];
         }
 
@@ -81,15 +80,15 @@ internal readonly ref struct ReadOnlySpan<T>
 
     public ReadOnlySpan<T> Slice(int start)
     {
-        if ((uint)start > (uint)_length)
+        if ((uint)start > (uint)Length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
-        return new ReadOnlySpan<T>(_array, _offset + start, _length - start);
+        return new ReadOnlySpan<T>(_array, _offset + start, Length - start);
     }
 
     public ReadOnlySpan<T> Slice(int start, int length)
     {
-        if ((uint)start > (uint)_length || (uint)length > (uint)(_length - start))
+        if ((uint)start > (uint)Length || (uint)length > (uint)(Length - start))
             throw new ArgumentOutOfRangeException();
 
         return new ReadOnlySpan<T>(_array, _offset + start, length);
@@ -97,12 +96,12 @@ internal readonly ref struct ReadOnlySpan<T>
 
     public T[] ToArray()
     {
-        if (_length == 0)
+        if (Length == 0)
             return [];
 
-        var result = new T[_length];
+        var result = new T[Length];
         if (_array is not null)
-            Array.Copy(_array, _offset, result, 0, _length);
+            Array.Copy(_array, _offset, result, 0, Length);
 
         return result;
     }

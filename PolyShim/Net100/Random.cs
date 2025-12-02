@@ -6,7 +6,6 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 internal static partial class PolyfillExtensions
@@ -24,8 +23,18 @@ internal static partial class PolyfillExtensions
         }
 
         // https://learn.microsoft.com/dotnet/api/system.random.getstring
-        public string GetString(ReadOnlySpan<char> choices, int length) =>
-            random.GetString(choices.ToArray(), length);
+        public string GetString(ReadOnlySpan<char> choices, int length)
+        {
+            var buffer = new StringBuilder(length);
+
+            for (var i = 0; i < length; i++)
+            {
+                var index = random.Next(choices.Length);
+                buffer.Append(choices[index]);
+            }
+
+            return buffer.ToString();
+        }
     }
 }
 #endif

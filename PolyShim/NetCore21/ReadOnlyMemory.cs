@@ -17,7 +17,6 @@ internal readonly struct ReadOnlyMemory<T> : IEquatable<ReadOnlyMemory<T>>
 {
     private readonly T[] _array;
     private readonly int _offset;
-    private readonly int _length;
 
     public ReadOnlyMemory(T[] array, int start, int length)
     {
@@ -30,31 +29,31 @@ internal readonly struct ReadOnlyMemory<T> : IEquatable<ReadOnlyMemory<T>>
 
         _array = array;
         _offset = start;
-        _length = length;
+        Length = length;
     }
 
     public ReadOnlyMemory(T[] array)
         : this(array, 0, array.Length) { }
 
-    public int Length => _length;
+    public int Length { get; }
 
-    public bool IsEmpty => _length == 0;
+    public bool IsEmpty => Length == 0;
 
     public static ReadOnlyMemory<T> Empty => default;
 
-    public ReadOnlySpan<T> Span => new(_array, _offset, _length);
+    public ReadOnlySpan<T> Span => new(_array, _offset, Length);
 
     public ReadOnlyMemory<T> Slice(int start)
     {
-        if ((uint)start > (uint)_length)
+        if ((uint)start > (uint)Length)
             throw new ArgumentOutOfRangeException(nameof(start));
 
-        return new ReadOnlyMemory<T>(_array, _offset + start, _length - start);
+        return new ReadOnlyMemory<T>(_array, _offset + start, Length - start);
     }
 
     public ReadOnlyMemory<T> Slice(int start, int length)
     {
-        if ((uint)start > (uint)_length || (uint)length > (uint)(_length - start))
+        if ((uint)start > (uint)Length || (uint)length > (uint)(Length - start))
             throw new ArgumentOutOfRangeException();
 
         return new ReadOnlyMemory<T>(_array, _offset + start, length);
@@ -69,7 +68,7 @@ internal readonly struct ReadOnlyMemory<T> : IEquatable<ReadOnlyMemory<T>>
     public override bool Equals(object? obj) => obj is ReadOnlyMemory<T> memory && Equals(memory);
 
     public bool Equals(ReadOnlyMemory<T> other) =>
-        _array == other._array && _offset == other._offset && _length == other._length;
+        _array == other._array && _offset == other._offset && Length == other.Length;
 
     public override int GetHashCode()
     {
@@ -77,7 +76,8 @@ internal readonly struct ReadOnlyMemory<T> : IEquatable<ReadOnlyMemory<T>>
         if (_array is not null)
             hash = hash * 31 + _array.GetHashCode();
         hash = hash * 31 + _offset.GetHashCode();
-        hash = hash * 31 + _length.GetHashCode();
+        hash = hash * 31 + Length.GetHashCode();
+
         return hash;
     }
 
