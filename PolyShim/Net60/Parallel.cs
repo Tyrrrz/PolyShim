@@ -153,7 +153,7 @@ internal static partial class PolyfillExtensions
         public static async Task ForEachAsync<T>(
             IAsyncEnumerable<T> source,
             Func<T, CancellationToken, Task> body
-        ) => await ForEachAsync(source, CancellationToken.None, body);
+        ) => await ForEachAsync(source, CancellationToken.None, body).ConfigureAwait(false);
 #endif
     }
 }
