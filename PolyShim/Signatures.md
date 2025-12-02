@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 318
-- **Types:** 69
+- **Total:** 320
+- **Types:** 71
 - **Members:** 249
 
 ___
@@ -266,6 +266,7 @@ ___
 - `ReadOnlyMemory<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.readonlymemory-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `ReadOnlySpan<T>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.readonlyspan-1) <sup><sub>.NET Core 2.1</sub></sup>
   - [`bool Contains(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`bool SequenceEqual(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int IndexOf(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-readonlyspan((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
@@ -297,6 +298,7 @@ ___
 - `SortedSet<T>`
   - [`bool TryGetValue(T, out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.sortedset-1.trygetvalue) <sup><sub>.NET Core 2.0</sub></sup>
 - `Span<T>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.span-1) <sup><sub>.NET Core 2.1</sub></sup>
   - [`bool Contains(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`bool SequenceEqual(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int IndexOf(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-span((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>

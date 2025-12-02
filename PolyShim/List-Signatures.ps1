@@ -333,7 +333,7 @@ foreach ($file in $codeFiles) {
     }
 
     # Extract type declarations (must be internal)
-    $typePattern = 'internal\s+(?:readonly\s+|partial\s+|static\s+|sealed\s+)*(class|enum|struct|interface|record)\s+(\w+(?:<[^>]+>)?)'
+    $typePattern = 'internal\s+(?:(?:readonly|partial|static|sealed|ref)\s+)*(class|enum|struct|interface|record)\s+(\w+(?:<[^>]+>)?)'
     $typeMatches = [regex]::Matches($content, $typePattern)
 
     foreach ($match in $typeMatches) {
