@@ -87,7 +87,13 @@ internal static partial class PolyfillExtensions
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall(system-collections-generic-ienumerable((system-threading-tasks-task)))
         public static Task WhenAll(IEnumerable<Task> tasks) =>
-            Task.Factory.ContinueWhenAll(tasks as Task[] ?? tasks.ToArray(), _ => { });
+            Task.Factory.ContinueWhenAll(
+                tasks as Task[] ?? tasks.ToArray(),
+                _ => { },
+                CancellationToken.None,
+                TaskContinuationOptions.None,
+                TaskScheduler.Default
+            );
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall(system-threading-tasks-task())
         public static Task WhenAll(params Task[] tasks) => WhenAll((IEnumerable<Task>)tasks);
@@ -96,7 +102,10 @@ internal static partial class PolyfillExtensions
         public static Task<T[]> WhenAll<T>(IEnumerable<Task<T>> tasks) =>
             Task.Factory.ContinueWhenAll(
                 tasks as Task<T>[] ?? tasks.ToArray(),
-                completedTasks => completedTasks.Select(t => t.Result).ToArray()
+                completedTasks => completedTasks.Select(t => t.Result).ToArray(),
+                CancellationToken.None,
+                TaskContinuationOptions.None,
+                TaskScheduler.Default
             );
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-threading-tasks-task((-0))())
@@ -105,14 +114,26 @@ internal static partial class PolyfillExtensions
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany(system-collections-generic-ienumerable((system-threading-tasks-task)))
         public static Task<Task> WhenAny(IEnumerable<Task> tasks) =>
-            Task.Factory.ContinueWhenAny(tasks as Task[] ?? tasks.ToArray(), t => t);
+            Task.Factory.ContinueWhenAny(
+                tasks as Task[] ?? tasks.ToArray(),
+                t => t,
+                CancellationToken.None,
+                TaskContinuationOptions.None,
+                TaskScheduler.Default
+            );
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany(system-threading-tasks-task())
         public static Task<Task> WhenAny(params Task[] tasks) => WhenAny((IEnumerable<Task>)tasks);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))
         public static Task<Task<T>> WhenAny<T>(IEnumerable<Task<T>> tasks) =>
-            Task.Factory.ContinueWhenAny(tasks as Task<T>[] ?? tasks.ToArray(), t => t);
+            Task.Factory.ContinueWhenAny(
+                tasks as Task<T>[] ?? tasks.ToArray(),
+                t => t,
+                CancellationToken.None,
+                TaskContinuationOptions.None,
+                TaskScheduler.Default
+            );
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany-1(system-threading-tasks-task((-0))())
         public static Task<Task<T>> WhenAny<T>(params Task<T>[] tasks) =>
