@@ -52,4 +52,73 @@ public class ParallelTests
 
         ex.CancellationToken.Should().Be(cancellationToken);
     }
+
+    [Fact]
+    public async Task ForEachAsync_MaxDegreeOfParallelism_Test()
+    {
+        // Arrange
+        var items = new[] { 1, 2, 3, 4, 5 };
+        var currentParallelism = 0;
+        var maxObservedParallelism = 0;
+
+        // Act
+        await Parallel.ForEachAsync(
+            items,
+            new ParallelOptions { MaxDegreeOfParallelism = 2 },
+            async (_, cancellationToken) =>
+            {
+                Interlocked.Increment(ref currentParallelism);
+
+                var observed = Interlocked.CompareExchange(
+                    ref maxObservedParallelism,
+                    currentParallelism,
+                    maxObservedParallelism
+                );
+
+                if (currentParallelism > observed)
+                {
+                    maxObservedParallelism = currentParallelism;
+                }
+
+                await Task.Delay(50, cancellationToken);
+                Interlocked.Decrement(ref currentParallelism);
+            }
+        );
+
+        // Assert
+        maxObservedParallelism.Should().BeLessThanOrEqualTo(2);
+    }
+
+    [Fact]
+    public async Task ForEachAsync_AsyncEnumerable_Test()
+    {
+        // Arrange
+        async IAsyncEnumerable<int> GetItemsAsync()
+        {
+            for (var i = 1; i <= 5; i++)
+            {
+                await Task.Delay(10);
+                yield return i;
+            }
+        }
+
+        var results = new List<int>();
+
+        // Act
+        await Parallel.ForEachAsync(
+            GetItemsAsync(),
+            async (item, cancellationToken) =>
+            {
+                await Task.Delay(10, cancellationToken);
+
+                lock (results)
+                {
+                    results.Add(item);
+                }
+            }
+        );
+
+        // Assert
+        results.Should().BeEquivalentTo([1, 2, 3, 4, 5]);
+    }
 }

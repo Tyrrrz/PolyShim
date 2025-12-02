@@ -48,4 +48,35 @@ public class ParallelTests
 
         ex.CancellationToken.Should().Be(cancellationToken);
     }
+
+    [Fact]
+    public async Task ForAsync_MaxDegreeOfParallelism_Test()
+    {
+        // Arrange
+        var currentParallelism = 0;
+        var maxObservedParallelism = 0;
+
+        // Act
+        await Parallel.ForAsync(
+            1,
+            21,
+            new ParallelOptions { MaxDegreeOfParallelism = 4 },
+            async (i, cancellationToken) =>
+            {
+                var parallelism = Interlocked.Increment(ref currentParallelism);
+                try
+                {
+                    maxObservedParallelism = Math.Max(maxObservedParallelism, parallelism);
+                    await Task.Delay(50, cancellationToken);
+                }
+                finally
+                {
+                    Interlocked.Decrement(ref currentParallelism);
+                }
+            }
+        );
+
+        // Assert
+        maxObservedParallelism.Should().BeLessThanOrEqualTo(4);
+    }
 }
