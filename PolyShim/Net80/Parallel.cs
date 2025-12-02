@@ -43,7 +43,7 @@ internal static partial class PolyfillExtensions
                 toExclusive,
                 new ParallelOptions { CancellationToken = cancellationToken },
                 body
-            );
+            ).ConfigureAwait(false);
 
         // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
