@@ -159,7 +159,6 @@ For example, adding a reference to the `Microsoft.Bcl.AsyncInterfaces` package w
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Sources;
 
 async IAsyncEnumerable<int> GenerateNumbersAsync()
 {
