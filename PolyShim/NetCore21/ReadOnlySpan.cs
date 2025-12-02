@@ -40,7 +40,7 @@ internal readonly ref struct ReadOnlySpan<T>
     {
         get
         {
-            if (_array is null || index >= Length)
+            if (_array is null || index < 0 || index >= Length)
                 throw new IndexOutOfRangeException();
 
             return _array[_offset + index];
