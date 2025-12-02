@@ -69,16 +69,13 @@ public class ParallelTests
             {
                 Interlocked.Increment(ref currentParallelism);
 
-                var observed = Interlocked.CompareExchange(
-                    ref maxObservedParallelism,
-                    currentParallelism,
-                    maxObservedParallelism
-                );
-
-                if (currentParallelism > observed)
+                int initialValue, newValue;
+                do
                 {
-                    maxObservedParallelism = currentParallelism;
+                    initialValue = maxObservedParallelism;
+                    newValue = Math.Max(initialValue, currentParallelism);
                 }
+                while (Interlocked.CompareExchange(ref maxObservedParallelism, newValue, initialValue) != initialValue);
 
                 await Task.Delay(50, cancellationToken);
                 Interlocked.Decrement(ref currentParallelism);
