@@ -1,8 +1,8 @@
 # Signatures
 
 - **Total:** 318
-- **Types:** 70
-- **Members:** 248
+- **Types:** 69
+- **Members:** 249
 
 ___
 
@@ -20,8 +20,8 @@ ___
   - [`void ThrowIfNull(object?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentnullexception.throwifnull#system-argumentnullexception-throwifnull(system-object-system-string)) <sup><sub>.NET 6.0</sub></sup>
 - `ArrayPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1) <sup><sub>.NET Core 1.0</sub></sup>
-- `ArraySegment<T>`
-  - `Span<T> AsSpan()` <sup><sub>.NET Core 2.1</sub></sup>
+- `ArraySegment<T>?`
+  - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
   - [`bool TryParse(string, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
 - `CallerArgumentExpressionAttribute`
@@ -201,8 +201,6 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.membernotnullwhenattribute) <sup><sub>.NET 5.0</sub></sup>
 - `Memory<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.memory-1) <sup><sub>.NET Core 2.1</sub></sup>
-- `MemoryExtensions`
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.memoryextensions) <sup><sub>.NET Core 2.1</sub></sup>
 - `MemoryPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.memorypool-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `ModuleInitializerAttribute`
@@ -268,9 +266,9 @@ ___
 - `ReadOnlyMemory<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.readonlymemory-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `ReadOnlySpan<T>`
-  - `bool Contains(T)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `bool SequenceEqual(ReadOnlySpan<T>)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `int IndexOf(T)` <sup><sub>.NET Core 2.1</sub></sup>
+  - [`bool Contains(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`bool SequenceEqual(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`int IndexOf(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-readonlyspan((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
 - `Regex`
   - [`int Count(string, string, RegexOptions, TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions-system-timespan)) <sup><sub>.NET 7.0</sub></sup>
   - [`int Count(string, string, RegexOptions)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions)) <sup><sub>.NET 7.0</sub></sup>
@@ -299,10 +297,10 @@ ___
 - `SortedSet<T>`
   - [`bool TryGetValue(T, out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.sortedset-1.trygetvalue) <sup><sub>.NET Core 2.0</sub></sup>
 - `Span<T>`
-  - `bool Contains(T)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `bool SequenceEqual(ReadOnlySpan<T>)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `int IndexOf(T)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `void Reverse()` <sup><sub>.NET Core 2.1</sub></sup>
+  - [`bool Contains(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`bool SequenceEqual(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`int IndexOf(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-span((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void Reverse()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.reverse#system-memoryextensions-reverse-1(system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `Stream`
   - [`int Read(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.read#system-io-stream-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int ReadAtLeast(Span<byte>, int, bool)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast) <sup><sub>.NET 7.0</sub></sup>
@@ -331,12 +329,6 @@ ___
   - [`bool IsNullOrWhiteSpace(string?)`](https://learn.microsoft.com/dotnet/api/system.string.isnullorwhitespace) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool StartsWith(char)`](https://learn.microsoft.com/dotnet/api/system.string.startswith#system-string-startswith(system-char)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int GetHashCode(StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
-  - `ReadOnlyMemory<char> AsMemory()` <sup><sub>.NET Core 2.1</sub></sup>
-  - `ReadOnlyMemory<char> AsMemory(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `ReadOnlyMemory<char> AsMemory(int)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `ReadOnlySpan<char> AsSpan()` <sup><sub>.NET Core 2.1</sub></sup>
-  - `ReadOnlySpan<char> AsSpan(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `ReadOnlySpan<char> AsSpan(int)` <sup><sub>.NET Core 2.1</sub></sup>
   - [`string Replace(string, string?, bool, CultureInfo?)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-boolean-system-globalization-cultureinfo)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Replace(string, string?, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string ReplaceLineEndings()`](https://learn.microsoft.com/dotnet/api/system.string.replacelineendings#system-string-replacelineendings) <sup><sub>.NET 6.0</sub></sup>
@@ -345,6 +337,13 @@ ___
   - [`string[] Split(char, StringSplitOptions)`](https://learn.microsoft.com/dotnet/api/system.string.split#system-string-split(system-char-system-stringsplitoptions)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string[] Split(string?, int, StringSplitOptions)`](https://learn.microsoft.com/dotnet/api/system.string.split#system-string-split(system-string-system-int32-system-stringsplitoptions)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string[] Split(string?, StringSplitOptions)`](https://learn.microsoft.com/dotnet/api/system.string.split#system-string-split(system-string-system-stringsplitoptions)) <sup><sub>.NET Core 2.0</sub></sup>
+- `string?`
+  - [`ReadOnlyMemory<char> AsMemory()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`ReadOnlyMemory<char> AsMemory(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`ReadOnlyMemory<char> AsMemory(int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`ReadOnlySpan<char> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`ReadOnlySpan<char> AsSpan(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`ReadOnlySpan<char> AsSpan(int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
 - `StringMarshalling`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.stringmarshalling) <sup><sub>.NET 7.0</sub></sup>
 - `StringSyntaxAttribute`
@@ -355,14 +354,15 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.supportedosplatformguardattribute) <sup><sub>.NET 6.0</sub></sup>
 - `SystemException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.systemexception) <sup><sub>.NET Core 2.0</sub></sup>
-- `T[]`
-  - `Memory<T> AsMemory()` <sup><sub>.NET Core 2.1</sub></sup>
-  - `Memory<T> AsMemory(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `Memory<T> AsMemory(int)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `Span<T> AsSpan()` <sup><sub>.NET Core 2.1</sub></sup>
-  - `Span<T> AsSpan(int, int)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `void CopyTo(Memory<T>)` <sup><sub>.NET Core 2.1</sub></sup>
-  - `void CopyTo(Span<T>)` <sup><sub>.NET Core 2.1</sub></sup>
+- `T[]?`
+  - [`Memory<T> AsMemory()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0())) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`Memory<T> AsMemory(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`Memory<T> AsMemory(int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0())) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`Span<T> AsSpan(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0()-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`Span<T> AsSpan(int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0()-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void CopyTo(Memory<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.copyto#system-memoryextensions-copyto-1(-0()-system-memory((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void CopyTo(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.copyto#system-memoryextensions-copyto-1(-0()-system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `TargetFrameworkAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.targetframeworkattribute) <sup><sub>.NET Core 1.0</sub></sup>
 - `TargetPlatformAttribute`
