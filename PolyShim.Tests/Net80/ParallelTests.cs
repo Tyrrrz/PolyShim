@@ -61,7 +61,7 @@ public class ParallelTests
             1,
             21,
             new ParallelOptions { MaxDegreeOfParallelism = 4 },
-            async (i, cancellationToken) =>
+            async (_, cancellationToken) =>
             {
                 var parallelism = Interlocked.Increment(ref currentParallelism);
                 try
