@@ -47,14 +47,15 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - Named tuples
   - Module initializers
   - Overload priority
+  - Caller information
 - Provides type polyfills for:
   - `ValueTuple<...>`
   - `Index` and `Range`
   - `Span<T>` and `Memory<T>`
+  - `Lock`
   - `HashCode`
-  - `SkipLocalsInitAttribute`
-  - `CallerArgumentExpressionAttribute`
-  - `ExcludeFromCodeCoverageAttribute`
+  - `ArrayPool<T>`
+  - `TaskCompletionSource`
   - [...and 70+ more](PolyShim/Signatures.md)
 - Provides member polyfills for:
   - `string.ReplaceLineEndings(...)`, `string.AsSpan()`, etc.
@@ -65,7 +66,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `File.WriteAllTextAsync(...)`, `File.ReadAllTextAsync(...)`, etc.
   - `Environment.ProcessPath`, `Environment.ProcessId`, etc.
   - `OperatingSystem.IsWindows()`, `OperatingSystem.IsLinux()`, etc.
-  - [...and 300+ more](PolyShim/Signatures.md)
+  - [...and 250+ more](PolyShim/Signatures.md)
 - Adjusts polyfills based on available capabilities
 - Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
 - Imposes no run-time dependencies
