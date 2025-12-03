@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 330
-- **Types:** 71
+- **Total:** 333
+- **Types:** 74
 - **Members:** 259
 
 ___
@@ -26,6 +26,12 @@ ___
   - [`bool TryParse(string, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
 - `CallerArgumentExpressionAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute) <sup><sub>.NET Core 3.0</sub></sup>
+- `CallerFilePathAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerfilepathattribute) <sup><sub>.NET Core 1.0</sub></sup>
+- `CallerLineNumberAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerlinenumberattribute) <sup><sub>.NET Core 1.0</sub></sup>
+- `CallerMemberNameAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callermembernameattribute) <sup><sub>.NET Core 1.0</sub></sup>
 - `CancellationTokenSource`
   - [`Task CancelAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.cancellationtokensource.cancelasync) <sup><sub>.NET 8.0</sub></sup>
 - `CompilerFeatureRequiredAttribute`
