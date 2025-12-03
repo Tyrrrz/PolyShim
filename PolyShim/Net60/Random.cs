@@ -9,6 +9,9 @@ using System;
 
 internal static partial class PolyfillExtensions
 {
+    [ThreadStatic]
+    private static Random? _threadRandom;
+
     extension(Random random)
     {
         // https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64-system-int64)
@@ -50,13 +53,7 @@ internal static partial class PolyfillExtensions
 
             return (uintValue >> 8) * (1.0f / (1u << 24));
         }
-    }
 
-    [ThreadStatic]
-    private static Random? _threadRandom;
-
-    extension(Random)
-    {
         // https://learn.microsoft.com/dotnet/api/system.random.shared
         public static Random Shared => _threadRandom ??= new Random();
     }

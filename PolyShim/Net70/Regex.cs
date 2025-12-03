@@ -25,17 +25,13 @@ internal static partial class PolyfillExtensions
 
             return count;
         }
-    }
 
-    extension(Regex)
-    {
         // https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string)
-        public static int Count(string input, string pattern) =>
-            Regex.Matches(input, pattern).Count;
+        public static int Count(string input, string pattern) => new Regex(pattern).Count(input);
 
         // https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions)
         public static int Count(string input, string pattern, RegexOptions options) =>
-            Regex.Matches(input, pattern, options).Count;
+            new Regex(pattern, options).Count(input);
 
 #if !NETFRAMEWORK || NET45_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions-system-timespan)
@@ -44,7 +40,7 @@ internal static partial class PolyfillExtensions
             string pattern,
             RegexOptions options,
             TimeSpan matchTimeout
-        ) => Regex.Matches(input, pattern, options, matchTimeout).Count;
+        ) => new Regex(pattern, options, matchTimeout).Count(input);
 #endif
     }
 }
