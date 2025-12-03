@@ -24,7 +24,7 @@ internal static partial class PolyfillExtensions
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
         public async Task WriteAsync(
-            Memory<char> buffer,
+            ReadOnlyMemory<char> buffer,
             CancellationToken cancellationToken = default
         )
         {
