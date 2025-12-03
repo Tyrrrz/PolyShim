@@ -90,7 +90,7 @@ You can then use them in your code by referencing the corresponding types or mem
 **PolyShim** provides various types that are not available natively on older target frameworks.
 These types are defined within the corresponding `System.*` namespaces and mimic the behavior of their original implementations as closely as possible.
 
-For example, with **PolyShim** you can use the `Index` and `Range` structs (added in .NET Core 3.0) on any older version of .NET:
+For example, with **PolyShim** you can use the `Index` and `Range` structs (added in .NET Core 3.0) on any version of .NET:
 
 ```csharp
 using System;
@@ -123,9 +123,9 @@ var part = array[3..^1];
 ### Member polyfills
 
 **PolyShim** provides a number of extension members that act as shims for instance or static members that are not available natively on older target frameworks.
-These extension members are typically defined within the global namespace, so they can be used on the corresponding types just like regular members, without any additional `using` directives.
+These extension members are defined within the global namespace, so they can be used on the corresponding types just like regular members, without any additional `using` directives.
 
-For example, with **PolyShim** you can reference the `Environment.ProcessId` static property (added in .NET 5.0) on any older version of .NET:
+For example, with **PolyShim** you can reference the `Environment.ProcessId` static property (added in .NET 5.0) on any version of .NET:
 
 ```csharp
 using System;
