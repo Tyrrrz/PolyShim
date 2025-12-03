@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 335
+- **Total:** 339
 - **Types:** 74
-- **Members:** 261
+- **Members:** 265
 
 ___
 
@@ -89,6 +89,8 @@ ___
 - `FeatureSwitchDefinitionAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute) <sup><sub>.NET 9.0</sub></sup>
 - `File`
+  - [`IAsyncEnumerable<string> ReadLinesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`IAsyncEnumerable<string> ReadLinesAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
   - [`Task AppendAllBytesAsync(string, byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)) <sup><sub>.NET 9.0</sub></sup>
   - [`Task AppendAllLinesAsync(string, IEnumerable<string>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`Task AppendAllLinesAsync(string, IEnumerable<string>, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
@@ -413,6 +415,8 @@ ___
 - `TextReader`
   - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.read#system-io-textreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Task<int> ReadAsync(Memory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`Task<string?> ReadLineAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readlineasync#system-io-textreader-readlineasync(system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`Task<string> ReadToEndAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readtoendasync(system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
 - `TextWriter`
   - [`Task DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
   - [`Task WriteAsync(ReadOnlyMemory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
