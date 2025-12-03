@@ -40,14 +40,14 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 ## Features
 
 - Enables compiler support for:
-  - Nullable reference types
-  - Record types
-  - Init-only properties
-  - Required properties
-  - Named tuples
+  - [Nullable reference types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/nullable-reference-types)
+  - [Record types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/record)
+  - [Init-only properties](https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/init)
+  - [Required properties](https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/required)
+  - [Value tuples](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples)
+  - [Caller information](https://learn.microsoft.com/dotnet/csharp/language-reference/attributes/caller-information)
   - Module initializers
   - Overload priority
-  - Caller information
 - Provides type polyfills for:
   - `ValueTuple<...>`
   - `Index` and `Range`
