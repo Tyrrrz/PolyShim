@@ -185,12 +185,12 @@ var tasks = Enumerable.Range(1, 10).Select(async i =>
 {
     await Task.Delay(Random.Shared.Next(1000));
     return i * i;
-}).ToArray();
+});
 
 // Microsoft.Bcl.AsyncInterfaces is referenced, so this polyfill is enabled
-await foreach (var result in Task.WhenEach(tasks))
+await foreach (var completedTask in Task.WhenEach(tasks))
 {
-    Console.WriteLine(result);
+    Console.WriteLine(await completedTask);
 }
 ```
 
