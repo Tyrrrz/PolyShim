@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 336
+- **Total:** 335
 - **Types:** 74
-- **Members:** 262
+- **Members:** 261
 
 ___
 
@@ -412,7 +412,6 @@ ___
   - [`void SetCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
 - `TextReader`
   - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.read#system-io-textreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`Task DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.io.textreader.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
   - [`Task<int> ReadAsync(Memory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
 - `TextWriter`
   - [`Task DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
