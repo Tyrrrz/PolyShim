@@ -38,6 +38,8 @@ internal static partial class PolyfillExtensions
 
             while (!reader.EndOfStream)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var line = await reader.ReadLineAsync(cancellationToken).ConfigureAwait(false);
                 if (line is not null)
                     yield return line;
@@ -63,6 +65,8 @@ internal static partial class PolyfillExtensions
 
             while (!reader.EndOfStream)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var line = await reader.ReadLineAsync(cancellationToken).ConfigureAwait(false);
                 if (line is not null)
                     yield return line;
