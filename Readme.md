@@ -45,6 +45,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - [Init-only properties](https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/init)
   - [Required properties](https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/required)
   - [Value tuples](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/value-tuples)
+  - [Index and range operators](https://learn.microsoft.com/dotnet/csharp/language-reference/language-specification/ranges)
   - [Caller information](https://learn.microsoft.com/dotnet/csharp/language-reference/attributes/caller-information)
   - Module initializers
   - Overload priority
