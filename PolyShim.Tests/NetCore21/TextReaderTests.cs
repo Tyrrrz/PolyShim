@@ -7,7 +7,7 @@ using Xunit;
 
 namespace PolyShim.Tests.NetCore21;
 
-public class StreamReaderTests
+public class TextReaderTests
 {
     [Fact]
     public void Read_Test()

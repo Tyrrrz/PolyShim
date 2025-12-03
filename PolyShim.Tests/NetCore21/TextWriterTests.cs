@@ -7,7 +7,7 @@ using Xunit;
 
 namespace PolyShim.Tests.NetCore21;
 
-public class StreamWriterTests
+public class TextWriterTests
 {
     [Fact]
     public void Write_Test()

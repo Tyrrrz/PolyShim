@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 internal static partial class PolyfillExtensions
 {
-    extension(StreamReader reader)
+    extension(TextReader reader)
     {
-        // https://learn.microsoft.com/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))
+        // https://learn.microsoft.com/dotnet/api/system.io.textreader.read#system-io-textreader-read(system-span((system-char)))
         public int Read(Span<char> buffer)
         {
             var bufferArray = buffer.ToArray();
@@ -25,7 +25,7 @@ internal static partial class PolyfillExtensions
         }
 
 #if FEATURE_TASK
-        // https://learn.microsoft.com/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
+        // https://learn.microsoft.com/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
         public async Task<int> ReadAsync(
             Memory<char> buffer,
             CancellationToken cancellationToken = default
@@ -34,9 +34,11 @@ internal static partial class PolyfillExtensions
             var bufferArray = buffer.ToArray();
 
             cancellationToken.ThrowIfCancellationRequested();
+
             var result = await reader
                 .ReadAsync(bufferArray, 0, bufferArray.Length)
                 .ConfigureAwait(false);
+
             bufferArray.CopyTo(buffer);
 
             return result;

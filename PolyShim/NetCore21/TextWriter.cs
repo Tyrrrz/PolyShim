@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 internal static partial class PolyfillExtensions
 {
-    extension(StreamWriter writer)
+    extension(TextWriter writer)
     {
-        // https://learn.microsoft.com/dotnet/api/system.io.streamwriter.write#system-io-streamwriter-write(system-readonlyspan((system-char)))
+        // https://learn.microsoft.com/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))
         public void Write(ReadOnlySpan<char> buffer)
         {
             var bufferArray = buffer.ToArray();
@@ -22,7 +22,7 @@ internal static partial class PolyfillExtensions
         }
 
 #if FEATURE_TASK
-        // https://learn.microsoft.com/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
+        // https://learn.microsoft.com/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
         public async Task WriteAsync(
             ReadOnlyMemory<char> buffer,
             CancellationToken cancellationToken = default

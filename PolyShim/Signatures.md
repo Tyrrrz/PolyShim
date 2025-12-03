@@ -329,12 +329,6 @@ ___
   - [`void ReadExactly(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)) <sup><sub>.NET 7.0</sub></sup>
   - [`void ReadExactly(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))) <sup><sub>.NET 7.0</sub></sup>
   - [`void Write(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.write#system-io-stream-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
-- `StreamReader`
-  - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.streamreader.read#system-io-streamreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`Task<int> ReadAsync(Memory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
-- `StreamWriter`
-  - [`Task WriteAsync(ReadOnlyMemory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.streamwriter.write#system-io-streamwriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `string`
   - [`bool Contains(char, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.contains#system-string-contains(system-char-system-stringcomparison)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`bool Contains(char)`](https://learn.microsoft.com/dotnet/api/system.string.contains#system-string-contains(system-char)) <sup><sub>.NET Core 2.0</sub></sup>
@@ -417,9 +411,13 @@ ___
   - [`bool TrySetCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetcanceled#system-threading-tasks-taskcompletionsource-1-trysetcanceled(system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`void SetCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
 - `TextReader`
+  - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.read#system-io-textreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Task DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.io.textreader.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`Task<int> ReadAsync(Memory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
 - `TextWriter`
   - [`Task DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`Task WriteAsync(ReadOnlyMemory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `ThreadAbortException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.threadabortexception) <sup><sub>.NET Core 2.0</sub></sup>
 - `TimeSpan`
