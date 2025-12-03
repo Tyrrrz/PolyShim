@@ -118,7 +118,7 @@ var part = array[3..^1];
 ```
 
 > [!NOTE]
-> You can find the full list of polyfilled signatures [here](PolyShim/Signatures.md).
+> You can find the full list of type polyfills [here](PolyShim/Signatures.md).
 
 ### Member polyfills
 
@@ -137,7 +137,7 @@ var processId = Environment.ProcessId;
 ```
 
 > [!NOTE]
-> You can find the full list of polyfilled signatures [here](PolyShim/Signatures.md).
+> You can find the full list of member polyfills [here](PolyShim/Signatures.md).
 
 ### Compatibility packages
 
