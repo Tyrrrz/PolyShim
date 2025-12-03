@@ -18,8 +18,6 @@
 **PolyShim** is a collection of polyfills that enable many modern framework APIs and compiler features for projects targeting older versions of .NET.
 It's distributed as a source-only package that can be referenced without imposing any run-time dependencies.
 
-You can find the full list of polyfilled signatures [here](PolyShim/Signatures.md).
-
 ## Terms of use<sup>[[?]](https://github.com/Tyrrrz/.github/blob/master/docs/why-so-political.md)</sup>
 
 By using this project or its source code, for any purpose and in any shape or form, you grant your **implicit agreement** to all the following statements:
@@ -38,6 +36,39 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 > [!IMPORTANT]
 > To reference this package, you must have the latest major version of the .NET SDK installed.
 > This is only required for the build process, and does not affect which version of the runtime you can target.
+
+## Features
+
+- Enables compiler support for:
+  - Nullable reference types
+  - Record types
+  - Init-only properties
+  - Required properties
+  - Named tuples
+  - Module initializers
+  - Overload priority
+- Provides type polyfills for:
+  - `ValueTuple<...>`
+  - `Index` and `Range`
+  - `Span<T>` and `Memory<T>`
+  - `HashCode`
+  - `SkipLocalsInitAttribute`
+  - `CallerArgumentExpressionAttribute`
+  - `ExcludeFromCodeCoverageAttribute`
+  - [...and 70+ more](PolyShim/Signatures.md)
+- Provides member polyfills for:
+  - `string.ReplaceLineEndings(...)`, `string.AsSpan()`, etc.
+  - `Stream.ReadExactly(...)`, `Stream.ReadAtLeast(...)`, etc.
+  - `IEnumerable<T>.Chunk(...)`, `IEnumerable<T>.TakeLast(...)`, etc. 
+  - `Task.WaitAsync(...)`, `Task.WhenEach(...)`, etc.
+  - `Parallel.ForEachAsync(...)`, `Parallel.ForAsync(...)`, etc.
+  - `File.WriteAllTextAsync(...)`, `File.ReadAllTextAsync(...)`, etc.
+  - `Environment.ProcessPath`, `Environment.ProcessId`, etc.
+  - `OperatingSystem.IsWindows()`, `OperatingSystem.IsLinux()`, etc.
+  - [...and 300+ more](PolyShim/Signatures.md)
+- Adjusts polyfills based on available capabilities
+- Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
+- Imposes no run-time dependencies
 
 ## Usage
 
@@ -93,18 +124,7 @@ var part = array[3..^1];
 **PolyShim** provides a number of extension members that act as shims for instance or static members that are not available natively on older target frameworks.
 These extension members are typically defined within the global namespace, so they can be used on the corresponding types just like regular members, without any additional `using` directives.
 
-For example, with **PolyShim** you can call the `string.Contains(char)` method (added in .NET Core 2.0) on any older version of .NET:
-
-```csharp
-var str = "Hello world";
-
-// On newer frameworks, this call uses the native implementation.
-// On older frameworks, this call is implemented by PolyShim.
-// Same code works everywhere without any changes.
-var contains = str.Contains('w');
-```
-
-Similarly, you can also reference the `Environment.ProcessId` static property (added in .NET 5.0) and **PolyShim** will make it work on older versions of .NET:
+For example, with **PolyShim** you can reference the `Environment.ProcessId` static property (added in .NET 5.0) on any older version of .NET:
 
 ```csharp
 using System;
@@ -123,7 +143,8 @@ var processId = Environment.ProcessId;
 Some features from newer versions of .NET can also be made available on older frameworks using official compatibility packages published by Microsoft.
 **PolyShim** automatically detects if any of these packages are installed and adjusts its polyfill coverage accordingly — either by enabling additional polyfills that build upon those features, or by disabling polyfills for APIs that are already provided in the compatibility packages. 
 
-Currently, **PolyShim** has integration with the following packages:
+Currently, **PolyShim** recognizes the following packages:
+
 - [`System.Diagnostics.Process`](https://nuget.org/packages/System.Diagnostics.Process) — `Process`, `ProcessStartInfo`, etc.
 - [`System.Management`](https://nuget.org/packages/System.Management) — `ManagementObjectSearcher`, etc.
 - [`System.Memory`](https://nuget.org/packages/System.Memory) — `Memory<T>`, `Span<T>`, etc.
@@ -138,7 +159,7 @@ Currently, **PolyShim** has integration with the following packages:
 - [`Microsoft.Bcl.Memory`](https://nuget.org/packages/Microsoft.Bcl.Memory) — `Index`, `Range`, etc.
 - [`Microsoft.Net.Http`](https://nuget.org/packages/Microsoft.Net.Http) — `HttpClient`, `HttpContent`, etc. (wider support than the `System.*` variant).
 
-For example, adding a reference to the `Microsoft.Bcl.AsyncInterfaces` package will enable **PolyShim**'s polyfills that work with `IAsyncEnumerable<T>`, such as `Parallel.ForEachAsync(...)`:
+For example, adding a reference to the `Microsoft.Bcl.AsyncInterfaces` package will enable **PolyShim**'s polyfills that work with `IAsyncEnumerable<T>`, such as `Task.WhenEach(...)`:
 
 ```xml
 <Project>
@@ -148,8 +169,8 @@ For example, adding a reference to the `Microsoft.Bcl.AsyncInterfaces` package w
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="*" />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
+    <PackageReference Include="PolyShim" Version="..." />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="..." />
   </ItemGroup>
 
 </Project>
@@ -157,46 +178,44 @@ For example, adding a reference to the `Microsoft.Bcl.AsyncInterfaces` package w
 
 ```csharp
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-async IAsyncEnumerable<int> GenerateNumbersAsync()
+var tasks = Enumerable.Range(1, 10).Select(async i =>
 {
-    for (int i = 1; i <= 5; i++)
-    {
-        await Task.Delay(100);
-        yield return i;
-    }
-}
+    await Task.Delay(Random.Shared.Next(1000));
+    return i * i;
+}).ToArray();
 
 // Microsoft.Bcl.AsyncInterfaces is referenced, so this polyfill is enabled
-await Parallel.ForEachAsync(GenerateNumbersAsync(), async (number, cancellationToken) =>
+await foreach (var result in Task.WhenEach(tasks))
 {
-    await Task.Delay(Random.Shared.Next(0, 1000), cancellationToken);
-    Console.WriteLine(number);
-});
+    Console.WriteLine(result);
+}
 ```
 
-Conversely, adding a reference to the `System.ValueTuple` package will disable **PolyShim**'s own version of `ValueTuple<...>` and related types.
-You can leverage this to prioritize the official implementation wherever possible, while still relying on the polyfilled version for older target frameworks:
+Conversely, adding a reference to the `System.Memory` package will disable **PolyShim**'s own versions of `Span<T>` and `Memory<T>`.
+You can leverage this to prioritize the official implementation wherever possible, while still benefiting from other polyfills provided by **PolyShim**:
 
 ```xml
 <Project>
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="*" />
-    <PackageReference Include="System.ValueTuple" Version="4.6.1" />
+    <PackageReference Include="PolyShim" Version="..." />
+    <PackageReference Include="System.Memory" Version="..." />
   </ItemGroup>
 
 </Project>
 ```
 
 ```csharp
-// System.ValueTuple is referenced, so this polyfill is disabled
-// (the native implementation is used instead)
-var (x, y) = ("hello world", 42);
+using System;
+
+// System.Memory is referenced, so this polyfill is disabled
+Span<byte> buffer = stackalloc byte[256];
+Random.Shared.NextBytes(buffer);
 ```
