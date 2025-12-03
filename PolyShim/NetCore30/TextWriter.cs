@@ -14,7 +14,7 @@ internal static partial class PolyfillExtensions
     extension(TextWriter writer)
     {
 #if FEATURE_TASK
-        // https://learn.microsoft.com/dotnet/api/system.io.stream.disposeasync
+        // https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync
         public async Task DisposeAsync()
         {
 #if FEATURE_ASYNCINTERFACES
