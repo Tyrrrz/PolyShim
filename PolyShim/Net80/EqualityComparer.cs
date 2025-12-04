@@ -7,9 +7,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 internal static partial class PolyfillExtensions
 {
+    [ExcludeFromCodeCoverage]
     private class DelegateEqualityComparer<T>(Func<T?, T?, bool> equals, Func<T, int>? getHashCode)
         : EqualityComparer<T>
     {

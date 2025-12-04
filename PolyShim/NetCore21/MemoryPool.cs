@@ -17,10 +17,18 @@ internal partial class MemoryPool<T> : IDisposable
 
     public IMemoryOwner<T> Rent(int minBufferSize = -1)
     {
-        if (minBufferSize < -1)
-            throw new ArgumentOutOfRangeException(nameof(minBufferSize));
+        var innerPool = ArrayPool<T>.Shared;
+        var buffer = innerPool.Rent(minBufferSize);
 
-        return new MemoryOwner(minBufferSize < 0 ? 0 : minBufferSize);
+        try
+        {
+            return new MemoryOwner(innerPool, buffer);
+        }
+        catch
+        {
+            innerPool.Return(buffer);
+            throw;
+        }
     }
 
     public void Dispose() { }
@@ -28,11 +36,12 @@ internal partial class MemoryPool<T> : IDisposable
 
 internal partial class MemoryPool<T>
 {
-    private class MemoryOwner(int length) : IMemoryOwner<T>
+    [ExcludeFromCodeCoverage]
+    private class MemoryOwner(ArrayPool<T> pool, T[] buffer) : IMemoryOwner<T>
     {
-        public Memory<T> Memory { get; } = new(new T[length]);
+        public Memory<T> Memory { get; } = new(buffer);
 
-        public void Dispose() { }
+        public void Dispose() => pool.Return(buffer);
     }
 }
 #endif
