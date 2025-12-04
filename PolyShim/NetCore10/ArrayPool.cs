@@ -13,23 +13,17 @@ namespace System.Buffers;
 [ExcludeFromCodeCoverage]
 internal class ArrayPool<T>
 {
-    public static ArrayPool<T> Shared { get; } = new();
-
-    public T[] Rent(int minimumLength)
-    {
-        if (minimumLength < 0)
-            throw new ArgumentOutOfRangeException(nameof(minimumLength));
-
-        return new T[minimumLength];
-    }
+    public T[] Rent(int minimumLength) =>
+        minimumLength >= 0
+            ? new T[minimumLength]
+            : throw new ArgumentOutOfRangeException(nameof(minimumLength));
 
     public void Return(T[] array, bool clearArray = false)
     {
-        if (array is null)
-            throw new ArgumentNullException(nameof(array));
-
         if (clearArray)
             Array.Clear(array, 0, array.Length);
     }
+
+    public static ArrayPool<T> Shared { get; } = new();
 }
 #endif

@@ -13,12 +13,12 @@ namespace System.Buffers;
 [ExcludeFromCodeCoverage]
 internal partial class MemoryPool<T> : IDisposable
 {
-    public static MemoryPool<T> Shared { get; } = new();
+    public int MaxBufferSize => int.MaxValue;
 
     public IMemoryOwner<T> Rent(int minBufferSize = -1)
     {
         var innerPool = ArrayPool<T>.Shared;
-        var buffer = innerPool.Rent(minBufferSize);
+        var buffer = innerPool.Rent(minBufferSize >= 0 ? minBufferSize : 16);
 
         try
         {
@@ -32,6 +32,8 @@ internal partial class MemoryPool<T> : IDisposable
     }
 
     public void Dispose() { }
+
+    public static MemoryPool<T> Shared { get; } = new();
 }
 
 internal partial class MemoryPool<T>
