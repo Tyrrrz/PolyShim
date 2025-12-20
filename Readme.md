@@ -96,8 +96,8 @@ For example, with **PolyShim** you can use the `Index` and `Range` structs (adde
 ```csharp
 using System;
 
-// On newer frameworks, this relies on the native implementation.
-// On older frameworks, this relies on PolyShim.
+// On newer frameworks, this references the framework-provided types.
+// On older frameworks, this references the polyfilled types.
 // Same code works everywhere without any changes.
 var index = new Index(1, fromEnd: true);
 var range = new Range(
@@ -111,8 +111,8 @@ You can also use compiler features that rely on these types, such as the advance
 ```csharp
 var array = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-// On newer frameworks, this relies on the native implementation.
-// On older frameworks, this relies on PolyShim.
+// On newer frameworks, these operators rely on the framework-provided types.
+// On older frameworks, these operators rely on the polyfilled types.
 // Same code works everywhere without any changes.
 var last = array[^1];
 var part = array[3..^1];
@@ -124,15 +124,15 @@ var part = array[3..^1];
 ### Member polyfills
 
 **PolyShim** provides a number of extension members that act as shims for instance or static members that are not available natively on older target frameworks.
-These extension members are defined within the global namespace, so they can be used on the corresponding types just like regular members, without any additional `using` directives.
+These extension members are defined within the global namespace, so they can be used on the corresponding types just like intrinsic members, without any additional `using` directives.
 
 For example, with **PolyShim** you can reference the `Environment.ProcessId` static property (added in .NET 5.0) on any version of .NET:
 
 ```csharp
 using System;
 
-// On newer frameworks, this relies on the native implementation.
-// On older frameworks, this relies on PolyShim.
+// On newer frameworks, this references the framework-provided property.
+// On older frameworks, this references the polyfilled property.
 // Same code works everywhere without any changes.
 var processId = Environment.ProcessId;
 ```
@@ -218,6 +218,7 @@ You can leverage this to prioritize the official implementation wherever possibl
 using System;
 
 // System.Memory is referenced, so this polyfill is disabled
+// (the official Span<T> and Memory<T> types are used instead)
 Span<byte> buffer = stackalloc byte[256];
 Random.Shared.NextBytes(buffer);
 ```
