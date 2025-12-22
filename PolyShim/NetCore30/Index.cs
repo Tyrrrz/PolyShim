@@ -19,7 +19,7 @@ internal readonly struct Index(int value) : IEquatable<Index>
         : this(fromEnd ? ~value : value)
     {
         if (value < 0)
-            throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
+            throw new ArgumentOutOfRangeException(nameof(value), "Value must be non-negative.");
     }
 
     public int Value => _value < 0 ? ~_value : _value;
@@ -53,15 +53,9 @@ internal readonly struct Index(int value) : IEquatable<Index>
 
     public static Index End => new(~0);
 
-    public static Index FromStart(int value) =>
-        value >= 0
-            ? new Index(value)
-            : throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
+    public static Index FromStart(int value) => new(value, false);
 
-    public static Index FromEnd(int value) =>
-        value >= 0
-            ? new Index(~value)
-            : throw new ArgumentOutOfRangeException(nameof(value), "value must be non-negative");
+    public static Index FromEnd(int value) => new(value, true);
 
     public static implicit operator Index(int value) => FromStart(value);
 }

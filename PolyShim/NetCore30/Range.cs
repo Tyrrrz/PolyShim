@@ -20,7 +20,6 @@ internal readonly struct Range(Index start, Index end) : IEquatable<Range>
     public (int Offset, int Length) GetOffsetAndLength(int length)
     {
         var start = Start.IsFromEnd ? length - Start.Value : Start.Value;
-
         var end = End.IsFromEnd ? length - End.Value : End.Value;
 
         if ((uint)end > (uint)length || (uint)start > (uint)end)
