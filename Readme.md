@@ -132,7 +132,7 @@ For example, with **PolyShim** you can reference the `Environment.ProcessId` sta
 using System;
 
 // On newer frameworks, this references the framework-provided property.
-// On older frameworks, this references the polyfilled property.
+// On older frameworks, this references the polyfilled (extension) property.
 // Same code works everywhere without any changes.
 var processId = Environment.ProcessId;
 ```
