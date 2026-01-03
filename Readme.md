@@ -37,6 +37,11 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 > To reference this package, you must have the latest major version of the .NET SDK installed.
 > This is only required for the build process, and does not affect which version of the runtime you can target.
 
+> [!NOTE]
+> Installing this package automatically sets your project's target language version to latest.
+> This is required for many polyfills to work, but is also recommended, since **PolyShim** provides the facilities to use modern language features on older frameworks.
+> If you have `<LangVersion>` explicitly configured in your project file, make sure it's set to `latest` or newer (e.g. `preview`).
+
 ## Features
 
 - Enables compiler support for:
@@ -140,6 +145,35 @@ var processId = Environment.ProcessId;
 > [!NOTE]
 > You can find the full list of member polyfills [here](PolyShim/Signatures.md).
 
+### Unsafe code
+
+Certain polyfills that implement low-level memory manipulation features (e.g. `Span<T>`) require unsafe code to work.
+Because **PolyShim** is a source-only package, unsafe code must be enabled in your project in order to use those polyfills.
+To do that, set the `<AllowUnsafeBlocks>` property to `true`:
+
+```xml
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    
+    <!-- Enable unsafe code for polyfills that require it -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PolyShim" Version="..." />
+  </ItemGroup>
+  
+</Project>
+```
+
+For example, with unsafe code enabled, you can use stack-allocated span initialization on any version of .NET:
+
+```csharp
+Span<byte> buffer = stackalloc byte[256];
+```
+
 ### Compatibility packages
 
 Some features from newer versions of .NET can also be made available on older frameworks using official compatibility packages published by Microsoft.
@@ -215,10 +249,10 @@ You can leverage this to prioritize the official implementation wherever possibl
 ```
 
 ```csharp
-using System;
+using System.Buffers;
 
 // System.Memory is referenced, so this polyfill is disabled
 // (the official Span<T> and Memory<T> types are used instead)
-Span<byte> buffer = stackalloc byte[256];
-Random.Shared.NextBytes(buffer);
+using var buffer = MemoryPool<byte>.Shared.Rent(1024);
+var memory = buffer.Memory.Slice(0, 1024);
 ```
