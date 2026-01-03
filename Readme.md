@@ -147,8 +147,8 @@ var processId = Environment.ProcessId;
 
 ### Unsafe code
 
-Certain polyfills that implement low-level memory manipulation features (e.g. `Span<T>`) require unsafe code to work.
-Because **PolyShim** is a source-only package, unsafe code must be enabled in your project in order to use those polyfills.
+Certain polyfills that implement low-level memory manipulation features (e.g. `Span<T>.ctor(void*, int)`) require unsafe code to work.
+Because **PolyShim** is a source-only package, unsafe code needs to be enabled in your project if you wish to use those polyfills.
 To do that, set the `<AllowUnsafeBlocks>` property to `true`:
 
 ```xml
