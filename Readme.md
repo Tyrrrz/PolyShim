@@ -252,7 +252,7 @@ You can leverage this to prioritize the official implementation wherever possibl
 using System.Buffers;
 
 // System.Memory is referenced, so this polyfill is disabled
-// (the official Span<T> and Memory<T> types are used instead)
+// (the official MemoryPool<T> is used instead)
 using var buffer = MemoryPool<byte>.Shared.Rent(1024);
 var memory = buffer.Memory.Slice(0, 1024);
 ```
