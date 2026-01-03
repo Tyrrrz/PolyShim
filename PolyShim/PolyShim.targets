@@ -18,6 +18,10 @@
     </PropertyGroup>
     <!-- Identify feature compatibility -->
     <PropertyGroup>
+      <DefineConstants Condition="'$(AllowUnsafeBlocks)' == 'true'"
+        >$(DefineConstants);ALLOW_UNSAFE_BLOCKS</DefineConstants
+      >
+
       <FeatureArrayPool>false</FeatureArrayPool>
       <FeatureArrayPool
         Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Buffers'))"

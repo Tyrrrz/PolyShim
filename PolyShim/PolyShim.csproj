@@ -11,6 +11,7 @@
       net35;net40;net45;net461;net462;net48;
       net5.0;net7.0;net8.0
     </TargetFrameworks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IsPackable>true</IsPackable>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     <NuGetAudit>false</NuGetAudit>

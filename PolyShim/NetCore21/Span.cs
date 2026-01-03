@@ -37,12 +37,17 @@ internal readonly ref struct Span<T>
     public Span(T[]? array)
         : this(array, 0, array?.Length ?? 0) { }
 
-#if !NETFRAMEWORK || NET46_OR_GREATER
+#if ALLOW_UNSAFE_BLOCKS
     public unsafe Span(void* pointer, int length)
         : this(new T[length])
     {
+        // Assume that we're given a block of memory for which this cast is valid
+#pragma warning disable CS8500
+        var source = (T*)pointer;
+#pragma warning restore CS8500
+
         for (var i = 0; i < length; i++)
-            _array![i] = Unsafe.Read<T>((byte*)pointer + i * Unsafe.SizeOf<T>());
+            _array![i] = source[i];
     }
 #endif
 
