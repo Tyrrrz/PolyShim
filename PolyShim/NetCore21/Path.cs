@@ -29,25 +29,27 @@ internal static partial class PolyfillExtensions
 {
     extension(Path)
     {
+        // Can only detect the platform on .NET Standard 1.3+
+#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.io.path.ispathfullyqualified#system-io-path-ispathfullyqualified(system-string)
         public static bool IsPathFullyQualified(string path)
         {
             if (!Path.IsPathRooted(path))
                 return false;
 
-            // On Windows, a path starting with a directory separator is fully qualified only if
-            // it's followed by another directory separator (UNC path) or a '?' (extended-length path).
-#if NETSTANDARD && !NETSTANDARD1_3_OR_GREATER
-            if (path[0] == '\\')
-#else
+            // On non-Windows platforms, a rooted path is always fully qualified
+            if (!OperatingSystem.IsWindows())
+                return true;
+
+            // If the path starts with a directory separator, it's fully qualified only if
+            // it's followed by another directory separator (UNC path) or a question mark (extended-length path).
             if (OperatingSystem.IsWindows() && PathEx.IsDirectorySeparator(path[0]))
-#endif
             {
                 return path.Length >= 2 && (PathEx.IsDirectorySeparator(path[1]) || path[1] == '?');
             }
 
-            // On Windows, a path starting with a drive letter is fully qualified only if
-            // it's followed by a volume separator and a directory separator.
+            // If the path starts with a drive letter and a volume separator, it's fully qualified only if
+            // it's then followed by a directory separator. Otherwise, it's a drive-relative path.
             if (
                 path.Length >= 3
                 && char.IsLetter(path[0])
@@ -60,6 +62,7 @@ internal static partial class PolyfillExtensions
 
             return false;
         }
+#endif
     }
 }
 #endif

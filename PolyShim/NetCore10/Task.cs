@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 file static class TaskEx
 {
-    public static readonly Task _completedTask = Task.FromResult(0);
+    public static Task CompletedTask { get; } = Task.FromResult(0);
 }
 
 internal static partial class PolyfillExtensions
@@ -22,7 +22,7 @@ internal static partial class PolyfillExtensions
     extension(Task)
     {
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask
-        public static Task CompletedTask => TaskEx._completedTask;
+        public static Task CompletedTask => TaskEx.CompletedTask;
 
 #if NETFRAMEWORK && !NET45_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult

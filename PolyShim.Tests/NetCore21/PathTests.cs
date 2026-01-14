@@ -10,19 +10,22 @@ public class PathTests
     public void IsPathFullyQualified_Test()
     {
         // Act & assert
-        Path.IsPathFullyQualified("C:\\test\\file.txt").Should().BeTrue();
-        Path.IsPathFullyQualified("C:/test/file.txt").Should().BeTrue();
-        Path.IsPathFullyQualified("\\\\server\\share\\file.txt").Should().BeTrue();
-        Path.IsPathFullyQualified("//server/share/file.txt").Should().BeTrue();
-        Path.IsPathFullyQualified("C:\\").Should().BeTrue();
-        Path.IsPathFullyQualified("C:/").Should().BeTrue();
-
-        Path.IsPathFullyQualified("C:file.txt").Should().BeFalse();
-        Path.IsPathFullyQualified("\\test\\file.txt").Should().BeFalse();
-        Path.IsPathFullyQualified("/test/file.txt").Should().BeFalse();
-        Path.IsPathFullyQualified("test/file.txt").Should().BeFalse();
-        Path.IsPathFullyQualified("./test/file.txt").Should().BeFalse();
-        Path.IsPathFullyQualified("file.txt").Should().BeFalse();
-        Path.IsPathFullyQualified("").Should().BeFalse();
+#if PLATFORM_WINDOWS
+        Path.IsPathFullyQualified(@"C:\Folder\File.txt").Should().BeTrue();
+        Path.IsPathFullyQualified(@"C:/Folder/File.txt").Should().BeTrue();
+        Path.IsPathFullyQualified(@"\Folder\File.txt").Should().BeTrue();
+        Path.IsPathFullyQualified(@"/Folder/File.txt").Should().BeTrue();
+        Path.IsPathFullyQualified(@"\\Server\Share\File.txt").Should().BeTrue();
+        Path.IsPathFullyQualified(@"//Server/Share/File.txt").Should().BeTrue();
+        Path.IsPathFullyQualified(@"C:Folder\File.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"C:Folder/File.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"Folder\File.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"Folder/File.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"./Folder/File.txt").Should().BeFalse();
+#else
+        Path.IsPathFullyQualified(@"/home/user/directory/file.txt").Should().BeTrue();
+        Path.IsPathFullyQualified(@"home/user/directory/file.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"./directory/file.txt").Should().BeFalse();
+#endif
     }
 }

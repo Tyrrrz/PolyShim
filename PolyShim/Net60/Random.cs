@@ -9,8 +9,8 @@ using System;
 
 file static class RandomEx
 {
-    [ThreadStatic]
-    public static Random? _threadRandom;
+    [field: ThreadStatic]
+    public static Random? Shared { get; set; }
 }
 
 internal static partial class PolyfillExtensions
@@ -58,7 +58,7 @@ internal static partial class PolyfillExtensions
         }
 
         // https://learn.microsoft.com/dotnet/api/system.random.shared
-        public static Random Shared => RandomEx._threadRandom ??= new Random();
+        public static Random Shared => RandomEx.Shared ??= new Random();
     }
 }
 #endif
