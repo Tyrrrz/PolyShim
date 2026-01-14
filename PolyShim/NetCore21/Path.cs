@@ -43,7 +43,7 @@ internal static partial class PolyfillExtensions
 
             // If the path starts with a directory separator, it's fully qualified only if
             // it's followed by another directory separator (UNC path) or a question mark (extended-length path).
-            if (OperatingSystem.IsWindows() && PathEx.IsDirectorySeparator(path[0]))
+            if (PathEx.IsDirectorySeparator(path[0]))
             {
                 return path.Length >= 2 && (PathEx.IsDirectorySeparator(path[1]) || path[1] == '?');
             }
