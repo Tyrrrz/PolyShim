@@ -25,10 +25,18 @@ public class PathTests
         Path.IsPathFullyQualified(@"/Folder/File.txt").Should().BeFalse();
         Path.IsPathFullyQualified(@".\Folder\File.txt").Should().BeFalse();
         Path.IsPathFullyQualified(@"./Folder/File.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"..\Folder\File.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"../Folder/File.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"\").Should().BeFalse();
+        Path.IsPathFullyQualified(@"/").Should().BeFalse();
+        Path.IsPathFullyQualified(@"").Should().BeFalse();
 #else
         Path.IsPathFullyQualified(@"/home/user/directory/file.txt").Should().BeTrue();
+        Path.IsPathFullyQualified(@"/").Should().BeTrue();
         Path.IsPathFullyQualified(@"home/user/directory/file.txt").Should().BeFalse();
         Path.IsPathFullyQualified(@"./directory/file.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"../directory/file.txt").Should().BeFalse();
+        Path.IsPathFullyQualified(@"").Should().BeFalse();
 #endif
     }
 }
