@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -16,10 +16,8 @@ public class ProcessTests
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "sh",
-                Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                    ? "/c timeout 1"
-                    : "-c 'sleep 1'",
+                FileName = OperatingSystem.IsWindows() ? "cmd" : "sh",
+                Arguments = OperatingSystem.IsWindows() ? "/c timeout 1" : "-c 'sleep 1'",
                 CreateNoWindow = true,
                 UseShellExecute = false,
             },

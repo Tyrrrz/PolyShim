@@ -8,7 +8,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 internal static partial class PolyfillExtensions
 {
@@ -19,7 +18,7 @@ internal static partial class PolyfillExtensions
         // https://learn.microsoft.com/dotnet/api/system.io.path.getrelativepath
         public static string GetRelativePath(string relativeTo, string path)
         {
-            var pathStringComparison = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            var pathStringComparison = OperatingSystem.IsWindows()
                 ? StringComparison.OrdinalIgnoreCase
                 : StringComparison.Ordinal;
 

@@ -9,7 +9,6 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
-using System.Runtime.InteropServices;
 
 internal static partial class PolyfillExtensions
 {
@@ -54,7 +53,7 @@ internal static partial class PolyfillExtensions
             }
 
             // Currently, this polyfill only supports Windows
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            if (!OperatingSystem.IsWindows())
             {
                 process.Kill();
                 return;
