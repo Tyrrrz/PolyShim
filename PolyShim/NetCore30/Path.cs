@@ -9,20 +9,23 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+file static class PathEx
+{
+    public static bool IsDirectorySeparator(char c) =>
+#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
+        c == Path.DirectorySeparatorChar || c == Path.AltDirectorySeparatorChar;
+#else
+        c is '\\' or '/';
+#endif
+}
+
 internal static partial class PolyfillExtensions
 {
     extension(Path)
     {
-        private static bool IsDirectorySeparator(char c) =>
-#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
-            c == Path.DirectorySeparatorChar || c == Path.AltDirectorySeparatorChar;
-#else
-            c is '\\' or '/';
-#endif
-
         // https://learn.microsoft.com/dotnet/api/system.io.path.endsindirectoryseparator#system-io-path-endsindirectoryseparator(system-string)
         public static bool EndsInDirectorySeparator(string? path) =>
-            !string.IsNullOrEmpty(path) && Path.IsDirectorySeparator(path![^1]);
+            !string.IsNullOrEmpty(path) && PathEx.IsDirectorySeparator(path![^1]);
 
         // https://learn.microsoft.com/dotnet/api/system.io.path.trimendingdirectoryseparator#system-io-path-trimendingdirectoryseparator(system-string)
         public static string TrimEndingDirectorySeparator(string path) =>
@@ -54,8 +57,8 @@ internal static partial class PolyfillExtensions
                 else
                 {
                     if (
-                        !Path.IsDirectorySeparator(builder[^1])
-                        && !Path.IsDirectorySeparator(path![0])
+                        !PathEx.IsDirectorySeparator(builder[^1])
+                        && !PathEx.IsDirectorySeparator(path![0])
                     )
                     {
                         builder.Append(
