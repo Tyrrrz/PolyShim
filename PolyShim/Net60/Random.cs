@@ -7,11 +7,14 @@
 
 using System;
 
-internal static partial class PolyfillExtensions
+file static class RandomEx
 {
     [ThreadStatic]
-    private static Random? _threadRandom;
+    public static Random? _threadRandom;
+}
 
+internal static partial class PolyfillExtensions
+{
     extension(Random random)
     {
         // https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64-system-int64)
@@ -55,7 +58,7 @@ internal static partial class PolyfillExtensions
         }
 
         // https://learn.microsoft.com/dotnet/api/system.random.shared
-        public static Random Shared => _threadRandom ??= new Random();
+        public static Random Shared => RandomEx._threadRandom ??= new Random();
     }
 }
 #endif

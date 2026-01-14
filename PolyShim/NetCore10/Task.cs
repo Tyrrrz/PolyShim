@@ -12,14 +12,17 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+file static class TaskEx
+{
+    public static readonly Task _completedTask = Task.FromResult(0);
+}
+
 internal static partial class PolyfillExtensions
 {
-    private static readonly Task _completedTask = Task.FromResult(0);
-
     extension(Task)
     {
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask
-        public static Task CompletedTask => _completedTask;
+        public static Task CompletedTask => TaskEx._completedTask;
 
 #if NETFRAMEWORK && !NET45_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult
