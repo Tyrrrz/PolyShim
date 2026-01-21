@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    This project tests net462 WITH System.Memory NuGet package.
+    See PolyShim.Tests for net462 WITHOUT System.Memory.
+  -->
+  <Import Project="../PolyShim.Tests/PolyShim.Tests.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Include test files from the main test project -->
+    <Compile Include="../PolyShim.Tests/**/*.cs" Exclude="**/obj/**/*" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Memory" Version="4.6.0" />
+  </ItemGroup>
+</Project>
