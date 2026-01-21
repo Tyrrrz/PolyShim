@@ -15,7 +15,7 @@ internal static partial class PolyfillExtensions
         public Span<T> AsSpan(int start, int length) => new(array, start, length);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0()-system-int32)
-        public Span<T> AsSpan(int start) => array.AsSpan(start, array?.Length ?? 0 - start);
+        public Span<T> AsSpan(int start) => array.AsSpan(start, (array?.Length ?? 0) - start);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0())
         public Span<T> AsSpan() => array.AsSpan(0);
@@ -24,7 +24,7 @@ internal static partial class PolyfillExtensions
         public Memory<T> AsMemory(int start, int length) => new(array, start, length);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32)
-        public Memory<T> AsMemory(int start) => array.AsMemory(start, array?.Length ?? 0 - start);
+        public Memory<T> AsMemory(int start) => array.AsMemory(start, (array?.Length ?? 0) - start);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0())
         public Memory<T> AsMemory() => array.AsMemory(0);
@@ -50,7 +50,7 @@ internal static partial class PolyfillExtensions
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32)
         public ReadOnlySpan<char> AsSpan(int start) =>
-            text.AsSpan(start, text?.Length ?? 0 - start);
+            text.AsSpan(start, (text?.Length ?? 0) - start);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string)
         public ReadOnlySpan<char> AsSpan() => text.AsSpan(0);
@@ -61,7 +61,7 @@ internal static partial class PolyfillExtensions
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32)
         public ReadOnlyMemory<char> AsMemory(int start) =>
-            text.AsMemory(start, text?.Length ?? 0 - start);
+            text.AsMemory(start, (text?.Length ?? 0) - start);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string)
         public ReadOnlyMemory<char> AsMemory() => text.AsMemory(0);

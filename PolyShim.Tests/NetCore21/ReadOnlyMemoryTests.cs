@@ -56,4 +56,119 @@ public class ReadOnlyMemoryTests
         result.Should().BeTrue();
         destination.ToArray().Should().Equal(1, 2, 3, 4, 5);
     }
+
+    [Fact]
+    public void IsEmpty_Test()
+    {
+        // Arrange
+        ReadOnlyMemory<byte> emptyMemory = ReadOnlyMemory<byte>.Empty;
+        ReadOnlyMemory<byte> nonEmptyMemory = new byte[] { 1, 2, 3 };
+
+        // Act & Assert
+        emptyMemory.IsEmpty.Should().BeTrue();
+        nonEmptyMemory.IsEmpty.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Empty_Test()
+    {
+        // Act
+        var memory = ReadOnlyMemory<byte>.Empty;
+
+        // Assert
+        memory.Length.Should().Be(0);
+        memory.IsEmpty.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Slice_WithStartOnly_Test()
+    {
+        // Arrange
+        ReadOnlyMemory<byte> memory = new byte[] { 1, 2, 3, 4, 5 };
+
+        // Act
+        var slice = memory.Slice(2);
+
+        // Assert
+        slice.ToArray().Should().Equal(3, 4, 5);
+    }
+
+    [Fact]
+    public void Span_Property_Test()
+    {
+        // Arrange
+        ReadOnlyMemory<byte> memory = new byte[] { 1, 2, 3, 4, 5 };
+
+        // Act
+        var span = memory.Span;
+
+        // Assert
+        span.ToArray().Should().Equal(1, 2, 3, 4, 5);
+    }
+
+    [Fact]
+    public void Equals_Test()
+    {
+        // Arrange
+        var array = new byte[] { 1, 2, 3, 4, 5 };
+        ReadOnlyMemory<byte> memory1 = new ReadOnlyMemory<byte>(array, 0, 5);
+        ReadOnlyMemory<byte> memory2 = new ReadOnlyMemory<byte>(array, 0, 5);
+        ReadOnlyMemory<byte> memory3 = new ReadOnlyMemory<byte>(array, 1, 4);
+        ReadOnlyMemory<byte> memory4 = new byte[] { 1, 2, 3, 4, 5 };
+
+        // Act & Assert
+        memory1.Equals(memory2).Should().BeTrue();
+        memory1.Equals(memory3).Should().BeFalse();
+        memory1.Equals(memory4).Should().BeFalse();
+    }
+
+    [Fact]
+    public void GetHashCode_Test()
+    {
+        // Arrange
+        var array = new byte[] { 1, 2, 3, 4, 5 };
+        ReadOnlyMemory<byte> memory1 = new ReadOnlyMemory<byte>(array, 0, 5);
+        ReadOnlyMemory<byte> memory2 = new ReadOnlyMemory<byte>(array, 0, 5);
+
+        // Act & Assert
+        memory1.GetHashCode().Should().Be(memory2.GetHashCode());
+    }
+
+    [Fact]
+    public void ImplicitConversion_FromArraySegment_Test()
+    {
+        // Arrange
+        var array = new byte[] { 1, 2, 3, 4, 5 };
+        var segment = new ArraySegment<byte>(array, 1, 3);
+
+        // Act
+        ReadOnlyMemory<byte> memory = segment;
+
+        // Assert
+        memory.ToArray().Should().Equal(2, 3, 4);
+    }
+
+    [Fact]
+    public void Length_Test()
+    {
+        // Arrange
+        ReadOnlyMemory<byte> memory = new byte[] { 1, 2, 3, 4, 5 };
+
+        // Act & Assert
+        memory.Length.Should().Be(5);
+    }
+
+    [Fact]
+    public void TryCopyTo_Failure_Test()
+    {
+        // Arrange
+        ReadOnlyMemory<byte> source = new byte[] { 1, 2, 3, 4, 5 };
+        Memory<byte> destination = new byte[3];
+
+        // Act
+        var result = source.TryCopyTo(destination);
+
+        // Assert
+        result.Should().BeFalse();
+    }
 }
