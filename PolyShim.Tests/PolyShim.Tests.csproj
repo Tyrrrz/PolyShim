@@ -1,8 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!--
-    This project tests net462 WITHOUT System.Memory NuGet package.
-    See PolyShim.Tests.Memory for net462 WITH System.Memory.
-  -->
   <Import Project="PolyShim.Tests.props" />
 
   <PropertyGroup>

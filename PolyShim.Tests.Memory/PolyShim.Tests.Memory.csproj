@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!--
-    This project tests net462 WITH System.Memory NuGet package.
-    See PolyShim.Tests for net462 WITHOUT System.Memory.
-  -->
   <Import Project="../PolyShim.Tests/PolyShim.Tests.props" />
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOsPlatform('Windows'))"
+      >$(TargetFrameworks);net462</TargetFrameworks
+    >
   </PropertyGroup>
 
   <ItemGroup>
