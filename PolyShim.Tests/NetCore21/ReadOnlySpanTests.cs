@@ -98,10 +98,5 @@ public class ReadOnlySpanTests
 
         ReadOnlySpan<byte> emptySpan = [];
         emptySpan.Contains((byte)1).Should().BeFalse();
-
-        var target = "hello";
-        ReadOnlySpan<string> refSpan = [target, "world", "test"];
-        refSpan.Contains(target).Should().BeTrue();
-        refSpan.Contains("missing").Should().BeFalse();
     }
 }

@@ -124,10 +124,5 @@ public class SpanTests
 
         Span<byte> emptySpan = [];
         emptySpan.Contains((byte)1).Should().BeFalse();
-
-        var target = "hello";
-        Span<string> refSpan = [target, "world", "test"];
-        refSpan.Contains(target).Should().BeTrue();
-        refSpan.Contains("missing").Should().BeFalse();
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 #if !FEATURE_MEMORY
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -5,141 +7,189 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-namespace System;
-
-internal static partial class PolyfillExtensions
+namespace System
 {
-    extension<T>(T[]? array)
+    internal static partial class PolyfillExtensions
     {
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0()-system-int32-system-int32)
-        public Span<T> AsSpan(int start, int length) => new(array, start, length);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0()-system-int32)
-        public Span<T> AsSpan(int start) => array.AsSpan(start, array?.Length ?? 0 - start);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0())
-        public Span<T> AsSpan() => array.AsSpan(0);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32-system-int32)
-        public Memory<T> AsMemory(int start, int length) => new(array, start, length);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32)
-        public Memory<T> AsMemory(int start) => array.AsMemory(start, array?.Length ?? 0 - start);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0())
-        public Memory<T> AsMemory() => array.AsMemory(0);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.copyto#system-memoryextensions-copyto-1(-0()-system-span((-0)))
-        public void CopyTo(Span<T> destination) => array.AsSpan().CopyTo(destination);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.copyto#system-memoryextensions-copyto-1(-0()-system-memory((-0)))
-        public void CopyTo(Memory<T> destination) => array.AsSpan().CopyTo(destination.Span);
-    }
-
-    extension<T>(ArraySegment<T>? segment)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))
-        public Span<T> AsSpan() => new(segment?.Array, segment?.Offset ?? 0, segment?.Count ?? 0);
-    }
-
-    extension(string? text)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32-system-int32)
-        public ReadOnlySpan<char> AsSpan(int start, int length) =>
-            new(text?.ToCharArray(), start, length);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32)
-        public ReadOnlySpan<char> AsSpan(int start) =>
-            text.AsSpan(start, text?.Length ?? 0 - start);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string)
-        public ReadOnlySpan<char> AsSpan() => text.AsSpan(0);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32-system-int32)
-        public ReadOnlyMemory<char> AsMemory(int start, int length) =>
-            new(text?.ToCharArray(), start, length);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32)
-        public ReadOnlyMemory<char> AsMemory(int start) =>
-            text.AsMemory(start, text?.Length ?? 0 - start);
-
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string)
-        public ReadOnlyMemory<char> AsMemory() => text.AsMemory(0);
-    }
-
-    extension<T>(Span<T> span)
-        where T : IEquatable<T>
-    {
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-span((-0))-0)
-        public int IndexOf(T value)
+        extension<T>(T[]? array)
         {
-            for (var i = 0; i < span.Length; i++)
-            {
-                if (span[i].Equals(value))
-                    return i;
-            }
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0()-system-int32-system-int32)
+            public Span<T> AsSpan(int start, int length) => new(array, start, length);
 
-            return -1;
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0()-system-int32)
+            public Span<T> AsSpan(int start) => array.AsSpan(start, array?.Length ?? 0 - start);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0())
+            public Span<T> AsSpan() => array.AsSpan(0);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32-system-int32)
+            public Memory<T> AsMemory(int start, int length) => new(array, start, length);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32)
+            public Memory<T> AsMemory(int start) =>
+                array.AsMemory(start, array?.Length ?? 0 - start);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0())
+            public Memory<T> AsMemory() => array.AsMemory(0);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.copyto#system-memoryextensions-copyto-1(-0()-system-span((-0)))
+            public void CopyTo(Span<T> destination) => array.AsSpan().CopyTo(destination);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.copyto#system-memoryextensions-copyto-1(-0()-system-memory((-0)))
+            public void CopyTo(Memory<T> destination) => array.AsSpan().CopyTo(destination.Span);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))
-        public bool SequenceEqual(ReadOnlySpan<T> other)
+        extension<T>(ArraySegment<T>? segment)
         {
-            if (span.Length != other.Length)
-                return false;
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))
+            public Span<T> AsSpan() =>
+                new(segment?.Array, segment?.Offset ?? 0, segment?.Count ?? 0);
+        }
 
-            for (var i = 0; i < span.Length; i++)
+        extension(string? text)
+        {
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32-system-int32)
+            public ReadOnlySpan<char> AsSpan(int start, int length) =>
+                new(text?.ToCharArray(), start, length);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32)
+            public ReadOnlySpan<char> AsSpan(int start) =>
+                text.AsSpan(start, text?.Length ?? 0 - start);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string)
+            public ReadOnlySpan<char> AsSpan() => text.AsSpan(0);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32-system-int32)
+            public ReadOnlyMemory<char> AsMemory(int start, int length) =>
+                new(text?.ToCharArray(), start, length);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32)
+            public ReadOnlyMemory<char> AsMemory(int start) =>
+                text.AsMemory(start, text?.Length ?? 0 - start);
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string)
+            public ReadOnlyMemory<char> AsMemory() => text.AsMemory(0);
+        }
+
+        extension<T>(Span<T> span)
+            where T : IEquatable<T>
+        {
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-span((-0))-0)
+            public int IndexOf(T value)
             {
-                if (!span[i].Equals(other[i]))
+                for (var i = 0; i < span.Length; i++)
+                {
+                    if (span[i].Equals(value))
+                        return i;
+                }
+
+                return -1;
+            }
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))
+            public bool SequenceEqual(ReadOnlySpan<T> other)
+            {
+                if (span.Length != other.Length)
                     return false;
+
+                for (var i = 0; i < span.Length; i++)
+                {
+                    if (!span[i].Equals(other[i]))
+                        return false;
+                }
+
+                return true;
             }
 
-            return true;
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.reverse#system-memoryextensions-reverse-1(system-span((-0)))
+            public void Reverse()
+            {
+                var i = 0;
+                var j = span.Length - 1;
+
+                while (i < j)
+                {
+                    (span[i], span[j]) = (span[j], span[i]);
+                    i++;
+                    j--;
+                }
+            }
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.reverse#system-memoryextensions-reverse-1(system-span((-0)))
-        public void Reverse()
+        extension<T>(ReadOnlySpan<T> span)
+            where T : IEquatable<T>
         {
-            var i = 0;
-            var j = span.Length - 1;
-
-            while (i < j)
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-readonlyspan((-0))-0)
+            public int IndexOf(T value)
             {
-                (span[i], span[j]) = (span[j], span[i]);
-                i++;
-                j--;
+                for (var i = 0; i < span.Length; i++)
+                {
+                    if (span[i].Equals(value))
+                        return i;
+                }
+
+                return -1;
+            }
+
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
+            public bool SequenceEqual(ReadOnlySpan<T> other)
+            {
+                if (span.Length != other.Length)
+                    return false;
+
+                for (var i = 0; i < span.Length; i++)
+                {
+                    if (!span[i].Equals(other[i]))
+                        return false;
+                }
+
+                return true;
             }
         }
     }
+}
+#endif
 
-    extension<T>(ReadOnlySpan<T> span)
-        where T : IEquatable<T>
+#if (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+namespace System
+{
+    internal static partial class PolyfillExtensions
     {
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-readonlyspan((-0))-0)
-        public int IndexOf(T value)
+        extension<T>(Span<T> span)
         {
-            for (var i = 0; i < span.Length; i++)
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)
+            public bool Contains(T value)
             {
-                if (span[i].Equals(value))
-                    return i;
-            }
+                var comparer = EqualityComparer<T>.Default;
+                foreach (var item in span)
+                {
+                    if (comparer.Equals(item, value))
+                        return true;
+                }
 
-            return -1;
+                return false;
+            }
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
-        public bool SequenceEqual(ReadOnlySpan<T> other)
+        extension<T>(ReadOnlySpan<T> span)
         {
-            if (span.Length != other.Length)
-                return false;
-
-            for (var i = 0; i < span.Length; i++)
+            // https://learn.microsoft.com/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)
+            public bool Contains(T value)
             {
-                if (!span[i].Equals(other[i]))
-                    return false;
-            }
+                var comparer = EqualityComparer<T>.Default;
+                foreach (var item in span)
+                {
+                    if (comparer.Equals(item, value))
+                        return true;
+                }
 
-            return true;
+                return false;
+            }
         }
     }
 }
