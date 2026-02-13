@@ -115,53 +115,19 @@ public class SpanTests
     }
 
     [Fact]
-    public void Contains_WithExistingValue_ReturnsTrue()
+    public void Contains_Test()
     {
-        // Arrange
-        Span<byte> span = [1, 2, 3, 4, 5];
-
         // Act & Assert
+        Span<byte> span = [1, 2, 3, 4, 5];
         span.Contains((byte)3).Should().BeTrue();
-    }
-
-    [Fact]
-    public void Contains_WithNonExistingValue_ReturnsFalse()
-    {
-        // Arrange
-        Span<byte> span = [1, 2, 3, 4, 5];
-
-        // Act & Assert
         span.Contains((byte)10).Should().BeFalse();
-    }
 
-    [Fact]
-    public void Contains_WithEmptySpan_ReturnsFalse()
-    {
-        // Arrange
-        Span<byte> span = [];
+        Span<byte> emptySpan = [];
+        emptySpan.Contains((byte)1).Should().BeFalse();
 
-        // Act & Assert
-        span.Contains((byte)1).Should().BeFalse();
-    }
-
-    [Fact]
-    public void Contains_WithReferenceType_ReturnsTrue()
-    {
-        // Arrange
         var target = "hello";
-        Span<string> span = [target, "world", "test"];
-
-        // Act & Assert
-        span.Contains(target).Should().BeTrue();
-    }
-
-    [Fact]
-    public void Contains_WithReferenceType_ReturnsFalse()
-    {
-        // Arrange
-        Span<string> span = ["hello", "world", "test"];
-
-        // Act & Assert
-        span.Contains("missing").Should().BeFalse();
+        Span<string> refSpan = [target, "world", "test"];
+        refSpan.Contains(target).Should().BeTrue();
+        refSpan.Contains("missing").Should().BeFalse();
     }
 }
