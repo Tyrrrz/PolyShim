@@ -87,4 +87,55 @@ public class ReadOnlySpanTests
         // Assert
         result.Should().Equal(1, 2, 3, 4, 5);
     }
+
+    [Fact]
+    public void Contains_WithExistingValue_ReturnsTrue()
+    {
+        // Arrange
+        ReadOnlySpan<byte> span = [1, 2, 3, 4, 5];
+
+        // Act & Assert
+        span.Contains((byte)3).Should().BeTrue();
+    }
+
+    [Fact]
+    public void Contains_WithNonExistingValue_ReturnsFalse()
+    {
+        // Arrange
+        ReadOnlySpan<byte> span = [1, 2, 3, 4, 5];
+
+        // Act & Assert
+        span.Contains((byte)10).Should().BeFalse();
+    }
+
+    [Fact]
+    public void Contains_WithEmptySpan_ReturnsFalse()
+    {
+        // Arrange
+        ReadOnlySpan<byte> span = [];
+
+        // Act & Assert
+        span.Contains((byte)1).Should().BeFalse();
+    }
+
+    [Fact]
+    public void Contains_WithReferenceType_ReturnsTrue()
+    {
+        // Arrange
+        var target = "hello";
+        ReadOnlySpan<string> span = [target, "world", "test"];
+
+        // Act & Assert
+        span.Contains(target).Should().BeTrue();
+    }
+
+    [Fact]
+    public void Contains_WithReferenceType_ReturnsFalse()
+    {
+        // Arrange
+        ReadOnlySpan<string> span = ["hello", "world", "test"];
+
+        // Act & Assert
+        span.Contains("missing").Should().BeFalse();
+    }
 }
