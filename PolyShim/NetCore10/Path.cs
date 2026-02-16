@@ -7,8 +7,10 @@
 
 using System.IO;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore10_Path
 {
     extension(Path)
     {

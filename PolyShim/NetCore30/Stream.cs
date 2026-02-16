@@ -8,8 +8,10 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore30_Stream
 {
     extension(Stream stream)
     {

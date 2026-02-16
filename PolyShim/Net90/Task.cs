@@ -8,8 +8,10 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net90_Task
 {
 #if FEATURE_ASYNCINTERFACES
     extension(Task task)

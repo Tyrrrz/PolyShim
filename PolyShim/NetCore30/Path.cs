@@ -8,6 +8,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
 file static class PathEx
 {
@@ -19,7 +20,8 @@ file static class PathEx
 #endif
 }
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore30_Path
 {
     extension(Path)
     {

@@ -7,8 +7,10 @@
 
 using System;
 using System.Text.RegularExpressions;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net70_Regex
 {
     extension(Regex regex)
     {

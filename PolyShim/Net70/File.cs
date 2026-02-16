@@ -10,8 +10,10 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net70_File
 {
     // No file I/O on .NET Standard prior to 1.3
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER

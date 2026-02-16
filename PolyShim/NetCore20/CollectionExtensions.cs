@@ -1,5 +1,7 @@
 ﻿#if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #nullable enable
+using System.Diagnostics.CodeAnalysis;
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
@@ -7,7 +9,8 @@
 
 namespace System.Collections.Generic;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore20_CollectionExtensions
 {
     // This weird conditional compilation pattern is needed so that List-Signatures.ps1 can pick up
     // both of the type receivers correctly.

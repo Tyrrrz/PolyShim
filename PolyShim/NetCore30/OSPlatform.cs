@@ -6,8 +6,10 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System.Runtime.InteropServices;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore30_OSPlatform
 {
     extension(OSPlatform)
     {

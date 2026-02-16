@@ -1,5 +1,7 @@
 #if !FEATURE_MEMORY
 #nullable enable
+using System.Diagnostics.CodeAnalysis;
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
@@ -7,7 +9,8 @@
 
 namespace System;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore21_MemoryExtensions
 {
     extension<T>(T[]? array)
     {

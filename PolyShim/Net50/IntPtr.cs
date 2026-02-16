@@ -7,8 +7,10 @@
 
 using System;
 using System.Globalization;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions2
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net50_IntPtr
 {
     extension(IntPtr)
     {

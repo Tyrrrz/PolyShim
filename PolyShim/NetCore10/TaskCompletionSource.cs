@@ -9,8 +9,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore10_TaskCompletionSource
 {
     extension<T>(TaskCompletionSource<T> source)
     {

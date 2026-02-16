@@ -7,8 +7,10 @@
 
 using System;
 using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net50_Type
 {
     extension(Type type)
     {

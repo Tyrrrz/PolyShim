@@ -6,8 +6,10 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions2
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore21_DateTimeOffset
 {
     extension(DateTimeOffset)
     {

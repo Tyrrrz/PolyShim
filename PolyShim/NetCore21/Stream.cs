@@ -9,8 +9,10 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore21_Stream
 {
     extension(Stream stream)
     {
