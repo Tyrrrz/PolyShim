@@ -337,9 +337,9 @@ foreach ($file in $codeFiles) {
     $content = Get-Content $file.FullName -Raw
     $relativePath = $file.FullName.Replace($PSScriptRoot, '').TrimStart('\', '/')
 
-    # Extract framework from path
+    # Extract framework from path (support both Windows and Linux path separators)
     $framework = $null
-    if ($relativePath -match '([^\\]+)\\[^\\]+\.cs$') {
+    if ($relativePath -match '([^/\\]+)[/\\][^/\\]+\.cs$') {
         $framework = Get-FrameworkName $matches[1]
     }
 

@@ -113,4 +113,16 @@ public class SpanTests
         // Assert
         collected.Should().Equal(1, 2, 3, 4, 5);
     }
+
+    [Fact]
+    public void Contains_Test()
+    {
+        // Act & Assert
+        Span<byte> span = [1, 2, 3, 4, 5];
+        span.Contains((byte)3).Should().BeTrue();
+        span.Contains((byte)10).Should().BeFalse();
+
+        Span<byte> emptySpan = [];
+        emptySpan.Contains((byte)1).Should().BeFalse();
+    }
 }

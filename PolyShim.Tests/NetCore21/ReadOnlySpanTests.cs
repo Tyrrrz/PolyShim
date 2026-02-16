@@ -87,4 +87,16 @@ public class ReadOnlySpanTests
         // Assert
         result.Should().Equal(1, 2, 3, 4, 5);
     }
+
+    [Fact]
+    public void Contains_Test()
+    {
+        // Act & Assert
+        ReadOnlySpan<byte> span = [1, 2, 3, 4, 5];
+        span.Contains((byte)3).Should().BeTrue();
+        span.Contains((byte)10).Should().BeFalse();
+
+        ReadOnlySpan<byte> emptySpan = [];
+        emptySpan.Contains((byte)1).Should().BeFalse();
+    }
 }

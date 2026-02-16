@@ -70,18 +70,6 @@ internal static partial class PolyfillExtensions
     extension<T>(Span<T> span)
         where T : IEquatable<T>
     {
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)
-        public bool Contains(T value)
-        {
-            foreach (var item in span)
-            {
-                if (item.Equals(value))
-                    return true;
-            }
-
-            return false;
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-span((-0))-0)
         public int IndexOf(T value)
         {
@@ -127,18 +115,6 @@ internal static partial class PolyfillExtensions
     extension<T>(ReadOnlySpan<T> span)
         where T : IEquatable<T>
     {
-        // https://learn.microsoft.com/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)
-        public bool Contains(T value)
-        {
-            foreach (var item in span)
-            {
-                if (item.Equals(value))
-                    return true;
-            }
-
-            return false;
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-readonlyspan((-0))-0)
         public int IndexOf(T value)
         {
