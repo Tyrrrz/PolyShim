@@ -9,8 +9,10 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore30_Process
 {
 #if FEATURE_PROCESS && FEATURE_MANAGEMENT
     extension(Process process)

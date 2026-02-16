@@ -8,8 +8,10 @@
 using System;
 using System.Globalization;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore20_String
 {
     extension(string str)
     {

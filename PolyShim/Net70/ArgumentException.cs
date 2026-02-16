@@ -7,8 +7,10 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net70_ArgumentException
 {
     extension(ArgumentException)
     {

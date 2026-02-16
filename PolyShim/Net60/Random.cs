@@ -6,6 +6,7 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 file static class RandomEx
 {
@@ -13,7 +14,8 @@ file static class RandomEx
     public static Random? Shared { get; set; }
 }
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net60_Random
 {
     extension(Random random)
     {

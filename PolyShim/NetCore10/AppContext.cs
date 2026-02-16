@@ -11,7 +11,8 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore10_AppContext
 {
     extension(AppContext)
     {

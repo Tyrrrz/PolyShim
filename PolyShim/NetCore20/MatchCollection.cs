@@ -8,8 +8,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore20_MatchCollection
 {
     // MatchCollection started implementing IEnumerable<Match> in .NET Core 2.0,
     // but we can't implement an interface with extension methods.

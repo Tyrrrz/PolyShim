@@ -10,8 +10,10 @@ using System;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore20_Task
 {
     extension(Task task)
     {

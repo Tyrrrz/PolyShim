@@ -378,8 +378,8 @@ foreach ($file in $codeFiles) {
         $typeKind = $match.Groups[1].Value
         $typeName = $match.Groups[2].Value
 
-        # Skip PolyfillExtensions classes
-        if ($typeName -match '^PolyfillExtensions\d*$') {
+        # Skip MemberPolyfills_* classes
+        if ($typeName -match '^MemberPolyfills_') {
             continue
         }
 

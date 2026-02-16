@@ -7,8 +7,10 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore20_SortedSet
 {
     extension<T>(SortedSet<T> set)
     {

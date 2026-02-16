@@ -11,13 +11,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 file static class TaskEx
 {
     public static Task CompletedTask { get; } = Task.FromResult(0);
 }
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore10_Task
 {
     extension(Task)
     {

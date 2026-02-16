@@ -1,6 +1,8 @@
 ﻿#if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 #pragma warning disable CS9216
+using System.Diagnostics.CodeAnalysis;
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming

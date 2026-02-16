@@ -10,8 +10,10 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net50_HttpContent
 {
 #if FEATURE_TASK
     extension(HttpContent httpContent)

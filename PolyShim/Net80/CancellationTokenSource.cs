@@ -8,8 +8,10 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net80_CancellationTokenSource
 {
     extension(CancellationTokenSource cts)
     {

@@ -7,8 +7,10 @@
 
 using System;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net100_Random
 {
     extension(Random random)
     {

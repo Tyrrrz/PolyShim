@@ -8,8 +8,10 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net90_File
 {
     // No file I/O on .NET Standard prior to 1.3
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER

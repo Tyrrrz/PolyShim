@@ -7,8 +7,10 @@
 
 using System;
 using System.Globalization;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_Net70_UInt64
 {
     extension(ulong)
     {

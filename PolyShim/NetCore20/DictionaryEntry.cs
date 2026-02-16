@@ -6,8 +6,10 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
-internal static partial class PolyfillExtensions
+[ExcludeFromCodeCoverage]
+internal static class MemberPolyfills_NetCore20_DictionaryEntry
 {
     extension(DictionaryEntry entry)
     {

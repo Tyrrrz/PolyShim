@@ -14,7 +14,7 @@ namespace System;
 // ReadOnlySpan<T> for older frameworks) does not include the Contains(T) method. This method was added
 // to the BCL in .NET Core 2.1 / .NET Standard 2.1, but the System.Memory NuGet package doesn't backport it.
 [ExcludeFromCodeCoverage]
-internal static partial class PolyfillExtensions
+internal static class MemberPolyfills_NetCore21_MemoryExtensions_Contains
 {
     extension<T>(Span<T> span)
     {
