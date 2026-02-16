@@ -6,12 +6,14 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System;
 
 // These polyfills are provided separately because System.Memory package (which provides Span<T> and
 // ReadOnlySpan<T> for older frameworks) does not include the Contains(T) method. This method was added
 // to the BCL in .NET Core 2.1 / .NET Standard 2.1, but the System.Memory NuGet package doesn't backport it.
+[ExcludeFromCodeCoverage]
 internal static partial class PolyfillExtensions
 {
     extension<T>(Span<T> span)
