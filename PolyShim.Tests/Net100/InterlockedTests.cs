@@ -108,9 +108,9 @@ public class InterlockedTests
     }
 
     [Theory]
-    [InlineData(0x0000FFFF, 0xFFFF0000, 0x00000000)]
-    [InlineData(0xFFFFFFFF, 0xAAAAAAAA, 0xAAAAAAAA)]
-    [InlineData(0x0FFFFFFF, 0xF0FFFFFF, 0x00FFFFFF)]
+    [InlineData(0x0000FFFF, unchecked((int)0xFFFF0000), 0x00000000)]
+    [InlineData(unchecked((int)0xFFFFFFFF), unchecked((int)0xAAAAAAAA), unchecked((int)0xAAAAAAAA))]
+    [InlineData(0x0FFFFFFF, unchecked((int)0xF0FFFFFF), 0x00FFFFFF)]
     [InlineData(0, -1, 0)]
     public void And_Int32_Test(int initial, int value, int expected)
     {
@@ -294,9 +294,9 @@ public class InterlockedTests
     }
 
     [Theory]
-    [InlineData(0x0000FFFF, 0xFFFF0000, unchecked((int)0xFFFFFFFF))]
-    [InlineData(0x00000000, 0xAAAAAAAA, unchecked((int)0xAAAAAAAA))]
-    [InlineData(0x0FFFFFFF, 0xF0000000, unchecked((int)0xFFFFFFFF))]
+    [InlineData(0x0000FFFF, unchecked((int)0xFFFF0000), unchecked((int)0xFFFFFFFF))]
+    [InlineData(0x00000000, unchecked((int)0xAAAAAAAA), unchecked((int)0xAAAAAAAA))]
+    [InlineData(0x0FFFFFFF, unchecked((int)0xF0000000), unchecked((int)0xFFFFFFFF))]
     [InlineData(0, 0, 0)]
     public void Or_Int32_Test(int initial, int value, int expected)
     {
@@ -361,11 +361,7 @@ public class InterlockedTests
 
     [Theory]
     [InlineData(0x00000000FFFFFFFFUL, 0xFFFFFFFF00000000UL, 0xFFFFFFFFFFFFFFFFUL)]
-    [InlineData(
-        0x0000000000000000UL,
-        0xAAAAAAAAAAAAAAAAUL,
-        0xAAAAAAAAAAAAAAAAUL
-    )]
+    [InlineData(0x0000000000000000UL, 0xAAAAAAAAAAAAAAAAUL, 0xAAAAAAAAAAAAAAAAUL)]
     [InlineData(0x0FFFFFFFFFFFFFFFUL, 0xF000000000000000UL, 0xFFFFFFFFFFFFFFFFUL)]
     [InlineData(0UL, 0UL, 0UL)]
     public void Or_UInt64_Test(ulong initial, ulong value, ulong expected)

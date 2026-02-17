@@ -50,12 +50,11 @@ internal static class MemberPolyfills_Net100_Interlocked
                 while (true)
                 {
                     byte newValue = (byte)(current & val);
-                    byte oldValue = (byte)
-                        global::System.Threading.Interlocked.CompareExchange(
-                            ref Unsafe.As<byte, int>(ref loc),
-                            newValue,
-                            current
-                        );
+                    byte oldValue = global::System.Threading.Interlocked.CompareExchange<byte>(
+                        ref loc,
+                        newValue,
+                        current
+                    );
                     if (oldValue == current)
                     {
                         byte result = oldValue;
@@ -73,12 +72,11 @@ internal static class MemberPolyfills_Net100_Interlocked
                 while (true)
                 {
                     ushort newValue = (ushort)(current & val);
-                    ushort oldValue = (ushort)
-                        global::System.Threading.Interlocked.CompareExchange(
-                            ref Unsafe.As<ushort, int>(ref loc),
-                            newValue,
-                            current
-                        );
+                    ushort oldValue = global::System.Threading.Interlocked.CompareExchange<ushort>(
+                        ref loc,
+                        newValue,
+                        current
+                    );
                     if (oldValue == current)
                     {
                         ushort result = oldValue;
@@ -139,12 +137,11 @@ internal static class MemberPolyfills_Net100_Interlocked
                 while (true)
                 {
                     byte newValue = (byte)(current | val);
-                    byte oldValue = (byte)
-                        global::System.Threading.Interlocked.CompareExchange(
-                            ref Unsafe.As<byte, int>(ref loc),
-                            newValue,
-                            current
-                        );
+                    byte oldValue = global::System.Threading.Interlocked.CompareExchange<byte>(
+                        ref loc,
+                        newValue,
+                        current
+                    );
                     if (oldValue == current)
                     {
                         byte result = oldValue;
@@ -162,12 +159,11 @@ internal static class MemberPolyfills_Net100_Interlocked
                 while (true)
                 {
                     ushort newValue = (ushort)(current | val);
-                    ushort oldValue = (ushort)
-                        global::System.Threading.Interlocked.CompareExchange(
-                            ref Unsafe.As<ushort, int>(ref loc),
-                            newValue,
-                            current
-                        );
+                    ushort oldValue = global::System.Threading.Interlocked.CompareExchange<ushort>(
+                        ref loc,
+                        newValue,
+                        current
+                    );
                     if (oldValue == current)
                     {
                         ushort result = oldValue;
