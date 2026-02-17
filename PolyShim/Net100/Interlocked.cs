@@ -1,4 +1,6 @@
 #if (NETCOREAPP) || (NETFRAMEWORK) || (NETSTANDARD)
+// NOTE: These polyfills will be automatically disabled when NET11_0_OR_GREATER is defined.
+// Until then, they provide the generic And<T>/Or<T> methods for .NET 9 and 10.
 #if NET9_0_OR_GREATER
 #nullable enable
 // ReSharper disable RedundantUsingDirective
