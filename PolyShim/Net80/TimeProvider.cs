@@ -68,17 +68,18 @@ internal abstract class TimeProvider
     public CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
     {
         var infiniteTimeSpan = TimeSpan.FromMilliseconds(-1);
+        var cts = new CancellationTokenSource();
 
-        if (delay == infiniteTimeSpan)
-            return new CancellationTokenSource();
-
+        if (delay != infiniteTimeSpan)
+        {
 #if NET45_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
-        return new CancellationTokenSource(delay);
+            cts.CancelAfter(delay);
 #else
-        // CancellationTokenSource(int) constructor added in .NET 4.5
-        // For older frameworks, just return a plain instance
-        return new CancellationTokenSource();
+            cts.CancelAfter((int)delay.TotalMilliseconds);
 #endif
+        }
+
+        return cts;
     }
 #endif
 
