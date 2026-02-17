@@ -151,6 +151,19 @@ internal static class MemberPolyfills_NetCore10_Task
             WhenAny((IEnumerable<Task<T>>)tasks);
 #endif
 
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
+        public static Task<T> FromCanceled<T>(CancellationToken cancellationToken)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            tcs.TrySetCanceled(cancellationToken);
+            return tcs.Task;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
+        public static Task FromCanceled(CancellationToken cancellationToken) =>
+            Task.FromCanceled<bool>(cancellationToken);
+
+#if NETFRAMEWORK && !NET45_OR_GREATER
         // Timer is not available on .NET Standard 1.0 and 1.1
 #if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)
@@ -197,14 +210,7 @@ internal static class MemberPolyfills_NetCore10_Task
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)
         public static Task Delay(TimeSpan delay) => Task.Delay(delay, CancellationToken.None);
 #endif
-
-        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
-        public static Task FromCanceled(CancellationToken cancellationToken)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            tcs.TrySetCanceled(cancellationToken);
-            return tcs.Task;
-        }
+#endif
     }
 }
 #endif

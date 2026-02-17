@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 363
+- **Total:** 364
 - **Types:** 78
-- **Members:** 285
+- **Members:** 286
 
 ___
 
@@ -421,6 +421,7 @@ ___
   - [`Task<T?> FromResult<T>(T?)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T[]> WhenAll<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T[]> WhenAll<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-threading-tasks-task((-0))())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<T> FromCanceled<T>(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T> Run<T>(Func<T>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T> Run<T>(Func<T>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0)))) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T> Run<T>(Func<Task<T>>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0))))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
