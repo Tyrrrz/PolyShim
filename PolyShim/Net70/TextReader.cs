@@ -31,25 +31,28 @@ internal static class MemberPolyfills_Net70_TextReader
         public async Task<string> ReadToEndAsync(CancellationToken cancellationToken)
         {
             var result = new StringBuilder();
-            using var buffer = MemoryPool<char>.Shared.Rent(4096);
-
-            while (true)
+            var buffer = ArrayPool<char>.Shared.Rent(4096);
+            try
             {
-                var charsRead = await reader
-                    .ReadAsync(buffer.Memory, cancellationToken)
-                    .ConfigureAwait(false);
-
-                if (charsRead <= 0)
-                    break;
-
-                // Append char by char to avoid string allocation
-                for (var i = 0; i < charsRead; i++)
+                while (true)
                 {
-                    result.Append(buffer.Memory.Span[i]);
-                }
-            }
+                    var charsRead = await reader
+                        .ReadAsync(buffer, 0, buffer.Length)
+                        .ConfigureAwait(false);
 
-            return result.ToString();
+                    if (charsRead <= 0)
+                        break;
+
+                    cancellationToken.ThrowIfCancellationRequested();
+                    result.Append(buffer, 0, charsRead);
+                }
+
+                return result.ToString();
+            }
+            finally
+            {
+                ArrayPool<char>.Shared.Return(buffer);
+            }
         }
 #endif
     }
