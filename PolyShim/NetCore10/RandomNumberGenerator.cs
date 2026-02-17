@@ -20,22 +20,19 @@ internal abstract class RandomNumberGenerator : IDisposable
 
     public abstract void GetBytes(byte[] data);
 
+    protected virtual void Dispose(bool disposing) { }
+
     public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
     }
 
-    protected virtual void Dispose(bool disposing) { }
-
     private sealed class RandomWrapper : RandomNumberGenerator
     {
         private readonly Random _random = new();
 
-        public override void GetBytes(byte[] data)
-        {
-            _random.NextBytes(data);
-        }
+        public override void GetBytes(byte[] data) => _random.NextBytes(data);
     }
 }
 #endif
