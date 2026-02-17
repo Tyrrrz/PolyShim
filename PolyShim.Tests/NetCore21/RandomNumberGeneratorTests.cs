@@ -22,4 +22,16 @@ public class RandomNumberGeneratorTests
         // we can only verify that the buffer contains some non-zero bytes
         buffer.Should().Contain(b => b != 0);
     }
+
+    [Fact]
+    public void Fill_EmptySpan_Test()
+    {
+        // Arrange
+        var buffer = new byte[0];
+        var span = new Span<byte>(buffer);
+
+        // Act & Assert
+        // Should not throw and should return immediately
+        RandomNumberGenerator.Fill(span);
+    }
 }

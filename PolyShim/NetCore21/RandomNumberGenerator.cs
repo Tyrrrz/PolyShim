@@ -25,8 +25,8 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
             using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(buffer);
+                buffer.CopyTo(data);
             }
-            buffer.CopyTo(data);
         }
     }
 }
