@@ -63,4 +63,20 @@ public class RandomNumberGeneratorTests
 
         ((IDisposable)rng).Dispose();
     }
+
+    [Fact]
+    public void GetNonZeroBytes_Span_Test()
+    {
+        // Arrange
+        var rng = RandomNumberGenerator.Create();
+        var data = new Span<byte>(new byte[10]);
+
+        // Act
+        rng.GetNonZeroBytes(data);
+
+        // Assert
+        data.ToArray().Should().NotContain((byte)0);
+
+        ((IDisposable)rng).Dispose();
+    }
 }

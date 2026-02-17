@@ -24,6 +24,22 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
             rng.GetBytes(buffer);
             buffer.CopyTo(data);
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-span((system-byte)))
+        public void GetNonZeroBytes(Span<byte> data)
+        {
+            var buffer = new byte[1];
+            for (var i = 0; i < data.Length; i++)
+            {
+                byte value;
+                do
+                {
+                    rng.GetBytes(buffer);
+                    value = buffer[0];
+                } while (value == 0);
+                data[i] = value;
+            }
+        }
     }
 
     extension(RandomNumberGenerator)
@@ -37,9 +53,7 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
             var rng = RandomNumberGenerator.Create();
             try
             {
-                var buffer = new byte[data.Length];
-                rng.GetBytes(buffer);
-                buffer.CopyTo(data);
+                rng.GetBytes(data);
             }
             finally
             {
