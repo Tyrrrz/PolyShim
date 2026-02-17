@@ -278,7 +278,7 @@ ___
   - [`void NextBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Shuffle<T>(T[])`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())) <sup><sub>.NET 8.0</sub></sup>
 - `RandomNumberGenerator`
-  - **[class]** <sup><sub>.NET Core 1.0</sub></sup>
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator) <sup><sub>.NET Core 1.0</sub></sup>
   - [`int GetInt32(int, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32-system-int32)) <sup><sub>.NET 6.0</sub></sup>
   - [`int GetInt32(int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32)) <sup><sub>.NET 6.0</sub></sup>
   - [`string GetHexString(int, bool)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.gethexstring#system-security-cryptography-randomnumbergenerator-gethexstring(system-int32-system-boolean)) <sup><sub>.NET 9.0</sub></sup>

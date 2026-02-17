@@ -13,6 +13,7 @@ namespace System.Security.Cryptography;
 // Polyfill for RandomNumberGenerator class on .NET Standard < 1.3
 // Note: This uses Random instead of cryptographically secure RNG as System.Security.Cryptography
 // types are not available on these older platforms.
+// https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator
 [ExcludeFromCodeCoverage]
 internal abstract class RandomNumberGenerator : IDisposable
 {
