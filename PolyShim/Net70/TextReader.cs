@@ -36,8 +36,9 @@ internal static class MemberPolyfills_Net70_TextReader
             {
                 while (true)
                 {
+                    // Slice to read exactly 4096 chars, not the full pooled buffer size
                     var charsRead = await reader
-                        .ReadAsync(buffer, cancellationToken)
+                        .ReadAsync(buffer.AsMemory(0, 4096), cancellationToken)
                         .ConfigureAwait(false);
 
                     if (charsRead <= 0)
