@@ -12,6 +12,20 @@ using System.Security.Cryptography;
 [ExcludeFromCodeCoverage]
 internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
 {
+    extension(RandomNumberGenerator rng)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-span((system-byte)))
+        public void GetBytes(Span<byte> data)
+        {
+            if (data.Length == 0)
+                return;
+
+            var buffer = new byte[data.Length];
+            rng.GetBytes(buffer);
+            buffer.CopyTo(data);
+        }
+    }
+
     extension(RandomNumberGenerator)
     {
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.fill

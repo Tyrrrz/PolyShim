@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 356
+- **Total:** 357
 - **Types:** 76
-- **Members:** 280
+- **Members:** 281
 
 ___
 
@@ -288,6 +288,7 @@ ___
   - [`T[] GetItems<T>(T[], int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(-0()-system-int32)) <sup><sub>.NET 8.0</sub></sup>
   - [`void Fill(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.fill) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void GetBytes(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-byte()-system-int32-system-int32)) <sup><sub>.NET 6.0</sub></sup>
+  - [`void GetBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void GetItems<T>(ReadOnlySpan<T>, Span<T>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
   - [`void GetNonZeroBytes(byte[])`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-byte())) <sup><sub>.NET 6.0</sub></sup>
   - [`void GetNonZeroBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-span((system-byte)))) <sup><sub>.NET 6.0</sub></sup>
