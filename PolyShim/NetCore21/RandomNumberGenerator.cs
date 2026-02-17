@@ -20,17 +20,17 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
             if (data.Length == 0)
                 return;
 
-            var buffer = new byte[data.Length];
             var rng = RandomNumberGenerator.Create();
             try
             {
+                var buffer = new byte[data.Length];
                 rng.GetBytes(buffer);
                 buffer.CopyTo(data);
             }
             finally
             {
                 // Explicit cast needed for .NET Framework 3.5 where RandomNumberGenerator
-                // doesn't properly expose IDisposable for using statements
+                // doesn't properly expose IDisposable for using statements.
                 ((IDisposable)rng).Dispose();
             }
         }
