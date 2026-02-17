@@ -47,15 +47,14 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.gethexstring#system-security-cryptography-randomnumbergenerator-gethexstring(system-int32-system-boolean)
         public static string GetHexString(int stringLength, bool lowercase = false)
         {
-            var byteCount = (stringLength + 1) / 2;
-            var bytes = ArrayPool<byte>.Shared.Rent(byteCount);
+            var bytes = ArrayPool<byte>.Shared.Rent((stringLength + 1) / 2);
             try
             {
-                RandomNumberGenerator.Fill(bytes.AsSpan(0, byteCount));
+                RandomNumberGenerator.Fill(bytes.AsSpan(0, (stringLength + 1) / 2));
 
                 var hex = lowercase
-                    ? Convert.ToHexStringLower(bytes, 0, byteCount)
-                    : Convert.ToHexString(bytes, 0, byteCount);
+                    ? Convert.ToHexStringLower(bytes, 0, (stringLength + 1) / 2)
+                    : Convert.ToHexString(bytes, 0, (stringLength + 1) / 2);
                 return hex.Substring(0, stringLength);
             }
             finally

@@ -142,7 +142,7 @@ internal static class MemberPolyfills_NetCore20_File
                 cancellationToken.ThrowIfCancellationRequested();
 
                 int charsRead;
-                while ((charsRead = await reader.ReadAsync(buffer, 0, bufferSize).ConfigureAwait(false)) > 0)
+                while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     content.Append(buffer, 0, charsRead);
@@ -170,7 +170,7 @@ internal static class MemberPolyfills_NetCore20_File
                 cancellationToken.ThrowIfCancellationRequested();
 
                 int charsRead;
-                while ((charsRead = await reader.ReadAsync(buffer, 0, bufferSize).ConfigureAwait(false)) > 0)
+                while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     content.Append(buffer, 0, charsRead);
