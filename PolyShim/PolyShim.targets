@@ -302,6 +302,23 @@
       <DefineConstants Condition="$(FeatureValueTuple)"
         >$(DefineConstants);FEATURE_VALUETUPLE</DefineConstants
       >
+
+      <FeatureTimeProvider>false</FeatureTimeProvider>
+      <FeatureTimeProvider
+        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.TimeProvider'))"
+        >true</FeatureTimeProvider
+      >
+      <FeatureTimeProvider
+        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.TimeProvider'))"
+        >true</FeatureTimeProvider
+      >
+      <FeatureTimeProvider
+        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '8.0'))"
+        >true</FeatureTimeProvider
+      >
+      <DefineConstants Condition="$(FeatureTimeProvider)"
+        >$(DefineConstants);FEATURE_TIMEPROVIDER</DefineConstants
+      >
     </PropertyGroup>
   </Target>
 </Project>

@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 355
-- **Types:** 76
+- **Total:** 357
+- **Types:** 78
 - **Members:** 279
 
 ___
@@ -187,6 +187,8 @@ ___
   - [`TValue? GetValueOrDefault(TKey)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0)) <sup><sub>.NET Core 2.0</sub></sup>
 - `IsExternalInit`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.isexternalinit) <sup><sub>.NET 5.0</sub></sup>
+- `ITimer`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.itimer) <sup><sub>.NET 8.0</sub></sup>
 - `KeyValuePair<TKey, TValue>`
   - [`void Deconstruct(out TKey, out TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `LibraryImportAttribute`
@@ -441,6 +443,8 @@ ___
   - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `ThreadAbortException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.threadabortexception) <sup><sub>.NET Core 2.0</sub></sup>
+- `TimeProvider`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.timeprovider) <sup><sub>.NET 8.0</sub></sup>
 - `TimeSpan`
   - [`TimeSpan FromMilliseconds(long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
   - [`TimeSpan FromMilliseconds(long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64)) <sup><sub>.NET 10.0</sub></sup>
