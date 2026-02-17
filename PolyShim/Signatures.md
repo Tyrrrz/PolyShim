@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 340
-- **Types:** 74
-- **Members:** 266
+- **Total:** 343
+- **Types:** 76
+- **Members:** 267
 
 ___
 
@@ -236,6 +236,8 @@ ___
 - `OSPlatform`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform) <sup><sub>.NET Core 1.0</sub></sup>
   - [`OSPlatform FreeBSD`](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform.freebsd) <sup><sub>.NET Core 3.0</sub></sup>
+- `OSPlatformAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.osplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `OverloadResolutionPriorityAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute) <sup><sub>.NET 9.0</sub></sup>
 - `Parallel`
@@ -275,6 +277,9 @@ ___
   - [`T[] GetItems<T>(T[], int)`](https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(-0()-system-int32)) <sup><sub>.NET 8.0</sub></sup>
   - [`void NextBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Shuffle<T>(T[])`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())) <sup><sub>.NET 8.0</sub></sup>
+- `RandomNumberGenerator`
+  - **[class]** <sup><sub>.NET Core 1.0</sub></sup>
+  - [`void Fill(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.fill) <sup><sub>.NET Core 2.1</sub></sup>
 - `Range`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.range) <sup><sub>.NET Core 3.0</sub></sup>
 - `ReadOnlyMemory<T>`
