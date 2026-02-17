@@ -20,6 +20,8 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
         {
             if (choices is null)
                 throw new ArgumentNullException(nameof(choices));
+            if (choices.Length == 0)
+                throw new ArgumentException("choices must not be empty", nameof(choices));
             if (length < 0)
                 throw new ArgumentOutOfRangeException(nameof(length));
 

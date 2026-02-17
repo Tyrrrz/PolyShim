@@ -23,7 +23,11 @@ internal static class MemberPolyfills_Net60_RandomNumberGenerator
                 throw new ArgumentOutOfRangeException(nameof(offset));
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
-            if (offset + count > data.Length)
+            if (offset > data.Length)
+                throw new ArgumentException(
+                    "The sum of offset and count exceeds the length of data."
+                );
+            if (count > data.Length - offset)
                 throw new ArgumentException(
                     "The sum of offset and count exceeds the length of data."
                 );
@@ -42,12 +46,12 @@ internal static class MemberPolyfills_Net60_RandomNumberGenerator
             if (data is null)
                 throw new ArgumentNullException(nameof(data));
 
+            var buffer = new byte[1];
             for (var i = 0; i < data.Length; i++)
             {
                 byte value;
                 do
                 {
-                    var buffer = new byte[1];
                     rng.GetBytes(buffer);
                     value = buffer[0];
                 } while (value == 0);
@@ -58,12 +62,12 @@ internal static class MemberPolyfills_Net60_RandomNumberGenerator
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-span((system-byte)))
         public void GetNonZeroBytes(Span<byte> data)
         {
+            var buffer = new byte[1];
             for (var i = 0; i < data.Length; i++)
             {
                 byte value;
                 do
                 {
-                    var buffer = new byte[1];
                     rng.GetBytes(buffer);
                     value = buffer[0];
                 } while (value == 0);
@@ -99,7 +103,10 @@ internal static class MemberPolyfills_Net60_RandomNumberGenerator
         {
             if (fromInclusive >= toExclusive)
             {
-                throw new ArgumentException("fromInclusive must be less than toExclusive");
+                throw new ArgumentException(
+                    "fromInclusive must be less than toExclusive",
+                    nameof(fromInclusive)
+                );
             }
 
             var range = (uint)(toExclusive - fromInclusive);
