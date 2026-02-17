@@ -35,10 +35,56 @@ internal static class MemberPolyfills_Net60_RandomNumberGenerator
             rng.GetBytes(buffer);
             Array.Copy(buffer, 0, data, offset, count);
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-byte())
+        public void GetNonZeroBytes(byte[] data)
+        {
+            if (data is null)
+                throw new ArgumentNullException(nameof(data));
+
+            for (var i = 0; i < data.Length; i++)
+            {
+                byte value;
+                do
+                {
+                    var buffer = new byte[1];
+                    rng.GetBytes(buffer);
+                    value = buffer[0];
+                } while (value == 0);
+                data[i] = value;
+            }
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-span((system-byte)))
+        public void GetNonZeroBytes(Span<byte> data)
+        {
+            for (var i = 0; i < data.Length; i++)
+            {
+                byte value;
+                do
+                {
+                    var buffer = new byte[1];
+                    rng.GetBytes(buffer);
+                    value = buffer[0];
+                } while (value == 0);
+                data[i] = value;
+            }
+        }
     }
 
     extension(RandomNumberGenerator)
     {
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-int32)
+        public static byte[] GetBytes(int count)
+        {
+            if (count < 0)
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            var data = new byte[count];
+            RandomNumberGenerator.Fill(data);
+            return data;
+        }
+
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32)
         public static int GetInt32(int toExclusive)
         {

@@ -32,12 +32,52 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
             return result;
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-int32)
+        public static T[] GetItems<T>(ReadOnlySpan<T> choices, int length)
+        {
+            if (choices.Length == 0)
+                throw new ArgumentException("choices must not be empty", nameof(choices));
+            if (length < 0)
+                throw new ArgumentOutOfRangeException(nameof(length));
+
+            var result = new T[length];
+            for (var i = 0; i < length; i++)
+            {
+                var index = RandomNumberGenerator.GetInt32(choices.Length);
+                result[i] = choices[index];
+            }
+            return result;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0)))
+        public static void GetItems<T>(ReadOnlySpan<T> choices, Span<T> destination)
+        {
+            if (choices.Length == 0)
+                throw new ArgumentException("choices must not be empty", nameof(choices));
+
+            for (var i = 0; i < destination.Length; i++)
+            {
+                var index = RandomNumberGenerator.GetInt32(choices.Length);
+                destination[i] = choices[index];
+            }
+        }
+
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle#system-security-cryptography-randomnumbergenerator-shuffle-1(-0())
         public static void Shuffle<T>(T[] items)
         {
             if (items is null)
                 throw new ArgumentNullException(nameof(items));
 
+            for (var i = items.Length - 1; i > 0; i--)
+            {
+                var j = RandomNumberGenerator.GetInt32(i + 1);
+                (items[i], items[j]) = (items[j], items[i]);
+            }
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle#system-security-cryptography-randomnumbergenerator-shuffle-1(system-span((-0)))
+        public static void Shuffle<T>(Span<T> items)
+        {
             for (var i = items.Length - 1; i > 0; i--)
             {
                 var j = RandomNumberGenerator.GetInt32(i + 1);

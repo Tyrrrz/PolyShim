@@ -105,4 +105,70 @@ public class RandomNumberGeneratorTests
             }
         }
     }
+
+    [Fact]
+    public void GetItems_ReadOnlySpan_Test()
+    {
+        // Arrange
+        var choices = new[] { 1, 2, 3, 4, 5 }.AsSpan();
+
+        // Act
+        for (var i = 0; i < 100; i++)
+        {
+            var items = RandomNumberGenerator.GetItems(choices, 3);
+
+            // Assert
+            items.Should().HaveCount(3);
+
+            foreach (var item in items)
+            {
+                choices.ToArray().Should().Contain(item);
+            }
+        }
+    }
+
+    [Fact]
+    public void GetItems_Span_Test()
+    {
+        // Arrange
+        var choices = new[] { 1, 2, 3, 4, 5 }.AsSpan();
+        var destination = new Span<int>(new int[3]);
+
+        // Act
+        for (var i = 0; i < 100; i++)
+        {
+            RandomNumberGenerator.GetItems(choices, destination);
+
+            // Assert
+            destination.Length.Should().Be(3);
+
+            foreach (var item in destination)
+            {
+                choices.ToArray().Should().Contain(item);
+            }
+        }
+    }
+
+    [Fact]
+    public void Shuffle_Span_Test()
+    {
+        // Arrange
+        var originalItems = new[] { 1, 2, 3, 4, 5 };
+
+        // Act
+        for (var i = 0; i < 100; i++)
+        {
+            var items = new Span<int>((int[])originalItems.Clone());
+            RandomNumberGenerator.Shuffle(items);
+
+            // Assert
+            items.Length.Should().Be(originalItems.Length);
+            items.ToArray().Should().BeEquivalentTo(originalItems);
+
+            foreach (var item in items)
+            {
+                originalItems.Should().Contain(item);
+            }
+        }
+    }
 }

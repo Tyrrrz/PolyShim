@@ -83,4 +83,47 @@ public class RandomNumberGeneratorTests
         Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGenerator.GetInt32(0));
         Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGenerator.GetInt32(-1));
     }
+
+    [Fact]
+    public void GetBytes_Static_Test()
+    {
+        // Act
+        var data = RandomNumberGenerator.GetBytes(16);
+
+        // Assert
+        data.Should().HaveCount(16);
+        data.Should().Contain(b => b != 0);
+    }
+
+    [Fact]
+    public void GetNonZeroBytes_Array_Test()
+    {
+        // Arrange
+        var rng = RandomNumberGenerator.Create();
+        var data = new byte[10];
+
+        // Act
+        rng.GetNonZeroBytes(data);
+
+        // Assert
+        data.Should().NotContain((byte)0);
+
+        ((IDisposable)rng).Dispose();
+    }
+
+    [Fact]
+    public void GetNonZeroBytes_Span_Test()
+    {
+        // Arrange
+        var rng = RandomNumberGenerator.Create();
+        var data = new Span<byte>(new byte[10]);
+
+        // Act
+        rng.GetNonZeroBytes(data);
+
+        // Assert
+        data.ToArray().Should().NotContain((byte)0);
+
+        ((IDisposable)rng).Dispose();
+    }
 }
