@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 355
+- **Total:** 357
 - **Types:** 76
-- **Members:** 279
+- **Members:** 281
 
 ___
 
@@ -110,6 +110,9 @@ ___
   - [`void Move(string, string, bool)`](https://learn.microsoft.com/dotnet/api/system.io.file.move#system-io-file-move(system-string-system-string-system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
 - `float`
   - [`bool TryParse(string, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
+- `global::System.Threading.Interlocked`
+  - [`unsafe T And<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
+  - [`unsafe T Or<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
 - `HashCode`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.hashcode) <sup><sub>.NET Core 2.1</sub></sup>
 - `HashSet<T>`
