@@ -15,10 +15,8 @@ internal static class MemberPolyfills_NetCore30_RandomNumberGenerator
     extension(RandomNumberGenerator)
     {
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32)
-        public static int GetInt32(int toExclusive)
-        {
-            return RandomNumberGenerator.GetInt32(0, toExclusive);
-        }
+        public static int GetInt32(int toExclusive) =>
+            RandomNumberGenerator.GetInt32(0, toExclusive);
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32-system-int32)
         public static int GetInt32(int fromInclusive, int toExclusive)
@@ -44,8 +42,6 @@ internal static class MemberPolyfills_NetCore30_RandomNumberGenerator
             }
             finally
             {
-                // Explicit cast needed for .NET Framework 3.5 where RandomNumberGenerator
-                // doesn't properly expose IDisposable for using statements.
                 ((IDisposable)rng).Dispose();
             }
         }

@@ -38,7 +38,7 @@ public class RandomNumberGeneratorTests
     public void GetBytes_Span_Test()
     {
         // Arrange
-        var rng = RandomNumberGenerator.Create();
+        using var rng = RandomNumberGenerator.Create();
         var span = new Span<byte>(new byte[16]);
 
         // Act
@@ -46,29 +46,25 @@ public class RandomNumberGeneratorTests
 
         // Assert
         span.ToArray().Should().Contain(b => b != 0);
-
-        ((IDisposable)rng).Dispose();
     }
 
     [Fact]
     public void GetBytes_EmptySpan_Test()
     {
         // Arrange
-        var rng = RandomNumberGenerator.Create();
+        using var rng = RandomNumberGenerator.Create();
         var span = new Span<byte>();
 
         // Act & Assert
         // Should not throw and should return immediately
         rng.GetBytes(span);
-
-        ((IDisposable)rng).Dispose();
     }
 
     [Fact]
     public void GetNonZeroBytes_Span_Test()
     {
         // Arrange
-        var rng = RandomNumberGenerator.Create();
+        using var rng = RandomNumberGenerator.Create();
         var data = new Span<byte>(new byte[10]);
 
         // Act
@@ -76,7 +72,5 @@ public class RandomNumberGeneratorTests
 
         // Assert
         data.ToArray().Should().NotContain((byte)0);
-
-        ((IDisposable)rng).Dispose();
     }
 }

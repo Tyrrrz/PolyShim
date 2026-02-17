@@ -20,7 +20,7 @@ public class RandomNumberGeneratorTests
     }
 
     [Fact]
-    public void GetString_Span_Test()
+    public void GetString_Test()
     {
         // Arrange
         var choices = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".AsSpan();
@@ -41,7 +41,7 @@ public class RandomNumberGeneratorTests
     }
 
     [Fact]
-    public void GetItems_ReadOnlySpan_Test()
+    public void GetItems_Test()
     {
         // Arrange
         var choices = new[] { 1, 2, 3, 4, 5 }.AsSpan();
@@ -84,7 +84,7 @@ public class RandomNumberGeneratorTests
     }
 
     [Fact]
-    public void Shuffle_Span_Test()
+    public void Shuffle_Test()
     {
         // Arrange
         var originalItems = new[] { 1, 2, 3, 4, 5 };
