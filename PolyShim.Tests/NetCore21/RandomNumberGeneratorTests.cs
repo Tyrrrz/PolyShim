@@ -18,8 +18,9 @@ public class RandomNumberGeneratorTests
         RandomNumberGenerator.Fill(span);
 
         // Assert
-        // Since cryptographic random data is non-deterministic,
-        // we verify that not all bytes are zero (virtually impossible for crypto RNG)
+        // Verify that not all bytes are zero (cryptographic RNG should produce non-zero data)
+        // Note: Theoretically, a crypto RNG could produce all zeros (probability: 2^-128),
+        // but this is astronomically unlikely in practice
         buffer.Should().NotBeEquivalentTo(new byte[16]);
     }
 

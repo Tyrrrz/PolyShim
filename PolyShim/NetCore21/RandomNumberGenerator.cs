@@ -24,11 +24,6 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
             var buffer = new byte[data.Length];
             using (var rng = RandomNumberGenerator.Create())
             {
-                if (rng == null)
-                    throw new InvalidOperationException(
-                        "Failed to create RandomNumberGenerator instance"
-                    );
-
                 rng.GetBytes(buffer);
                 buffer.CopyTo(data);
             }
