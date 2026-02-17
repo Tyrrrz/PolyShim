@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 357
+- **Total:** 365
 - **Types:** 76
-- **Members:** 281
+- **Members:** 289
 
 ___
 
@@ -175,6 +175,17 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.index) <sup><sub>.NET Core 3.0</sub></sup>
 - `int`
   - [`bool TryParse(string, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
+- `Interlocked`
+  - `int And(ref int, int)` <sup><sub>.NET 10.0</sub></sup>
+  - `int Or(ref int, int)` <sup><sub>.NET 10.0</sub></sup>
+  - `long And(ref long, long)` <sup><sub>.NET 10.0</sub></sup>
+  - `long Or(ref long, long)` <sup><sub>.NET 10.0</sub></sup>
+  - [`T And<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
+  - [`T Or<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
+  - `uint And(ref uint, uint)` <sup><sub>.NET 10.0</sub></sup>
+  - `uint Or(ref uint, uint)` <sup><sub>.NET 10.0</sub></sup>
+  - `ulong And(ref ulong, ulong)` <sup><sub>.NET 10.0</sub></sup>
+  - `ulong Or(ref ulong, ulong)` <sup><sub>.NET 10.0</sub></sup>
 - `IntPtr`
   - [`bool TryParse(string, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-intptr@)) <sup><sub>.NET 5.0</sub></sup>
@@ -379,9 +390,6 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.supportedosplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `SupportedOSPlatformGuardAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.supportedosplatformguardattribute) <sup><sub>.NET 6.0</sub></sup>
-- `System.Threading.Interlocked`
-  - [`T And<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
-  - [`T Or<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
 - `SystemException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.systemexception) <sup><sub>.NET Core 2.0</sub></sup>
 - `T[]`
