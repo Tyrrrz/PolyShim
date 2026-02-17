@@ -1,4 +1,5 @@
-#if FEATURE_TASK && !NET45_OR_GREATER && !NETSTANDARD1_3_OR_GREATER && !NETCOREAPP
+#if FEATURE_TASK
+#if (NETFRAMEWORK && !NET45_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_3_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -15,6 +16,7 @@ internal static class MemberPolyfills_Net45_Task
 {
     extension(Task)
     {
+        // Timer is not available on .NET Standard 1.0 and 1.1
 #if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)
         public static Task Delay(TimeSpan delay, CancellationToken cancellationToken)
@@ -39,11 +41,16 @@ internal static class MemberPolyfills_Net45_Task
                 TimeSpan.FromMilliseconds(-1)
             );
 
-            cancellationToken.Register(() =>
+            var registration = cancellationToken.Register(() =>
             {
                 timer?.Dispose();
                 tcs.TrySetCanceled();
             });
+
+            tcs.Task.ContinueWith(
+                _ => registration.Dispose(),
+                TaskContinuationOptions.ExecuteSynchronously
+            );
 
             return tcs.Task;
         }
@@ -53,4 +60,5 @@ internal static class MemberPolyfills_Net45_Task
 #endif
     }
 }
+#endif
 #endif

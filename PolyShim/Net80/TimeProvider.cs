@@ -34,11 +34,11 @@ internal abstract class TimeProvider
 
     public virtual long GetTimestamp() => Stopwatch.GetTimestamp();
 
-    public TimeSpan GetElapsedTime(long startingTimestamp) =>
-        GetElapsedTime(startingTimestamp, GetTimestamp());
-
     public virtual TimeSpan GetElapsedTime(long startingTimestamp, long endingTimestamp) =>
         Stopwatch.GetElapsedTime(startingTimestamp, endingTimestamp);
+
+    public TimeSpan GetElapsedTime(long startingTimestamp) =>
+        GetElapsedTime(startingTimestamp, GetTimestamp());
 
 #if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
     public ITimer CreateTimer(
@@ -53,11 +53,7 @@ internal abstract class TimeProvider
     public virtual Task Delay(TimeSpan delay, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-        {
-            var tcs = new TaskCompletionSource<bool>();
-            tcs.SetCanceled();
-            return tcs.Task;
-        }
+            return Task.FromCanceled(cancellationToken);
 
         if (delay == TimeSpan.Zero)
             return Task.CompletedTask;
@@ -67,17 +63,10 @@ internal abstract class TimeProvider
 
     public CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
     {
-        var infiniteTimeSpan = TimeSpan.FromMilliseconds(-1);
         var cts = new CancellationTokenSource();
 
-        if (delay != infiniteTimeSpan)
-        {
-#if NET45_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
+        if (delay != TimeSpan.Zero && delay.Ticks > 0)
             cts.CancelAfter(delay);
-#else
-            cts.CancelAfter((int)delay.TotalMilliseconds);
-#endif
-        }
 
         return cts;
     }

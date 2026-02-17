@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 362
+- **Total:** 363
 - **Types:** 78
-- **Members:** 284
+- **Members:** 285
 
 ___
 
@@ -408,6 +408,7 @@ ___
   - [`Task CompletedTask`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task Delay(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 4.5</sub></sup>
   - [`Task Delay(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)) <sup><sub>.NET 4.5</sub></sup>
+  - [`Task FromCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled) <sup><sub>.NET 4.6</sub></sup>
   - [`Task Run(Action, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task Run(Action)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task Run(Func<Task>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
