@@ -1,7 +1,4 @@
-#if !FEATURE_TIMEPROVIDER && ((NETCOREAPP && !NET8_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD))
-// Only include TimeProvider if we have Task support and are on .NET Standard 2.0+, .NET Core 2.0+, or .NET Framework 4.6.1+
-// This matches the support level of Microsoft.Bcl.TimeProvider compatibility package
-#if FEATURE_TASK && (NETSTANDARD2_0_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET461_OR_GREATER)
+#if !FEATURE_TIMEPROVIDER
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -11,8 +8,10 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using SystemThreading = System.Threading;
+#if FEATURE_TASK
+using System.Threading.Tasks;
+#endif
 
 namespace System;
 
@@ -21,7 +20,6 @@ namespace System;
 internal abstract class TimeProvider
 {
     private static readonly TimeProvider s_system = new SystemTimeProvider();
-    private static readonly TimeSpan s_infiniteTimeSpan = SystemThreading.Timeout.InfiniteTimeSpan;
 
     public static TimeProvider System => s_system;
 
@@ -65,68 +63,69 @@ internal abstract class TimeProvider
         }
     }
 
+#if !NETSTANDARD1_0 && !NETSTANDARD1_1
     public SystemThreading.ITimer CreateTimer(
         SystemThreading.TimerCallback callback,
         object? state,
         TimeSpan dueTime,
         TimeSpan period
-    )
-    {
-        if (callback is null)
-            throw new ArgumentNullException(nameof(callback));
+    ) => new SystemTimeProviderTimer(dueTime, period, callback, state);
+#endif
 
-        return new SystemTimeProviderTimer(dueTime, period, callback, state);
-    }
-
+#if FEATURE_TASK
     public virtual Task Delay(
         TimeSpan delay,
         SystemThreading.CancellationToken cancellationToken = default
     )
     {
-        if (delay < TimeSpan.Zero && delay != s_infiniteTimeSpan)
+#if NETSTANDARD1_3_OR_GREATER || NETCOREAPP || NET45_OR_GREATER
+        if (delay < TimeSpan.Zero && delay != SystemThreading.Timeout.InfiniteTimeSpan)
             throw new ArgumentOutOfRangeException(nameof(delay));
 
         if (cancellationToken.IsCancellationRequested)
         {
-#if NETCOREAPP || NETSTANDARD2_1_OR_GREATER
-            return Task.FromCanceled(cancellationToken);
-#else
             var tcs = new TaskCompletionSource<bool>();
             tcs.SetCanceled();
             return tcs.Task;
-#endif
         }
 
         if (delay == TimeSpan.Zero)
-        {
-#if NETSTANDARD2_0 || NET461 || NET462
-            return Task.FromResult(false);
-#else
             return Task.CompletedTask;
-#endif
-        }
 
         return Task.Delay(delay, cancellationToken);
+#else
+        // Task.Delay and Timeout.InfiniteTimeSpan are not available on older TFMs
+        throw new NotSupportedException(
+            "Delay is not supported on this target framework. Use the Microsoft.Bcl.TimeProvider package instead."
+        );
+#endif
     }
 
     public SystemThreading.CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
     {
-        if (delay < TimeSpan.Zero && delay != s_infiniteTimeSpan)
+#if NETSTANDARD1_3_OR_GREATER || NETCOREAPP || NET45_OR_GREATER
+        if (delay < TimeSpan.Zero && delay != SystemThreading.Timeout.InfiniteTimeSpan)
             throw new ArgumentOutOfRangeException(nameof(delay));
 
-        if (delay == s_infiniteTimeSpan)
-        {
+        if (delay == SystemThreading.Timeout.InfiniteTimeSpan)
             return new SystemThreading.CancellationTokenSource();
-        }
 
         return new SystemThreading.CancellationTokenSource(delay);
+#else
+        // CancellationTokenSource(TimeSpan) is not available on older TFMs
+        throw new NotSupportedException(
+            "CreateCancellationTokenSource is not supported on this target framework. Use the Microsoft.Bcl.TimeProvider package instead."
+        );
+#endif
     }
+#endif
 
     private sealed class SystemTimeProvider : TimeProvider
     {
         public override TimeZoneInfo LocalTimeZone => TimeZoneInfo.Local;
     }
 
+#if !NETSTANDARD1_0 && !NETSTANDARD1_1
     private sealed class SystemTimeProviderTimer : SystemThreading.ITimer
     {
         private readonly SystemThreading.Timer _timer;
@@ -168,14 +167,8 @@ internal abstract class TimeProvider
             return default;
 #endif
         }
-#elif FEATURE_VALUETASK
-        public ValueTask DisposeAsync()
-        {
-            _timer.Dispose();
-            return default;
-        }
 #endif
     }
-}
 #endif
+}
 #endif
