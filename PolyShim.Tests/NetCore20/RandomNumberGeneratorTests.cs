@@ -20,19 +20,13 @@ public class RandomNumberGeneratorTests
 
         // Assert
         // First 5 bytes should be zero
-        for (var i = 0; i < 5; i++)
-        {
-            data[i].Should().Be(0);
-        }
+        data.Take(5).Should().AllBeEquivalentTo(0);
 
         // Middle 10 bytes should have at least some non-zero values
         data.Skip(5).Take(10).Should().Contain(b => b != 0);
 
         // Last 5 bytes should be zero
-        for (var i = 15; i < 20; i++)
-        {
-            data[i].Should().Be(0);
-        }
+        data.Skip(15).Should().AllBeEquivalentTo(0);
     }
 
     [Fact]
@@ -51,14 +45,15 @@ public class RandomNumberGeneratorTests
     [Fact]
     public void GetNonZeroBytes_Array_Test()
     {
-        // Arrange
-        using var rng = RandomNumberGenerator.Create();
-        var data = new byte[10];
+        // Act & assert
+        for (var i = 0; i < 100; i++)
+        {
+            using var rng = RandomNumberGenerator.Create();
+            var data = new byte[10];
 
-        // Act
-        rng.GetNonZeroBytes(data);
+            rng.GetNonZeroBytes(data);
 
-        // Assert
-        data.Should().NotContain((byte)0);
+            data.Should().NotContain((byte)0);
+        }
     }
 }

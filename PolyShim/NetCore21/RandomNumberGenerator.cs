@@ -57,6 +57,8 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
             }
             finally
             {
+                // Explicit cast needed for .NET Framework 3.5 where RandomNumberGenerator
+                // doesn't properly expose IDisposable for using statements.
                 ((IDisposable)rng).Dispose();
             }
         }
