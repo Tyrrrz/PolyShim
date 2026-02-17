@@ -24,7 +24,9 @@ internal static class MemberPolyfills_Net60_RandomNumberGenerator
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
             if (offset + count > data.Length)
-                throw new ArgumentException("offset and count exceed the size of data");
+                throw new ArgumentException(
+                    "The sum of offset and count exceeds the length of data."
+                );
 
             if (count == 0)
                 return;
@@ -58,13 +60,18 @@ internal static class MemberPolyfills_Net60_RandomNumberGenerator
             var rng = RandomNumberGenerator.Create();
             try
             {
+                // Reject values that would cause bias in the distribution.
+                // This ensures uniform distribution by rejecting values in the
+                // incomplete final bucket.
+                var rejectionThreshold = uint.MaxValue - (uint.MaxValue % range + 1) % range;
+
                 uint result;
                 do
                 {
                     var buffer = new byte[4];
                     rng.GetBytes(buffer);
                     result = BitConverter.ToUInt32(buffer, 0);
-                } while (result > uint.MaxValue - (uint.MaxValue % range + 1) % range);
+                } while (result > rejectionThreshold);
 
                 return (int)(result % range) + fromInclusive;
             }
