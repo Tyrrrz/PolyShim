@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 357
+- **Total:** 362
 - **Types:** 78
-- **Members:** 279
+- **Members:** 284
 
 ___
 
@@ -336,6 +336,9 @@ ___
   - [`bool SequenceEqual(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int IndexOf(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-span((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Reverse()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.reverse#system-memoryextensions-reverse-1(system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `Stopwatch`
+  - [`TimeSpan GetElapsedTime(long, long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64-system-int64)) <sup><sub>.NET 7.0</sub></sup>
+  - [`TimeSpan GetElapsedTime(long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64)) <sup><sub>.NET 7.0</sub></sup>
 - `Stream`
   - [`int Read(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.read#system-io-stream-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int ReadAtLeast(Span<byte>, int, bool)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast) <sup><sub>.NET 7.0</sub></sup>
@@ -403,6 +406,8 @@ ___
   - [`IAsyncEnumerable<Task> WhenEach(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET 9.0</sub></sup>
   - [`IAsyncEnumerable<Task> WhenEach(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-threading-tasks-task())) <sup><sub>.NET 9.0</sub></sup>
   - [`Task CompletedTask`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task Delay(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 4.5</sub></sup>
+  - [`Task Delay(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)) <sup><sub>.NET 4.5</sub></sup>
   - [`Task Run(Action, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task Run(Action)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task Run(Func<Task>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
@@ -445,6 +450,8 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.threadabortexception) <sup><sub>.NET Core 2.0</sub></sup>
 - `TimeProvider`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.timeprovider) <sup><sub>.NET 8.0</sub></sup>
+- `Timer`
+  - [`ValueTask DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.timer.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
 - `TimeSpan`
   - [`TimeSpan FromMilliseconds(long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
   - [`TimeSpan FromMilliseconds(long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64)) <sup><sub>.NET 10.0</sub></sup>

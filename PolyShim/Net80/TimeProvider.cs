@@ -8,8 +8,8 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
-using SystemThreading = System.Threading;
 
 namespace System;
 
@@ -21,6 +21,8 @@ internal abstract class TimeProvider
 
     protected TimeProvider() { }
 
+    public abstract TimeZoneInfo LocalTimeZone { get; }
+
     public virtual DateTimeOffset GetUtcNow() => DateTimeOffset.UtcNow;
 
     public DateTimeOffset GetLocalNow()
@@ -30,55 +32,26 @@ internal abstract class TimeProvider
         return new DateTimeOffset(utcDateTime.DateTime + offset, offset);
     }
 
-    public abstract TimeZoneInfo LocalTimeZone { get; }
-
     public virtual long GetTimestamp() => Stopwatch.GetTimestamp();
 
     public TimeSpan GetElapsedTime(long startingTimestamp) =>
         GetElapsedTime(startingTimestamp, GetTimestamp());
 
-    public virtual TimeSpan GetElapsedTime(long startingTimestamp, long endingTimestamp)
-    {
-        // Stopwatch.GetElapsedTime was added in .NET 7, so we need to calculate it manually
-        var tickFrequency = Stopwatch.Frequency;
-        var ticks = endingTimestamp - startingTimestamp;
+    public virtual TimeSpan GetElapsedTime(long startingTimestamp, long endingTimestamp) =>
+        Stopwatch.GetElapsedTime(startingTimestamp, endingTimestamp);
 
-        if (tickFrequency == TimeSpan.TicksPerSecond)
-        {
-            return new TimeSpan(ticks);
-        }
-        else if (tickFrequency > TimeSpan.TicksPerSecond)
-        {
-            var ticksPerStopwatchTick = (double)tickFrequency / TimeSpan.TicksPerSecond;
-            return new TimeSpan((long)(ticks / ticksPerStopwatchTick));
-        }
-        else
-        {
-            var ticksPerStopwatchTick = (double)TimeSpan.TicksPerSecond / tickFrequency;
-            return new TimeSpan((long)(ticks * ticksPerStopwatchTick));
-        }
-    }
-
-    // Timer and TimerCallback are not available on .NET Standard 1.0 and 1.1
 #if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
-    public SystemThreading.ITimer CreateTimer(
-        SystemThreading.TimerCallback callback,
+    public ITimer CreateTimer(
+        TimerCallback callback,
         object? state,
         TimeSpan dueTime,
         TimeSpan period
     ) => new SystemTimeProviderTimer(dueTime, period, callback, state);
 #endif
 
-    // Task.Delay, Timeout.InfiniteTimeSpan, and CancellationTokenSource(TimeSpan) require .NET 4.5+
-#if FEATURE_TASK && (NETSTANDARD1_3_OR_GREATER || NETCOREAPP || NET45_OR_GREATER)
-    public virtual Task Delay(
-        TimeSpan delay,
-        SystemThreading.CancellationToken cancellationToken = default
-    )
+#if FEATURE_TASK
+    public virtual Task Delay(TimeSpan delay, CancellationToken cancellationToken = default)
     {
-        if (delay < TimeSpan.Zero && delay != SystemThreading.Timeout.InfiniteTimeSpan)
-            throw new ArgumentOutOfRangeException(nameof(delay));
-
         if (cancellationToken.IsCancellationRequested)
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -92,15 +65,20 @@ internal abstract class TimeProvider
         return Task.Delay(delay, cancellationToken);
     }
 
-    public SystemThreading.CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
+    public CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
     {
-        if (delay < TimeSpan.Zero && delay != SystemThreading.Timeout.InfiniteTimeSpan)
-            throw new ArgumentOutOfRangeException(nameof(delay));
+        var infiniteTimeSpan = TimeSpan.FromMilliseconds(-1);
 
-        if (delay == SystemThreading.Timeout.InfiniteTimeSpan)
-            return new SystemThreading.CancellationTokenSource();
+        if (delay == infiniteTimeSpan)
+            return new CancellationTokenSource();
 
-        return new SystemThreading.CancellationTokenSource(delay);
+#if NET45_OR_GREATER || NETSTANDARD1_3_OR_GREATER || NETCOREAPP
+        return new CancellationTokenSource(delay);
+#else
+        // CancellationTokenSource(int) constructor added in .NET 4.5
+        // For older frameworks, just return a plain instance
+        return new CancellationTokenSource();
+#endif
     }
 #endif
 
@@ -109,20 +87,19 @@ internal abstract class TimeProvider
         public override TimeZoneInfo LocalTimeZone => TimeZoneInfo.Local;
     }
 
-    // Timer and TimerCallback are not available on .NET Standard 1.0 and 1.1
 #if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
-    private sealed class SystemTimeProviderTimer : SystemThreading.ITimer
+    private sealed class SystemTimeProviderTimer : ITimer
     {
-        private readonly SystemThreading.Timer _timer;
+        private readonly Timer _timer;
 
         public SystemTimeProviderTimer(
             TimeSpan dueTime,
             TimeSpan period,
-            SystemThreading.TimerCallback callback,
+            TimerCallback callback,
             object? state
         )
         {
-            _timer = new SystemThreading.Timer(callback, state, dueTime, period);
+            _timer = new Timer(callback, state, dueTime, period);
         }
 
         public bool Change(TimeSpan dueTime, TimeSpan period)
@@ -143,15 +120,7 @@ internal abstract class TimeProvider
         }
 
 #if FEATURE_ASYNCINTERFACES
-        public ValueTask DisposeAsync()
-        {
-#if NETCOREAPP3_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-            return _timer.DisposeAsync();
-#else
-            _timer.Dispose();
-            return default;
-#endif
-        }
+        public ValueTask DisposeAsync() => _timer.DisposeAsync();
 #endif
     }
 #endif
