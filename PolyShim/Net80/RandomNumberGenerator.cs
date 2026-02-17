@@ -15,18 +15,6 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
 {
     extension(RandomNumberGenerator)
     {
-        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-int32)
-        public static T[] GetItems<T>(ReadOnlySpan<T> choices, int length)
-        {
-            var result = new T[length];
-            for (var i = 0; i < length; i++)
-            {
-                var index = RandomNumberGenerator.GetInt32(choices.Length);
-                result[i] = choices[index];
-            }
-            return result;
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0)))
         public static void GetItems<T>(ReadOnlySpan<T> choices, Span<T> destination)
         {
@@ -35,6 +23,14 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
                 var index = RandomNumberGenerator.GetInt32(choices.Length);
                 destination[i] = choices[index];
             }
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-int32)
+        public static T[] GetItems<T>(ReadOnlySpan<T> choices, int length)
+        {
+            var result = new T[length];
+            RandomNumberGenerator.GetItems(choices, result.AsSpan());
+            return result;
         }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle#system-security-cryptography-randomnumbergenerator-shuffle-1(system-span((-0)))

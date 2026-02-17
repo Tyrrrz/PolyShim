@@ -11,22 +11,18 @@ public class RandomNumberGeneratorTests
     [Fact]
     public void GetBytes_PartialArray_Test()
     {
-        // Arrange
-        using var rng = RandomNumberGenerator.Create();
-        var data = new byte[20];
+        // Act & assert
+        for (var i = 0; i < 100; i++)
+        {
+            using var rng = RandomNumberGenerator.Create();
+            var data = new byte[20];
 
-        // Act
-        rng.GetBytes(data, 5, 10);
+            rng.GetBytes(data, 5, 10);
 
-        // Assert
-        // First 5 bytes should be zero
-        data.Take(5).Should().AllBeEquivalentTo(0);
-
-        // Middle 10 bytes should have at least some non-zero values
-        data.Skip(5).Take(10).Should().Contain(b => b != 0);
-
-        // Last 5 bytes should be zero
-        data.Skip(15).Should().AllBeEquivalentTo(0);
+            data.Take(5).Should().OnlyContain(b => b == 0);
+            data.Skip(5).Take(10).Should().Contain(b => b != 0);
+            data.Skip(15).Should().OnlyContain(b => b == 0);
+        }
     }
 
     [Fact]
@@ -37,9 +33,8 @@ public class RandomNumberGeneratorTests
         var data = new byte[10];
 
         // Act & Assert
-        // Should not throw and should leave array unchanged
         rng.GetBytes(data, 0, 0);
-        data.Should().AllBeEquivalentTo(0);
+        data.Should().OnlyContain(b => b == 0);
     }
 
     [Fact]
