@@ -6,7 +6,6 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
@@ -27,22 +26,15 @@ internal static class MemberPolyfills_NetCore30_RandomNumberGenerator
                 // incomplete final bucket.
                 var rejectionThreshold = uint.MaxValue - (uint.MaxValue % range + 1) % range;
 
-                var buffer = ArrayPool<byte>.Shared.Rent(4);
-                try
+                uint result;
+                do
                 {
-                    uint result;
-                    do
-                    {
-                        rng.GetBytes(buffer);
-                        result = BitConverter.ToUInt32(buffer, 0);
-                    } while (result > rejectionThreshold);
+                    var buffer = new byte[4];
+                    rng.GetBytes(buffer);
+                    result = BitConverter.ToUInt32(buffer, 0);
+                } while (result > rejectionThreshold);
 
-                    return (int)(result % range) + fromInclusive;
-                }
-                finally
-                {
-                    ArrayPool<byte>.Shared.Return(buffer);
-                }
+                return (int)(result % range) + fromInclusive;
             }
             finally
             {

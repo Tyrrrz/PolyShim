@@ -6,7 +6,6 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
@@ -21,16 +20,9 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
             if (data.Length == 0)
                 return;
 
-            var buffer = ArrayPool<byte>.Shared.Rent(data.Length);
-            try
-            {
-                rng.GetBytes(buffer);
-                buffer.AsSpan(0, data.Length).CopyTo(data);
-            }
-            finally
-            {
-                ArrayPool<byte>.Shared.Return(buffer);
-            }
+            var buffer = new byte[data.Length];
+            rng.GetBytes(buffer);
+            buffer.CopyTo(data);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-span((system-byte)))

@@ -6,7 +6,6 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Buffers;
 using System.Text;
 using System.Diagnostics.CodeAnalysis;
 
@@ -18,19 +17,11 @@ internal static class MemberPolyfills_Net100_Random
         // https://learn.microsoft.com/dotnet/api/system.random.gethexstring#system-random-gethexstring(system-int32-system-boolean)
         public string GetHexString(int stringLength, bool lowercase = false)
         {
-            var byteCount = (stringLength + 1) / 2;
-            var bytes = ArrayPool<byte>.Shared.Rent(byteCount);
-            try
-            {
-                random.NextBytes(bytes);
+            var bytes = new byte[(stringLength + 1) / 2];
+            random.NextBytes(bytes);
 
-                var hex = lowercase ? Convert.ToHexStringLower(bytes) : Convert.ToHexString(bytes);
-                return hex.Substring(0, stringLength);
-            }
-            finally
-            {
-                ArrayPool<byte>.Shared.Return(bytes);
-            }
+            var hex = lowercase ? Convert.ToHexStringLower(bytes) : Convert.ToHexString(bytes);
+            return hex.Substring(0, stringLength);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.random.getstring
