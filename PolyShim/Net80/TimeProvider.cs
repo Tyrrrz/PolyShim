@@ -8,10 +8,8 @@
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using SystemThreading = System.Threading;
-#if FEATURE_TASK
 using System.Threading.Tasks;
-#endif
+using SystemThreading = System.Threading;
 
 namespace System;
 
@@ -19,9 +17,7 @@ namespace System;
 [ExcludeFromCodeCoverage]
 internal abstract class TimeProvider
 {
-    private static readonly TimeProvider s_system = new SystemTimeProvider();
-
-    public static TimeProvider System => s_system;
+    public static TimeProvider System { get; } = new SystemTimeProvider();
 
     protected TimeProvider() { }
 
@@ -63,7 +59,8 @@ internal abstract class TimeProvider
         }
     }
 
-#if !NETSTANDARD1_0 && !NETSTANDARD1_1
+    // Timer and TimerCallback are not available on .NET Standard 1.0 and 1.1
+#if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
     public SystemThreading.ITimer CreateTimer(
         SystemThreading.TimerCallback callback,
         object? state,
@@ -72,13 +69,13 @@ internal abstract class TimeProvider
     ) => new SystemTimeProviderTimer(dueTime, period, callback, state);
 #endif
 
-#if FEATURE_TASK
+    // Task.Delay, Timeout.InfiniteTimeSpan, and CancellationTokenSource(TimeSpan) require .NET 4.5+
+#if FEATURE_TASK && (NETSTANDARD1_3_OR_GREATER || NETCOREAPP || NET45_OR_GREATER)
     public virtual Task Delay(
         TimeSpan delay,
         SystemThreading.CancellationToken cancellationToken = default
     )
     {
-#if NETSTANDARD1_3_OR_GREATER || NETCOREAPP || NET45_OR_GREATER
         if (delay < TimeSpan.Zero && delay != SystemThreading.Timeout.InfiniteTimeSpan)
             throw new ArgumentOutOfRangeException(nameof(delay));
 
@@ -93,17 +90,10 @@ internal abstract class TimeProvider
             return Task.CompletedTask;
 
         return Task.Delay(delay, cancellationToken);
-#else
-        // Task.Delay and Timeout.InfiniteTimeSpan are not available on older TFMs
-        throw new NotSupportedException(
-            "Delay is not supported on this target framework. Use the Microsoft.Bcl.TimeProvider package instead."
-        );
-#endif
     }
 
     public SystemThreading.CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
     {
-#if NETSTANDARD1_3_OR_GREATER || NETCOREAPP || NET45_OR_GREATER
         if (delay < TimeSpan.Zero && delay != SystemThreading.Timeout.InfiniteTimeSpan)
             throw new ArgumentOutOfRangeException(nameof(delay));
 
@@ -111,12 +101,6 @@ internal abstract class TimeProvider
             return new SystemThreading.CancellationTokenSource();
 
         return new SystemThreading.CancellationTokenSource(delay);
-#else
-        // CancellationTokenSource(TimeSpan) is not available on older TFMs
-        throw new NotSupportedException(
-            "CreateCancellationTokenSource is not supported on this target framework. Use the Microsoft.Bcl.TimeProvider package instead."
-        );
-#endif
     }
 #endif
 
@@ -125,7 +109,8 @@ internal abstract class TimeProvider
         public override TimeZoneInfo LocalTimeZone => TimeZoneInfo.Local;
     }
 
-#if !NETSTANDARD1_0 && !NETSTANDARD1_1
+    // Timer and TimerCallback are not available on .NET Standard 1.0 and 1.1
+#if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
     private sealed class SystemTimeProviderTimer : SystemThreading.ITimer
     {
         private readonly SystemThreading.Timer _timer;
