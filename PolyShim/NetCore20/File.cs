@@ -5,6 +5,7 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -130,43 +131,57 @@ internal static class MemberPolyfills_NetCore20_File
         // https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-threading-cancellationtoken)
         public static async Task<string> ReadAllTextAsync(string path, CancellationToken cancellationToken = default)
         {
-            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
+            const int bufferSize = 4096;
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize, true);
             using var reader = new StreamReader(stream);
 
             var content = new StringBuilder();
-            var buffer = new char[4096];
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            int charsRead;
-            while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
+            var buffer = ArrayPool<char>.Shared.Rent(bufferSize);
+            try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                content.Append(buffer, 0, charsRead);
-            }
 
-            return content.ToString();
+                int charsRead;
+                while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    content.Append(buffer, 0, charsRead);
+                }
+
+                return content.ToString();
+            }
+            finally
+            {
+                ArrayPool<char>.Shared.Return(buffer);
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken)
         public static async Task<string> ReadAllTextAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
         {
-            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
+            const int bufferSize = 4096;
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize, true);
             using var reader = new StreamReader(stream, encoding);
 
             var content = new StringBuilder();
-            var buffer = new char[4096];
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            int charsRead;
-            while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
+            var buffer = ArrayPool<char>.Shared.Rent(bufferSize);
+            try
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                content.Append(buffer, 0, charsRead);
-            }
 
-            return content.ToString();
+                int charsRead;
+                while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    content.Append(buffer, 0, charsRead);
+                }
+
+                return content.ToString();
+            }
+            finally
+            {
+                ArrayPool<char>.Shared.Return(buffer);
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.writeallbytesasync#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
