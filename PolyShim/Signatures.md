@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 340
+- **Total:** 341
 - **Types:** 74
-- **Members:** 266
+- **Members:** 267
 
 ___
 
@@ -275,6 +275,8 @@ ___
   - [`T[] GetItems<T>(T[], int)`](https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(-0()-system-int32)) <sup><sub>.NET 8.0</sub></sup>
   - [`void NextBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Shuffle<T>(T[])`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())) <sup><sub>.NET 8.0</sub></sup>
+- `RandomNumberGenerator`
+  - [`void Fill(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.fill) <sup><sub>.NET Core 2.1</sub></sup>
 - `Range`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.range) <sup><sub>.NET Core 3.0</sub></sup>
 - `ReadOnlyMemory<T>`
