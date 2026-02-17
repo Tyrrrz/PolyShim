@@ -1,4 +1,4 @@
-#if (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK && NET40_OR_GREATER) || (NETSTANDARD && NETSTANDARD1_3_OR_GREATER && !NETSTANDARD2_1_OR_GREATER)
+#if (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -7,6 +7,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
 using System.Security.Cryptography;
 
 [ExcludeFromCodeCoverage]
@@ -22,12 +23,19 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
                 return;
 
             var buffer = new byte[data.Length];
-            using (var rng = RandomNumberGenerator.Create())
+            var rng = RandomNumberGenerator.Create();
+            try
             {
                 rng.GetBytes(buffer);
                 buffer.CopyTo(data);
             }
+            finally
+            {
+                // Explicit Dispose() for compatibility with older frameworks
+                ((IDisposable)rng).Dispose();
+            }
         }
     }
 }
+#endif
 #endif

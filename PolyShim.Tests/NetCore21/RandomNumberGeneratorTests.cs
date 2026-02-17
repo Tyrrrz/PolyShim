@@ -11,25 +11,23 @@ public class RandomNumberGeneratorTests
     public void Fill_Span_Test()
     {
         // Arrange
-        var buffer = new byte[16];
-        var span = new Span<byte>(buffer);
+        var span = new Span<byte>(new byte[16]);
 
         // Act
         RandomNumberGenerator.Fill(span);
 
         // Assert
-        // Verify that not all bytes are zero (cryptographic RNG should produce non-zero data)
+        // Verify that not all bytes are zero (cryptographic RNG should produce non-zero data).
         // Note: Theoretically, a crypto RNG could produce all zeros (probability: 2^-128),
-        // but this is astronomically unlikely in practice
-        buffer.Should().NotBeEquivalentTo(new byte[16]);
+        // but this is astronomically unlikely in practice.
+        span.ToArray().Should().Contain(b => b != 0);
     }
 
     [Fact]
     public void Fill_EmptySpan_Test()
     {
         // Arrange
-        var buffer = new byte[0];
-        var span = new Span<byte>(buffer);
+        var span = new Span<byte>();
 
         // Act & Assert
         // Should not throw and should return immediately
