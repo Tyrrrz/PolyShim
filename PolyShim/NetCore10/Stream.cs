@@ -5,6 +5,7 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
+using System.Buffers;
 using System.IO;
 using System.Diagnostics.CodeAnalysis;
 
@@ -16,14 +17,21 @@ internal static class MemberPolyfills_NetCore10_Stream
         // https://learn.microsoft.com/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream-system-int32)
         public void CopyTo(Stream destination, int bufferSize)
         {
-            var buffer = new byte[bufferSize];
-            while (true)
+            var buffer = ArrayPool<byte>.Shared.Rent(bufferSize);
+            try
             {
-                var bytesRead = source.Read(buffer, 0, buffer.Length);
-                if (bytesRead <= 0)
-                    break;
+                while (true)
+                {
+                    var bytesRead = source.Read(buffer, 0, bufferSize);
+                    if (bytesRead <= 0)
+                        break;
 
-                destination.Write(buffer, 0, bytesRead);
+                    destination.Write(buffer, 0, bytesRead);
+                }
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
             }
         }
 

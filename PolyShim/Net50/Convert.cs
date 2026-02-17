@@ -6,6 +6,7 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
@@ -48,17 +49,23 @@ internal static class MemberPolyfills_Net50_Convert
         // https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte()-system-int32-system-int32)
         public static string ToHexString(byte[] value, int startIndex, int length)
         {
-            var c = new char[length * 2];
-
-            for (var i = 0; i < length; i++)
+            var c = ArrayPool<char>.Shared.Rent(length * 2);
+            try
             {
-                var b = value[startIndex + i] >> 4;
-                c[i * 2] = (char)(55 + b + (((b - 10) >> 31) & -7));
-                b = value[startIndex + i] & 0xF;
-                c[i * 2 + 1] = (char)(55 + b + (((b - 10) >> 31) & -7));
-            }
+                for (var i = 0; i < length; i++)
+                {
+                    var b = value[startIndex + i] >> 4;
+                    c[i * 2] = (char)(55 + b + (((b - 10) >> 31) & -7));
+                    b = value[startIndex + i] & 0xF;
+                    c[i * 2 + 1] = (char)(55 + b + (((b - 10) >> 31) & -7));
+                }
 
-            return new string(c);
+                return new string(c, 0, length * 2);
+            }
+            finally
+            {
+                ArrayPool<char>.Shared.Return(c);
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte())

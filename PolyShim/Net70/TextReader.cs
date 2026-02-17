@@ -6,6 +6,7 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Buffers;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -30,21 +31,27 @@ internal static class MemberPolyfills_Net70_TextReader
         public async Task<string> ReadToEndAsync(CancellationToken cancellationToken)
         {
             var result = new StringBuilder();
-            var buffer = new char[4096];
-
-            while (true)
+            var buffer = ArrayPool<char>.Shared.Rent(4096);
+            try
             {
-                var charsRead = await reader
-                    .ReadAsync(buffer, cancellationToken)
-                    .ConfigureAwait(false);
+                while (true)
+                {
+                    var charsRead = await reader
+                        .ReadAsync(buffer, cancellationToken)
+                        .ConfigureAwait(false);
 
-                if (charsRead <= 0)
-                    break;
+                    if (charsRead <= 0)
+                        break;
 
-                result.Append(buffer, 0, charsRead);
+                    result.Append(buffer, 0, charsRead);
+                }
+
+                return result.ToString();
             }
-
-            return result.ToString();
+            finally
+            {
+                ArrayPool<char>.Shared.Return(buffer);
+            }
         }
 #endif
     }
