@@ -22,7 +22,7 @@ internal static class MemberPolyfills_NetCore10_Stream
             {
                 while (true)
                 {
-                    var bytesRead = source.Read(buffer, 0, bufferSize);
+                    var bytesRead = source.Read(buffer, 0, buffer.Length);
                     if (bytesRead <= 0)
                         break;
 

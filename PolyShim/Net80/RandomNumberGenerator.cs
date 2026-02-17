@@ -50,11 +50,9 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
             var bytes = ArrayPool<byte>.Shared.Rent((stringLength + 1) / 2);
             try
             {
-                RandomNumberGenerator.Fill(bytes.AsSpan(0, (stringLength + 1) / 2));
+                RandomNumberGenerator.Fill(bytes);
 
-                var hex = lowercase
-                    ? Convert.ToHexStringLower(bytes, 0, (stringLength + 1) / 2)
-                    : Convert.ToHexString(bytes, 0, (stringLength + 1) / 2);
+                var hex = lowercase ? Convert.ToHexStringLower(bytes) : Convert.ToHexString(bytes);
                 return hex.Substring(0, stringLength);
             }
             finally

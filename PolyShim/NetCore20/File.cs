@@ -136,24 +136,24 @@ internal static class MemberPolyfills_NetCore20_File
             using var reader = new StreamReader(stream);
 
             var content = new StringBuilder();
-            var buffer = ArrayPool<char>.Shared.Rent(bufferSize);
-            try
+            using var buffer = MemoryPool<char>.Shared.Rent(bufferSize);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            int charsRead;
+            while ((charsRead = await reader.ReadAsync(buffer.Memory, cancellationToken).ConfigureAwait(false)) > 0)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-
-                int charsRead;
-                while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
+                
+                // Append char by char to avoid string allocation
+                var span = buffer.Memory.Span;
+                for (var i = 0; i < charsRead; i++)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    content.Append(buffer, 0, charsRead);
+                    content.Append(span[i]);
                 }
+            }
 
-                return content.ToString();
-            }
-            finally
-            {
-                ArrayPool<char>.Shared.Return(buffer);
-            }
+            return content.ToString();
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken)
@@ -164,24 +164,24 @@ internal static class MemberPolyfills_NetCore20_File
             using var reader = new StreamReader(stream, encoding);
 
             var content = new StringBuilder();
-            var buffer = ArrayPool<char>.Shared.Rent(bufferSize);
-            try
+            using var buffer = MemoryPool<char>.Shared.Rent(bufferSize);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            int charsRead;
+            while ((charsRead = await reader.ReadAsync(buffer.Memory, cancellationToken).ConfigureAwait(false)) > 0)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-
-                int charsRead;
-                while ((charsRead = await reader.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0)
+                
+                // Append char by char to avoid string allocation
+                var span = buffer.Memory.Span;
+                for (var i = 0; i < charsRead; i++)
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
-                    content.Append(buffer, 0, charsRead);
+                    content.Append(span[i]);
                 }
+            }
 
-                return content.ToString();
-            }
-            finally
-            {
-                ArrayPool<char>.Shared.Return(buffer);
-            }
+            return content.ToString();
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.file.writeallbytesasync#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
