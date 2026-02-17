@@ -43,10 +43,9 @@ internal static class MemberPolyfills_Net70_TextReader
                     break;
 
                 // Append char by char to avoid string allocation
-                var span = buffer.Memory.Span;
                 for (var i = 0; i < charsRead; i++)
                 {
-                    result.Append(span[i]);
+                    result.Append(buffer.Memory.Span[i]);
                 }
             }
 

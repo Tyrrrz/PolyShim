@@ -144,12 +144,11 @@ internal static class MemberPolyfills_NetCore20_File
             while ((charsRead = await reader.ReadAsync(buffer.Memory, cancellationToken).ConfigureAwait(false)) > 0)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                
+
                 // Append char by char to avoid string allocation
-                var span = buffer.Memory.Span;
                 for (var i = 0; i < charsRead; i++)
                 {
-                    content.Append(span[i]);
+                    content.Append(buffer.Memory.Span[i]);
                 }
             }
 
@@ -172,12 +171,11 @@ internal static class MemberPolyfills_NetCore20_File
             while ((charsRead = await reader.ReadAsync(buffer.Memory, cancellationToken).ConfigureAwait(false)) > 0)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                
+
                 // Append char by char to avoid string allocation
-                var span = buffer.Memory.Span;
                 for (var i = 0; i < charsRead; i++)
                 {
-                    content.Append(span[i]);
+                    content.Append(buffer.Memory.Span[i]);
                 }
             }
 
