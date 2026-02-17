@@ -9,11 +9,12 @@ public class RandomNumberGeneratorTests
     [Fact]
     public void GetBytes_Static_Test()
     {
-        // Act & assert
         for (var i = 0; i < 100; i++)
         {
+            // Act
             var data = RandomNumberGenerator.GetBytes(16);
 
+            // Assert
             data.Should().HaveCount(16);
             data.Should().Contain(b => b != 0);
         }

@@ -28,16 +28,9 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-span((system-byte)))
         public void GetNonZeroBytes(Span<byte> data)
         {
-            var buffer = new byte[1];
             for (var i = 0; i < data.Length; i++)
             {
-                byte value;
-                do
-                {
-                    rng.GetBytes(buffer);
-                    value = buffer[0];
-                } while (value == 0);
-                data[i] = value;
+                data[i] = (byte)RandomNumberGenerator.GetInt32(1, 256);
             }
         }
     }

@@ -25,9 +25,9 @@ public class RandomNumberGeneratorTests
         // Arrange
         var choices = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".AsSpan();
 
-        // Act
         for (var i = 0; i < 100; i++)
         {
+            // Act
             var str = RandomNumberGenerator.GetString(choices, 16);
 
             // Assert
@@ -46,9 +46,9 @@ public class RandomNumberGeneratorTests
         // Arrange
         var choices = new[] { 1, 2, 3, 4, 5 }.AsSpan();
 
-        // Act
         for (var i = 0; i < 100; i++)
         {
+            // Act
             var items = RandomNumberGenerator.GetItems(choices, 3);
 
             // Assert
@@ -68,9 +68,9 @@ public class RandomNumberGeneratorTests
         var choices = new[] { 1, 2, 3, 4, 5 }.AsSpan();
         var destination = new Span<int>(new int[3]);
 
-        // Act
         for (var i = 0; i < 100; i++)
         {
+            // Act
             RandomNumberGenerator.GetItems(choices, destination);
 
             // Assert
@@ -89,9 +89,9 @@ public class RandomNumberGeneratorTests
         // Arrange
         var originalItems = new[] { 1, 2, 3, 4, 5 };
 
-        // Act
         for (var i = 0; i < 100; i++)
         {
+            // Act
             var items = new Span<int>((int[])originalItems.Clone());
             RandomNumberGenerator.Shuffle(items);
 
