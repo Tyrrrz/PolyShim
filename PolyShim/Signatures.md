@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 343
+- **Total:** 355
 - **Types:** 76
-- **Members:** 267
+- **Members:** 279
 
 ___
 
@@ -278,8 +278,20 @@ ___
   - [`void NextBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Shuffle<T>(T[])`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())) <sup><sub>.NET 8.0</sub></sup>
 - `RandomNumberGenerator`
-  - **[class]** <sup><sub>.NET Core 1.0</sub></sup>
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`byte[] GetBytes(int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-int32)) <sup><sub>.NET 6.0</sub></sup>
+  - [`int GetInt32(int, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32-system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`int GetInt32(int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`string GetHexString(int, bool)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.gethexstring#system-security-cryptography-randomnumbergenerator-gethexstring(system-int32-system-boolean)) <sup><sub>.NET 8.0</sub></sup>
+  - [`string GetString(ReadOnlySpan<char>, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring) <sup><sub>.NET 8.0</sub></sup>
+  - [`T[] GetItems<T>(ReadOnlySpan<T>, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-int32)) <sup><sub>.NET 8.0</sub></sup>
   - [`void Fill(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.fill) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void GetBytes(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-byte()-system-int32-system-int32)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`void GetBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void GetItems<T>(ReadOnlySpan<T>, Span<T>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
+  - [`void GetNonZeroBytes(byte[])`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-byte())) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`void GetNonZeroBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void Shuffle<T>(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle#system-security-cryptography-randomnumbergenerator-shuffle-1(system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
 - `Range`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.range) <sup><sub>.NET Core 3.0</sub></sup>
 - `ReadOnlyMemory<T>`
