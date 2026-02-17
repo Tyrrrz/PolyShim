@@ -1,7 +1,4 @@
-#if (NETCOREAPP) || (NETFRAMEWORK) || (NETSTANDARD)
-// NOTE: These polyfills will be automatically disabled when NET11_0_OR_GREATER is defined.
-// Until then, they provide the generic And<T>/Or<T> methods for .NET 9 and 10.
-#if NET9_0_OR_GREATER
+#if NET5_0_OR_GREATER
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -11,187 +8,77 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 [ExcludeFromCodeCoverage]
 internal static class MemberPolyfills_Net100_Interlocked
 {
-    extension(global::System.Threading.Interlocked)
+    extension(System.Threading.Interlocked)
     {
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and-1(-0@-0)
         public static T And<T>(ref T location1, T value)
             where T : struct
         {
-            // Only integer primitive types and enum types backed by integer types are supported.
-            // Floating-point types and floating-point backed enums are not supported.
-            if (
-                (!typeof(T).IsPrimitive && !typeof(T).IsEnum)
-                || typeof(T) == typeof(float)
-                || typeof(T) == typeof(double)
-                || (
-                    typeof(T).IsEnum
-                    && (
-                        typeof(T).GetEnumUnderlyingType() == typeof(float)
-                        || typeof(T).GetEnumUnderlyingType() == typeof(double)
-                    )
-                )
-            )
+            // Reject floating-point types
+            if (typeof(T) == typeof(float) || typeof(T) == typeof(double))
             {
                 throw new NotSupportedException(
                     "Only integer primitive types and enums backed by integer types are supported."
                 );
             }
 
-            // For all types, use CompareExchange-based implementation since we're polyfilling
-            // the generic overload that doesn't exist yet
-            if (Unsafe.SizeOf<T>() == 1)
-            {
-                ref byte loc = ref Unsafe.As<T, byte>(ref location1);
-                byte val = Unsafe.As<T, byte>(ref value);
-                byte current = loc;
-                while (true)
-                {
-                    byte newValue = (byte)(current & val);
-                    byte oldValue = global::System.Threading.Interlocked.CompareExchange<byte>(
-                        ref loc,
-                        newValue,
-                        current
-                    );
-                    if (oldValue == current)
-                    {
-                        byte result = oldValue;
-                        return Unsafe.As<byte, T>(ref result);
-                    }
-                    current = oldValue;
-                }
-            }
-
-            if (Unsafe.SizeOf<T>() == 2)
-            {
-                ref ushort loc = ref Unsafe.As<T, ushort>(ref location1);
-                ushort val = Unsafe.As<T, ushort>(ref value);
-                ushort current = loc;
-                while (true)
-                {
-                    ushort newValue = (ushort)(current & val);
-                    ushort oldValue = global::System.Threading.Interlocked.CompareExchange<ushort>(
-                        ref loc,
-                        newValue,
-                        current
-                    );
-                    if (oldValue == current)
-                    {
-                        ushort result = oldValue;
-                        return Unsafe.As<ushort, T>(ref result);
-                    }
-                    current = oldValue;
-                }
-            }
-
             if (Unsafe.SizeOf<T>() == 4)
             {
                 ref int loc = ref Unsafe.As<T, int>(ref location1);
                 int val = Unsafe.As<T, int>(ref value);
-                int result = global::System.Threading.Interlocked.And(ref loc, val);
+                int result = System.Threading.Interlocked.And(ref loc, val);
                 return Unsafe.As<int, T>(ref result);
             }
 
-            // Unsafe.SizeOf<T>() == 8
+            if (Unsafe.SizeOf<T>() == 8)
             {
                 ref long loc = ref Unsafe.As<T, long>(ref location1);
                 long val = Unsafe.As<T, long>(ref value);
-                long result = global::System.Threading.Interlocked.And(ref loc, val);
+                long result = System.Threading.Interlocked.And(ref loc, val);
                 return Unsafe.As<long, T>(ref result);
             }
+
+            throw new NotSupportedException(
+                $"Type {typeof(T).Name} is not supported. Only 4-byte and 8-byte integer types and enums are supported."
+            );
         }
 
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or-1(-0@-0)
         public static T Or<T>(ref T location1, T value)
             where T : struct
         {
-            // Only integer primitive types and enum types backed by integer types are supported.
-            // Floating-point types and floating-point backed enums are not supported.
-            if (
-                (!typeof(T).IsPrimitive && !typeof(T).IsEnum)
-                || typeof(T) == typeof(float)
-                || typeof(T) == typeof(double)
-                || (
-                    typeof(T).IsEnum
-                    && (
-                        typeof(T).GetEnumUnderlyingType() == typeof(float)
-                        || typeof(T).GetEnumUnderlyingType() == typeof(double)
-                    )
-                )
-            )
+            // Reject floating-point types
+            if (typeof(T) == typeof(float) || typeof(T) == typeof(double))
             {
                 throw new NotSupportedException(
                     "Only integer primitive types and enums backed by integer types are supported."
                 );
             }
 
-            // For all types, use CompareExchange-based implementation since we're polyfilling
-            // the generic overload that doesn't exist yet
-            if (Unsafe.SizeOf<T>() == 1)
-            {
-                ref byte loc = ref Unsafe.As<T, byte>(ref location1);
-                byte val = Unsafe.As<T, byte>(ref value);
-                byte current = loc;
-                while (true)
-                {
-                    byte newValue = (byte)(current | val);
-                    byte oldValue = global::System.Threading.Interlocked.CompareExchange<byte>(
-                        ref loc,
-                        newValue,
-                        current
-                    );
-                    if (oldValue == current)
-                    {
-                        byte result = oldValue;
-                        return Unsafe.As<byte, T>(ref result);
-                    }
-                    current = oldValue;
-                }
-            }
-
-            if (Unsafe.SizeOf<T>() == 2)
-            {
-                ref ushort loc = ref Unsafe.As<T, ushort>(ref location1);
-                ushort val = Unsafe.As<T, ushort>(ref value);
-                ushort current = loc;
-                while (true)
-                {
-                    ushort newValue = (ushort)(current | val);
-                    ushort oldValue = global::System.Threading.Interlocked.CompareExchange<ushort>(
-                        ref loc,
-                        newValue,
-                        current
-                    );
-                    if (oldValue == current)
-                    {
-                        ushort result = oldValue;
-                        return Unsafe.As<ushort, T>(ref result);
-                    }
-                    current = oldValue;
-                }
-            }
-
             if (Unsafe.SizeOf<T>() == 4)
             {
                 ref int loc = ref Unsafe.As<T, int>(ref location1);
                 int val = Unsafe.As<T, int>(ref value);
-                int result = global::System.Threading.Interlocked.Or(ref loc, val);
+                int result = System.Threading.Interlocked.Or(ref loc, val);
                 return Unsafe.As<int, T>(ref result);
             }
 
-            // Unsafe.SizeOf<T>() == 8
+            if (Unsafe.SizeOf<T>() == 8)
             {
                 ref long loc = ref Unsafe.As<T, long>(ref location1);
                 long val = Unsafe.As<T, long>(ref value);
-                long result = global::System.Threading.Interlocked.Or(ref loc, val);
+                long result = System.Threading.Interlocked.Or(ref loc, val);
                 return Unsafe.As<long, T>(ref result);
             }
+
+            throw new NotSupportedException(
+                $"Type {typeof(T).Name} is not supported. Only 4-byte and 8-byte integer types and enums are supported."
+            );
         }
     }
 }
-#endif
 #endif
