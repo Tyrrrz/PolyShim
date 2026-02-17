@@ -23,6 +23,7 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
                 return;
 
             var buffer = new byte[data.Length];
+#if NET35
             var rng = RandomNumberGenerator.Create();
             try
             {
@@ -31,9 +32,13 @@ internal static class MemberPolyfills_NetCore21_RandomNumberGenerator
             }
             finally
             {
-                // Explicit Dispose() for compatibility with older frameworks
                 ((IDisposable)rng).Dispose();
             }
+#else
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(buffer);
+            buffer.CopyTo(data);
+#endif
         }
     }
 }
