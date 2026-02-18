@@ -47,7 +47,7 @@ internal static class MemberPolyfills_NetCore10_Task
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
         public static Task FromCanceled(CancellationToken cancellationToken) =>
-            Task.FromCanceled<bool>(cancellationToken);
+            Task.FromCanceled<object>(cancellationToken);
 
 #if NETFRAMEWORK && !NET45_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)
@@ -181,21 +181,15 @@ internal static class MemberPolyfills_NetCore10_Task
 
             Timer? timer = null;
             timer = new Timer(
-                _ =>
-                {
-                    tcs.TrySetResult(null);
-                },
+                _ => tcs.TrySetResult(null),
                 null,
                 delay,
                 TimeSpan.FromMilliseconds(-1)
             );
 
-            var registration = cancellationToken.Register(() =>
-            {
-                tcs.TrySetCanceled();
-            });
+            var registration = cancellationToken.Register(() => tcs.TrySetCanceled());
 
-            tcs.Task.ContinueWith(
+            return tcs.Task.ContinueWith(
                 _ =>
                 {
                     registration.Dispose();
@@ -203,8 +197,6 @@ internal static class MemberPolyfills_NetCore10_Task
                 },
                 TaskContinuationOptions.ExecuteSynchronously
             );
-
-            return tcs.Task;
         }
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)

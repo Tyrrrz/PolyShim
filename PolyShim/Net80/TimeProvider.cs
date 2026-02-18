@@ -41,7 +41,7 @@ internal abstract class TimeProvider
         GetElapsedTime(startingTimestamp, GetTimestamp());
 
 #if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
-    public ITimer CreateTimer(
+    public virtual ITimer CreateTimer(
         TimerCallback callback,
         object? state,
         TimeSpan dueTime,
@@ -61,7 +61,7 @@ internal abstract class TimeProvider
         return Task.Delay(delay, cancellationToken);
     }
 
-    public CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
+    public virtual CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
     {
         var cts = new CancellationTokenSource();
 
