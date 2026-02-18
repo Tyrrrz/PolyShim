@@ -16,52 +16,52 @@ internal static class MemberPolyfills_Net50_Interlocked
         // Non-generic And/Or methods for int and long
         public static int And(ref int location1, int value)
         {
-            int current = location1;
-            int newValue;
+            int current, newValue, original;
             do
             {
+                current = location1;
                 newValue = current & value;
-                current = Interlocked.CompareExchange(ref location1, newValue, current);
-            } while (current != newValue);
+                original = Interlocked.CompareExchange(ref location1, newValue, current);
+            } while (original != current);
 
             return newValue;
         }
 
         public static long And(ref long location1, long value)
         {
-            long current = location1;
-            long newValue;
+            long current, newValue, original;
             do
             {
+                current = location1;
                 newValue = current & value;
-                current = Interlocked.CompareExchange(ref location1, newValue, current);
-            } while (current != newValue);
+                original = Interlocked.CompareExchange(ref location1, newValue, current);
+            } while (original != current);
 
             return newValue;
         }
 
         public static int Or(ref int location1, int value)
         {
-            int current = location1;
-            int newValue;
+            int current, newValue, original;
             do
             {
+                current = location1;
                 newValue = current | value;
-                current = Interlocked.CompareExchange(ref location1, newValue, current);
-            } while (current != newValue);
+                original = Interlocked.CompareExchange(ref location1, newValue, current);
+            } while (original != current);
 
             return newValue;
         }
 
         public static long Or(ref long location1, long value)
         {
-            long current = location1;
-            long newValue;
+            long current, newValue, original;
             do
             {
+                current = location1;
                 newValue = current | value;
-                current = Interlocked.CompareExchange(ref location1, newValue, current);
-            } while (current != newValue);
+                original = Interlocked.CompareExchange(ref location1, newValue, current);
+            } while (original != current);
 
             return newValue;
         }
