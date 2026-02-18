@@ -182,10 +182,10 @@ ___
   - `long Or(ref long, long)` <sup><sub>.NET 10.0</sub></sup>
   - [`T And<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
   - [`T Or<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
-  - `uint And(ref uint, uint)` <sup><sub>.NET 10.0</sub></sup>
-  - `uint Or(ref uint, uint)` <sup><sub>.NET 10.0</sub></sup>
-  - `ulong And(ref ulong, ulong)` <sup><sub>.NET 10.0</sub></sup>
-  - `ulong Or(ref ulong, ulong)` <sup><sub>.NET 10.0</sub></sup>
+  - `unsafe uint And(ref uint, uint)` <sup><sub>.NET 10.0</sub></sup>
+  - `unsafe uint Or(ref uint, uint)` <sup><sub>.NET 10.0</sub></sup>
+  - `unsafe ulong And(ref ulong, ulong)` <sup><sub>.NET 10.0</sub></sup>
+  - `unsafe ulong Or(ref ulong, ulong)` <sup><sub>.NET 10.0</sub></sup>
 - `IntPtr`
   - [`bool TryParse(string, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-intptr@)) <sup><sub>.NET 5.0</sub></sup>

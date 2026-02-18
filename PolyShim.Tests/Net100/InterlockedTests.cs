@@ -65,10 +65,7 @@ public class InterlockedTests
 
         // long
         long l = 0x00000000FFFFFFFF;
-        Interlocked
-            .Or(ref l, unchecked((long)0xFFFFFFFF00000000))
-            .Should()
-            .Be(0x00000000FFFFFFFF);
+        Interlocked.Or(ref l, unchecked((long)0xFFFFFFFF00000000)).Should().Be(0x00000000FFFFFFFF);
         l.Should().Be(unchecked((long)0xFFFFFFFFFFFFFFFF));
 
         // enum
