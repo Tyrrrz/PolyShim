@@ -49,29 +49,6 @@ internal abstract class TimeProvider
     ) => new SystemTimeProviderTimer(dueTime, period, callback, state);
 #endif
 
-#if FEATURE_TASK
-    public virtual Task Delay(TimeSpan delay, CancellationToken cancellationToken = default)
-    {
-        if (cancellationToken.IsCancellationRequested)
-            return Task.FromCanceled(cancellationToken);
-
-        if (delay == TimeSpan.Zero)
-            return Task.CompletedTask;
-
-        return Task.Delay(delay, cancellationToken);
-    }
-
-    public virtual CancellationTokenSource CreateCancellationTokenSource(TimeSpan delay)
-    {
-        var cts = new CancellationTokenSource();
-
-        if (delay >= TimeSpan.Zero)
-            cts.CancelAfter(delay);
-
-        return cts;
-    }
-#endif
-
     private sealed class SystemTimeProvider : TimeProvider
     {
         public override TimeZoneInfo LocalTimeZone => TimeZoneInfo.Local;
