@@ -65,7 +65,7 @@ internal abstract class TimeProvider
     {
         var cts = new CancellationTokenSource();
 
-        if (delay != TimeSpan.Zero && delay.Ticks > 0)
+        if (delay >= TimeSpan.Zero)
             cts.CancelAfter(delay);
 
         return cts;

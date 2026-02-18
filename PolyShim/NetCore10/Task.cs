@@ -35,7 +35,21 @@ internal static class MemberPolyfills_NetCore10_Task
 
             return tcs.Task;
         }
+#endif
 
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
+        public static Task<T> FromCanceled<T>(CancellationToken cancellationToken)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            tcs.TrySetCanceled(cancellationToken);
+            return tcs.Task;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
+        public static Task FromCanceled(CancellationToken cancellationToken) =>
+            Task.FromCanceled<bool>(cancellationToken);
+
+#if NETFRAMEWORK && !NET45_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)
         public static Task Run(Action action, CancellationToken cancellationToken) =>
             Task.Factory.StartNew(
@@ -151,25 +165,13 @@ internal static class MemberPolyfills_NetCore10_Task
             WhenAny((IEnumerable<Task<T>>)tasks);
 #endif
 
-        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
-        public static Task<T> FromCanceled<T>(CancellationToken cancellationToken)
-        {
-            var tcs = new TaskCompletionSource<T>();
-            tcs.TrySetCanceled(cancellationToken);
-            return tcs.Task;
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
-        public static Task FromCanceled(CancellationToken cancellationToken) =>
-            Task.FromCanceled<bool>(cancellationToken);
-
 #if NETFRAMEWORK && !NET45_OR_GREATER
         // Timer is not available on .NET Standard 1.0 and 1.1
 #if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)
         public static Task Delay(TimeSpan delay, CancellationToken cancellationToken)
         {
-            var tcs = new TaskCompletionSource<bool>();
+            var tcs = new TaskCompletionSource<object?>();
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -181,8 +183,7 @@ internal static class MemberPolyfills_NetCore10_Task
             timer = new Timer(
                 _ =>
                 {
-                    timer?.Dispose();
-                    tcs.TrySetResult(true);
+                    tcs.TrySetResult(null);
                 },
                 null,
                 delay,
@@ -191,7 +192,6 @@ internal static class MemberPolyfills_NetCore10_Task
 
             var registration = cancellationToken.Register(() =>
             {
-                timer?.Dispose();
                 tcs.TrySetCanceled();
             });
 
