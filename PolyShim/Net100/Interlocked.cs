@@ -1,4 +1,4 @@
-#if NETSTANDARD2_0_OR_GREATER || NETCOREAPP2_0_OR_GREATER || NET461_OR_GREATER
+#if (NETCOREAPP && !NET11_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -72,13 +72,17 @@ internal static class MemberPolyfills_Net100_Interlocked
         }
 #else
         // Use native methods on .NET 9+
-        public static int And(ref int location1, int value) => Interlocked.And(ref location1, value);
+        public static int And(ref int location1, int value) =>
+            Interlocked.And(ref location1, value);
 
-        public static long And(ref long location1, long value) => Interlocked.And(ref location1, value);
+        public static long And(ref long location1, long value) =>
+            Interlocked.And(ref location1, value);
 
-        public static int Or(ref int location1, int value) => Interlocked.Or(ref location1, value);
+        public static int Or(ref int location1, int value) =>
+            Interlocked.Or(ref location1, value);
 
-        public static long Or(ref long location1, long value) => Interlocked.Or(ref location1, value);
+        public static long Or(ref long location1, long value) =>
+            Interlocked.Or(ref location1, value);
 #endif
 
         // uint and ulong overloads use unsafe pointers to delegate to int/long

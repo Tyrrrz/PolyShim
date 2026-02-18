@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 365
+- **Total:** 369
 - **Types:** 76
-- **Members:** 289
+- **Members:** 293
 
 ___
 
@@ -177,8 +177,12 @@ ___
   - [`bool TryParse(string, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
 - `Interlocked`
   - `int And(ref int, int)` <sup><sub>.NET 10.0</sub></sup>
+  - `int And(ref int, int)` <sup><sub>.NET 10.0</sub></sup>
+  - `int Or(ref int, int)` <sup><sub>.NET 10.0</sub></sup>
   - `int Or(ref int, int)` <sup><sub>.NET 10.0</sub></sup>
   - `long And(ref long, long)` <sup><sub>.NET 10.0</sub></sup>
+  - `long And(ref long, long)` <sup><sub>.NET 10.0</sub></sup>
+  - `long Or(ref long, long)` <sup><sub>.NET 10.0</sub></sup>
   - `long Or(ref long, long)` <sup><sub>.NET 10.0</sub></sup>
   - [`T And<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
   - [`T Or<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
