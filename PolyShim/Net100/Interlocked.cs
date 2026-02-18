@@ -17,111 +17,6 @@ internal static class MemberPolyfills_Net100_Interlocked
 {
     extension(Interlocked)
     {
-#if !NET9_0_OR_GREATER
-        // Polyfill non-generic And/Or methods for pre-.NET 9
-        public static int And(ref int location1, int value)
-        {
-            int current = location1;
-            int newValue;
-            do
-            {
-                newValue = current & value;
-                current = Interlocked.CompareExchange(ref location1, newValue, current);
-            } while (current != newValue);
-
-            return newValue;
-        }
-
-        public static long And(ref long location1, long value)
-        {
-            long current = location1;
-            long newValue;
-            do
-            {
-                newValue = current & value;
-                current = Interlocked.CompareExchange(ref location1, newValue, current);
-            } while (current != newValue);
-
-            return newValue;
-        }
-
-        public static int Or(ref int location1, int value)
-        {
-            int current = location1;
-            int newValue;
-            do
-            {
-                newValue = current | value;
-                current = Interlocked.CompareExchange(ref location1, newValue, current);
-            } while (current != newValue);
-
-            return newValue;
-        }
-
-        public static long Or(ref long location1, long value)
-        {
-            long current = location1;
-            long newValue;
-            do
-            {
-                newValue = current | value;
-                current = Interlocked.CompareExchange(ref location1, newValue, current);
-            } while (current != newValue);
-
-            return newValue;
-        }
-#else
-        // Use native methods on .NET 9+
-        public static int And(ref int location1, int value) =>
-            Interlocked.And(ref location1, value);
-
-        public static long And(ref long location1, long value) =>
-            Interlocked.And(ref location1, value);
-
-        public static int Or(ref int location1, int value) =>
-            Interlocked.Or(ref location1, value);
-
-        public static long Or(ref long location1, long value) =>
-            Interlocked.Or(ref location1, value);
-#endif
-
-        // uint and ulong overloads use unsafe pointers to delegate to int/long
-        public static unsafe uint And(ref uint location1, uint value)
-        {
-            fixed (uint* ptr = &location1)
-            {
-                int result = And(ref *(int*)ptr, *(int*)&value);
-                return *(uint*)&result;
-            }
-        }
-
-        public static unsafe ulong And(ref ulong location1, ulong value)
-        {
-            fixed (ulong* ptr = &location1)
-            {
-                long result = And(ref *(long*)ptr, *(long*)&value);
-                return *(ulong*)&result;
-            }
-        }
-
-        public static unsafe uint Or(ref uint location1, uint value)
-        {
-            fixed (uint* ptr = &location1)
-            {
-                int result = Or(ref *(int*)ptr, *(int*)&value);
-                return *(uint*)&result;
-            }
-        }
-
-        public static unsafe ulong Or(ref ulong location1, ulong value)
-        {
-            fixed (ulong* ptr = &location1)
-            {
-                long result = Or(ref *(long*)ptr, *(long*)&value);
-                return *(ulong*)&result;
-            }
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and-1(-0@-0)
 #if NET5_0_OR_GREATER
         public static T And<T>(ref T location1, T value)
@@ -140,7 +35,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref int loc = ref Unsafe.As<T, int>(ref location1);
                 int val = Unsafe.As<T, int>(ref value);
-                int result = And(ref loc, val);
+                int result = Interlocked.And(ref loc, val);
                 return Unsafe.As<int, T>(ref result);
             }
 
@@ -148,7 +43,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref uint loc = ref Unsafe.As<T, uint>(ref location1);
                 uint val = Unsafe.As<T, uint>(ref value);
-                uint result = And(ref loc, val);
+                uint result = Interlocked.And(ref loc, val);
                 return Unsafe.As<uint, T>(ref result);
             }
 
@@ -156,7 +51,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref long loc = ref Unsafe.As<T, long>(ref location1);
                 long val = Unsafe.As<T, long>(ref value);
-                long result = And(ref loc, val);
+                long result = Interlocked.And(ref loc, val);
                 return Unsafe.As<long, T>(ref result);
             }
 
@@ -164,7 +59,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref ulong loc = ref Unsafe.As<T, ulong>(ref location1);
                 ulong val = Unsafe.As<T, ulong>(ref value);
-                ulong result = And(ref loc, val);
+                ulong result = Interlocked.And(ref loc, val);
                 return Unsafe.As<ulong, T>(ref result);
             }
 
@@ -174,7 +69,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref int loc = ref Unsafe.As<T, int>(ref location1);
                 int val = Unsafe.As<T, int>(ref value);
-                int result = And(ref loc, val);
+                int result = Interlocked.And(ref loc, val);
                 return Unsafe.As<int, T>(ref result);
             }
 
@@ -182,7 +77,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref long loc = ref Unsafe.As<T, long>(ref location1);
                 long val = Unsafe.As<T, long>(ref value);
-                long result = And(ref loc, val);
+                long result = Interlocked.And(ref loc, val);
                 return Unsafe.As<long, T>(ref result);
             }
 
@@ -208,7 +103,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref int loc = ref Unsafe.As<T, int>(ref location1);
                 int val = Unsafe.As<T, int>(ref value);
-                int result = Or(ref loc, val);
+                int result = Interlocked.Or(ref loc, val);
                 return Unsafe.As<int, T>(ref result);
             }
 
@@ -216,7 +111,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref uint loc = ref Unsafe.As<T, uint>(ref location1);
                 uint val = Unsafe.As<T, uint>(ref value);
-                uint result = Or(ref loc, val);
+                uint result = Interlocked.Or(ref loc, val);
                 return Unsafe.As<uint, T>(ref result);
             }
 
@@ -224,7 +119,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref long loc = ref Unsafe.As<T, long>(ref location1);
                 long val = Unsafe.As<T, long>(ref value);
-                long result = Or(ref loc, val);
+                long result = Interlocked.Or(ref loc, val);
                 return Unsafe.As<long, T>(ref result);
             }
 
@@ -232,7 +127,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref ulong loc = ref Unsafe.As<T, ulong>(ref location1);
                 ulong val = Unsafe.As<T, ulong>(ref value);
-                ulong result = Or(ref loc, val);
+                ulong result = Interlocked.Or(ref loc, val);
                 return Unsafe.As<ulong, T>(ref result);
             }
 
@@ -242,7 +137,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref int loc = ref Unsafe.As<T, int>(ref location1);
                 int val = Unsafe.As<T, int>(ref value);
-                int result = Or(ref loc, val);
+                int result = Interlocked.Or(ref loc, val);
                 return Unsafe.As<int, T>(ref result);
             }
 
@@ -250,7 +145,7 @@ internal static class MemberPolyfills_Net100_Interlocked
             {
                 ref long loc = ref Unsafe.As<T, long>(ref location1);
                 long val = Unsafe.As<T, long>(ref value);
-                long result = Or(ref loc, val);
+                long result = Interlocked.Or(ref loc, val);
                 return Unsafe.As<long, T>(ref result);
             }
 
