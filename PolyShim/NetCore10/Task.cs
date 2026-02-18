@@ -179,8 +179,7 @@ internal static class MemberPolyfills_NetCore10_Task
                 return tcs.Task;
             }
 
-            Timer? timer = null;
-            timer = new Timer(
+            var timer = new Timer(
                 _ => tcs.TrySetResult(null),
                 null,
                 delay,
