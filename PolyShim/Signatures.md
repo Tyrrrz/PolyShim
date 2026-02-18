@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 365
+- **Total:** 363
 - **Types:** 76
-- **Members:** 289
+- **Members:** 287
 
 ___
 
@@ -176,16 +176,14 @@ ___
 - `int`
   - [`bool TryParse(string, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
 - `Interlocked`
-  - `int And(ref int, int)` <sup><sub>.NET 5.0</sub></sup>
-  - `int Or(ref int, int)` <sup><sub>.NET 5.0</sub></sup>
-  - `long And(ref long, long)` <sup><sub>.NET 5.0</sub></sup>
-  - `long Or(ref long, long)` <sup><sub>.NET 5.0</sub></sup>
-  - [`T And<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
-  - [`T Or<T>(ref T, T) where T : struct`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or-1(-0@-0)) <sup><sub>.NET 10.0</sub></sup>
-  - `unsafe uint And(ref uint, uint)` <sup><sub>.NET 5.0</sub></sup>
-  - `unsafe uint Or(ref uint, uint)` <sup><sub>.NET 5.0</sub></sup>
-  - `unsafe ulong And(ref ulong, ulong)` <sup><sub>.NET 5.0</sub></sup>
-  - `unsafe ulong Or(ref ulong, ulong)` <sup><sub>.NET 5.0</sub></sup>
+  - [`int And(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`int Or(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`long And(ref long, long)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int64@-system-int64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`long Or(ref long, long)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int64@-system-int64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`unsafe uint And(ref uint, uint)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`unsafe uint Or(ref uint, uint)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint32@-system-uint32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`unsafe ulong And(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`unsafe ulong Or(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
 - `IntPtr`
   - [`bool TryParse(string, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-intptr@)) <sup><sub>.NET 5.0</sub></sup>

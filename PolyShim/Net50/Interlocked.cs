@@ -13,10 +13,12 @@ internal static class MemberPolyfills_Net50_Interlocked
 {
     extension(Interlocked)
     {
-        // Non-generic And/Or methods for int and long
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int32@-system-int32)
         public static int And(ref int location1, int value)
         {
-            int current, newValue, original;
+            int current,
+                newValue,
+                original;
             do
             {
                 current = location1;
@@ -27,9 +29,12 @@ internal static class MemberPolyfills_Net50_Interlocked
             return newValue;
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int64@-system-int64)
         public static long And(ref long location1, long value)
         {
-            long current, newValue, original;
+            long current,
+                newValue,
+                original;
             do
             {
                 current = location1;
@@ -40,9 +45,12 @@ internal static class MemberPolyfills_Net50_Interlocked
             return newValue;
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int32@-system-int32)
         public static int Or(ref int location1, int value)
         {
-            int current, newValue, original;
+            int current,
+                newValue,
+                original;
             do
             {
                 current = location1;
@@ -53,9 +61,12 @@ internal static class MemberPolyfills_Net50_Interlocked
             return newValue;
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int64@-system-int64)
         public static long Or(ref long location1, long value)
         {
-            long current, newValue, original;
+            long current,
+                newValue,
+                original;
             do
             {
                 current = location1;
@@ -66,7 +77,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             return newValue;
         }
 
-        // uint/ulong overloads use unsafe pointers
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)
         public static unsafe uint And(ref uint location1, uint value)
         {
             fixed (uint* ptr = &location1)
@@ -76,6 +87,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             }
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)
         public static unsafe ulong And(ref ulong location1, ulong value)
         {
             fixed (ulong* ptr = &location1)
@@ -85,6 +97,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             }
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint32@-system-uint32)
         public static unsafe uint Or(ref uint location1, uint value)
         {
             fixed (uint* ptr = &location1)
@@ -94,6 +107,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             }
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)
         public static unsafe ulong Or(ref ulong location1, ulong value)
         {
             fixed (ulong* ptr = &location1)
