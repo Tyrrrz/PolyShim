@@ -179,23 +179,33 @@ internal static class MemberPolyfills_NetCore10_Task
                 return tcs.Task;
             }
 
-            var timer = new Timer(
-                _ => tcs.TrySetResult(null),
+            Timer? timer = null;
+            CancellationTokenRegistration registration = default;
+
+            void CleanupAndSetResult()
+            {
+                registration.Dispose();
+                timer?.Dispose();
+                tcs.TrySetResult(null);
+            }
+
+            void CleanupAndSetCanceled()
+            {
+                registration.Dispose();
+                timer?.Dispose();
+                tcs.TrySetCanceled();
+            }
+
+            timer = new Timer(
+                _ => CleanupAndSetResult(),
                 null,
                 delay,
                 TimeSpan.FromMilliseconds(-1)
             );
 
-            var registration = cancellationToken.Register(() => tcs.TrySetCanceled());
+            registration = cancellationToken.Register(() => CleanupAndSetCanceled());
 
-            return tcs.Task.ContinueWith(
-                _ =>
-                {
-                    registration.Dispose();
-                    timer?.Dispose();
-                },
-                TaskContinuationOptions.ExecuteSynchronously
-            );
+            return tcs.Task;
         }
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)
