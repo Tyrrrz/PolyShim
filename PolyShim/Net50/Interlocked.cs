@@ -26,7 +26,7 @@ internal static class MemberPolyfills_Net50_Interlocked
                 original = Interlocked.CompareExchange(ref location1, newValue, current);
             } while (original != current);
 
-            return newValue;
+            return original;
         }
 
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int64@-system-int64)
@@ -42,7 +42,7 @@ internal static class MemberPolyfills_Net50_Interlocked
                 original = Interlocked.CompareExchange(ref location1, newValue, current);
             } while (original != current);
 
-            return newValue;
+            return original;
         }
 
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int32@-system-int32)
@@ -58,7 +58,7 @@ internal static class MemberPolyfills_Net50_Interlocked
                 original = Interlocked.CompareExchange(ref location1, newValue, current);
             } while (original != current);
 
-            return newValue;
+            return original;
         }
 
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int64@-system-int64)
@@ -74,7 +74,7 @@ internal static class MemberPolyfills_Net50_Interlocked
                 original = Interlocked.CompareExchange(ref location1, newValue, current);
             } while (original != current);
 
-            return newValue;
+            return original;
         }
 
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)
