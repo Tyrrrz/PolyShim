@@ -48,6 +48,8 @@ internal sealed class Timer(
         TimeSpan period
     )
     {
+        if (callback is null)
+            throw new ArgumentNullException(nameof(callback));
         if (dueTime != Timeout.InfiniteTimeSpan && dueTime < TimeSpan.Zero)
             throw new ArgumentOutOfRangeException(nameof(dueTime));
         if (period != Timeout.InfiniteTimeSpan && period < TimeSpan.Zero)
@@ -75,17 +77,14 @@ internal sealed class Timer(
 
             callback(state);
 
-            if (period == Timeout.InfiniteTimeSpan)
+            if (period == Timeout.InfiniteTimeSpan || period == TimeSpan.Zero)
                 return;
 
             while (!cts.IsCancellationRequested)
             {
                 try
                 {
-                    if (period > TimeSpan.Zero)
-                        await Task.Delay(period, cts.Token);
-                    else
-                        await Task.Yield();
+                    await Task.Delay(period, cts.Token);
                 }
                 catch (OperationCanceledException)
                 {
