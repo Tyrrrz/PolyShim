@@ -29,9 +29,9 @@ public class RandomTests
         var choices =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".ToCharArray();
 
-        // Act
         for (var i = 0; i < 100; i++)
         {
+            // Act
             var str = random.GetString(choices, 16);
 
             // Assert
@@ -51,9 +51,9 @@ public class RandomTests
         var random = new Random(0);
         var choices = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".AsSpan();
 
-        // Act
         for (var i = 0; i < 100; i++)
         {
+            // Act
             var str = random.GetString(choices, 16);
 
             // Assert

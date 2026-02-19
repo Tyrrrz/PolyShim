@@ -7,7 +7,7 @@ namespace PolyShim.Tests.Net60;
 public class RandomNumberGeneratorTests
 {
     [Fact]
-    public void GetBytes_Static_Test()
+    public void GetBytes_Test()
     {
         for (var i = 0; i < 100; i++)
         {

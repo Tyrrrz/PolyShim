@@ -16,13 +16,12 @@ internal static class MemberPolyfills_Net50_Interlocked
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int32@-system-int32)
         public static int And(ref int location1, int value)
         {
-            int current,
-                newValue,
-                original;
+            int current;
+            int original;
             do
             {
                 current = location1;
-                newValue = current & value;
+                var newValue = current & value;
                 original = Interlocked.CompareExchange(ref location1, newValue, current);
             } while (original != current);
 
@@ -37,7 +36,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             {
                 fixed (uint* ptr = &location1)
                 {
-                    int result = Interlocked.And(ref *(int*)ptr, *(int*)&value);
+                    var result = Interlocked.And(ref *(int*)ptr, *(int*)&value);
                     return *(uint*)&result;
                 }
             }
@@ -47,13 +46,12 @@ internal static class MemberPolyfills_Net50_Interlocked
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int64@-system-int64)
         public static long And(ref long location1, long value)
         {
-            long current,
-                newValue,
-                original;
+            long current;
+            long original;
             do
             {
                 current = location1;
-                newValue = current & value;
+                var newValue = current & value;
                 original = Interlocked.CompareExchange(ref location1, newValue, current);
             } while (original != current);
 
@@ -68,7 +66,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             {
                 fixed (ulong* ptr = &location1)
                 {
-                    long result = Interlocked.And(ref *(long*)ptr, *(long*)&value);
+                    var result = Interlocked.And(ref *(long*)ptr, *(long*)&value);
                     return *(ulong*)&result;
                 }
             }
@@ -78,13 +76,12 @@ internal static class MemberPolyfills_Net50_Interlocked
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int32@-system-int32)
         public static int Or(ref int location1, int value)
         {
-            int current,
-                newValue,
-                original;
+            int current;
+            int original;
             do
             {
                 current = location1;
-                newValue = current | value;
+                var newValue = current | value;
                 original = Interlocked.CompareExchange(ref location1, newValue, current);
             } while (original != current);
 
@@ -99,7 +96,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             {
                 fixed (uint* ptr = &location1)
                 {
-                    int result = Interlocked.Or(ref *(int*)ptr, *(int*)&value);
+                    var result = Interlocked.Or(ref *(int*)ptr, *(int*)&value);
                     return *(uint*)&result;
                 }
             }
@@ -109,13 +106,12 @@ internal static class MemberPolyfills_Net50_Interlocked
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int64@-system-int64)
         public static long Or(ref long location1, long value)
         {
-            long current,
-                newValue,
-                original;
+            long current;
+            long original;
             do
             {
                 current = location1;
-                newValue = current | value;
+                var newValue = current | value;
                 original = Interlocked.CompareExchange(ref location1, newValue, current);
             } while (original != current);
 
@@ -130,7 +126,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             {
                 fixed (ulong* ptr = &location1)
                 {
-                    long result = Interlocked.Or(ref *(long*)ptr, *(long*)&value);
+                    var result = Interlocked.Or(ref *(long*)ptr, *(long*)&value);
                     return *(ulong*)&result;
                 }
             }

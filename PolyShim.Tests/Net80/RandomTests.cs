@@ -13,9 +13,9 @@ public class RandomTests
         var random = new Random(0);
         var choices = new[] { 1, 2, 3, 4, 5 };
 
-        // Act
         for (var i = 0; i < 100; i++)
         {
+            // Act
             var items = random.GetItems(choices, 3);
 
             // Assert
@@ -35,9 +35,9 @@ public class RandomTests
         var random = new Random(0);
         var originalItems = new[] { 1, 2, 3, 4, 5 };
 
-        // Act
         for (var i = 0; i < 100; i++)
         {
+            // Act
             var items = (int[])originalItems.Clone();
             random.Shuffle(items);
 

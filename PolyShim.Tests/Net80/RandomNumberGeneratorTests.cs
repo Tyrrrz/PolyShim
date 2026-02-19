@@ -66,7 +66,7 @@ public class RandomNumberGeneratorTests
     {
         // Arrange
         var choices = new[] { 1, 2, 3, 4, 5 }.AsSpan();
-        var destination = new Span<int>(new int[3]);
+        var destination = new int[3].AsSpan();
 
         for (var i = 0; i < 100; i++)
         {
@@ -92,7 +92,7 @@ public class RandomNumberGeneratorTests
         for (var i = 0; i < 100; i++)
         {
             // Act
-            var items = new Span<int>((int[])originalItems.Clone());
+            var items = ((int[])originalItems.Clone()).AsSpan();
             RandomNumberGenerator.Shuffle(items);
 
             // Assert

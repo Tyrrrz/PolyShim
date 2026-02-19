@@ -8,12 +8,12 @@ namespace PolyShim.Tests.NetCore21;
 public class RandomNumberGeneratorTests
 {
     [Fact]
-    public void Fill_Span_Test()
+    public void Fill_Test()
     {
         for (var i = 0; i < 100; i++)
         {
             // Arrange
-            var span = new Span<byte>(new byte[16]);
+            var span = new byte[16].AsSpan();
 
             // Act
             RandomNumberGenerator.Fill(span);
@@ -27,7 +27,7 @@ public class RandomNumberGeneratorTests
     }
 
     [Fact]
-    public void Fill_EmptySpan_Test()
+    public void Fill_Empty_Test()
     {
         // Arrange
         var span = new Span<byte>();
@@ -44,7 +44,7 @@ public class RandomNumberGeneratorTests
         {
             // Arrange
             using var rng = RandomNumberGenerator.Create();
-            var span = new Span<byte>(new byte[16]);
+            var span = new byte[16].AsSpan();
 
             // Act
             rng.GetBytes(span);
@@ -55,7 +55,7 @@ public class RandomNumberGeneratorTests
     }
 
     [Fact]
-    public void GetBytes_EmptySpan_Test()
+    public void GetBytes_Span_Empty_Test()
     {
         // Arrange
         using var rng = RandomNumberGenerator.Create();
@@ -73,13 +73,13 @@ public class RandomNumberGeneratorTests
         {
             // Arrange
             using var rng = RandomNumberGenerator.Create();
-            var data = new Span<byte>(new byte[10]);
+            var data = new byte[10].AsSpan();
 
             // Act
             rng.GetNonZeroBytes(data);
 
             // Assert
-            data.ToArray().Should().NotContain((byte)0);
+            data.ToArray().Should().NotContain(0);
         }
     }
 }
