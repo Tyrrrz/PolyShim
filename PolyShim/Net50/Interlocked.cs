@@ -31,12 +31,15 @@ internal static class MemberPolyfills_Net50_Interlocked
 
 #if ALLOW_UNSAFE_BLOCKS
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)
-        public static unsafe uint And(ref uint location1, uint value)
+        public static uint And(ref uint location1, uint value)
         {
-            fixed (uint* ptr = &location1)
+            unsafe
             {
-                int result = Interlocked.And(ref *(int*)ptr, *(int*)&value);
-                return *(uint*)&result;
+                fixed (uint* ptr = &location1)
+                {
+                    int result = Interlocked.And(ref *(int*)ptr, *(int*)&value);
+                    return *(uint*)&result;
+                }
             }
         }
 #endif
@@ -59,12 +62,15 @@ internal static class MemberPolyfills_Net50_Interlocked
 
 #if ALLOW_UNSAFE_BLOCKS
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)
-        public static unsafe ulong And(ref ulong location1, ulong value)
+        public static ulong And(ref ulong location1, ulong value)
         {
-            fixed (ulong* ptr = &location1)
+            unsafe
             {
-                long result = Interlocked.And(ref *(long*)ptr, *(long*)&value);
-                return *(ulong*)&result;
+                fixed (ulong* ptr = &location1)
+                {
+                    long result = Interlocked.And(ref *(long*)ptr, *(long*)&value);
+                    return *(ulong*)&result;
+                }
             }
         }
 #endif
@@ -87,12 +93,15 @@ internal static class MemberPolyfills_Net50_Interlocked
 
 #if ALLOW_UNSAFE_BLOCKS
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint32@-system-uint32)
-        public static unsafe uint Or(ref uint location1, uint value)
+        public static uint Or(ref uint location1, uint value)
         {
-            fixed (uint* ptr = &location1)
+            unsafe
             {
-                int result = Interlocked.Or(ref *(int*)ptr, *(int*)&value);
-                return *(uint*)&result;
+                fixed (uint* ptr = &location1)
+                {
+                    int result = Interlocked.Or(ref *(int*)ptr, *(int*)&value);
+                    return *(uint*)&result;
+                }
             }
         }
 #endif
@@ -115,12 +124,15 @@ internal static class MemberPolyfills_Net50_Interlocked
 
 #if ALLOW_UNSAFE_BLOCKS
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)
-        public static unsafe ulong Or(ref ulong location1, ulong value)
+        public static ulong Or(ref ulong location1, ulong value)
         {
-            fixed (ulong* ptr = &location1)
+            unsafe
             {
-                long result = Interlocked.Or(ref *(long*)ptr, *(long*)&value);
-                return *(ulong*)&result;
+                fixed (ulong* ptr = &location1)
+                {
+                    long result = Interlocked.Or(ref *(long*)ptr, *(long*)&value);
+                    return *(ulong*)&result;
+                }
             }
         }
 #endif
