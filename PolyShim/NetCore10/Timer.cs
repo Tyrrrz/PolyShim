@@ -12,19 +12,15 @@ namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.timer
 [ExcludeFromCodeCoverage]
-internal sealed class Timer : IDisposable
+internal sealed class Timer(
+    TimerCallback callback,
+    object? state,
+    TimeSpan dueTime,
+    TimeSpan period
+) : IDisposable
 {
-    private readonly TimerCallback _callback;
-    private readonly object? _state;
-    private CancellationTokenSource _cts = new CancellationTokenSource();
+    private CancellationTokenSource _cts = CreateAndStart(callback, state, dueTime, period);
     private volatile bool _disposed;
-
-    public Timer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
-    {
-        _callback = callback;
-        _state = state;
-        Schedule(dueTime, period);
-    }
 
     public Timer(TimerCallback callback, object? state, int dueTime, int period)
         : this(
@@ -45,18 +41,26 @@ internal sealed class Timer : IDisposable
     public Timer(TimerCallback callback)
         : this(callback, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan) { }
 
-    private void Schedule(TimeSpan dueTime, TimeSpan period)
+    private static void ValidateTimes(TimeSpan dueTime, TimeSpan period)
     {
-        if (_disposed)
-            throw new ObjectDisposedException(nameof(Timer));
+        if (dueTime != Timeout.InfiniteTimeSpan && dueTime < TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(dueTime));
+        if (period != Timeout.InfiniteTimeSpan && period < TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(period));
+    }
 
+    private static CancellationTokenSource CreateAndStart(
+        TimerCallback callback,
+        object? state,
+        TimeSpan dueTime,
+        TimeSpan period
+    )
+    {
+        ValidateTimes(dueTime, period);
         var cts = new CancellationTokenSource();
-        var oldCts = Interlocked.Exchange(ref _cts, cts);
-        oldCts.Cancel();
-        oldCts.Dispose();
 
         if (dueTime == Timeout.InfiniteTimeSpan)
-            return;
+            return cts;
 
         _ = Task.Run(async () =>
         {
@@ -68,36 +72,45 @@ internal sealed class Timer : IDisposable
                 if (cts.IsCancellationRequested)
                     return;
 
-                _callback(_state);
+                callback(state);
 
-                if (period == Timeout.InfiniteTimeSpan || period <= TimeSpan.Zero)
+                if (period == Timeout.InfiniteTimeSpan)
                     return;
 
                 while (!cts.IsCancellationRequested)
                 {
-                    await Task.Delay(period, cts.Token);
+                    if (period > TimeSpan.Zero)
+                        await Task.Delay(period, cts.Token);
+                    else
+                        await Task.Yield();
 
                     if (cts.IsCancellationRequested)
                         return;
 
-                    _callback(_state);
+                    callback(state);
                 }
             }
             catch (OperationCanceledException) { }
         });
+
+        return cts;
+    }
+
+    private void Schedule(TimeSpan dueTime, TimeSpan period)
+    {
+        if (_disposed)
+            throw new ObjectDisposedException(nameof(Timer));
+
+        var cts = CreateAndStart(callback, state, dueTime, period);
+        var oldCts = Interlocked.Exchange(ref _cts, cts);
+        oldCts.Cancel();
+        oldCts.Dispose();
     }
 
     public bool Change(TimeSpan dueTime, TimeSpan period)
     {
-        try
-        {
-            Schedule(dueTime, period);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        Schedule(dueTime, period);
+        return true;
     }
 
     public bool Change(int dueTime, int period) =>
@@ -110,6 +123,7 @@ internal sealed class Timer : IDisposable
     {
         if (_disposed)
             return;
+
         _disposed = true;
         var cts = Interlocked.Exchange(ref _cts, new CancellationTokenSource());
         cts.Cancel();
