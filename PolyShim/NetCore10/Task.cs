@@ -35,7 +35,21 @@ internal static class MemberPolyfills_NetCore10_Task
 
             return tcs.Task;
         }
+#endif
 
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
+        public static Task<T> FromCanceled<T>(CancellationToken cancellationToken)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            tcs.TrySetCanceled(cancellationToken);
+            return tcs.Task;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled
+        public static Task FromCanceled(CancellationToken cancellationToken) =>
+            Task.FromCanceled<object>(cancellationToken);
+
+#if NETFRAMEWORK && !NET45_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)
         public static Task Run(Action action, CancellationToken cancellationToken) =>
             Task.Factory.StartNew(
@@ -149,6 +163,54 @@ internal static class MemberPolyfills_NetCore10_Task
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany-1(system-threading-tasks-task((-0))())
         public static Task<Task<T>> WhenAny<T>(params Task<T>[] tasks) =>
             WhenAny((IEnumerable<Task<T>>)tasks);
+#endif
+
+#if NETFRAMEWORK && !NET45_OR_GREATER
+        // Timer is not available on .NET Standard 1.0 and 1.1
+#if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)
+        public static Task Delay(TimeSpan delay, CancellationToken cancellationToken)
+        {
+            var tcs = new TaskCompletionSource<object?>();
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                tcs.SetCanceled();
+                return tcs.Task;
+            }
+
+            Timer? timer = null;
+            CancellationTokenRegistration registration = default;
+
+            void CleanupAndSetResult()
+            {
+                registration.Dispose();
+                timer?.Dispose();
+                tcs.TrySetResult(null);
+            }
+
+            void CleanupAndSetCanceled()
+            {
+                registration.Dispose();
+                timer?.Dispose();
+                tcs.TrySetCanceled();
+            }
+
+            timer = new Timer(
+                _ => CleanupAndSetResult(),
+                null,
+                delay,
+                TimeSpan.FromMilliseconds(-1)
+            );
+
+            registration = cancellationToken.Register(() => CleanupAndSetCanceled());
+
+            return tcs.Task;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)
+        public static Task Delay(TimeSpan delay) => Task.Delay(delay, CancellationToken.None);
+#endif
 #endif
     }
 }

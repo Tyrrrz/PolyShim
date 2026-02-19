@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 355
-- **Types:** 76
-- **Members:** 279
+- **Total:** 364
+- **Types:** 78
+- **Members:** 286
 
 ___
 
@@ -187,6 +187,8 @@ ___
   - [`TValue? GetValueOrDefault(TKey)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0)) <sup><sub>.NET Core 2.0</sub></sup>
 - `IsExternalInit`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.isexternalinit) <sup><sub>.NET 5.0</sub></sup>
+- `ITimer`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.itimer) <sup><sub>.NET 8.0</sub></sup>
 - `KeyValuePair<TKey, TValue>`
   - [`void Deconstruct(out TKey, out TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `LibraryImportAttribute`
@@ -334,6 +336,9 @@ ___
   - [`bool SequenceEqual(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int IndexOf(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-span((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Reverse()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.reverse#system-memoryextensions-reverse-1(system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `Stopwatch`
+  - [`TimeSpan GetElapsedTime(long, long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64-system-int64)) <sup><sub>.NET 7.0</sub></sup>
+  - [`TimeSpan GetElapsedTime(long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64)) <sup><sub>.NET 7.0</sub></sup>
 - `Stream`
   - [`int Read(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.read#system-io-stream-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int ReadAtLeast(Span<byte>, int, bool)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast) <sup><sub>.NET 7.0</sub></sup>
@@ -401,6 +406,9 @@ ___
   - [`IAsyncEnumerable<Task> WhenEach(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET 9.0</sub></sup>
   - [`IAsyncEnumerable<Task> WhenEach(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-threading-tasks-task())) <sup><sub>.NET 9.0</sub></sup>
   - [`Task CompletedTask`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task Delay(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task Delay(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task FromCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task Run(Action, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task Run(Action)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task Run(Func<Task>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
@@ -413,6 +421,7 @@ ___
   - [`Task<T?> FromResult<T>(T?)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T[]> WhenAll<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T[]> WhenAll<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-threading-tasks-task((-0))())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<T> FromCanceled<T>(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T> Run<T>(Func<T>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T> Run<T>(Func<T>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0)))) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<T> Run<T>(Func<Task<T>>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0))))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
@@ -441,6 +450,10 @@ ___
   - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `ThreadAbortException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.threadabortexception) <sup><sub>.NET Core 2.0</sub></sup>
+- `TimeProvider`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.timeprovider) <sup><sub>.NET 8.0</sub></sup>
+- `Timer`
+  - [`ValueTask DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.timer.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
 - `TimeSpan`
   - [`TimeSpan FromMilliseconds(long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
   - [`TimeSpan FromMilliseconds(long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64)) <sup><sub>.NET 10.0</sub></sup>
