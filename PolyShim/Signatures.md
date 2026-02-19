@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 364
+- **Total:** 372
 - **Types:** 78
-- **Members:** 286
+- **Members:** 294
 
 ___
 
@@ -175,6 +175,15 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.index) <sup><sub>.NET Core 3.0</sub></sup>
 - `int`
   - [`bool TryParse(string, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
+- `Interlocked`
+  - [`int And(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`int Or(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`long And(ref long, long)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int64@-system-int64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`long Or(ref long, long)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int64@-system-int64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`uint And(ref uint, uint)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`uint Or(ref uint, uint)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint32@-system-uint32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`ulong And(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`ulong Or(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
 - `IntPtr`
   - [`bool TryParse(string, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-intptr@)) <sup><sub>.NET 5.0</sub></sup>
