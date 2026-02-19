@@ -105,7 +105,13 @@ internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
         var cts = new CancellationTokenSource();
         var token = cts.Token;
         var oldCts = Interlocked.Exchange(ref _cts, cts);
-        oldCts?.Cancel();
+
+        try
+        {
+            oldCts?.Cancel();
+        }
+        catch (ObjectDisposedException) { }
+
         oldCts?.Dispose();
 
         Start(callback, state, dueTime, period, token);
