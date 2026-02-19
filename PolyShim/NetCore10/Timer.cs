@@ -111,6 +111,15 @@ internal sealed class Timer(
         var oldCts = Interlocked.Exchange(ref _cts, cts);
         oldCts.Cancel();
         oldCts.Dispose();
+
+        // Handle race where Dispose completes after the initial _disposed check
+        // but before/just after the exchange: ensure the newly created CTS
+        // is also cancelled and disposed so it doesn't leak or keep firing.
+        if (_disposed)
+        {
+            cts.Cancel();
+            cts.Dispose();
+        }
     }
 
     public bool Change(TimeSpan dueTime, TimeSpan period)
