@@ -19,7 +19,7 @@ internal sealed class Timer(
     TimeSpan period
 ) : IDisposable
 {
-    private CancellationTokenSource _cts = CreateAndStart(callback, state, dueTime, period);
+    private CancellationTokenSource _cts = CreateAndSchedule(callback, state, dueTime, period);
     private volatile bool _disposed;
 
     public Timer(TimerCallback callback, object? state, int dueTime, int period)
@@ -41,7 +41,57 @@ internal sealed class Timer(
     public Timer(TimerCallback callback)
         : this(callback, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan) { }
 
-    private static CancellationTokenSource CreateAndStart(
+    private static void Start(
+        TimerCallback callback,
+        object? state,
+        TimeSpan dueTime,
+        TimeSpan period,
+        CancellationToken cancellationToken
+    )
+    {
+        if (dueTime == Timeout.InfiniteTimeSpan)
+            return;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                if (dueTime > TimeSpan.Zero)
+                    await Task.Delay(dueTime, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
+            callback(state);
+
+            if (period == Timeout.InfiniteTimeSpan || period == TimeSpan.Zero)
+                return;
+
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                try
+                {
+                    await Task.Delay(period, cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
+                callback(state);
+            }
+        });
+    }
+
+    private static CancellationTokenSource CreateAndSchedule(
         TimerCallback callback,
         object? state,
         TimeSpan dueTime,
@@ -56,48 +106,7 @@ internal sealed class Timer(
             throw new ArgumentOutOfRangeException(nameof(period));
 
         var cts = new CancellationTokenSource();
-
-        if (dueTime == Timeout.InfiniteTimeSpan)
-            return cts;
-
-        _ = Task.Run(async () =>
-        {
-            try
-            {
-                if (dueTime > TimeSpan.Zero)
-                    await Task.Delay(dueTime, cts.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                return;
-            }
-
-            if (cts.IsCancellationRequested)
-                return;
-
-            callback(state);
-
-            if (period == Timeout.InfiniteTimeSpan || period == TimeSpan.Zero)
-                return;
-
-            while (!cts.IsCancellationRequested)
-            {
-                try
-                {
-                    await Task.Delay(period, cts.Token);
-                }
-                catch (OperationCanceledException)
-                {
-                    return;
-                }
-
-                if (cts.IsCancellationRequested)
-                    return;
-
-                callback(state);
-            }
-        });
-
+        Start(callback, state, dueTime, period, cts.Token);
         return cts;
     }
 
@@ -106,7 +115,7 @@ internal sealed class Timer(
         if (_disposed)
             throw new ObjectDisposedException(nameof(Timer));
 
-        var cts = CreateAndStart(callback, state, dueTime, period);
+        var cts = CreateAndSchedule(callback, state, dueTime, period);
         var oldCts = Interlocked.Exchange(ref _cts, cts);
         oldCts.Cancel();
         oldCts.Dispose();
