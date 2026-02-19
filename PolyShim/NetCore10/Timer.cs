@@ -19,7 +19,7 @@ internal sealed class Timer(
     TimeSpan period
 ) : IDisposable
 {
-    private CancellationTokenSource _cts = CreateAndSchedule(callback, state, dueTime, period);
+    private CancellationTokenSource _cts = CreateCts(callback, state, dueTime, period);
     private volatile bool _disposed;
 
     public Timer(TimerCallback callback, object? state, int dueTime, int period)
@@ -91,7 +91,7 @@ internal sealed class Timer(
         });
     }
 
-    private static CancellationTokenSource CreateAndSchedule(
+    private static CancellationTokenSource CreateCts(
         TimerCallback callback,
         object? state,
         TimeSpan dueTime,
@@ -115,7 +115,13 @@ internal sealed class Timer(
         if (_disposed)
             throw new ObjectDisposedException(nameof(Timer));
 
-        var cts = CreateAndSchedule(callback, state, dueTime, period);
+        if (dueTime != Timeout.InfiniteTimeSpan && dueTime < TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(dueTime));
+        if (period != Timeout.InfiniteTimeSpan && period < TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(period));
+
+        var cts = new CancellationTokenSource();
+        Start(callback, state, dueTime, period, cts.Token);
         var oldCts = Interlocked.Exchange(ref _cts, cts);
         oldCts.Cancel();
         oldCts.Dispose();
