@@ -41,14 +41,6 @@ internal sealed class Timer(
     public Timer(TimerCallback callback)
         : this(callback, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan) { }
 
-    private static void ValidateTimes(TimeSpan dueTime, TimeSpan period)
-    {
-        if (dueTime != Timeout.InfiniteTimeSpan && dueTime < TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(dueTime));
-        if (period != Timeout.InfiniteTimeSpan && period < TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(period));
-    }
-
     private static CancellationTokenSource CreateAndStart(
         TimerCallback callback,
         object? state,
@@ -56,7 +48,11 @@ internal sealed class Timer(
         TimeSpan period
     )
     {
-        ValidateTimes(dueTime, period);
+        if (dueTime != Timeout.InfiniteTimeSpan && dueTime < TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(dueTime));
+        if (period != Timeout.InfiniteTimeSpan && period < TimeSpan.Zero)
+            throw new ArgumentOutOfRangeException(nameof(period));
+
         var cts = new CancellationTokenSource();
 
         if (dueTime == Timeout.InfiniteTimeSpan)
@@ -135,9 +131,8 @@ internal sealed class Timer(
             return;
 
         _disposed = true;
-        var cts = Interlocked.Exchange(ref _cts, new CancellationTokenSource());
-        cts.Cancel();
-        cts.Dispose();
+        _cts.Cancel();
+        _cts.Dispose();
     }
 }
 #endif
