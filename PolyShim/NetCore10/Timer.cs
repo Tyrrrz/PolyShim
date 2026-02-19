@@ -103,10 +103,11 @@ internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
             throw new ArgumentOutOfRangeException(nameof(period));
 
         var cts = new CancellationTokenSource();
-        Start(callback, state, dueTime, period, cts.Token);
         var oldCts = Interlocked.Exchange(ref _cts, cts);
         oldCts?.Cancel();
         oldCts?.Dispose();
+
+        Start(callback, state, dueTime, period, cts.Token);
 
         // Handle race where Dispose completes after the initial _disposed check
         // but before/just after the exchange: ensure the newly created CTS
