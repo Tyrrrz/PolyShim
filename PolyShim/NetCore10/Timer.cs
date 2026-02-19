@@ -115,7 +115,12 @@ internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
         // is also cancelled and disposed so it doesn't leak or keep firing.
         if (_disposed)
         {
-            cts.Cancel();
+            try
+            {
+                cts.Cancel();
+            }
+            catch (ObjectDisposedException) { }
+
             cts.Dispose();
         }
     }
