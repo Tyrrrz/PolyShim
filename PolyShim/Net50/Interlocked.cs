@@ -29,6 +29,18 @@ internal static class MemberPolyfills_Net50_Interlocked
             return original;
         }
 
+#if ALLOW_UNSAFE_BLOCKS
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)
+        public static unsafe uint And(ref uint location1, uint value)
+        {
+            fixed (uint* ptr = &location1)
+            {
+                int result = Interlocked.And(ref *(int*)ptr, *(int*)&value);
+                return *(uint*)&result;
+            }
+        }
+#endif
+
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int64@-system-int64)
         public static long And(ref long location1, long value)
         {
@@ -44,6 +56,18 @@ internal static class MemberPolyfills_Net50_Interlocked
 
             return original;
         }
+
+#if ALLOW_UNSAFE_BLOCKS
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)
+        public static unsafe ulong And(ref ulong location1, ulong value)
+        {
+            fixed (ulong* ptr = &location1)
+            {
+                long result = Interlocked.And(ref *(long*)ptr, *(long*)&value);
+                return *(ulong*)&result;
+            }
+        }
+#endif
 
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int32@-system-int32)
         public static int Or(ref int location1, int value)
@@ -61,6 +85,18 @@ internal static class MemberPolyfills_Net50_Interlocked
             return original;
         }
 
+#if ALLOW_UNSAFE_BLOCKS
+        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint32@-system-uint32)
+        public static unsafe uint Or(ref uint location1, uint value)
+        {
+            fixed (uint* ptr = &location1)
+            {
+                int result = Interlocked.Or(ref *(int*)ptr, *(int*)&value);
+                return *(uint*)&result;
+            }
+        }
+#endif
+
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int64@-system-int64)
         public static long Or(ref long location1, long value)
         {
@@ -77,36 +113,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             return original;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)
-        public static unsafe uint And(ref uint location1, uint value)
-        {
-            fixed (uint* ptr = &location1)
-            {
-                int result = Interlocked.And(ref *(int*)ptr, *(int*)&value);
-                return *(uint*)&result;
-            }
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)
-        public static unsafe ulong And(ref ulong location1, ulong value)
-        {
-            fixed (ulong* ptr = &location1)
-            {
-                long result = Interlocked.And(ref *(long*)ptr, *(long*)&value);
-                return *(ulong*)&result;
-            }
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint32@-system-uint32)
-        public static unsafe uint Or(ref uint location1, uint value)
-        {
-            fixed (uint* ptr = &location1)
-            {
-                int result = Interlocked.Or(ref *(int*)ptr, *(int*)&value);
-                return *(uint*)&result;
-            }
-        }
-
+#if ALLOW_UNSAFE_BLOCKS
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)
         public static unsafe ulong Or(ref ulong location1, ulong value)
         {
@@ -116,6 +123,7 @@ internal static class MemberPolyfills_Net50_Interlocked
                 return *(ulong*)&result;
             }
         }
+#endif
     }
 }
 

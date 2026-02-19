@@ -7,7 +7,7 @@ namespace PolyShim.Tests.Net50;
 public class InterlockedTests
 {
     [Fact]
-    public void And_SupportsVariousIntegerTypes()
+    public void And_Test()
     {
         // uint
         uint ui = 0xFFFFFFFF;
@@ -34,7 +34,7 @@ public class InterlockedTests
     }
 
     [Fact]
-    public void Or_SupportsVariousIntegerTypes()
+    public void Or_Test()
     {
         // uint
         uint ui = 0x0000FFFF;
