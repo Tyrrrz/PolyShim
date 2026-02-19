@@ -166,8 +166,6 @@ internal static class MemberPolyfills_NetCore10_Task
 #endif
 
 #if NETFRAMEWORK && !NET45_OR_GREATER
-        // Timer is not available on .NET Standard 1.0 and 1.1
-#if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)
         public static Task Delay(TimeSpan delay, CancellationToken cancellationToken)
         {
@@ -210,7 +208,6 @@ internal static class MemberPolyfills_NetCore10_Task
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)
         public static Task Delay(TimeSpan delay) => Task.Delay(delay, CancellationToken.None);
-#endif
 #endif
     }
 }
