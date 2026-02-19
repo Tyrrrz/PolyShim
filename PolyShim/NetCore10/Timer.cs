@@ -68,29 +68,39 @@ internal sealed class Timer(
             {
                 if (dueTime > TimeSpan.Zero)
                     await Task.Delay(dueTime, cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
 
-                if (cts.IsCancellationRequested)
-                    return;
+            if (cts.IsCancellationRequested)
+                return;
 
-                callback(state);
+            callback(state);
 
-                if (period == Timeout.InfiniteTimeSpan)
-                    return;
+            if (period == Timeout.InfiniteTimeSpan)
+                return;
 
-                while (!cts.IsCancellationRequested)
+            while (!cts.IsCancellationRequested)
+            {
+                try
                 {
                     if (period > TimeSpan.Zero)
                         await Task.Delay(period, cts.Token);
                     else
                         await Task.Yield();
-
-                    if (cts.IsCancellationRequested)
-                        return;
-
-                    callback(state);
                 }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+
+                if (cts.IsCancellationRequested)
+                    return;
+
+                callback(state);
             }
-            catch (OperationCanceledException) { }
         });
 
         return cts;
