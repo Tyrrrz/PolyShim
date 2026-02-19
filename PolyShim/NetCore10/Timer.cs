@@ -12,15 +12,16 @@ namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.timer
 [ExcludeFromCodeCoverage]
-internal sealed class Timer(
-    TimerCallback callback,
-    object? state,
-    TimeSpan dueTime,
-    TimeSpan period
-) : IDisposable
+internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
 {
-    private CancellationTokenSource _cts = CreateCts(callback, state, dueTime, period);
+    private CancellationTokenSource? _cts;
     private volatile bool _disposed;
+
+    public Timer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
+        : this(callback ?? throw new ArgumentNullException(nameof(callback)), state)
+    {
+        Schedule(dueTime, period);
+    }
 
     public Timer(TimerCallback callback, object? state, int dueTime, int period)
         : this(
@@ -91,25 +92,6 @@ internal sealed class Timer(
         });
     }
 
-    private static CancellationTokenSource CreateCts(
-        TimerCallback callback,
-        object? state,
-        TimeSpan dueTime,
-        TimeSpan period
-    )
-    {
-        if (callback is null)
-            throw new ArgumentNullException(nameof(callback));
-        if (dueTime != Timeout.InfiniteTimeSpan && dueTime < TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(dueTime));
-        if (period != Timeout.InfiniteTimeSpan && period < TimeSpan.Zero)
-            throw new ArgumentOutOfRangeException(nameof(period));
-
-        var cts = new CancellationTokenSource();
-        Start(callback, state, dueTime, period, cts.Token);
-        return cts;
-    }
-
     private void Schedule(TimeSpan dueTime, TimeSpan period)
     {
         if (_disposed)
@@ -123,8 +105,8 @@ internal sealed class Timer(
         var cts = new CancellationTokenSource();
         Start(callback, state, dueTime, period, cts.Token);
         var oldCts = Interlocked.Exchange(ref _cts, cts);
-        oldCts.Cancel();
-        oldCts.Dispose();
+        oldCts?.Cancel();
+        oldCts?.Dispose();
 
         // Handle race where Dispose completes after the initial _disposed check
         // but before/just after the exchange: ensure the newly created CTS
@@ -154,8 +136,8 @@ internal sealed class Timer(
             return;
 
         _disposed = true;
-        _cts.Cancel();
-        _cts.Dispose();
+        _cts?.Cancel();
+        _cts?.Dispose();
     }
 }
 #endif
