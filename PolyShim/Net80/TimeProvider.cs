@@ -40,21 +40,18 @@ internal abstract class TimeProvider
     public TimeSpan GetElapsedTime(long startingTimestamp) =>
         GetElapsedTime(startingTimestamp, GetTimestamp());
 
-#if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
     public virtual ITimer CreateTimer(
         TimerCallback callback,
         object? state,
         TimeSpan dueTime,
         TimeSpan period
     ) => new SystemTimeProviderTimer(dueTime, period, callback, state);
-#endif
 
     private sealed class SystemTimeProvider : TimeProvider
     {
         public override TimeZoneInfo LocalTimeZone => TimeZoneInfo.Local;
     }
 
-#if !(NETSTANDARD && !NETSTANDARD1_2_OR_GREATER)
     private sealed class SystemTimeProviderTimer : ITimer
     {
         private readonly Timer _timer;
@@ -90,6 +87,5 @@ internal abstract class TimeProvider
         public ValueTask DisposeAsync() => _timer.DisposeAsync();
 #endif
     }
-#endif
 }
 #endif

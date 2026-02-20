@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 372
-- **Types:** 78
+- **Total:** 373
+- **Types:** 79
 - **Members:** 294
 
 ___
@@ -462,6 +462,7 @@ ___
 - `TimeProvider`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.timeprovider) <sup><sub>.NET 8.0</sub></sup>
 - `Timer`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.timer) <sup><sub>.NET Core 1.0</sub></sup>
   - [`ValueTask DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.timer.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
 - `TimeSpan`
   - [`TimeSpan FromMilliseconds(long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
