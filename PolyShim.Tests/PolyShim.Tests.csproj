@@ -24,7 +24,7 @@
   <PropertyGroup>
     <!-- Enable coverage collection for referenced polyfills -->
     <DefineConstants>$(DefineConstants);POLYFILL_COVERAGE</DefineConstants>
-    <RunSettingsFilePath>$(MSBuildThisFileDirectory)PolyShim.Tests.runsettings</RunSettingsFilePath>
+    <RunSettingsFilePath>PolyShim.Tests.runsettings</RunSettingsFilePath>
   </PropertyGroup>
 
   <PropertyGroup>
