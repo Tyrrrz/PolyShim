@@ -7,7 +7,6 @@
 
 using System;
 using System.Buffers;
-using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
@@ -56,7 +55,7 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
                 var hex = lowercase
                     ? Convert.ToHexStringLower(bytes, 0, byteCount)
                     : Convert.ToHexString(bytes, 0, byteCount);
-                return hex.Substring(0, stringLength);
+                return hex.Length == stringLength ? hex : hex.Substring(0, stringLength);
             }
             finally
             {
@@ -67,15 +66,18 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring
         public static string GetString(ReadOnlySpan<char> choices, int length)
         {
-            var buffer = new StringBuilder(length);
-
-            for (var i = 0; i < length; i++)
+            var chars = ArrayPool<char>.Shared.Rent(length);
+            try
             {
-                var index = RandomNumberGenerator.GetInt32(choices.Length);
-                buffer.Append(choices[index]);
-            }
+                for (var i = 0; i < length; i++)
+                    chars[i] = choices[RandomNumberGenerator.GetInt32(choices.Length)];
 
-            return buffer.ToString();
+                return new string(chars, 0, length);
+            }
+            finally
+            {
+                ArrayPool<char>.Shared.Return(chars);
+            }
         }
     }
 }

@@ -6,6 +6,7 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
@@ -16,9 +17,19 @@ internal static class MemberPolyfills_NetCore21_Random
         // https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
         public void NextBytes(Span<byte> buffer)
         {
-            var bufferArray = buffer.ToArray();
-            random.NextBytes(bufferArray);
-            bufferArray.CopyTo(buffer);
+            if (buffer.IsEmpty)
+                return;
+
+            var bufferArray = ArrayPool<byte>.Shared.Rent(buffer.Length);
+            try
+            {
+                random.NextBytes(bufferArray);
+                bufferArray.AsSpan(0, buffer.Length).CopyTo(buffer);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(bufferArray);
+            }
         }
     }
 }

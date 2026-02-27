@@ -6,6 +6,7 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 
 file static class RandomEx
@@ -32,15 +33,22 @@ internal static class MemberPolyfills_Net60_Random
 
             var range = (ulong)(maxValue - minValue);
 
-            ulong ulongRand;
-            do
+            var buffer = ArrayPool<byte>.Shared.Rent(8);
+            try
             {
-                var buffer = new byte[8];
-                random.NextBytes(buffer);
-                ulongRand = BitConverter.ToUInt64(buffer, 0);
-            } while (ulongRand > ulong.MaxValue - (ulong.MaxValue % range + 1) % range);
+                ulong ulongRand;
+                do
+                {
+                    random.NextBytes(buffer);
+                    ulongRand = BitConverter.ToUInt64(buffer, 0);
+                } while (ulongRand > ulong.MaxValue - (ulong.MaxValue % range + 1) % range);
 
-            return (long)(ulongRand % range) + minValue;
+                return (long)(ulongRand % range) + minValue;
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64)
@@ -52,11 +60,17 @@ internal static class MemberPolyfills_Net60_Random
         // https://learn.microsoft.com/dotnet/api/system.random.nextsingle
         public float NextSingle()
         {
-            var buffer = new byte[4];
-            random.NextBytes(buffer);
-            var uintValue = BitConverter.ToUInt32(buffer, 0);
-
-            return (uintValue >> 8) * (1.0f / (1u << 24));
+            var buffer = ArrayPool<byte>.Shared.Rent(4);
+            try
+            {
+                random.NextBytes(buffer);
+                var uintValue = BitConverter.ToUInt32(buffer, 0);
+                return (uintValue >> 8) * (1.0f / (1u << 24));
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.random.shared
