@@ -55,6 +55,7 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
                 var hex = lowercase
                     ? Convert.ToHexStringLower(bytes, 0, byteCount)
                     : Convert.ToHexString(bytes, 0, byteCount);
+
                 return hex.Length == stringLength ? hex : hex.Substring(0, stringLength);
             }
             finally
@@ -76,7 +77,7 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
             }
             finally
             {
-                ArrayPool<char>.Shared.Return(chars);
+                ArrayPool<char>.Shared.Return(chars, clearArray: true);
             }
         }
     }

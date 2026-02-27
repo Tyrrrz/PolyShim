@@ -12,7 +12,7 @@ using System.Security.Cryptography;
 
 file static class RandomNumberGeneratorEx
 {
-    public static readonly RandomNumberGenerator Instance = RandomNumberGenerator.Create();
+    public static RandomNumberGenerator Instance { get; } = RandomNumberGenerator.Create();
 }
 
 [ExcludeFromCodeCoverage]

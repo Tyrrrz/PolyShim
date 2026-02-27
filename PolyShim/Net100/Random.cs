@@ -22,9 +22,11 @@ internal static class MemberPolyfills_Net100_Random
             try
             {
                 random.NextBytes(bytes.AsSpan(0, byteCount));
+
                 var hex = lowercase
                     ? Convert.ToHexStringLower(bytes, 0, byteCount)
                     : Convert.ToHexString(bytes, 0, byteCount);
+
                 return hex.Length == stringLength ? hex : hex.Substring(0, stringLength);
             }
             finally
