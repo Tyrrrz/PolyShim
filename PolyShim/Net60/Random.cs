@@ -14,7 +14,9 @@ file static class RandomEx
     public static Random? Shared { get; set; }
 }
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net60_Random
 {
     extension(Random random)

@@ -11,7 +11,9 @@ using System.IO;
 namespace System.Runtime.InteropServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.runtimeinformation
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class RuntimeInformation
 {
     // No way to detect on .NET Standard lower than 1.3

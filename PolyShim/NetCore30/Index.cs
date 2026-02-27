@@ -10,7 +10,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.index
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct Index(int value) : IEquatable<Index>
 {
     private readonly int _value = value;

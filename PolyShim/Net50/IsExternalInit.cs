@@ -10,6 +10,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.isexternalinit
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class IsExternalInit;
 #endif

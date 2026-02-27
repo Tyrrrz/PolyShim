@@ -9,7 +9,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore21_MemoryExtensions
 {
     extension<T>(T[]? array)

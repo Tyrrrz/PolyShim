@@ -14,7 +14,9 @@ namespace System.Security.Cryptography;
 // Note: This uses Random instead of cryptographically secure RNG as System.Security.Cryptography
 // types are not available on these older platforms.
 // https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal abstract class RandomNumberGenerator : IDisposable
 {
     public static RandomNumberGenerator Create() => new RandomWrapper();

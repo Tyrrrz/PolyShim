@@ -14,7 +14,9 @@ using System.Threading.Tasks;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.timeprovider
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal abstract class TimeProvider
 {
     public static TimeProvider System { get; } = new SystemTimeProvider();

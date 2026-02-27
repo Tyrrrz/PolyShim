@@ -9,7 +9,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.runtimehelpers
 internal static class RuntimeHelpers
 {

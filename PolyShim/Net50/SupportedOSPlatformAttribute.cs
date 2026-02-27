@@ -25,7 +25,9 @@ namespace System.Runtime.Versioning;
     AllowMultiple = true,
     Inherited = false
 )]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class SupportedOSPlatformAttribute(string platformName)
     : OSPlatformAttribute(platformName);
 #endif

@@ -10,7 +10,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Buffers;
 
 // https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class ArrayPool<T>
 {
     public T[] Rent(int minimumLength) =>

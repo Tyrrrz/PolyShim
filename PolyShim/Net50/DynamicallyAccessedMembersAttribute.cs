@@ -21,7 +21,9 @@ namespace System.Diagnostics.CodeAnalysis;
         | AttributeTargets.Struct,
     Inherited = false
 )]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class DynamicallyAccessedMembersAttribute(DynamicallyAccessedMemberTypes memberTypes)
     : Attribute
 {

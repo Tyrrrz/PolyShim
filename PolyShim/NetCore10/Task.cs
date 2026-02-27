@@ -18,7 +18,9 @@ file static class TaskEx
     public static Task CompletedTask { get; } = Task.FromResult(0);
 }
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore10_Task
 {
     extension(Task)

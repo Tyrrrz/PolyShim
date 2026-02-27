@@ -8,7 +8,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net90_TimeSpan
 {
     extension(TimeSpan)

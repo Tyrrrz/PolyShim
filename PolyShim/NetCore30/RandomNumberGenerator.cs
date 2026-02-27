@@ -9,7 +9,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore30_RandomNumberGenerator
 {
     extension(RandomNumberGenerator)

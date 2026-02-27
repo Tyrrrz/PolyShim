@@ -15,7 +15,9 @@ using System.Runtime.Serialization;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.aggregateexception
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class AggregateException : Exception
 {
     public AggregateException(string? message, params Exception[] innerExceptions)

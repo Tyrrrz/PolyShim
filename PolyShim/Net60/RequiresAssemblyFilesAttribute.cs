@@ -16,7 +16,9 @@ namespace System.Diagnostics.CodeAnalysis;
         | AttributeTargets.Property,
     Inherited = false
 )]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class RequiresAssemblyFilesAttribute(string? message) : Attribute
 {
     public RequiresAssemblyFilesAttribute()

@@ -11,7 +11,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.valuetuple
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct ValueTuple : IEquatable<ValueTuple>, IComparable<ValueTuple>, IComparable
 {
     public override bool Equals(object? obj) => obj is ValueTuple;
@@ -98,7 +100,9 @@ internal readonly struct ValueTuple : IEquatable<ValueTuple>, IComparable<ValueT
 }
 
 // https://learn.microsoft.com/dotnet/api/system.valuetuple-1
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct ValueTuple<T1>(T1 item1)
     : IEquatable<ValueTuple<T1>>,
         IComparable<ValueTuple<T1>>,
@@ -144,7 +148,9 @@ internal readonly struct ValueTuple<T1>(T1 item1)
 }
 
 // https://learn.microsoft.com/dotnet/api/system.valuetuple-2
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct ValueTuple<T1, T2>(T1 item1, T2 item2)
     : IEquatable<ValueTuple<T1, T2>>,
         IComparable<ValueTuple<T1, T2>>,
@@ -196,7 +202,9 @@ internal readonly struct ValueTuple<T1, T2>(T1 item1, T2 item2)
 }
 
 // https://learn.microsoft.com/dotnet/api/system.valuetuple-3
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct ValueTuple<T1, T2, T3>(T1 item1, T2 item2, T3 item3)
     : IEquatable<ValueTuple<T1, T2, T3>>,
         IComparable<ValueTuple<T1, T2, T3>>,
@@ -253,7 +261,9 @@ internal readonly struct ValueTuple<T1, T2, T3>(T1 item1, T2 item2, T3 item3)
 }
 
 // https://learn.microsoft.com/dotnet/api/system.valuetuple-4
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct ValueTuple<T1, T2, T3, T4>(T1 item1, T2 item2, T3 item3, T4 item4)
     : IEquatable<ValueTuple<T1, T2, T3, T4>>,
         IComparable<ValueTuple<T1, T2, T3, T4>>,
@@ -326,7 +336,9 @@ internal readonly struct ValueTuple<T1, T2, T3, T4>(T1 item1, T2 item2, T3 item3
 }
 
 // https://learn.microsoft.com/dotnet/api/system.valuetuple-5
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct ValueTuple<T1, T2, T3, T4, T5>(
     T1 item1,
     T2 item2,
@@ -411,7 +423,9 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5>(
 }
 
 // https://learn.microsoft.com/dotnet/api/system.valuetuple-6
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6>(
     T1 item1,
     T2 item2,
@@ -501,7 +515,9 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6>(
 }
 
 // https://learn.microsoft.com/dotnet/api/system.valuetuple-7
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7>(
     T1 item1,
     T2 item2,
@@ -598,7 +614,9 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7>(
 }
 
 // https://learn.microsoft.com/dotnet/api/system.valuetuple-8
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>(
     T1 item1,
     T2 item2,

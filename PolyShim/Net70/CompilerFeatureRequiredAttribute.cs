@@ -11,7 +11,9 @@ namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal partial class CompilerFeatureRequiredAttribute(string featureName) : Attribute
 {
     public string FeatureName { get; } = featureName;

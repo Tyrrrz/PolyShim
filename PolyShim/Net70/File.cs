@@ -12,7 +12,9 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net70_File
 {
     // No file I/O on .NET Standard prior to 1.3

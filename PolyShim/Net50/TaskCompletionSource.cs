@@ -11,7 +11,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Threading.Tasks;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class TaskCompletionSource(object? state, TaskCreationOptions creationOptions)
 {
     private readonly TaskCompletionSource<object?> _source = new(state, creationOptions);

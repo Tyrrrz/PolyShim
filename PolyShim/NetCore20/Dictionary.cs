@@ -8,7 +8,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore20_Dictionary
 {
     extension<TKey, TValue>(Dictionary<TKey, TValue> dictionary)

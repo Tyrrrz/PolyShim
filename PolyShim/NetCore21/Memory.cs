@@ -12,7 +12,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.memory-1
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct Memory<T> : IEquatable<Memory<T>>
 {
     private readonly T[]? _array;

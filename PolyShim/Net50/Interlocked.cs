@@ -8,7 +8,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net50_Interlocked
 {
     extension(Interlocked)

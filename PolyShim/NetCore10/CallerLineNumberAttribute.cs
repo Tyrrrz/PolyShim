@@ -11,6 +11,8 @@ namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerlinenumberattribute
 [AttributeUsage(AttributeTargets.Parameter)]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class CallerLineNumberAttribute : Attribute;
 #endif
