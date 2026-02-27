@@ -27,7 +27,14 @@ internal static class MemberPolyfills_NetCore30_TextWriter
             }
 #endif
 
-            await Task.Run(writer.Dispose);
+            try
+            {
+                await writer.FlushAsync();
+            }
+            finally
+            {
+                writer.Dispose();
+            }
         }
 #endif
     }

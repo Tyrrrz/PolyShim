@@ -27,7 +27,14 @@ internal static class MemberPolyfills_NetCore30_Stream
             }
 #endif
 
-            await Task.Run(stream.Dispose);
+            try
+            {
+                await stream.FlushAsync();
+            }
+            finally
+            {
+                stream.Dispose();
+            }
         }
 #endif
     }
