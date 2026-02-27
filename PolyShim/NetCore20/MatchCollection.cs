@@ -8,9 +8,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
-#endif
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]

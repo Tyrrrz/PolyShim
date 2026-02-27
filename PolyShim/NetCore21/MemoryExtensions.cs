@@ -1,8 +1,6 @@
 #if !FEATURE_MEMORY
 #nullable enable
-#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
-#endif
 
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace

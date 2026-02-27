@@ -10,9 +10,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
-#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
-#endif
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]

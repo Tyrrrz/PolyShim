@@ -8,9 +8,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
-#endif
 
 file static class PathEx
 {

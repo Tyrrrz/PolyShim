@@ -10,9 +10,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
-#endif
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]

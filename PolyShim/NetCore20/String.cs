@@ -8,9 +8,7 @@
 using System;
 using System.Globalization;
 using System.Text;
-#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
-#endif
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
