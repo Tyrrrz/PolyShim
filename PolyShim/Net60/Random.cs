@@ -39,7 +39,7 @@ internal static class MemberPolyfills_Net60_Random
                 ulong ulongRand;
                 do
                 {
-                    random.NextBytes(buffer);
+                    random.NextBytes(buffer.AsSpan(0, 8));
                     ulongRand = BitConverter.ToUInt64(buffer, 0);
                 } while (ulongRand > ulong.MaxValue - (ulong.MaxValue % range + 1) % range);
 
@@ -63,7 +63,7 @@ internal static class MemberPolyfills_Net60_Random
             var buffer = ArrayPool<byte>.Shared.Rent(4);
             try
             {
-                random.NextBytes(buffer);
+                random.NextBytes(buffer.AsSpan(0, 4));
                 var uintValue = BitConverter.ToUInt32(buffer, 0);
                 return (uintValue >> 8) * (1.0f / (1u << 24));
             }

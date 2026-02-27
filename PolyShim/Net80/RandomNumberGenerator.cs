@@ -56,7 +56,7 @@ internal static class MemberPolyfills_Net80_RandomNumberGenerator
                     ? Convert.ToHexStringLower(bytes, 0, byteCount)
                     : Convert.ToHexString(bytes, 0, byteCount);
 
-                return hex.Length == stringLength ? hex : hex.Substring(0, stringLength);
+                return hex.Substring(0, stringLength);
             }
             finally
             {

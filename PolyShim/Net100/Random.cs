@@ -19,6 +19,7 @@ internal static class MemberPolyfills_Net100_Random
         {
             var byteCount = (stringLength + 1) / 2;
             var bytes = ArrayPool<byte>.Shared.Rent(byteCount);
+
             try
             {
                 random.NextBytes(bytes.AsSpan(0, byteCount));
@@ -27,7 +28,7 @@ internal static class MemberPolyfills_Net100_Random
                     ? Convert.ToHexStringLower(bytes, 0, byteCount)
                     : Convert.ToHexString(bytes, 0, byteCount);
 
-                return hex.Length == stringLength ? hex : hex.Substring(0, stringLength);
+                return hex.Substring(0, stringLength);
             }
             finally
             {

@@ -36,7 +36,7 @@ internal static class MemberPolyfills_NetCore30_RandomNumberGenerator
                 uint result;
                 do
                 {
-                    RandomNumberGeneratorEx.Instance.GetBytes(buffer);
+                    RandomNumberGeneratorEx.Instance.GetBytes(buffer, 0, 4);
                     result = BitConverter.ToUInt32(buffer, 0);
                 } while (result > rejectionThreshold);
 
