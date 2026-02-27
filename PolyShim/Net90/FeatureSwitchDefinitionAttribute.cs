@@ -10,7 +10,9 @@
 namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 [AttributeUsage(AttributeTargets.Property)]
 internal class FeatureSwitchDefinitionAttribute(string switchName) : Attribute
 {

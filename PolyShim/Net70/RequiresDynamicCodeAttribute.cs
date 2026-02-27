@@ -13,7 +13,9 @@ namespace System.Diagnostics.CodeAnalysis;
     AttributeTargets.Class | AttributeTargets.Constructor | AttributeTargets.Method,
     Inherited = false
 )]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class RequiresDynamicCodeAttribute(string message) : Attribute
 {
     public string Message { get; } = message;

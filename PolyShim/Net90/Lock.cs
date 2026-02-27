@@ -11,7 +11,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.lock
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal partial class Lock
 {
 #if (NETCOREAPP) || (NETFRAMEWORK && NET45_OR_GREATER) || (NETSTANDARD)

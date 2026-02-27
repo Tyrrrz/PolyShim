@@ -10,7 +10,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore20_MatchCollection
 {
     // MatchCollection started implementing IEnumerable<Match> in .NET Core 2.0,

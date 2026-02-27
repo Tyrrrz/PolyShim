@@ -12,7 +12,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net50_Process
 {
 #if FEATURE_TASK

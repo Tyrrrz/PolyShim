@@ -11,7 +11,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.hashcode
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal partial class HashCode
 {
     private int _hash;

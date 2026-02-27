@@ -13,7 +13,9 @@ using System.Runtime.CompilerServices;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.span-1
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly ref struct Span<T>
 {
     private readonly T[]? _array;

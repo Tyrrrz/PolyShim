@@ -15,6 +15,8 @@ namespace System.Diagnostics.CodeAnalysis;
         | AttributeTargets.Property
         | AttributeTargets.ReturnValue
 )]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class MaybeNullAttribute : Attribute;
 #endif

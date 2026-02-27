@@ -15,7 +15,9 @@ namespace System.Runtime.Versioning;
     AllowMultiple = true,
     Inherited = false
 )]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class UnsupportedOSPlatformGuardAttribute(string platformName)
     // OSPlatformAttribute's constructor is not accessible where that type is natively defined
 #if !(NETCOREAPP && NET5_0_OR_GREATER)

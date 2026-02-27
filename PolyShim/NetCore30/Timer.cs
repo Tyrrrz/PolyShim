@@ -9,7 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore30_Timer
 {
     extension(Timer timer)

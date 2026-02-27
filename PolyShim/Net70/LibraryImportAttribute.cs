@@ -14,7 +14,9 @@ namespace System.Runtime.InteropServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.libraryimportattribute
 [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class LibraryImportAttribute(string libraryName) : Attribute
 {
     public string LibraryName { get; } = libraryName;

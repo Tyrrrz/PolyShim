@@ -9,7 +9,9 @@ using System;
 using System.Text.RegularExpressions;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net70_Regex
 {
     extension(Regex regex)

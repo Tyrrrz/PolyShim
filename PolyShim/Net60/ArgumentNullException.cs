@@ -9,7 +9,9 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net60_ArgumentNullException
 {
     extension(ArgumentNullException)

@@ -10,7 +10,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.range
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal readonly struct Range(Index start, Index end) : IEquatable<Range>
 {
     public Index Start { get; } = start;

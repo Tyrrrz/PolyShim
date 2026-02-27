@@ -8,7 +8,9 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore20_DictionaryEntry
 {
     extension(DictionaryEntry entry)

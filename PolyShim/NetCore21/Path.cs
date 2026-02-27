@@ -26,7 +26,9 @@ file static class PathEx
 #endif
 }
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore21_Path
 {
     extension(Path)

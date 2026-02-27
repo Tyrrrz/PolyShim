@@ -9,7 +9,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Collections.Generic;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore20_CollectionExtensions
 {
     // This weird conditional compilation pattern is needed so that List-Signatures.ps1 can pick up

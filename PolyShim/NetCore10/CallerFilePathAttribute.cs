@@ -11,6 +11,8 @@ namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerfilepathattribute
 [AttributeUsage(AttributeTargets.Parameter)]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class CallerFilePathAttribute : Attribute;
 #endif

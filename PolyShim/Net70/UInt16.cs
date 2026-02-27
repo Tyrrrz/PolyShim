@@ -9,7 +9,9 @@ using System;
 using System.Globalization;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net70_UInt16
 {
     extension(ushort)

@@ -10,6 +10,8 @@ namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.doesnotreturnattribute
 [AttributeUsage(AttributeTargets.Method, Inherited = false)]
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal class DoesNotReturnAttribute : Attribute;
 #endif

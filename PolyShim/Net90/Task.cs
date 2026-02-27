@@ -10,7 +10,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net90_Task
 {
 #if FEATURE_ASYNCINTERFACES

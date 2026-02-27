@@ -11,7 +11,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 [AttributeUsage(
     AttributeTargets.Constructor | AttributeTargets.Method | AttributeTargets.Property,
     Inherited = false

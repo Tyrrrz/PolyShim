@@ -10,7 +10,9 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Linq;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_Net70_EnumerableExtensions
 {
     extension<T>(IEnumerable<T> source)

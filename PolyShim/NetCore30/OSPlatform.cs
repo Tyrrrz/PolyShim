@@ -8,7 +8,9 @@
 using System.Runtime.InteropServices;
 using System.Diagnostics.CodeAnalysis;
 
+#if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
+#endif
 internal static class MemberPolyfills_NetCore30_OSPlatform
 {
     extension(OSPlatform)
