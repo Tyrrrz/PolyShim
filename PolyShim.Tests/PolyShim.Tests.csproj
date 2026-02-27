@@ -22,6 +22,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <!-- Enable coverage collection for referenced polyfills -->
     <DefineConstants>$(DefineConstants);POLYFILL_COVERAGE</DefineConstants>
   </PropertyGroup>
 
