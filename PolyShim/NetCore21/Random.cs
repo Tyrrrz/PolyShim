@@ -18,7 +18,7 @@ internal static class MemberPolyfills_NetCore21_Random
         // https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
         public void NextBytes(Span<byte> buffer)
         {
-            var bufferArray = buffer.ToArray();
+            var bufferArray = new byte[buffer.Length];
             random.NextBytes(bufferArray);
             bufferArray.CopyTo(buffer);
         }

@@ -6,8 +6,14 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
+
+file static class RandomNumberGeneratorEx
+{
+    public static RandomNumberGenerator Instance { get; } = RandomNumberGenerator.Create();
+}
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -20,19 +26,19 @@ internal static class MemberPolyfills_NetCore30_RandomNumberGenerator
         public static int GetInt32(int fromInclusive, int toExclusive)
         {
             var range = (uint)(toExclusive - fromInclusive);
-            var rng = RandomNumberGenerator.Create();
+
+            // Reject values that would cause bias in the distribution.
+            // This ensures uniform distribution by rejecting values in the
+            // incomplete final bucket.
+            var rejectionThreshold = uint.MaxValue - (uint.MaxValue % range + 1) % range;
+
+            var buffer = ArrayPool<byte>.Shared.Rent(4);
             try
             {
-                // Reject values that would cause bias in the distribution.
-                // This ensures uniform distribution by rejecting values in the
-                // incomplete final bucket.
-                var rejectionThreshold = uint.MaxValue - (uint.MaxValue % range + 1) % range;
-
                 uint result;
                 do
                 {
-                    var buffer = new byte[4];
-                    rng.GetBytes(buffer);
+                    RandomNumberGeneratorEx.Instance.GetBytes(buffer, 0, 4);
                     result = BitConverter.ToUInt32(buffer, 0);
                 } while (result > rejectionThreshold);
 
@@ -40,7 +46,7 @@ internal static class MemberPolyfills_NetCore30_RandomNumberGenerator
             }
             finally
             {
-                ((IDisposable)rng).Dispose();
+                ArrayPool<byte>.Shared.Return(buffer, clearArray: true);
             }
         }
 

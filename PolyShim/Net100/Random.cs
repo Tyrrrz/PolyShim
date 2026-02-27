@@ -6,7 +6,7 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Text;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 
 #if !POLYFILL_COVERAGE
@@ -19,25 +19,40 @@ internal static class MemberPolyfills_Net100_Random
         // https://learn.microsoft.com/dotnet/api/system.random.gethexstring#system-random-gethexstring(system-int32-system-boolean)
         public string GetHexString(int stringLength, bool lowercase = false)
         {
-            var bytes = new byte[(stringLength + 1) / 2];
-            random.NextBytes(bytes);
+            var byteCount = (stringLength + 1) / 2;
+            var bytes = ArrayPool<byte>.Shared.Rent(byteCount);
 
-            var hex = lowercase ? Convert.ToHexStringLower(bytes) : Convert.ToHexString(bytes);
-            return hex.Substring(0, stringLength);
+            try
+            {
+                random.NextBytes(bytes.AsSpan(0, byteCount));
+
+                var hex = lowercase
+                    ? Convert.ToHexStringLower(bytes, 0, byteCount)
+                    : Convert.ToHexString(bytes, 0, byteCount);
+
+                return hex.Substring(0, stringLength);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(bytes);
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.random.getstring
         public string GetString(ReadOnlySpan<char> choices, int length)
         {
-            var buffer = new StringBuilder(length);
-
-            for (var i = 0; i < length; i++)
+            var chars = ArrayPool<char>.Shared.Rent(length);
+            try
             {
-                var index = random.Next(choices.Length);
-                buffer.Append(choices[index]);
-            }
+                for (var i = 0; i < length; i++)
+                    chars[i] = choices[random.Next(choices.Length)];
 
-            return buffer.ToString();
+                return new string(chars, 0, length);
+            }
+            finally
+            {
+                ArrayPool<char>.Shared.Return(chars);
+            }
         }
     }
 }
