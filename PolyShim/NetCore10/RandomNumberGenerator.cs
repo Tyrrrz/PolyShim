@@ -6,7 +6,9 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace System.Security.Cryptography;
 

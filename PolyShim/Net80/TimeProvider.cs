@@ -7,7 +7,9 @@
 
 using System;
 using System.Diagnostics;
+#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Threading;
 using System.Threading.Tasks;
 

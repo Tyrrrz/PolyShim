@@ -7,7 +7,9 @@
 
 using System;
 using System.Runtime.InteropServices;
+#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
+#endif
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]

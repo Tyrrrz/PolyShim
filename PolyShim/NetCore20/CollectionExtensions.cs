@@ -1,6 +1,8 @@
 ﻿#if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #nullable enable
+#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
+#endif
 
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace

@@ -7,7 +7,9 @@
 
 namespace System.Runtime.CompilerServices;
 
+#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
+#endif
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.tupleelementnamesattribute
 [AttributeUsage(

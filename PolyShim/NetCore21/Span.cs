@@ -7,7 +7,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Runtime.CompilerServices;
 
 namespace System;

@@ -7,7 +7,9 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;

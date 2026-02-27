@@ -7,7 +7,9 @@
 
 using System;
 using System.IO;
+#if !POLYFILL_COVERAGE
 using System.Diagnostics.CodeAnalysis;
+#endif
 
 file static class PathEx
 {
