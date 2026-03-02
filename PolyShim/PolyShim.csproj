@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Include polyfill props and targets -->
+  <!-- Import polyfill props for LangVersion -->
   <Import Project="PolyShim.props" />
-  <Import Project="PolyShim.targets" />
 
   <PropertyGroup>
     <!-- Target frameworks here are only used to verify source compatibility with different API levels -->
@@ -12,41 +11,19 @@
       net5.0;net7.0;net8.0
     </TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <IsPackable>true</IsPackable>
+    <IsPackable>false</IsPackable>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NoPackageAnalysis>true</NoPackageAnalysis>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
-    <DevelopmentDependency>true</DevelopmentDependency>
-  </PropertyGroup>
-
+  <!-- Use the generator to inject polyfills for each TFM (multi-TFM verification) -->
   <ItemGroup>
-    <Content Include="PolyShim.props" Pack="true" PackagePath="build" />
-    <Content Include="PolyShim.targets" Pack="true" PackagePath="build" />
-    <Content
-      Include="**/*.cs"
-      Pack="true"
-      PackagePath="contentFiles/cs/any/PolyShim"
-      Visible="false"
-      BuildAction="compile"
-    />
-    <Content
-      Include="**/*.cs"
-      Pack="true"
-      PackagePath="content/PolyShim"
-      Visible="false"
-      BuildAction="compile"
+    <ProjectReference
+      Include="../PolyShim.Generator/PolyShim.Generator.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false"
     />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CSharpier.MsBuild" PrivateAssets="all" />
-  </ItemGroup>
-
-  <!-- Import official compatibilty packages for metadata references -->
   <ItemGroup>
     <PackageReference
       Include="Microsoft.Bcl.AsyncInterfaces"
@@ -154,7 +131,7 @@
     />
   </ItemGroup>
 
-  <!-- Generate the list of polyfill signatures -->
+  <!-- Import official compatibility packages for metadata references -->
   <!-- (condition added to run it once per build, not per TFM) -->
   <Target
     Name="ListSignatures"
