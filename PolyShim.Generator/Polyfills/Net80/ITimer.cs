@@ -1,3 +1,4 @@
+#if !FEATURE_TIMEPROVIDER
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -17,3 +18,4 @@ internal interface ITimer : IDisposable
 {
     bool Change(TimeSpan dueTime, TimeSpan period);
 }
+#endif

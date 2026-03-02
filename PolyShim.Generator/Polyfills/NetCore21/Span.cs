@@ -1,3 +1,4 @@
+#if !FEATURE_MEMORY
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -161,3 +162,4 @@ internal readonly ref struct Span<T>
         }
     }
 }
+#endif

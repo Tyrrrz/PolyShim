@@ -1,3 +1,4 @@
+﻿#if FEATURE_TASK
 #if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -29,4 +30,5 @@ internal static class MemberPolyfills_Net50_TaskCompletionSourceOfT
         }
     }
 }
+#endif
 #endif

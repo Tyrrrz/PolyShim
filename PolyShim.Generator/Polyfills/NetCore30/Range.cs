@@ -1,3 +1,4 @@
+﻿#if !FEATURE_INDEXRANGE
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -44,3 +45,4 @@ internal readonly struct Range(Index start, Index end) : IEquatable<Range>
 
     public static Range All => new(Index.Start, Index.End);
 }
+#endif

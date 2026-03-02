@@ -14,26 +14,30 @@ namespace PolyShim;
 [Generator]
 internal sealed class PolyShimGenerator : IIncrementalGenerator
 {
-    // Maps FEATURE_* names to representative types; used only to build the #define prefix
-    // prepended to every emitted file so that intra-file #if FEATURE_* guards work correctly
-    // (e.g. "#if FEATURE_ASYNCINTERFACES" inside TimeProvider.cs).
-    private static readonly IReadOnlyDictionary<string, string> FeatureTypes =
-        new Dictionary<string, string>(StringComparer.Ordinal)
+    // Computes the set of generator-controlled feature flags for the current compilation.
+    // These are used by ApplyFeatureConditions to evaluate and strip #if FEATURE_* / #if !FEATURE_*
+    // / #if ALLOW_UNSAFE_BLOCKS directives from polyfill files before emitting them.
+    private static IReadOnlyDictionary<string, bool> ComputeFeatures(Compilation compilation)
+    {
+        bool allowUnsafe = compilation is CSharpCompilation cs && cs.Options.AllowUnsafe;
+        return new Dictionary<string, bool>(StringComparer.Ordinal)
         {
-            ["FEATURE_ARRAYPOOL"] = "System.Buffers.ArrayPool`1",
-            ["FEATURE_ASYNCINTERFACES"] = "System.Collections.Generic.IAsyncEnumerable`1",
-            ["FEATURE_HASHCODE"] = "System.HashCode",
-            ["FEATURE_HTTPCLIENT"] = "System.Net.Http.HttpClient",
-            ["FEATURE_INDEXRANGE"] = "System.Index",
-            ["FEATURE_MANAGEMENT"] = "System.Management.ManagementObjectSearcher",
-            ["FEATURE_MEMORY"] = "System.Memory`1",
-            ["FEATURE_PROCESS"] = "System.Diagnostics.Process",
-            ["FEATURE_RUNTIMEINFORMATION"] = "System.Runtime.InteropServices.RuntimeInformation",
-            ["FEATURE_TASK"] = "System.Threading.Tasks.Task",
-            ["FEATURE_VALUETASK"] = "System.Threading.Tasks.ValueTask",
-            ["FEATURE_VALUETUPLE"] = "System.ValueTuple",
-            ["FEATURE_TIMEPROVIDER"] = "System.TimeProvider",
+            ["ALLOW_UNSAFE_BLOCKS"] = allowUnsafe,
+            ["FEATURE_ARRAYPOOL"] = compilation.GetTypeByMetadataName("System.Buffers.ArrayPool`1") is not null,
+            ["FEATURE_ASYNCINTERFACES"] = compilation.GetTypeByMetadataName("System.Collections.Generic.IAsyncEnumerable`1") is not null,
+            ["FEATURE_HASHCODE"] = compilation.GetTypeByMetadataName("System.HashCode") is not null,
+            ["FEATURE_HTTPCLIENT"] = compilation.GetTypeByMetadataName("System.Net.Http.HttpClient") is not null,
+            ["FEATURE_INDEXRANGE"] = compilation.GetTypeByMetadataName("System.Index") is not null,
+            ["FEATURE_MANAGEMENT"] = compilation.GetTypeByMetadataName("System.Management.ManagementObjectSearcher") is not null,
+            ["FEATURE_MEMORY"] = compilation.GetTypeByMetadataName("System.Memory`1") is not null,
+            ["FEATURE_PROCESS"] = compilation.GetTypeByMetadataName("System.Diagnostics.Process") is not null,
+            ["FEATURE_RUNTIMEINFORMATION"] = compilation.GetTypeByMetadataName("System.Runtime.InteropServices.RuntimeInformation") is not null,
+            ["FEATURE_TASK"] = compilation.GetTypeByMetadataName("System.Threading.Tasks.Task") is not null,
+            ["FEATURE_VALUETASK"] = compilation.GetTypeByMetadataName("System.Threading.Tasks.ValueTask") is not null,
+            ["FEATURE_VALUETUPLE"] = compilation.GetTypeByMetadataName("System.ValueTuple") is not null,
+            ["FEATURE_TIMEPROVIDER"] = compilation.GetTypeByMetadataName("System.TimeProvider") is not null,
         };
+    }
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -42,23 +46,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
     private static void Execute(SourceProductionContext context, Compilation compilation)
     {
-        // Build the available-features set for #define prefixes on emitted files
-        var availableFeatures = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var kvp in FeatureTypes)
-        {
-            if (compilation.GetTypeByMetadataName(kvp.Value) is not null)
-                availableFeatures.Add(kvp.Key);
-        }
-
-        bool allowUnsafe = compilation is CSharpCompilation cs && cs.Options.AllowUnsafe;
-        if (allowUnsafe)
-            availableFeatures.Add("ALLOW_UNSAFE_BLOCKS");
-
-        var sb = new StringBuilder();
-        foreach (var feature in availableFeatures.OrderBy(f => f, StringComparer.Ordinal))
-            sb.AppendLine($"#define {feature}");
-        sb.AppendLine();
-        var definePrefix = sb.ToString();
+        var features = ComputeFeatures(compilation);
 
         var assembly = typeof(PolyShimGenerator).Assembly;
         foreach (var resourceName in assembly.GetManifestResourceNames().OrderBy(n => n, StringComparer.Ordinal))
@@ -83,8 +71,131 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             if (baseName.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
                 baseName = baseName.Substring(0, baseName.Length - 3);
 
-            context.AddSource(baseName + ".g.cs", SourceText.From(definePrefix + content, Encoding.UTF8));
+            context.AddSource(baseName + ".g.cs", SourceText.From(ApplyFeatureConditions(content, features), Encoding.UTF8));
         }
+    }
+
+    // Evaluates all generator-controlled #if conditions (FEATURE_* and ALLOW_UNSAFE_BLOCKS) in
+    // the file content and returns the source with those directive lines stripped and inactive
+    // blocks removed.  Non-generator directives (#if NETCOREAPP, #if !POLYFILL_COVERAGE, etc.)
+    // are left intact.
+    private static string ApplyFeatureConditions(string content, IReadOnlyDictionary<string, bool> features)
+    {
+        content = content.Replace("\r\n", "\n").Replace("\r", "\n");
+        var parseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview);
+        var tree = CSharpSyntaxTree.ParseText(content, parseOptions);
+
+        // Map line number → directive syntax node (one directive per line in practice)
+        var directiveAtLine = new Dictionary<int, DirectiveTriviaSyntax>();
+        foreach (var trivia in tree.GetRoot().DescendantTrivia(descendIntoTrivia: true))
+        {
+            if (!trivia.IsDirective) continue;
+            if (trivia.GetStructure() is not DirectiveTriviaSyntax dir) continue;
+            directiveAtLine[tree.GetLineSpan(trivia.Span).StartLinePosition.Line] = dir;
+        }
+
+        var lines = content.Split('\n');
+        var sb = new StringBuilder(content.Length);
+
+        // Stack: (isFeature, result)
+        //   isFeature=true  → this #if uses generator-controlled conditions
+        //   result=false    → this branch contributed +1 to excludeDepth
+        var stack = new Stack<(bool isFeature, bool result)>();
+        // Number of false generator #if blocks we're currently inside
+        int excludeDepth = 0;
+
+        for (var i = 0; i < lines.Length; i++)
+        {
+            if (!directiveAtLine.TryGetValue(i, out var directive))
+            {
+                // Regular content line: emit unless we're inside a false feature block
+                if (excludeDepth == 0)
+                    sb.Append(lines[i]).Append('\n');
+            }
+            else if (directive is IfDirectiveTriviaSyntax ifDir && IsFeatureCondition(ifDir.Condition, features))
+            {
+                // Generator-controlled #if: evaluate (always false when already excluding)
+                var result = excludeDepth == 0 && EvaluateFeatureCondition(ifDir.Condition, features);
+                stack.Push((true, result));
+                if (!result)
+                    excludeDepth++;
+                // Always suppress the directive line itself
+            }
+            else if (directive is EndIfDirectiveTriviaSyntax)
+            {
+                if (stack.Count > 0)
+                {
+                    var (isFeature, result) = stack.Pop();
+                    if (isFeature)
+                    {
+                        if (!result)
+                            excludeDepth--;
+                        // Suppress the #endif for generator-controlled blocks
+                    }
+                    else
+                    {
+                        // Non-generator #endif: emit unless we're in an excluded zone
+                        if (excludeDepth == 0)
+                            sb.Append(lines[i]).Append('\n');
+                    }
+                }
+                else
+                {
+                    // Orphaned #endif (unbalanced): treat as pass-through
+                    if (excludeDepth == 0)
+                        sb.Append(lines[i]).Append('\n');
+                }
+            }
+            else if (directive is IfDirectiveTriviaSyntax)
+            {
+                // Non-generator #if: push to stack and pass through.
+                // Its #elif / #else / #endif are handled by the catch-all below (which emits
+                // them unchanged), preserving the directive block for the C# compiler.
+                stack.Push((false, false));
+                if (excludeDepth == 0)
+                    sb.Append(lines[i]).Append('\n');
+            }
+            else
+            {
+                // All other directives (#elif, #else for non-generator blocks, #pragma,
+                // #nullable, etc.): pass through unchanged if not inside an excluded zone.
+                if (excludeDepth == 0)
+                    sb.Append(lines[i]).Append('\n');
+            }
+        }
+
+        return sb.ToString();
+    }
+
+    // Returns true if the condition expression consists solely of generator-controlled feature
+    // identifiers (all keys present in the features dictionary) and logical operators.
+    private static bool IsFeatureCondition(ExpressionSyntax condition, IReadOnlyDictionary<string, bool> features)
+    {
+        if (condition is IdentifierNameSyntax ident)
+            return features.ContainsKey(ident.Identifier.Text);
+        if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
+            return IsFeatureCondition(prefix.Operand, features);
+        if (condition is BinaryExpressionSyntax binary &&
+            (binary.IsKind(SyntaxKind.LogicalAndExpression) || binary.IsKind(SyntaxKind.LogicalOrExpression)))
+            return IsFeatureCondition(binary.Left, features) && IsFeatureCondition(binary.Right, features);
+        return false;
+    }
+
+    // Evaluates a generator-controlled condition expression against the feature dictionary.
+    private static bool EvaluateFeatureCondition(ExpressionSyntax condition, IReadOnlyDictionary<string, bool> features)
+    {
+        if (condition is IdentifierNameSyntax ident)
+            return features.TryGetValue(ident.Identifier.Text, out var v) && v;
+        if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
+            return !EvaluateFeatureCondition(prefix.Operand, features);
+        if (condition is BinaryExpressionSyntax binary)
+        {
+            if (binary.IsKind(SyntaxKind.LogicalAndExpression))
+                return EvaluateFeatureCondition(binary.Left, features) && EvaluateFeatureCondition(binary.Right, features);
+            if (binary.IsKind(SyntaxKind.LogicalOrExpression))
+                return EvaluateFeatureCondition(binary.Left, features) || EvaluateFeatureCondition(binary.Right, features);
+        }
+        return false;
     }
 
     // Determines whether a polyfill file should be emitted by inspecting its content:

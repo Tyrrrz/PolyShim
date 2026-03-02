@@ -1,3 +1,4 @@
+﻿#if !FEATURE_ARRAYPOOL
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -27,3 +28,4 @@ internal class ArrayPool<T>
 
     public static ArrayPool<T> Shared { get; } = new();
 }
+#endif

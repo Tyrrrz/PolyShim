@@ -1,3 +1,4 @@
+﻿#if FEATURE_TASK
 #if (NETCOREAPP && !NET6_0_OR_GREATER) || (NET45_OR_GREATER) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -66,4 +67,5 @@ internal static class MemberPolyfills_Net60_Task
             await task.WaitAsync(timeout, CancellationToken.None).ConfigureAwait(false);
     }
 }
+#endif
 #endif

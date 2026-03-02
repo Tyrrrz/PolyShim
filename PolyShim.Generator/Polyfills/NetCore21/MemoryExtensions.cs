@@ -1,3 +1,4 @@
+#if !FEATURE_MEMORY
 #nullable enable
 using System.Diagnostics.CodeAnalysis;
 
@@ -147,3 +148,4 @@ internal static class MemberPolyfills_NetCore21_MemoryExtensions
         }
     }
 }
+#endif

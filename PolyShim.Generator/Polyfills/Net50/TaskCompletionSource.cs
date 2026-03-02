@@ -1,3 +1,4 @@
+﻿#if FEATURE_TASK
 #if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -46,4 +47,5 @@ internal class TaskCompletionSource(object? state, TaskCreationOptions creationO
     public bool TrySetCanceled(CancellationToken cancellationToken) =>
         _source.TrySetCanceled(cancellationToken);
 }
+#endif
 #endif

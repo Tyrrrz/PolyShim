@@ -1,3 +1,4 @@
+#if !FEATURE_TIMEPROVIDER
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -89,3 +90,4 @@ internal abstract class TimeProvider
 #endif
     }
 }
+#endif

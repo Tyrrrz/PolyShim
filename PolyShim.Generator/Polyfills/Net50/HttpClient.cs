@@ -1,3 +1,4 @@
+﻿#if FEATURE_HTTPCLIENT
 #if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -113,4 +114,5 @@ internal static class MemberPolyfills_Net50_HttpClient
     }
 #endif
 }
+#endif
 #endif

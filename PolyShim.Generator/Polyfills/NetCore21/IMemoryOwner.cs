@@ -1,3 +1,4 @@
+﻿#if !FEATURE_MEMORY
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -11,3 +12,4 @@ internal interface IMemoryOwner<T> : IDisposable
 {
     Memory<T> Memory { get; }
 }
+#endif
