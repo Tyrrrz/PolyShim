@@ -29,7 +29,7 @@ internal static class MemberPolyfills_Net50_Process
 #endif
             );
 
-            void HandleExited(object? sender, EventArgs args) => tcs.TrySetResult();
+            void OnExited(object? sender, EventArgs args) => tcs.TrySetResult();
 
             try
             {
@@ -41,7 +41,7 @@ internal static class MemberPolyfills_Net50_Process
                 return;
             }
 
-            process.Exited += HandleExited;
+            process.Exited += OnExited;
 
             try
             {
@@ -50,7 +50,7 @@ internal static class MemberPolyfills_Net50_Process
             }
             finally
             {
-                process.Exited -= HandleExited;
+                process.Exited -= OnExited;
             }
         }
     }
