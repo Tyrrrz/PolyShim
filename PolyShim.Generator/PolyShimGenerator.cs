@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 
 namespace PolyShim;
@@ -43,17 +44,6 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // Matches a single extension block declaration line, capturing the inner argument list
     private static readonly Regex ExtensionDeclRegex = new Regex(
         @"^\s+extension\s*(?:<[^>]+>)?\s*\(\s*(.*?)\s*\)\s*\r?$",
-        RegexOptions.Compiled);
-
-    // Matches a namespace declaration (file-scoped or block-style); group 1 = namespace name
-    private static readonly Regex NamespaceDeclRegex = new Regex(
-        @"^namespace\s+([\w.]+)\s*[;{]?\s*\r?$",
-        RegexOptions.Compiled);
-
-    // Matches a type declaration line; group 1 = type keyword, group 2 = name, group 3 = generic params
-    private static readonly Regex TypeDeclRegex = new Regex(
-        @"^\s*(?:internal|public)\s+(?:partial\s+|readonly\s+|ref\s+|abstract\s+|sealed\s+|static\s+)*" +
-        @"(class|struct|interface|enum|record)\s+(\w+)(?:<([^>]*)>)?",
         RegexOptions.Compiled);
 
     // Matches a public method declaration at 8-space indent and captures the method name
@@ -131,37 +121,28 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     }
 
     // For type polyfills: emit the file if any type it declares is absent from the compilation.
-    // Uses regex-based parsing so that C# 12+ primary constructor syntax is handled correctly.
+    // Uses Roslyn's own syntax parser so all valid C# type declarations are handled correctly.
     private static bool ShouldEmitTypePolyfill(string content, Compilation compilation)
     {
-        string? currentNamespace = null;
+        var root = CSharpSyntaxTree.ParseText(content).GetRoot();
         bool foundAnyBclType = false;
 
-        foreach (var rawLine in content.Split('\n'))
+        foreach (var node in root.DescendantNodes())
         {
-            var line = rawLine.TrimEnd('\r');
-
-            // Track namespace changes (file-scoped "namespace X;" or block "namespace X {")
-            var nsMatch = NamespaceDeclRegex.Match(line);
-            if (nsMatch.Success)
-            {
-                currentNamespace = nsMatch.Groups[1].Value;
-                continue;
-            }
-
-            if (currentNamespace is null)
+            if (node is not BaseTypeDeclarationSyntax typeDecl)
                 continue;
 
-            // Look for a type declaration: internal/public [modifiers] class/struct/... Name[<T>]
-            var typeMatch = TypeDeclRegex.Match(line);
-            if (!typeMatch.Success)
+            // All PolyShim type polyfills declare their types inside a named namespace.
+            // Skip any type not directly inside a namespace (shouldn't happen in practice).
+            if (typeDecl.Parent is not BaseNamespaceDeclarationSyntax nsDecl)
                 continue;
 
             foundAnyBclType = true;
-            var name = typeMatch.Groups[2].Value;
-            var genericParams = typeMatch.Groups[3].Value;
-            var arity = string.IsNullOrEmpty(genericParams) ? 0 : CountDepth0Commas(genericParams) + 1;
-            var fullName = arity > 0 ? $"{currentNamespace}.{name}`{arity}" : $"{currentNamespace}.{name}";
+            var ns = nsDecl.Name.ToString();
+            var name = typeDecl.Identifier.Text;
+            // Enums cannot be generic in C#, so the null-coalesce to 0 is always correct.
+            var arity = (typeDecl as TypeDeclarationSyntax)?.TypeParameterList?.Parameters.Count ?? 0;
+            var fullName = arity > 0 ? $"{ns}.{name}`{arity}" : $"{ns}.{name}";
 
             if (compilation.GetTypeByMetadataName(fullName) is null)
                 return true; // At least one declared type is missing → emit
@@ -362,19 +343,6 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             else if (c == ',' && depth == 0) commas++;
         }
         return commas + 1;
-    }
-
-    // Counts commas at nesting depth 0 in a string (used to compute generic arity)
-    private static int CountDepth0Commas(string s)
-    {
-        int commas = 0, depth = 0;
-        foreach (var c in s)
-        {
-            if (c == '<' || c == '(') depth++;
-            else if (c == '>' || c == ')') depth--;
-            else if (c == ',' && depth == 0) commas++;
-        }
-        return commas;
     }
 
     // Enumerates all public members with the given name from the type and its base types
