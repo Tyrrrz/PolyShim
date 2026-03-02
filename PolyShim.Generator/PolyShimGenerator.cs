@@ -14,28 +14,85 @@ namespace PolyShim;
 [Generator]
 internal sealed class PolyShimGenerator : IIncrementalGenerator
 {
-    // Computes the set of generator-controlled feature flags for the current compilation.
-    // These are used by ApplyFeatureConditions to evaluate and strip #if FEATURE_* / #if !FEATURE_*
-    // / #if ALLOW_UNSAFE_BLOCKS directives from polyfill files before emitting them.
-    private static IReadOnlyDictionary<string, bool> ComputeFeatures(Compilation compilation)
+    // Strongly-typed feature flags for the current compilation.
+    // Each property name matches the preprocessor symbol evaluated by ApplyFeatureConditions.
+    private sealed class PolyfillFeatures
+    {
+        public required bool ALLOW_UNSAFE_BLOCKS { get; init; }
+        public required bool FEATURE_ARRAYPOOL { get; init; }
+        public required bool FEATURE_ASYNCINTERFACES { get; init; }
+        public required bool FEATURE_HASHCODE { get; init; }
+        public required bool FEATURE_HTTPCLIENT { get; init; }
+        public required bool FEATURE_INDEXRANGE { get; init; }
+        public required bool FEATURE_MANAGEMENT { get; init; }
+        public required bool FEATURE_MEMORY { get; init; }
+        public required bool FEATURE_PROCESS { get; init; }
+        public required bool FEATURE_RUNTIMEINFORMATION { get; init; }
+        public required bool FEATURE_TASK { get; init; }
+        public required bool FEATURE_VALUETASK { get; init; }
+        public required bool FEATURE_VALUETUPLE { get; init; }
+        public required bool FEATURE_TIMEPROVIDER { get; init; }
+
+        // Returns true when the given preprocessor symbol name is a generator-controlled feature.
+        public bool Contains(string name) => name is
+            nameof(ALLOW_UNSAFE_BLOCKS) or
+            nameof(FEATURE_ARRAYPOOL) or
+            nameof(FEATURE_ASYNCINTERFACES) or
+            nameof(FEATURE_HASHCODE) or
+            nameof(FEATURE_HTTPCLIENT) or
+            nameof(FEATURE_INDEXRANGE) or
+            nameof(FEATURE_MANAGEMENT) or
+            nameof(FEATURE_MEMORY) or
+            nameof(FEATURE_PROCESS) or
+            nameof(FEATURE_RUNTIMEINFORMATION) or
+            nameof(FEATURE_TASK) or
+            nameof(FEATURE_VALUETASK) or
+            nameof(FEATURE_VALUETUPLE) or
+            nameof(FEATURE_TIMEPROVIDER);
+
+        // Returns the value of the feature flag identified by preprocessor symbol name.
+        public bool this[string name] => name switch
+        {
+            nameof(ALLOW_UNSAFE_BLOCKS) => ALLOW_UNSAFE_BLOCKS,
+            nameof(FEATURE_ARRAYPOOL) => FEATURE_ARRAYPOOL,
+            nameof(FEATURE_ASYNCINTERFACES) => FEATURE_ASYNCINTERFACES,
+            nameof(FEATURE_HASHCODE) => FEATURE_HASHCODE,
+            nameof(FEATURE_HTTPCLIENT) => FEATURE_HTTPCLIENT,
+            nameof(FEATURE_INDEXRANGE) => FEATURE_INDEXRANGE,
+            nameof(FEATURE_MANAGEMENT) => FEATURE_MANAGEMENT,
+            nameof(FEATURE_MEMORY) => FEATURE_MEMORY,
+            nameof(FEATURE_PROCESS) => FEATURE_PROCESS,
+            nameof(FEATURE_RUNTIMEINFORMATION) => FEATURE_RUNTIMEINFORMATION,
+            nameof(FEATURE_TASK) => FEATURE_TASK,
+            nameof(FEATURE_VALUETASK) => FEATURE_VALUETASK,
+            nameof(FEATURE_VALUETUPLE) => FEATURE_VALUETUPLE,
+            nameof(FEATURE_TIMEPROVIDER) => FEATURE_TIMEPROVIDER,
+            _ => false,
+        };
+    }
+
+    // Computes feature flags for the current compilation by querying type availability.
+    // These are used by ApplyFeatureConditions to evaluate and strip #if FEATURE_* /
+    // #if !FEATURE_* / #if ALLOW_UNSAFE_BLOCKS directives from polyfill files.
+    private static PolyfillFeatures ComputeFeatures(Compilation compilation)
     {
         bool allowUnsafe = compilation is CSharpCompilation cs && cs.Options.AllowUnsafe;
-        return new Dictionary<string, bool>(StringComparer.Ordinal)
+        return new PolyfillFeatures
         {
-            ["ALLOW_UNSAFE_BLOCKS"] = allowUnsafe,
-            ["FEATURE_ARRAYPOOL"] = compilation.GetTypeByMetadataName("System.Buffers.ArrayPool`1") is not null,
-            ["FEATURE_ASYNCINTERFACES"] = compilation.GetTypeByMetadataName("System.Collections.Generic.IAsyncEnumerable`1") is not null,
-            ["FEATURE_HASHCODE"] = compilation.GetTypeByMetadataName("System.HashCode") is not null,
-            ["FEATURE_HTTPCLIENT"] = compilation.GetTypeByMetadataName("System.Net.Http.HttpClient") is not null,
-            ["FEATURE_INDEXRANGE"] = compilation.GetTypeByMetadataName("System.Index") is not null,
-            ["FEATURE_MANAGEMENT"] = compilation.GetTypeByMetadataName("System.Management.ManagementObjectSearcher") is not null,
-            ["FEATURE_MEMORY"] = compilation.GetTypeByMetadataName("System.Memory`1") is not null,
-            ["FEATURE_PROCESS"] = compilation.GetTypeByMetadataName("System.Diagnostics.Process") is not null,
-            ["FEATURE_RUNTIMEINFORMATION"] = compilation.GetTypeByMetadataName("System.Runtime.InteropServices.RuntimeInformation") is not null,
-            ["FEATURE_TASK"] = compilation.GetTypeByMetadataName("System.Threading.Tasks.Task") is not null,
-            ["FEATURE_VALUETASK"] = compilation.GetTypeByMetadataName("System.Threading.Tasks.ValueTask") is not null,
-            ["FEATURE_VALUETUPLE"] = compilation.GetTypeByMetadataName("System.ValueTuple") is not null,
-            ["FEATURE_TIMEPROVIDER"] = compilation.GetTypeByMetadataName("System.TimeProvider") is not null,
+            ALLOW_UNSAFE_BLOCKS = allowUnsafe,
+            FEATURE_ARRAYPOOL = compilation.GetTypeByMetadataName("System.Buffers.ArrayPool`1") is not null,
+            FEATURE_ASYNCINTERFACES = compilation.GetTypeByMetadataName("System.Collections.Generic.IAsyncEnumerable`1") is not null,
+            FEATURE_HASHCODE = compilation.GetTypeByMetadataName("System.HashCode") is not null,
+            FEATURE_HTTPCLIENT = compilation.GetTypeByMetadataName("System.Net.Http.HttpClient") is not null,
+            FEATURE_INDEXRANGE = compilation.GetTypeByMetadataName("System.Index") is not null,
+            FEATURE_MANAGEMENT = compilation.GetTypeByMetadataName("System.Management.ManagementObjectSearcher") is not null,
+            FEATURE_MEMORY = compilation.GetTypeByMetadataName("System.Memory`1") is not null,
+            FEATURE_PROCESS = compilation.GetTypeByMetadataName("System.Diagnostics.Process") is not null,
+            FEATURE_RUNTIMEINFORMATION = compilation.GetTypeByMetadataName("System.Runtime.InteropServices.RuntimeInformation") is not null,
+            FEATURE_TASK = compilation.GetTypeByMetadataName("System.Threading.Tasks.Task") is not null,
+            FEATURE_VALUETASK = compilation.GetTypeByMetadataName("System.Threading.Tasks.ValueTask") is not null,
+            FEATURE_VALUETUPLE = compilation.GetTypeByMetadataName("System.ValueTuple") is not null,
+            FEATURE_TIMEPROVIDER = compilation.GetTypeByMetadataName("System.TimeProvider") is not null,
         };
     }
 
@@ -79,7 +136,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // the file content and returns the source with those directive lines stripped and inactive
     // blocks removed.  Non-generator directives (#if NETCOREAPP, #if !POLYFILL_COVERAGE, etc.)
     // are left intact.
-    private static string ApplyFeatureConditions(string content, IReadOnlyDictionary<string, bool> features)
+    private static string ApplyFeatureConditions(string content, PolyfillFeatures features)
     {
         content = content.Replace("\r\n", "\n").Replace("\r", "\n");
         var parseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview);
@@ -168,11 +225,11 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     }
 
     // Returns true if the condition expression consists solely of generator-controlled feature
-    // identifiers (all keys present in the features dictionary) and logical operators.
-    private static bool IsFeatureCondition(ExpressionSyntax condition, IReadOnlyDictionary<string, bool> features)
+    // identifiers (all names present in PolyfillFeatures) and logical operators.
+    private static bool IsFeatureCondition(ExpressionSyntax condition, PolyfillFeatures features)
     {
         if (condition is IdentifierNameSyntax ident)
-            return features.ContainsKey(ident.Identifier.Text);
+            return features.Contains(ident.Identifier.Text);
         if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
             return IsFeatureCondition(prefix.Operand, features);
         if (condition is BinaryExpressionSyntax binary &&
@@ -181,11 +238,11 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         return false;
     }
 
-    // Evaluates a generator-controlled condition expression against the feature dictionary.
-    private static bool EvaluateFeatureCondition(ExpressionSyntax condition, IReadOnlyDictionary<string, bool> features)
+    // Evaluates a generator-controlled condition expression against the feature flags.
+    private static bool EvaluateFeatureCondition(ExpressionSyntax condition, PolyfillFeatures features)
     {
         if (condition is IdentifierNameSyntax ident)
-            return features.TryGetValue(ident.Identifier.Text, out var v) && v;
+            return features[ident.Identifier.Text];
         if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
             return !EvaluateFeatureCondition(prefix.Operand, features);
         if (condition is BinaryExpressionSyntax binary)
