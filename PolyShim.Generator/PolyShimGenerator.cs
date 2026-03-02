@@ -33,25 +33,9 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         public required bool FEATURE_VALUETUPLE { get; init; }
         public required bool FEATURE_TIMEPROVIDER { get; init; }
 
-        // Returns true when the given preprocessor symbol name is a generator-controlled feature.
-        public bool Contains(string name) => name is
-            nameof(ALLOW_UNSAFE_BLOCKS) or
-            nameof(FEATURE_ARRAYPOOL) or
-            nameof(FEATURE_ASYNCINTERFACES) or
-            nameof(FEATURE_HASHCODE) or
-            nameof(FEATURE_HTTPCLIENT) or
-            nameof(FEATURE_INDEXRANGE) or
-            nameof(FEATURE_MANAGEMENT) or
-            nameof(FEATURE_MEMORY) or
-            nameof(FEATURE_PROCESS) or
-            nameof(FEATURE_RUNTIMEINFORMATION) or
-            nameof(FEATURE_TASK) or
-            nameof(FEATURE_VALUETASK) or
-            nameof(FEATURE_VALUETUPLE) or
-            nameof(FEATURE_TIMEPROVIDER);
-
-        // Returns the value of the feature flag identified by preprocessor symbol name.
-        public bool this[string name] => name switch
+        // Returns the value of the feature flag identified by preprocessor symbol name,
+        // or null if the name is not a generator-controlled feature.
+        public bool? this[string name] => name switch
         {
             nameof(ALLOW_UNSAFE_BLOCKS) => ALLOW_UNSAFE_BLOCKS,
             nameof(FEATURE_ARRAYPOOL) => FEATURE_ARRAYPOOL,
@@ -67,7 +51,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             nameof(FEATURE_VALUETASK) => FEATURE_VALUETASK,
             nameof(FEATURE_VALUETUPLE) => FEATURE_VALUETUPLE,
             nameof(FEATURE_TIMEPROVIDER) => FEATURE_TIMEPROVIDER,
-            _ => false,
+            _ => null,
         };
     }
 
@@ -225,11 +209,11 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     }
 
     // Returns true if the condition expression consists solely of generator-controlled feature
-    // identifiers (all names present in PolyfillFeatures) and logical operators.
+    // identifiers (all names recognized by the PolyfillFeatures indexer) and logical operators.
     private static bool IsFeatureCondition(ExpressionSyntax condition, PolyfillFeatures features)
     {
         if (condition is IdentifierNameSyntax ident)
-            return features.Contains(ident.Identifier.Text);
+            return features[ident.Identifier.Text] is not null;
         if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
             return IsFeatureCondition(prefix.Operand, features);
         if (condition is BinaryExpressionSyntax binary &&
@@ -242,7 +226,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     private static bool EvaluateFeatureCondition(ExpressionSyntax condition, PolyfillFeatures features)
     {
         if (condition is IdentifierNameSyntax ident)
-            return features[ident.Identifier.Text];
+            return features[ident.Identifier.Text] ?? false;
         if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
             return !EvaluateFeatureCondition(prefix.Operand, features);
         if (condition is BinaryExpressionSyntax binary)
