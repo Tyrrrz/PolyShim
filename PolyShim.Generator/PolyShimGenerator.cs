@@ -111,7 +111,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         var parseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview);
 
         // Normalize line endings so both the split and trivia line numbers stay consistent.
-        content = content.Replace("\r\n", "\n");
+        // String.ReplaceLineEndings("\n") is .NET 6+; handle \r\n and lone \r manually here.
+        content = content.Replace("\r\n", "\n").Replace("\r", "\n");
 
         // First parse: discover the line numbers of all directive trivia nodes.
         var firstTree = CSharpSyntaxTree.ParseText(content, parseOptions);
