@@ -100,27 +100,42 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         return ShouldEmitTypePolyfill(root, compilation);
     }
 
-    // Parses file content after replacing preprocessor conditional directive lines with blank lines
-    // so that extension blocks and type declarations are always visible in the resulting syntax tree,
-    // regardless of which platform guard (#if NETFRAMEWORK, etc.) wraps the class body.
+    // Parses file content after blanking out all preprocessor directive lines so that extension
+    // blocks and type declarations inside #if bodies are always visible in the resulting syntax
+    // tree, regardless of which platform guard (#if NETFRAMEWORK, etc.) wraps them.
+    // Directive line positions are located via a first parse of the file's directive trivia
+    // (IfDirectiveTriviaSyntax, EndIfDirectiveTriviaSyntax, etc.) to avoid any string-based
+    // pattern matching.
     private static SyntaxNode ParseStrippingDirectives(string content)
     {
-        var sb = new StringBuilder(content.Length);
-        foreach (var line in content.Split('\n'))
+        var parseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview);
+
+        // Normalize line endings so both the split and trivia line numbers stay consistent.
+        content = content.Replace("\r\n", "\n");
+
+        // First parse: discover the line numbers of all directive trivia nodes.
+        var firstTree = CSharpSyntaxTree.ParseText(content, parseOptions);
+        var directiveLines = new HashSet<int>();
+        foreach (var trivia in firstTree.GetRoot().DescendantTrivia(descendIntoTrivia: true))
         {
-            var trimmed = line.TrimStart();
-            // Strip preprocessor conditional directives, keying on the keyword that immediately
-            // follows '#' (a simple StartsWith check is sufficient since C# only has these four
-            // conditional forms and none share a prefix with non-conditional directives).
-            if (trimmed.StartsWith("#if") || trimmed.StartsWith("#elif") ||
-                trimmed.StartsWith("#else") || trimmed.StartsWith("#endif"))
-                sb.AppendLine(); // preserve line numbers by emitting a blank line
-            else
-                sb.Append(line).Append('\n');
+            if (!trivia.IsDirective) continue;
+            var span = firstTree.GetLineSpan(trivia.Span);
+            for (var l = span.StartLinePosition.Line; l <= span.EndLinePosition.Line; l++)
+                directiveLines.Add(l);
         }
-        return CSharpSyntaxTree
-            .ParseText(sb.ToString(), CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview))
-            .GetRoot();
+
+        // Second parse: re-parse with directive lines replaced by blank lines so that the
+        // conditional content is always parsed as ordinary syntax.
+        var lines = content.Split('\n');
+        var sb = new StringBuilder(content.Length);
+        for (var i = 0; i < lines.Length; i++)
+        {
+            if (directiveLines.Contains(i))
+                sb.AppendLine();
+            else
+                sb.Append(lines[i]).Append('\n');
+        }
+        return CSharpSyntaxTree.ParseText(sb.ToString(), parseOptions).GetRoot();
     }
 
     // For type polyfills: emit the file if any type it declares is absent from the compilation.
