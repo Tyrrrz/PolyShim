@@ -23,13 +23,13 @@ internal static class MemberPolyfills_Net50_Process
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitasync
         public async Task WaitForExitAsync(CancellationToken cancellationToken = default)
         {
-            var tcs = new TaskCompletionSource<object?>(
+            var tcs = new TaskCompletionSource(
 #if !NETFRAMEWORK || NET46_OR_GREATER
                 TaskCreationOptions.RunContinuationsAsynchronously
 #endif
             );
 
-            void HandleExited(object? sender, EventArgs args) => tcs.TrySetResult(null);
+            void HandleExited(object? sender, EventArgs args) => tcs.TrySetResult();
 
             try
             {
