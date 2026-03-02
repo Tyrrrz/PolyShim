@@ -24,11 +24,7 @@
 
       <FeatureArrayPool>false</FeatureArrayPool>
       <FeatureArrayPool
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Buffers'))"
-        >true</FeatureArrayPool
-      >
-      <FeatureArrayPool
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.Buffers'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Buffers'))"
         >true</FeatureArrayPool
       >
       <FeatureArrayPool
@@ -45,11 +41,7 @@
 
       <FeatureAsyncInterfaces>false</FeatureAsyncInterfaces>
       <FeatureAsyncInterfaces
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.AsyncInterfaces'))"
-        >true</FeatureAsyncInterfaces
-      >
-      <FeatureAsyncInterfaces
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.AsyncInterfaces'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'Microsoft.Bcl.AsyncInterfaces'))"
         >true</FeatureAsyncInterfaces
       >
       <FeatureAsyncInterfaces
@@ -66,19 +58,11 @@
 
       <FeatureHashCode>false</FeatureHashCode>
       <FeatureHashCode
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.HashCode'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.HashCode'))"
         >true</FeatureHashCode
       >
       <FeatureHashCode
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.HashCode'))"
-        >true</FeatureHashCode
-      >
-      <FeatureHashCode
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.HashCode'))"
-        >true</FeatureHashCode
-      >
-      <FeatureHashCode
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.HashCode'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'Microsoft.Bcl.HashCode'))"
         >true</FeatureHashCode
       >
       <FeatureHashCode
@@ -95,19 +79,11 @@
 
       <FeatureHttpClient>false</FeatureHttpClient>
       <FeatureHttpClient
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Net.Http'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Net.Http'))"
         >true</FeatureHttpClient
       >
       <FeatureHttpClient
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.Net.Http'))"
-        >true</FeatureHttpClient
-      >
-      <FeatureHttpClient
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Net.Http'))"
-        >true</FeatureHttpClient
-      >
-      <FeatureHttpClient
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Net.Http'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'Microsoft.Net.Http'))"
         >true</FeatureHttpClient
       >
       <FeatureHttpClient
@@ -124,11 +100,7 @@
 
       <FeatureIndexRange>false</FeatureIndexRange>
       <FeatureIndexRange
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Memory'))"
-        >true</FeatureIndexRange
-      >
-      <FeatureIndexRange
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Memory'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'Microsoft.Bcl.Memory'))"
         >true</FeatureIndexRange
       >
       <FeatureIndexRange
@@ -145,11 +117,7 @@
 
       <FeatureManagement>false</FeatureManagement>
       <FeatureManagement
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Management'))"
-        >true</FeatureManagement
-      >
-      <FeatureManagement
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.Management'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Management'))"
         >true</FeatureManagement
       >
       <DefineConstants Condition="$(FeatureManagement)"
@@ -157,11 +125,8 @@
       >
 
       <FeatureMemory>false</FeatureMemory>
-      <FeatureMemory Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Memory'))"
-        >true</FeatureMemory
-      >
       <FeatureMemory
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.Memory'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Memory'))"
         >true</FeatureMemory
       >
       <FeatureMemory
@@ -178,11 +143,7 @@
 
       <FeatureProcess>false</FeatureProcess>
       <FeatureProcess
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Diagnostics.Process'))"
-        >true</FeatureProcess
-      >
-      <FeatureProcess
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.Diagnostics.Process'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Diagnostics.Process'))"
         >true</FeatureProcess
       >
       <FeatureProcess
@@ -203,11 +164,7 @@
 
       <FeatureRuntimeInformation>false</FeatureRuntimeInformation>
       <FeatureRuntimeInformation
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Runtime.InteropServices.RuntimeInformation'))"
-        >true</FeatureRuntimeInformation
-      >
-      <FeatureRuntimeInformation
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.Runtime.InteropServices.RuntimeInformation'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Runtime.InteropServices.RuntimeInformation'))"
         >true</FeatureRuntimeInformation
       >
       <FeatureRuntimeInformation
@@ -228,19 +185,11 @@
 
       <FeatureTask>false</FeatureTask>
       <FeatureTask
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Threading.Tasks'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Threading.Tasks'))"
         >true</FeatureTask
       >
       <FeatureTask
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.Threading.Tasks'))"
-        >true</FeatureTask
-      >
-      <FeatureTask
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Async'))"
-        >true</FeatureTask
-      >
-      <FeatureTask
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Async'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'Microsoft.Bcl.Async'))"
         >true</FeatureTask
       >
       <FeatureTask
@@ -259,11 +208,7 @@
 
       <FeatureValueTask>false</FeatureValueTask>
       <FeatureValueTask
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.Threading.Tasks.Extensions'))"
-        >true</FeatureValueTask
-      >
-      <FeatureValueTask
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.Threading.Tasks.Extensions'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Threading.Tasks.Extensions'))"
         >true</FeatureValueTask
       >
       <FeatureValueTask
@@ -280,11 +225,7 @@
 
       <FeatureValueTuple>false</FeatureValueTuple>
       <FeatureValueTuple
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'System.ValueTuple'))"
-        >true</FeatureValueTuple
-      >
-      <FeatureValueTuple
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'System.ValueTuple'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.ValueTuple'))"
         >true</FeatureValueTuple
       >
       <FeatureValueTuple
@@ -305,11 +246,7 @@
 
       <FeatureTimeProvider>false</FeatureTimeProvider>
       <FeatureTimeProvider
-        Condition="@(Reference-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.TimeProvider'))"
-        >true</FeatureTimeProvider
-      >
-      <FeatureTimeProvider
-        Condition="@(PackageDependencies-&gt;AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.TimeProvider'))"
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'Microsoft.Bcl.TimeProvider'))"
         >true</FeatureTimeProvider
       >
       <FeatureTimeProvider
