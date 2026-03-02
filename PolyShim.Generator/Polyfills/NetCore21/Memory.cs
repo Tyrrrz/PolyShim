@@ -1,4 +1,3 @@
-#if !FEATURE_MEMORY
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -77,4 +76,3 @@ internal readonly struct Memory<T> : IEquatable<Memory<T>>
     public static implicit operator ReadOnlyMemory<T>(Memory<T> memory) =>
         new(memory._array, memory._offset, memory.Length);
 }
-#endif

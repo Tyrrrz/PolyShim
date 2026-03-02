@@ -1,4 +1,3 @@
-﻿#if !FEATURE_HASHCODE
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -151,4 +150,3 @@ internal partial class HashCode
         return hc.ToHashCode();
     }
 }
-#endif

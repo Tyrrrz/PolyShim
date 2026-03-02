@@ -1,4 +1,3 @@
-﻿#if !FEATURE_MEMORY
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -50,4 +49,3 @@ internal partial class MemoryPool<T>
         public void Dispose() => pool.Return(buffer);
     }
 }
-#endif

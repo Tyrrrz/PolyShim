@@ -1,4 +1,3 @@
-﻿#if !FEATURE_RUNTIMEINFORMATION
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -50,4 +49,3 @@ internal static class RuntimeInformation
     }
 #endif
 }
-#endif

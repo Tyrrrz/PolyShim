@@ -1,4 +1,3 @@
-﻿#if FEATURE_TASK
 #if (NETCOREAPP && !NET8_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -61,5 +60,4 @@ internal static class MemberPolyfills_Net80_Parallel
                 .ConfigureAwait(false);
     }
 }
-#endif
 #endif

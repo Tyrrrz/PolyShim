@@ -132,10 +132,10 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         }
     }
 
-    // Evaluates all generator-controlled #if conditions (FEATURE_* and ALLOW_UNSAFE_BLOCKS) in
-    // the file content and returns the source with those directive lines stripped and inactive
-    // blocks removed.  Non-generator directives (#if NETCOREAPP, #if !POLYFILL_COVERAGE, etc.)
-    // are left intact.
+    // Evaluates generator-controlled #if conditions (FEATURE_* and ALLOW_UNSAFE_BLOCKS) that
+    // appear inside polyfill files (e.g. guarding individual members or interface inheritance).
+    // Returns the source with those directive lines stripped and inactive blocks removed.
+    // Non-generator directives (#if NETCOREAPP, #if !POLYFILL_COVERAGE, etc.) are left intact.
     private static string ApplyFeatureConditions(string content, PolyfillFeatures features)
     {
         content = content.Replace("\r\n", "\n").Replace("\r", "\n");
