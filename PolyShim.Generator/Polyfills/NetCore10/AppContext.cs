@@ -1,4 +1,3 @@
-﻿#if (NETFRAMEWORK && !NET47_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_6_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -41,5 +40,4 @@ namespace System
 #endif
     internal static class AppContext;
 }
-#endif
 #endif

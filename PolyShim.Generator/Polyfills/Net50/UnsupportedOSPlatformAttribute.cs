@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -33,4 +32,3 @@ internal class UnsupportedOSPlatformAttribute(string platformName, string? messa
 {
     public string? Message { get; } = message;
 }
-#endif

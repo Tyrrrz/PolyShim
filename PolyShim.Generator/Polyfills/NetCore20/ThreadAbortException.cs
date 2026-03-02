@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETSTANDARD && !NETSTANDARD2_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -19,4 +18,3 @@ internal class ThreadAbortException : SystemException
 
     public object? ExceptionState => null;
 }
-#endif

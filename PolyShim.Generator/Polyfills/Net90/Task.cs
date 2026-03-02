@@ -1,4 +1,3 @@
-#if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -57,4 +56,3 @@ internal static class MemberPolyfills_Net90_Task
     }
 #endif
 }
-#endif

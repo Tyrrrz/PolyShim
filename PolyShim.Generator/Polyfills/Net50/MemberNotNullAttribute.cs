@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 
 // ReSharper disable RedundantUsingDirective
@@ -17,4 +16,3 @@ internal class MemberNotNullAttribute(params string[] members) : Attribute
 {
     public string[] Members { get; } = members;
 }
-#endif

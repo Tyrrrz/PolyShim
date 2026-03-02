@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -29,4 +28,3 @@ internal class LibraryImportAttribute(string libraryName) : Attribute
 
     public Type? StringMarshallingCustomType { get; init; }
 }
-#endif

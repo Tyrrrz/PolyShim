@@ -1,4 +1,3 @@
-#if (NETCOREAPP && !NET8_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -31,4 +30,3 @@ internal static class MemberPolyfills_Net80_CancellationTokenSource
         }
     }
 }
-#endif

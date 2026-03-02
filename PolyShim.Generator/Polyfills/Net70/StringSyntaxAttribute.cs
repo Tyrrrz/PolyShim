@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 
 // ReSharper disable RedundantUsingDirective
@@ -55,4 +54,3 @@ internal partial class StringSyntaxAttribute
 
     public const string Xml = nameof(Xml);
 }
-#endif

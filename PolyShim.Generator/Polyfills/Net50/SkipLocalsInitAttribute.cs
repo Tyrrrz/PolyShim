@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -25,4 +24,3 @@ namespace System.Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 #endif
 internal class SkipLocalsInitAttribute : Attribute;
-#endif

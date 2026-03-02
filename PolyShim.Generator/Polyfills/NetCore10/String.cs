@@ -1,4 +1,4 @@
-﻿#if (NETFRAMEWORK && !NET40_OR_GREATER)
+#if (NETFRAMEWORK && !NET40_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -21,4 +21,5 @@ internal static class MemberPolyfills_NetCore10_String
             value is null || value.All(char.IsWhiteSpace);
     }
 }
+
 #endif

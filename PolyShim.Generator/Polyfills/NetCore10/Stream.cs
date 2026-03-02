@@ -1,4 +1,3 @@
-﻿#if (NETFRAMEWORK && !NET40_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -41,4 +40,3 @@ internal static class MemberPolyfills_NetCore10_Stream
         public void CopyTo(Stream destination) => source.CopyTo(destination, 81920);
     }
 }
-#endif

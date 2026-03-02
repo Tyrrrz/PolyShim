@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -15,4 +14,3 @@ namespace System.Runtime.Versioning;
 [ExcludeFromCodeCoverage]
 #endif
 internal class TargetPlatformAttribute(string platformName) : OSPlatformAttribute(platformName);
-#endif

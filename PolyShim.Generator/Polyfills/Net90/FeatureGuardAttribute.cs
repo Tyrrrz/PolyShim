@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 #pragma warning disable CS9216
 
@@ -18,4 +17,3 @@ internal class FeatureGuardAttribute(Type featureType) : Attribute
 {
     public Type FeatureType { get; } = featureType;
 }
-#endif

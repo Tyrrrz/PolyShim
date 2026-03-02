@@ -1,4 +1,3 @@
-#if NETSTANDARD && !NETSTANDARD1_2_OR_GREATER
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -155,4 +154,3 @@ internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
         _cts?.Dispose();
     }
 }
-#endif

@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 
 // ReSharper disable RedundantUsingDirective
@@ -14,4 +13,3 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 #endif
 internal class SetsRequiredMembersAttribute : Attribute;
-#endif

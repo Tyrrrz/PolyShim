@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NETCOREAPP3_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #nullable enable
 
 // ReSharper disable RedundantUsingDirective
@@ -19,4 +18,3 @@ internal class NotNullIfNotNullAttribute(string parameterName) : Attribute
 {
     public string ParameterName { get; } = parameterName;
 }
-#endif

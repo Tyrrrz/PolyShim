@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NETCOREAPP3_0_OR_GREATER) || (NET35_OR_GREATER) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -68,4 +67,3 @@ internal static class MemberPolyfills_NetCore30_Process
     }
 #endif
 }
-#endif

@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 #pragma warning disable CS9216
 
@@ -18,4 +17,3 @@ internal class FeatureSwitchDefinitionAttribute(string switchName) : Attribute
 {
     public string SwitchName { get; } = switchName;
 }
-#endif

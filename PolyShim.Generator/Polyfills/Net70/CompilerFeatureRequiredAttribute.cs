@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -27,4 +26,3 @@ internal partial class CompilerFeatureRequiredAttribute
 
     public const string RequiredMembers = nameof(RequiredMembers);
 }
-#endif

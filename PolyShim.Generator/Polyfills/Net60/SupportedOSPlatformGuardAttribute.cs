@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET6_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -27,5 +26,4 @@ internal class SupportedOSPlatformGuardAttribute(string platformName)
 {
     public string PlatformName { get; } = platformName;
 }
-#endif
 #endif

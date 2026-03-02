@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 
 // ReSharper disable RedundantUsingDirective
@@ -27,4 +26,3 @@ internal class UnconditionalSuppressMessageAttribute(string category, string che
 
     public string? Target { get; init; }
 }
-#endif

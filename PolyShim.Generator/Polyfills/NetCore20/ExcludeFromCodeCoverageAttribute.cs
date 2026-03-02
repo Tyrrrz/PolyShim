@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETFRAMEWORK && !NET40_OR_GREATER) || (NETSTANDARD && !NETSTANDARD2_0_OR_GREATER)
 #nullable enable
 
 // ReSharper disable RedundantUsingDirective
@@ -23,4 +22,3 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 #endif
 internal class ExcludeFromCodeCoverageAttribute : Attribute;
-#endif

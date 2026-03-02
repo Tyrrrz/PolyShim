@@ -1,4 +1,3 @@
-#if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETFRAMEWORK && !NET472_OR_GREATER) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #if !NETFRAMEWORK || NET40_OR_GREATER
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -36,5 +35,4 @@ internal static class MemberPolyfills_NetCore20_SortedSet
         }
     }
 }
-#endif
 #endif

@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET10_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -20,4 +19,3 @@ internal static class MemberPolyfills_Net100_TimeSpan
             TimeSpan.FromMilliseconds(milliseconds, 0);
     }
 }
-#endif

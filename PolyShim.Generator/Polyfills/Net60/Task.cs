@@ -66,4 +66,5 @@ internal static class MemberPolyfills_Net60_Task
             await task.WaitAsync(timeout, CancellationToken.None).ConfigureAwait(false);
     }
 }
+
 #endif

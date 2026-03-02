@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -21,4 +20,3 @@ internal static class MemberPolyfills_Net70_Int64
             long.TryParse(s, NumberStyles.Integer, provider, out result);
     }
 }
-#endif

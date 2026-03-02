@@ -1,4 +1,3 @@
-#if NETSTANDARD && !NETSTANDARD1_3_OR_GREATER
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -38,4 +37,3 @@ internal abstract class RandomNumberGenerator : IDisposable
         public override void GetBytes(byte[] data) => _random.NextBytes(data);
     }
 }
-#endif

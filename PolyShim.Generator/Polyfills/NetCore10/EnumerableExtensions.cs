@@ -1,4 +1,4 @@
-﻿#if (NETFRAMEWORK && !NET471_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_6_OR_GREATER)
+#if (NETFRAMEWORK && !NET471_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_6_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -51,4 +51,5 @@ internal static class MemberPolyfills_NetCore10_EnumerableExtensions
 #endif
     }
 }
+
 #endif

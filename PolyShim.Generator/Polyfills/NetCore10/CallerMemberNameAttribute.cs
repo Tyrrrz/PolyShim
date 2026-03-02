@@ -1,4 +1,3 @@
-﻿#if (NETFRAMEWORK && !NET45_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -15,4 +14,3 @@ namespace System.Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 #endif
 internal class CallerMemberNameAttribute : Attribute;
-#endif

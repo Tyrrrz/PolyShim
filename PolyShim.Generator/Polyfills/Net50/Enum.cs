@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -28,4 +27,3 @@ internal static class MemberPolyfills_Net50_Enum
             where T : struct, Enum => (T[])Enum.GetValues(typeof(T));
     }
 }
-#endif

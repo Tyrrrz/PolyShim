@@ -1,4 +1,3 @@
-﻿#if (NETFRAMEWORK && !NET40_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -20,4 +19,3 @@ internal class TargetFrameworkAttribute(string frameworkName) : Attribute
 
     public string? FrameworkDisplayName { get; set; }
 }
-#endif

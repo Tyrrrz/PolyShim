@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 #pragma warning disable CS9216
 // ReSharper disable RedundantUsingDirective
@@ -22,4 +21,3 @@ internal class OverloadResolutionPriorityAttribute(int priority) : Attribute
 {
     public int Priority { get; } = priority;
 }
-#endif

@@ -1,4 +1,3 @@
-﻿#if (NETFRAMEWORK && !NET40_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -21,4 +20,3 @@ internal static class MemberPolyfills_NetCore10_Path
             paths.Aggregate(string.Empty, Path.Combine);
     }
 }
-#endif

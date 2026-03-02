@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETSTANDARD && !NETSTANDARD2_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -15,4 +14,3 @@ namespace System;
 #endif
 internal class SystemException(string? message = null, Exception? innerException = null)
     : Exception(message, innerException);
-#endif

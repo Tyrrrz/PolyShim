@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -40,4 +39,3 @@ internal static class MemberPolyfills_NetCore21_TextWriter
 #endif
     }
 }
-#endif

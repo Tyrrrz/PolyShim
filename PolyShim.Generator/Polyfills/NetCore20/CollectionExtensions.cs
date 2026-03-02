@@ -1,4 +1,4 @@
-﻿#if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
+#if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #nullable enable
 using System.Diagnostics.CodeAnalysis;
 
@@ -31,4 +31,5 @@ internal static class MemberPolyfills_NetCore20_CollectionExtensions
         public TValue? GetValueOrDefault(TKey key) => dictionary.GetValueOrDefault(key, default);
     }
 }
+
 #endif

@@ -1,4 +1,3 @@
-﻿#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 
 // ReSharper disable RedundantUsingDirective
@@ -22,4 +21,3 @@ internal class RequiresUnreferencedCodeAttribute(string message) : Attribute
 
     public string? Url { get; init; }
 }
-#endif
