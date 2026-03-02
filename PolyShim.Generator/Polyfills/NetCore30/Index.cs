@@ -1,4 +1,3 @@
-﻿#if !FEATURE_INDEXRANGE
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -61,4 +60,3 @@ internal readonly struct Index(int value) : IEquatable<Index>
 
     public static implicit operator Index(int value) => FromStart(value);
 }
-#endif

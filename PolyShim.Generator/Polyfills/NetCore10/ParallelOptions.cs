@@ -1,4 +1,3 @@
-﻿#if FEATURE_TASK
 #if (NETFRAMEWORK && !NET40_OR_GREATER) || (NETSTANDARD && !NETSTANDARD2_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -22,5 +21,4 @@ internal class ParallelOptions
 
     public TaskScheduler? TaskScheduler { get; set; }
 }
-#endif
 #endif

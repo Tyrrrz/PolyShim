@@ -1,4 +1,3 @@
-﻿#if !FEATURE_VALUETUPLE
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -716,4 +715,3 @@ internal readonly struct ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>(
         ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> right
     ) => left.CompareTo(right) >= 0;
 }
-#endif

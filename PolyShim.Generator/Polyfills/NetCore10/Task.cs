@@ -1,4 +1,3 @@
-﻿#if FEATURE_TASK
 #if (NETFRAMEWORK && !NET46_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_3_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -213,5 +212,4 @@ internal static class MemberPolyfills_NetCore10_Task
 #endif
     }
 }
-#endif
 #endif

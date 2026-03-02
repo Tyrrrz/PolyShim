@@ -1,4 +1,3 @@
-﻿#if !FEATURE_VALUETUPLE
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -26,4 +25,3 @@ internal class TupleElementNamesAttribute(string[] transformNames) : Attribute
 {
     public string[] TransformNames { get; } = transformNames;
 }
-#endif

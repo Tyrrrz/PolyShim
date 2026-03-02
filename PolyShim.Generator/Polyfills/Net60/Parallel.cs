@@ -1,4 +1,3 @@
-﻿#if FEATURE_TASK
 #if (NETCOREAPP && !NET6_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -158,5 +157,4 @@ internal static class MemberPolyfills_Net60_Parallel
 #endif
     }
 }
-#endif
 #endif

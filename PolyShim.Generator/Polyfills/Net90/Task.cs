@@ -1,4 +1,3 @@
-#if FEATURE_TASK
 #if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
@@ -58,5 +57,4 @@ internal static class MemberPolyfills_Net90_Task
     }
 #endif
 }
-#endif
 #endif

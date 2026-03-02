@@ -1,4 +1,3 @@
-﻿#if !FEATURE_INDEXRANGE
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -29,4 +28,3 @@ internal static class RuntimeHelpers
         return result;
     }
 }
-#endif

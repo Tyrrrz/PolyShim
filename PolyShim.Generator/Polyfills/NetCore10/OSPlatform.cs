@@ -1,4 +1,3 @@
-﻿#if !FEATURE_RUNTIMEINFORMATION
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -40,4 +39,3 @@ internal partial struct OSPlatform
 
     public static OSPlatform Windows { get; } = new("Windows");
 }
-#endif
