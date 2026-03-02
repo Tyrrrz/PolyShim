@@ -88,6 +88,12 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     private static void Execute(SourceProductionContext context, Compilation compilation)
     {
         var features = ComputeFeatures(compilation);
+        // All source files in a C# project share the same preprocessor symbols (they are
+        // project-level settings), so reading from the first tree is sufficient.
+        var definedSymbols = new HashSet<string>(
+            (compilation.SyntaxTrees.FirstOrDefault()?.Options as CSharpParseOptions)?
+                .PreprocessorSymbolNames ?? Array.Empty<string>()
+        );
 
         var assembly = typeof(PolyShimGenerator).Assembly;
         foreach (var resourceName in assembly.GetManifestResourceNames().OrderBy(n => n, StringComparer.Ordinal))
@@ -112,15 +118,16 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             if (baseName.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
                 baseName = baseName.Substring(0, baseName.Length - 3);
 
-            context.AddSource(baseName + ".g.cs", SourceText.From(ApplyFeatureConditions(content, features), Encoding.UTF8));
+            context.AddSource(baseName + ".g.cs", SourceText.From(ApplyConditions(content, features, definedSymbols), Encoding.UTF8));
         }
     }
 
-    // Evaluates generator-controlled #if conditions (FEATURE_* and ALLOW_UNSAFE_BLOCKS) that
-    // appear inside polyfill files (e.g. guarding individual members or interface inheritance).
-    // Returns the source with those directive lines stripped and inactive blocks removed.
-    // Non-generator directives (#if NETCOREAPP, #if !POLYFILL_COVERAGE, etc.) are left intact.
-    private static string ApplyFeatureConditions(string content, PolyfillFeatures features)
+    // Evaluates all #if/#elif/#else/#endif directives in a polyfill file against the feature
+    // flags and compilation's defined preprocessor symbols, stripping all directive lines and
+    // inactive branches from the emitted source. Unknown symbols evaluate to false (matching
+    // C# preprocessor semantics). #pragma, #nullable, and other non-conditional directives are
+    // passed through unchanged.
+    private static string ApplyConditions(string content, PolyfillFeatures features, HashSet<string> definedSymbols)
     {
         content = content.Replace("\r\n", "\n").Replace("\r", "\n");
         var parseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview);
@@ -138,68 +145,82 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         var lines = content.Split('\n');
         var sb = new StringBuilder(content.Length);
 
-        // Stack: (isFeature, result)
-        //   isFeature=true  → this #if uses generator-controlled conditions
-        //   result=false    → this branch contributed +1 to excludeDepth
-        var stack = new Stack<(bool isFeature, bool result)>();
-        // Number of false generator #if blocks we're currently inside
+        // Stack: (anyBranchTaken: bool, currentlyExcluding: bool)
+        //   anyBranchTaken=true    → a previous branch was already active; remaining branches are skipped
+        //   currentlyExcluding=true → this branch incremented excludeDepth (must decrement on #elif/#else/#endif)
+        var stack = new Stack<(bool anyBranchTaken, bool currentlyExcluding)>();
+        // Number of false #if branches we're nested inside
         int excludeDepth = 0;
 
         for (var i = 0; i < lines.Length; i++)
         {
             if (!directiveAtLine.TryGetValue(i, out var directive))
             {
-                // Regular content line: emit unless we're inside a false feature block
                 if (excludeDepth == 0)
                     sb.Append(lines[i]).Append('\n');
             }
-            else if (directive is IfDirectiveTriviaSyntax ifDir && IsFeatureCondition(ifDir.Condition, features))
+            else if (directive is IfDirectiveTriviaSyntax ifDir)
             {
-                // Generator-controlled #if: evaluate (always false when already excluding)
-                var result = excludeDepth == 0 && EvaluateFeatureCondition(ifDir.Condition, features);
-                stack.Push((true, result));
+                var result = excludeDepth == 0 && EvaluateCondition(ifDir.Condition, features, definedSymbols);
+                stack.Push((result, !result));
                 if (!result)
                     excludeDepth++;
-                // Always suppress the directive line itself
+                // Suppress the directive line
+            }
+            else if (directive is ElifDirectiveTriviaSyntax elifDir)
+            {
+                if (stack.Count > 0)
+                {
+                    var (anyBranchTaken, currentlyExcluding) = stack.Pop();
+                    if (currentlyExcluding)
+                        excludeDepth--;
+                    if (anyBranchTaken)
+                    {
+                        stack.Push((true, true));
+                        excludeDepth++;
+                    }
+                    else
+                    {
+                        var result = excludeDepth == 0 && EvaluateCondition(elifDir.Condition, features, definedSymbols);
+                        stack.Push((result, !result));
+                        if (!result)
+                            excludeDepth++;
+                    }
+                }
+                // Suppress the directive line
+            }
+            else if (directive is ElseDirectiveTriviaSyntax)
+            {
+                if (stack.Count > 0)
+                {
+                    var (anyBranchTaken, currentlyExcluding) = stack.Pop();
+                    if (currentlyExcluding)
+                        excludeDepth--;
+                    if (anyBranchTaken)
+                    {
+                        stack.Push((true, true));
+                        excludeDepth++;
+                    }
+                    else
+                    {
+                        stack.Push((true, false));
+                    }
+                }
+                // Suppress the directive line
             }
             else if (directive is EndIfDirectiveTriviaSyntax)
             {
                 if (stack.Count > 0)
                 {
-                    var (isFeature, result) = stack.Pop();
-                    if (isFeature)
-                    {
-                        if (!result)
-                            excludeDepth--;
-                        // Suppress the #endif for generator-controlled blocks
-                    }
-                    else
-                    {
-                        // Non-generator #endif: emit unless we're in an excluded zone
-                        if (excludeDepth == 0)
-                            sb.Append(lines[i]).Append('\n');
-                    }
+                    var (_, currentlyExcluding) = stack.Pop();
+                    if (currentlyExcluding)
+                        excludeDepth--;
                 }
-                else
-                {
-                    // Orphaned #endif (unbalanced): treat as pass-through
-                    if (excludeDepth == 0)
-                        sb.Append(lines[i]).Append('\n');
-                }
-            }
-            else if (directive is IfDirectiveTriviaSyntax)
-            {
-                // Non-generator #if: push to stack and pass through.
-                // Its #elif / #else / #endif are handled by the catch-all below (which emits
-                // them unchanged), preserving the directive block for the C# compiler.
-                stack.Push((false, false));
-                if (excludeDepth == 0)
-                    sb.Append(lines[i]).Append('\n');
+                // Suppress the directive line
             }
             else
             {
-                // All other directives (#elif, #else for non-generator blocks, #pragma,
-                // #nullable, etc.): pass through unchanged if not inside an excluded zone.
+                // #pragma, #nullable, etc.: pass through unchanged if not inside an excluded branch
                 if (excludeDepth == 0)
                     sb.Append(lines[i]).Append('\n');
             }
@@ -208,34 +229,24 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         return sb.ToString();
     }
 
-    // Returns true if the condition expression consists solely of generator-controlled feature
-    // identifiers (all names recognized by the PolyfillFeatures indexer) and logical operators.
-    private static bool IsFeatureCondition(ExpressionSyntax condition, PolyfillFeatures features)
+    // Evaluates a preprocessor condition expression against both the feature flags and the
+    // compilation's defined preprocessor symbols. Undefined symbols evaluate to false, matching
+    // C# preprocessor semantics. Parenthesized subexpressions are unwrapped recursively.
+    private static bool EvaluateCondition(ExpressionSyntax condition, PolyfillFeatures features, HashSet<string> definedSymbols)
     {
         if (condition is IdentifierNameSyntax ident)
-            return features[ident.Identifier.Text] is not null;
+            return features[ident.Identifier.Text] ?? definedSymbols.Contains(ident.Identifier.Text);
         if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
-            return IsFeatureCondition(prefix.Operand, features);
-        if (condition is BinaryExpressionSyntax binary &&
-            (binary.IsKind(SyntaxKind.LogicalAndExpression) || binary.IsKind(SyntaxKind.LogicalOrExpression)))
-            return IsFeatureCondition(binary.Left, features) && IsFeatureCondition(binary.Right, features);
-        return false;
-    }
-
-    // Evaluates a generator-controlled condition expression against the feature flags.
-    private static bool EvaluateFeatureCondition(ExpressionSyntax condition, PolyfillFeatures features)
-    {
-        if (condition is IdentifierNameSyntax ident)
-            return features[ident.Identifier.Text] ?? false;
-        if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
-            return !EvaluateFeatureCondition(prefix.Operand, features);
+            return !EvaluateCondition(prefix.Operand, features, definedSymbols);
         if (condition is BinaryExpressionSyntax binary)
         {
             if (binary.IsKind(SyntaxKind.LogicalAndExpression))
-                return EvaluateFeatureCondition(binary.Left, features) && EvaluateFeatureCondition(binary.Right, features);
+                return EvaluateCondition(binary.Left, features, definedSymbols) && EvaluateCondition(binary.Right, features, definedSymbols);
             if (binary.IsKind(SyntaxKind.LogicalOrExpression))
-                return EvaluateFeatureCondition(binary.Left, features) || EvaluateFeatureCondition(binary.Right, features);
+                return EvaluateCondition(binary.Left, features, definedSymbols) || EvaluateCondition(binary.Right, features, definedSymbols);
         }
+        if (condition is ParenthesizedExpressionSyntax paren)
+            return EvaluateCondition(paren.Expression, features, definedSymbols);
         return false;
     }
 
