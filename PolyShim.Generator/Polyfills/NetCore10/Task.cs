@@ -171,7 +171,7 @@ internal static class MemberPolyfills_NetCore10_Task
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)
         public static Task Delay(TimeSpan delay, CancellationToken cancellationToken)
         {
-            var tcs = new TaskCompletionSource<object?>();
+            var tcs = new TaskCompletionSource();
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -186,7 +186,7 @@ internal static class MemberPolyfills_NetCore10_Task
             {
                 registration.Dispose();
                 timer?.Dispose();
-                tcs.TrySetResult(null);
+                tcs.TrySetResult();
             }
 
             void CleanupAndSetCanceled()
