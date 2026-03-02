@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -35,27 +34,6 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             ["FEATURE_VALUETUPLE"] = "System.ValueTuple",
             ["FEATURE_TIMEPROVIDER"] = "System.TimeProvider",
         };
-
-    // Detects any extension(...) block declaration line within a file
-    private static readonly Regex ExtensionBlockRegex = new Regex(
-        @"(?m)^\s+extension\s*(?:<[^>]+>)?\s*\(",
-        RegexOptions.Compiled);
-
-    // Matches a single extension block declaration line, capturing the inner argument list
-    private static readonly Regex ExtensionDeclRegex = new Regex(
-        @"^\s+extension\s*(?:<[^>]+>)?\s*\(\s*(.*?)\s*\)\s*\r?$",
-        RegexOptions.Compiled);
-
-    // Matches a public method declaration at 8-space indent and captures the method name
-    private static readonly Regex PublicMethodRegex = new Regex(
-        @"^        public\s+(?:(?:static|async|override|virtual|abstract|new|sealed)\s+)*" +
-        @"(?:[\w<>()?.,\[\]\s]+?\s)(\w+)\s*(?:<[^>]*>)?\s*\(",
-        RegexOptions.Compiled);
-
-    // Matches a public property declaration at 8-space indent (no '(' on the line)
-    private static readonly Regex PublicPropertyRegex = new Regex(
-        @"^        public\s+(?:(?:static|override|virtual|abstract|new)\s+)*\S+\s+(\w+)\s*(?:=>|\{|;|$)",
-        RegexOptions.Compiled);
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -114,17 +92,41 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // - All other files declare types that shadow native BCL types (type polyfills)
     private static bool ShouldEmitFile(string content, Compilation compilation)
     {
-        if (ExtensionBlockRegex.IsMatch(content))
-            return ShouldEmitMemberPolyfill(content, compilation);
+        var root = ParseStrippingDirectives(content);
 
-        return ShouldEmitTypePolyfill(content, compilation);
+        if (root.DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>().Any())
+            return ShouldEmitMemberPolyfill(root, compilation);
+
+        return ShouldEmitTypePolyfill(root, compilation);
+    }
+
+    // Parses file content after replacing preprocessor conditional directive lines with blank lines
+    // so that extension blocks and type declarations are always visible in the resulting syntax tree,
+    // regardless of which platform guard (#if NETFRAMEWORK, etc.) wraps the class body.
+    private static SyntaxNode ParseStrippingDirectives(string content)
+    {
+        var sb = new StringBuilder(content.Length);
+        foreach (var line in content.Split('\n'))
+        {
+            var trimmed = line.TrimStart();
+            // Strip preprocessor conditional directives, keying on the keyword that immediately
+            // follows '#' (a simple StartsWith check is sufficient since C# only has these four
+            // conditional forms and none share a prefix with non-conditional directives).
+            if (trimmed.StartsWith("#if") || trimmed.StartsWith("#elif") ||
+                trimmed.StartsWith("#else") || trimmed.StartsWith("#endif"))
+                sb.AppendLine(); // preserve line numbers by emitting a blank line
+            else
+                sb.Append(line).Append('\n');
+        }
+        return CSharpSyntaxTree
+            .ParseText(sb.ToString(), CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview))
+            .GetRoot();
     }
 
     // For type polyfills: emit the file if any type it declares is absent from the compilation.
     // Uses Roslyn's own syntax parser so all valid C# type declarations are handled correctly.
-    private static bool ShouldEmitTypePolyfill(string content, Compilation compilation)
+    private static bool ShouldEmitTypePolyfill(SyntaxNode root, Compilation compilation)
     {
-        var root = CSharpSyntaxTree.ParseText(content).GetRoot();
         bool foundAnyBclType = false;
 
         foreach (var node in root.DescendantNodes())
@@ -154,46 +156,29 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
     // For member polyfills: emit the file if any method/property in any extension block is
     // absent from the target type in the compilation.
-    private static bool ShouldEmitMemberPolyfill(string content, Compilation compilation)
+    private static bool ShouldEmitMemberPolyfill(SyntaxNode root, Compilation compilation)
     {
-        var usingNamespaces = ParseUsingNamespaces(content);
-        var lines = content.Split('\n');
-        string? currentTargetRaw = null;
+        var usingNamespaces = CollectUsingNamespaces(root);
 
-        foreach (var line in lines)
+        foreach (var ext in root.DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>())
         {
-            // New extension block declaration — update the current target type
-            var extMatch = ExtensionDeclRegex.Match(line);
-            if (extMatch.Success)
-            {
-                currentTargetRaw = extMatch.Groups[1].Value.Trim();
-                continue;
-            }
+            var param0 = ext.ParameterList?.Parameters.FirstOrDefault();
+            if (param0 is null) continue;
 
-            if (currentTargetRaw is null)
-                continue;
+            var targetType = ResolveExtensionTarget(param0.Type, usingNamespaces, compilation);
 
-            if (line.Contains("("))
+            foreach (var member in ext.Members)
             {
-                // Potential public method declaration
-                var methodMatch = PublicMethodRegex.Match(line);
-                if (methodMatch.Success)
+                if (member is MethodDeclarationSyntax meth &&
+                    meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
                 {
-                    var memberName = methodMatch.Groups[1].Value;
-                    var openParen = line.IndexOf('(', methodMatch.Index + methodMatch.Length - 1);
-                    var paramCount = CountParamsOnLine(line, openParen);
-                    if (IsMemberMissing(currentTargetRaw, usingNamespaces, compilation, memberName, paramCount))
+                    if (IsMemberMissing(targetType, meth.Identifier.Text, meth.ParameterList.Parameters.Count))
                         return true;
                 }
-            }
-            else if (line.StartsWith("        public ", StringComparison.Ordinal))
-            {
-                // Potential public property declaration (no '(' on the line)
-                var propMatch = PublicPropertyRegex.Match(line);
-                if (propMatch.Success)
+                else if (member is PropertyDeclarationSyntax prop &&
+                         prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
                 {
-                    var memberName = propMatch.Groups[1].Value;
-                    if (IsMemberMissing(currentTargetRaw, usingNamespaces, compilation, memberName, paramCount: -1))
+                    if (IsMemberMissing(targetType, prop.Identifier.Text, paramCount: -1))
                         return true;
                 }
             }
@@ -204,15 +189,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
     // Returns true if the named member is absent from the resolved target type.
     // paramCount == -1 means a property check (existence only, no parameter matching).
-    private static bool IsMemberMissing(
-        string targetRaw,
-        IReadOnlyList<string> usingNamespaces,
-        Compilation compilation,
-        string memberName,
-        int paramCount)
+    private static bool IsMemberMissing(INamedTypeSymbol? targetType, string memberName, int paramCount)
     {
-        var targetType = ResolveExtensionTarget(targetRaw, usingNamespaces, compilation);
-
         // If the target type is absent from the compilation, conservatively emit the polyfill
         if (targetType is null)
             return true;
@@ -230,119 +208,98 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         return members.All(m => m is IMethodSymbol ms && ms.Parameters.Length < paramCount);
     }
 
-    // Resolves the raw extension target string to the Roslyn type symbol whose members we check.
+    // Resolves the extension parameter's TypeSyntax to the Roslyn type symbol whose members we check.
     // Special cases: array (T[]), string, and ArraySegment<T> extensions add methods that live
     // natively in System.MemoryExtensions, so we check that type instead.
     private static INamedTypeSymbol? ResolveExtensionTarget(
-        string rawTarget,
+        TypeSyntax? typeSyntax,
         IReadOnlyList<string> usingNamespaces,
         Compilation compilation)
     {
-        var typePart = ExtractTypePart(rawTarget);
-        var bare = typePart.TrimEnd('?').Trim();
+        if (typeSyntax is null)
+            return null;
 
-        // Array extensions (e.g. T[]?) — native methods live in System.MemoryExtensions
-        if (bare.EndsWith("[]"))
+        // Strip nullability: T? → T
+        if (typeSyntax is NullableTypeSyntax nullable)
+            typeSyntax = nullable.ElementType;
+
+        // Array type (T[]): span-related members live in System.MemoryExtensions
+        if (typeSyntax is ArrayTypeSyntax)
             return compilation.GetTypeByMetadataName("System.MemoryExtensions");
 
-        // string extensions — native methods live in System.MemoryExtensions
-        if (bare == "string")
-            return compilation.GetTypeByMetadataName("System.MemoryExtensions");
+        // Predefined keyword type (string, byte, int, etc.)
+        if (typeSyntax is PredefinedTypeSyntax pre)
+        {
+            // string: span/memory members live in System.MemoryExtensions
+            if (pre.Keyword.IsKind(SyntaxKind.StringKeyword))
+                return compilation.GetTypeByMetadataName("System.MemoryExtensions");
 
-        var (baseName, arity) = ExtractBaseNameAndArity(bare);
+            // Other predefined types (byte, int, etc.): conservatively emit
+            return null;
+        }
 
-        // ArraySegment<T> extensions — native methods live in System.MemoryExtensions
-        if (baseName == "ArraySegment")
-            return compilation.GetTypeByMetadataName("System.MemoryExtensions");
+        // Simple name: IdentifierNameSyntax (e.g., "Path", "Random", "HttpClient")
+        if (typeSyntax is IdentifierNameSyntax ident)
+            return ResolveTypeName(ident.Identifier.Text, arity: 0, usingNamespaces, compilation);
 
+        // Generic name: GenericNameSyntax (e.g., "IEnumerable<T>", "Task<T>", "ArraySegment<T>")
+        if (typeSyntax is GenericNameSyntax generic)
+        {
+            // ArraySegment<T>: span-related members live in System.MemoryExtensions
+            if (generic.Identifier.Text == "ArraySegment")
+                return compilation.GetTypeByMetadataName("System.MemoryExtensions");
+
+            return ResolveTypeName(
+                generic.Identifier.Text,
+                generic.TypeArgumentList.Arguments.Count,
+                usingNamespaces,
+                compilation);
+        }
+
+        // Fall back: return null for any unhandled type form (conservative — emit the polyfill).
+        // Polyfill extension parameters never use qualified names or other exotic type forms.
+        return null;
+    }
+
+    // Resolves a simple or generic type name to a symbol by trying each using namespace in order.
+    private static INamedTypeSymbol? ResolveTypeName(
+        string baseName,
+        int arity,
+        IReadOnlyList<string> usingNamespaces,
+        Compilation compilation)
+    {
         var metadataName = arity > 0 ? $"{baseName}`{arity}" : baseName;
-
         foreach (var ns in usingNamespaces)
         {
             var sym = compilation.GetTypeByMetadataName($"{ns}.{metadataName}");
             if (sym is not null) return sym;
         }
-
         return null;
     }
 
-    // Extracts the type portion from an extension target argument:
-    //   "HttpClient httpClient" → "HttpClient"
-    //   "Task<T> task"         → "Task<T>"
-    //   "T[]? array"           → "T[]?"
-    //   "Parallel"             → "Parallel"  (static extension, no parameter name)
-    private static string ExtractTypePart(string inner)
-    {
-        if (string.IsNullOrEmpty(inner)) return inner;
-        var parts = inner.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-        if (parts.Length <= 1) return inner;
-        var last = parts[parts.Length - 1];
-        return Regex.IsMatch(last, @"^\w+$")
-            ? string.Join(" ", parts, 0, parts.Length - 1)
-            : inner;
-    }
-
-    // Splits a type name into base name and generic arity:
-    //   "Task<T>"               → ("Task", 1)
-    //   "EqualityComparer<T>"   → ("EqualityComparer", 1)
-    //   "Parallel"              → ("Parallel", 0)
-    private static (string name, int arity) ExtractBaseNameAndArity(string typeName)
-    {
-        var idx = typeName.IndexOf('<');
-        if (idx < 0) return (typeName, 0);
-
-        var baseName = typeName.Substring(0, idx);
-        var innerLen = typeName.Length - idx - 2;
-        if (innerLen <= 0) return (baseName, 0); // malformed or empty generic params
-        var inner = typeName.Substring(idx + 1, innerLen);
-        int arity = 1, depth = 0;
-        foreach (var c in inner)
-        {
-            if (c == '<') depth++;
-            else if (c == '>') depth--;
-            else if (c == ',' && depth == 0) arity++;
-        }
-        return (baseName, arity);
-    }
-
-    // Parses using directives and the file-scoped namespace declaration from file content
-    private static List<string> ParseUsingNamespaces(string content)
+    // Collects all non-alias, non-static using namespaces plus the file-scoped namespace (if any).
+    private static List<string> CollectUsingNamespaces(SyntaxNode root)
     {
         var result = new List<string>();
-        foreach (Match m in Regex.Matches(content, @"(?m)^\s*using\s+([\w.]+)\s*;"))
-            result.Add(m.Groups[1].Value);
 
-        var nsMatch = Regex.Match(content, @"(?m)^namespace\s+([\w.]+)\s*;");
-        if (nsMatch.Success)
+        foreach (var u in root.DescendantNodes().OfType<UsingDirectiveSyntax>())
         {
-            var ns = nsMatch.Groups[1].Value;
-            if (!result.Contains(ns))
-                result.Add(ns);
+            if (u.StaticKeyword.IsKind(SyntaxKind.StaticKeyword)) continue;
+            if (u.Alias is not null) continue;
+            var name = u.Name?.ToString();
+            if (name is not null && !result.Contains(name))
+                result.Add(name);
+        }
+
+        var fileNs = root.DescendantNodes().OfType<FileScopedNamespaceDeclarationSyntax>().FirstOrDefault();
+        if (fileNs is not null)
+        {
+            var name = fileNs.Name.ToString();
+            if (!result.Contains(name))
+                result.Add(name);
         }
 
         return result;
-    }
-
-    // Counts parameters visible on the opening line of a method signature.
-    // For multi-line signatures only the first line is scanned; when no content follows
-    // the opening '(' (count = 0) the check "Parameters.Length >= 0" is trivially true, so
-    // emission falls back to a plain name-existence check.
-    private static int CountParamsOnLine(string line, int openParenIdx)
-    {
-        if (openParenIdx < 0 || openParenIdx >= line.Length) return 0;
-        var rest = line.Substring(openParenIdx + 1);
-        var restTrimmed = rest.TrimStart();
-        if (restTrimmed.Length == 0 || restTrimmed.StartsWith(")")) return 0;
-
-        int commas = 0, depth = 0;
-        foreach (var c in rest)
-        {
-            if (c == ')' && depth == 0) break;
-            if (c == '(' || c == '<' || c == '[') depth++;
-            else if (c == ')' || c == '>' || c == ']') depth--;
-            else if (c == ',' && depth == 0) commas++;
-        }
-        return commas + 1;
     }
 
     // Enumerates all public members with the given name from the type and its base types
