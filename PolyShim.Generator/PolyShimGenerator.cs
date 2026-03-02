@@ -32,32 +32,11 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         public required bool FEATURE_VALUETASK { get; init; }
         public required bool FEATURE_VALUETUPLE { get; init; }
         public required bool FEATURE_TIMEPROVIDER { get; init; }
-
-        // Returns the value of the feature flag identified by preprocessor symbol name,
-        // or null if the name is not a generator-controlled feature.
-        public bool? this[string name] => name switch
-        {
-            nameof(ALLOW_UNSAFE_BLOCKS) => ALLOW_UNSAFE_BLOCKS,
-            nameof(FEATURE_ARRAYPOOL) => FEATURE_ARRAYPOOL,
-            nameof(FEATURE_ASYNCINTERFACES) => FEATURE_ASYNCINTERFACES,
-            nameof(FEATURE_HASHCODE) => FEATURE_HASHCODE,
-            nameof(FEATURE_HTTPCLIENT) => FEATURE_HTTPCLIENT,
-            nameof(FEATURE_INDEXRANGE) => FEATURE_INDEXRANGE,
-            nameof(FEATURE_MANAGEMENT) => FEATURE_MANAGEMENT,
-            nameof(FEATURE_MEMORY) => FEATURE_MEMORY,
-            nameof(FEATURE_PROCESS) => FEATURE_PROCESS,
-            nameof(FEATURE_RUNTIMEINFORMATION) => FEATURE_RUNTIMEINFORMATION,
-            nameof(FEATURE_TASK) => FEATURE_TASK,
-            nameof(FEATURE_VALUETASK) => FEATURE_VALUETASK,
-            nameof(FEATURE_VALUETUPLE) => FEATURE_VALUETUPLE,
-            nameof(FEATURE_TIMEPROVIDER) => FEATURE_TIMEPROVIDER,
-            _ => null,
-        };
     }
 
     // Computes feature flags for the current compilation by querying type availability.
-    // These are used by ApplyFeatureConditions to evaluate and strip #if FEATURE_* /
-    // #if !FEATURE_* / #if ALLOW_UNSAFE_BLOCKS directives from polyfill files.
+    // The resulting booleans are merged into definedSymbols so that #if FEATURE_* and
+    // #if ALLOW_UNSAFE_BLOCKS directives in polyfill files are evaluated correctly.
     private static PolyfillFeatures ComputeFeatures(Compilation compilation)
     {
         bool allowUnsafe = compilation is CSharpCompilation cs && cs.Options.AllowUnsafe;
@@ -94,6 +73,22 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             (compilation.SyntaxTrees.FirstOrDefault()?.Options as CSharpParseOptions)?
                 .PreprocessorSymbolNames ?? Array.Empty<string>()
         );
+        // Merge generator-computed feature flags into definedSymbols so that #if FEATURE_*
+        // and #if ALLOW_UNSAFE_BLOCKS conditions are evaluated alongside TFM symbols.
+        if (features.ALLOW_UNSAFE_BLOCKS) definedSymbols.Add(nameof(features.ALLOW_UNSAFE_BLOCKS));
+        if (features.FEATURE_ARRAYPOOL) definedSymbols.Add(nameof(features.FEATURE_ARRAYPOOL));
+        if (features.FEATURE_ASYNCINTERFACES) definedSymbols.Add(nameof(features.FEATURE_ASYNCINTERFACES));
+        if (features.FEATURE_HASHCODE) definedSymbols.Add(nameof(features.FEATURE_HASHCODE));
+        if (features.FEATURE_HTTPCLIENT) definedSymbols.Add(nameof(features.FEATURE_HTTPCLIENT));
+        if (features.FEATURE_INDEXRANGE) definedSymbols.Add(nameof(features.FEATURE_INDEXRANGE));
+        if (features.FEATURE_MANAGEMENT) definedSymbols.Add(nameof(features.FEATURE_MANAGEMENT));
+        if (features.FEATURE_MEMORY) definedSymbols.Add(nameof(features.FEATURE_MEMORY));
+        if (features.FEATURE_PROCESS) definedSymbols.Add(nameof(features.FEATURE_PROCESS));
+        if (features.FEATURE_RUNTIMEINFORMATION) definedSymbols.Add(nameof(features.FEATURE_RUNTIMEINFORMATION));
+        if (features.FEATURE_TASK) definedSymbols.Add(nameof(features.FEATURE_TASK));
+        if (features.FEATURE_VALUETASK) definedSymbols.Add(nameof(features.FEATURE_VALUETASK));
+        if (features.FEATURE_VALUETUPLE) definedSymbols.Add(nameof(features.FEATURE_VALUETUPLE));
+        if (features.FEATURE_TIMEPROVIDER) definedSymbols.Add(nameof(features.FEATURE_TIMEPROVIDER));
 
         var assembly = typeof(PolyShimGenerator).Assembly;
         foreach (var resourceName in assembly.GetManifestResourceNames().OrderBy(n => n, StringComparer.Ordinal))
@@ -118,16 +113,16 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             if (baseName.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
                 baseName = baseName.Substring(0, baseName.Length - 3);
 
-            context.AddSource(baseName + ".g.cs", SourceText.From(ApplyConditions(content, features, definedSymbols), Encoding.UTF8));
+            context.AddSource(baseName + ".g.cs", SourceText.From(ApplyConditions(content, definedSymbols), Encoding.UTF8));
         }
     }
 
-    // Evaluates all #if/#elif/#else/#endif directives in a polyfill file against the feature
-    // flags and compilation's defined preprocessor symbols, stripping all directive lines and
-    // inactive branches from the emitted source. Unknown symbols evaluate to false (matching
-    // C# preprocessor semantics). #pragma, #nullable, and other non-conditional directives are
-    // passed through unchanged.
-    private static string ApplyConditions(string content, PolyfillFeatures features, HashSet<string> definedSymbols)
+    // Evaluates all #if/#elif/#else/#endif directives in a polyfill file against the
+    // defined preprocessor symbols (TFM symbols, feature flags, and any others), stripping
+    // all directive lines and inactive branches from the emitted source. Unknown symbols
+    // evaluate to false (matching C# preprocessor semantics). #pragma, #nullable, and other
+    // non-conditional directives are passed through unchanged.
+    private static string ApplyConditions(string content, HashSet<string> definedSymbols)
     {
         content = content.Replace("\r\n", "\n").Replace("\r", "\n");
         var parseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview);
@@ -161,7 +156,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             }
             else if (directive is IfDirectiveTriviaSyntax ifDir)
             {
-                var result = excludeDepth == 0 && EvaluateCondition(ifDir.Condition, features, definedSymbols);
+                var result = excludeDepth == 0 && EvaluateCondition(ifDir.Condition, definedSymbols);
                 stack.Push((result, !result));
                 if (!result)
                     excludeDepth++;
@@ -181,7 +176,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
                     }
                     else
                     {
-                        var result = excludeDepth == 0 && EvaluateCondition(elifDir.Condition, features, definedSymbols);
+                        var result = excludeDepth == 0 && EvaluateCondition(elifDir.Condition, definedSymbols);
                         stack.Push((result, !result));
                         if (!result)
                             excludeDepth++;
@@ -229,24 +224,24 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         return sb.ToString();
     }
 
-    // Evaluates a preprocessor condition expression against both the feature flags and the
-    // compilation's defined preprocessor symbols. Undefined symbols evaluate to false, matching
-    // C# preprocessor semantics. Parenthesized subexpressions are unwrapped recursively.
-    private static bool EvaluateCondition(ExpressionSyntax condition, PolyfillFeatures features, HashSet<string> definedSymbols)
+    // Evaluates a preprocessor condition expression against the defined preprocessor symbols.
+    // Undefined symbols evaluate to false, matching C# preprocessor semantics.
+    // Parenthesized subexpressions are unwrapped recursively.
+    private static bool EvaluateCondition(ExpressionSyntax condition, HashSet<string> definedSymbols)
     {
         if (condition is IdentifierNameSyntax ident)
-            return features[ident.Identifier.Text] ?? definedSymbols.Contains(ident.Identifier.Text);
+            return definedSymbols.Contains(ident.Identifier.Text);
         if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
-            return !EvaluateCondition(prefix.Operand, features, definedSymbols);
+            return !EvaluateCondition(prefix.Operand, definedSymbols);
         if (condition is BinaryExpressionSyntax binary)
         {
             if (binary.IsKind(SyntaxKind.LogicalAndExpression))
-                return EvaluateCondition(binary.Left, features, definedSymbols) && EvaluateCondition(binary.Right, features, definedSymbols);
+                return EvaluateCondition(binary.Left, definedSymbols) && EvaluateCondition(binary.Right, definedSymbols);
             if (binary.IsKind(SyntaxKind.LogicalOrExpression))
-                return EvaluateCondition(binary.Left, features, definedSymbols) || EvaluateCondition(binary.Right, features, definedSymbols);
+                return EvaluateCondition(binary.Left, definedSymbols) || EvaluateCondition(binary.Right, definedSymbols);
         }
         if (condition is ParenthesizedExpressionSyntax paren)
-            return EvaluateCondition(paren.Expression, features, definedSymbols);
+            return EvaluateCondition(paren.Expression, definedSymbols);
         return false;
     }
 
