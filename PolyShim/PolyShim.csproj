@@ -17,11 +17,15 @@
   </PropertyGroup>
 
   <!-- Use the generator to inject polyfills for each TFM (multi-TFM verification) -->
+  <!-- SkipGetTargetFrameworkProperties is required because netstandard2.0 cannot be auto-matched
+       from old TFMs like net35; the generator is always consumed as an analyzer, not a library. -->
   <ItemGroup>
     <ProjectReference
       Include="../PolyShim.Generator/PolyShim.Generator.csproj"
       OutputItemType="Analyzer"
       ReferenceOutputAssembly="false"
+      SkipGetTargetFrameworkProperties="true"
+      SetTargetFramework="TargetFramework=netstandard2.0"
     />
   </ItemGroup>
   <ItemGroup>
