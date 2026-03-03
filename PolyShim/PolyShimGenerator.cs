@@ -554,8 +554,11 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         {
             // string: check System.String for instance/static members; MemoryExtensions
             // extension methods (AsSpan, AsMemory, etc.) are found via namespace lookup.
+            // Use GetTypesByMetadataName to handle type-forwarded types (e.g., on .NET Framework
+            // System.String is defined in mscorlib.dll and forwarded from System.Runtime.dll,
+            // causing GetTypeByMetadataName to return null due to ambiguity).
             if (pre.Keyword.IsKind(SyntaxKind.StringKeyword))
-                return compilation.GetTypeByMetadataName("System.String");
+                return GetFirstAccessibleType(compilation, "System.String");
 
             // Other predefined types (byte, int, etc.): conservatively emit
             return null;
@@ -583,6 +586,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     }
 
     // Resolves a simple or generic type name to a symbol by trying each using namespace in order.
+    // Uses GetTypesByMetadataName to handle type-forwarded types correctly (e.g., on .NET Framework
+    // many BCL types are forwarded from facade assemblies, causing GetTypeByMetadataName to return null).
     private static INamedTypeSymbol? ResolveTypeName(
         string baseName,
         int arity,
@@ -592,10 +597,26 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         var metadataName = arity > 0 ? $"{baseName}`{arity}" : baseName;
         foreach (var ns in usingNamespaces)
         {
-            var sym = compilation.GetTypeByMetadataName($"{ns}.{metadataName}");
+            var sym = GetFirstAccessibleType(compilation, $"{ns}.{metadataName}");
             if (sym is not null) return sym;
         }
         return null;
+    }
+
+    // Returns the first publicly accessible symbol matching the given metadata name, handling
+    // the case where a type is defined in multiple assemblies (type forwarding).
+    // Types that are internal to a foreign assembly are skipped; the current assembly's own types
+    // and public types from referenced assemblies are preferred.
+    // Falls back to types[0] if no public/own-assembly definition exists — this can happen for
+    // rare internal-forwarded types, but in practice BCL types are always public.
+    private static INamedTypeSymbol? GetFirstAccessibleType(Compilation compilation, string metadataName)
+    {
+        var types = compilation.GetTypesByMetadataName(metadataName);
+        if (types.IsEmpty) return null;
+        return types.FirstOrDefault(t =>
+            t.DeclaredAccessibility == Accessibility.Public
+            || SymbolEqualityComparer.Default.Equals(t.ContainingAssembly, compilation.Assembly)
+        ) ?? types[0];
     }
 
     // Collects all non-alias, non-static using namespaces plus the file-scoped namespace (if any).
