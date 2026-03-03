@@ -176,8 +176,21 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             // Use GetTypesByMetadataName instead of GetTypeByMetadataName: the latter returns
             // null when a type is defined in multiple assemblies (e.g., due to type forwarding
             // in newer .NET versions), which would cause false-positive polyfill emission.
-            if (compilation.GetTypesByMetadataName(fullName).IsEmpty)
-                return true; // At least one declared type is missing → emit
+            // Only consider a type as "already available" if it's public (accessible from any
+            // assembly) or defined in the current compilation's own assembly (e.g., source-
+            // generated). Types that are internal to a foreign reference assembly (e.g.,
+            // internal polyfills embedded in FluentAssertions.dll) are not accessible to
+            // consumer code, so the polyfill must still be emitted.
+            var foundTypes = compilation.GetTypesByMetadataName(fullName);
+            var typeIsAccessible = foundTypes.Any(t =>
+                t.DeclaredAccessibility == Accessibility.Public
+                || SymbolEqualityComparer.Default.Equals(
+                    t.ContainingAssembly,
+                    compilation.Assembly
+                )
+            );
+            if (!typeIsAccessible)
+                return true; // No accessible version exists → emit
         }
 
         // No namespaced types found (e.g., NamespaceDummies.cs) → always emit
