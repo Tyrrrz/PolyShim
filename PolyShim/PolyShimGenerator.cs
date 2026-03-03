@@ -46,12 +46,15 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         // Build a preamble with #define lines for generator-computed feature flags.
         // FEATURE_* symbols are not standard project symbols, so the consumer's compiler
         // cannot evaluate them without this preamble. TFM symbols (e.g. NET5_0_OR_GREATER)
-        // and ALLOW_UNSAFE_BLOCKS are standard and handled by the consumer's compiler directly.
+        // are standard and handled by the consumer's compiler directly.
+        // ALLOW_UNSAFE_BLOCKS is also not automatically defined; read it from compilation options.
         var preamble = new StringBuilder();
         if (features.FEATURE_ASYNCINTERFACES) preamble.AppendLine("#define FEATURE_ASYNCINTERFACES");
         if (features.FEATURE_MANAGEMENT) preamble.AppendLine("#define FEATURE_MANAGEMENT");
         if (features.FEATURE_PROCESS) preamble.AppendLine("#define FEATURE_PROCESS");
         if (features.FEATURE_TASK) preamble.AppendLine("#define FEATURE_TASK");
+        if (compilation.Options is CSharpCompilationOptions csharpOptions && csharpOptions.AllowUnsafe)
+            preamble.AppendLine("#define ALLOW_UNSAFE_BLOCKS");
         var preambleStr = preamble.ToString();
 
         var assembly = typeof(PolyShimGenerator).Assembly;
@@ -182,18 +185,34 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             // internal polyfills embedded in FluentAssertions.dll) are not accessible to
             // consumer code, so the polyfill must still be emitted.
             var foundTypes = compilation.GetTypesByMetadataName(fullName);
-            var typeIsAccessible = foundTypes.Any(t =>
+            var accessibleType = foundTypes.FirstOrDefault(t =>
                 t.DeclaredAccessibility == Accessibility.Public
                 || SymbolEqualityComparer.Default.Equals(
                     t.ContainingAssembly,
                     compilation.Assembly
                 )
             );
-            if (!typeIsAccessible)
+            if (accessibleType is null)
                 return true; // No accessible version exists → emit
+
+            // Type is accessible — check if any public method declared in the polyfill
+            // is absent from the existing type (e.g., RuntimeHelpers.GetSubArray on .NET Framework).
+            if (node is TypeDeclarationSyntax tdNode)
+            {
+                foreach (var mDecl in tdNode.Members.OfType<MethodDeclarationSyntax>())
+                {
+                    if (!mDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                        continue;
+                    var paramCount = mDecl.ParameterList.Parameters.Count;
+                    if (!accessibleType.GetMembers(mDecl.Identifier.Text)
+                            .OfType<IMethodSymbol>()
+                            .Any(m => m.Parameters.Length == paramCount))
+                        return true; // Method missing from existing type → emit
+                }
+            }
         }
 
-        // No namespaced types found (e.g., NamespaceDummies.cs) → always emit
+        // No BCL-replacement types found in this file → always emit
         return !foundAnyBclType;
     }
 
@@ -243,6 +262,15 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
                         if (IsMethodMissing(hostType, meth.Identifier.Text, meth.ParameterList.Parameters.Count + 1))
                             return true;
                     }
+                    else if (member is PropertyDeclarationSyntax prop &&
+                             prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                    {
+                        // Check for the property as a public static property on the host type.
+                        if (hostType is null || !hostType.GetMembers(prop.Identifier.Text)
+                                .OfType<IPropertySymbol>()
+                                .Any(p => p.DeclaredAccessibility == Accessibility.Public && p.IsStatic))
+                            return true;
+                    }
                 }
             }
             else
@@ -272,7 +300,11 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
                     if (member is MethodDeclarationSyntax meth &&
                         meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
                     {
-                        if (IsMemberMissing(targetType, meth.Identifier.Text, meth.ParameterList.Parameters.Count, usingNamespaces, compilation))
+                        var paramCount = meth.ParameterList.Parameters.Count;
+                        var paramTypeNames = meth.ParameterList.Parameters
+                            .Select(p => GetPolyfillParamTypeName(p.Type))
+                            .ToList();
+                        if (IsMemberMissing(targetType, meth.Identifier.Text, paramCount, usingNamespaces, compilation, paramTypeNames))
                             return true;
                     }
                     else if (member is PropertyDeclarationSyntax prop &&
@@ -306,11 +338,15 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
     // Returns true if the named member is absent from the resolved target type.
     // paramCount == -1 means a property check (existence only, no parameter matching).
+    // polyfillParamTypeNames provides the polyfill method's parameter type base-names for
+    // disambiguation when an overload with the same name and count but different types exists
+    // (e.g., NextBytes(Span<byte>) vs NextBytes(byte[])).
     // Also checks for BCL extension methods in static types of the imported namespaces so
     // that polyfills for interface targets (e.g., IEnumerable<T>) correctly detect native
     // LINQ/collection extensions that live in separate static classes (e.g., Enumerable).
     private static bool IsMemberMissing(INamedTypeSymbol? targetType, string memberName, int paramCount,
-        IReadOnlyList<string> usingNamespaces, Compilation compilation)
+        IReadOnlyList<string> usingNamespaces, Compilation compilation,
+        IReadOnlyList<string>? polyfillParamTypeNames = null)
     {
         // If the target type is absent (e.g., T[] representative MemoryExtensions not in compilation),
         // fall back to checking for BCL extension methods in the imported namespaces.
@@ -328,14 +364,82 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         if (paramCount < 0)
             return false; // Property: presence is sufficient
 
-        // Method: verify at least one overload accepts at least as many parameters as the polyfill.
-        // This distinguishes new CT-accepting overloads from pre-existing ones (e.g. ReadLineAsync(CT)
-        // vs ReadLineAsync() which existed long before the CT overload).
-        if (!members.All(m => m is IMethodSymbol ms && ms.Parameters.Length < paramCount))
-            return false;
+        // Method: look for an overload with exactly the same number of parameters.
+        // Using exact count (not >=) avoids false negatives where a same-name overload with
+        // more required params (e.g., TryParse(string, NumberStyles, IFP, out T) with 4 params)
+        // would incorrectly suppress emission of the polyfill for the 3-param variant.
+        var exactMatches = members
+            .OfType<IMethodSymbol>()
+            .Where(ms => ms.Parameters.Length == paramCount)
+            .ToList();
 
-        // All instance overloads have too few params — check for a matching BCL extension method.
+        if (exactMatches.Count > 0)
+        {
+            if (polyfillParamTypeNames is null)
+                return false; // No type info — exact count match is sufficient
+
+            // Type names provided: verify at least one exact-count overload is type-compatible.
+            // This distinguishes overloads that differ only in parameter types
+            // (e.g., NextBytes(Span<byte>) vs NextBytes(byte[])).
+            foreach (var method in exactMatches)
+            {
+                var compatible = true;
+                for (var i = 0; i < paramCount && compatible; i++)
+                    if (GetSymbolTypeName(method.Parameters[i].Type) != polyfillParamTypeNames[i])
+                        compatible = false;
+                if (compatible)
+                    return false; // Compatible overload exists → don't emit
+            }
+
+            // Exact count match found but types differ — check BCL extension methods too.
+            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation);
+        }
+
+        // No exact-count match at all — check for a matching BCL extension method.
         return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation);
+    }
+
+    // Returns the base type name of a Roslyn type symbol for parameter-type comparison.
+    // Arrays return "ElementName[]" (e.g., "Byte[]"), named types return their simple name.
+    private static string GetSymbolTypeName(ITypeSymbol type) =>
+        type switch
+        {
+            IArrayTypeSymbol arr => arr.ElementType.Name + "[]",
+            _ => type.Name,
+        };
+
+    // Extracts the base type name from a polyfill method's parameter TypeSyntax.
+    // Nullable wrappers (T?) are unwrapped; C# keyword types are normalized to their CLR names.
+    private static string GetPolyfillParamTypeName(TypeSyntax? typeSyntax)
+    {
+        if (typeSyntax is NullableTypeSyntax nts) typeSyntax = nts.ElementType;
+        return typeSyntax switch
+        {
+            PredefinedTypeSyntax pre => pre.Keyword.ValueText switch
+            {
+                "int" => "Int32",
+                "long" => "Int64",
+                "short" => "Int16",
+                "byte" => "Byte",
+                "float" => "Single",
+                "double" => "Double",
+                "decimal" => "Decimal",
+                "bool" => "Boolean",
+                "char" => "Char",
+                "string" => "String",
+                "object" => "Object",
+                "sbyte" => "SByte",
+                "uint" => "UInt32",
+                "ulong" => "UInt64",
+                "ushort" => "UInt16",
+                var k => k,
+            },
+            IdentifierNameSyntax id => id.Identifier.Text,
+            GenericNameSyntax gen => gen.Identifier.Text,
+            ArrayTypeSyntax arr => GetPolyfillParamTypeName(arr.ElementType) + "[]",
+            // Unknown syntax: return empty string so type comparison fails → conservative emit.
+            _ => "",
+        };
     }
 
     // Returns true if any public static type in the given namespaces declares a public extension
