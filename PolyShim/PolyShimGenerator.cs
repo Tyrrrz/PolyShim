@@ -195,21 +195,14 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             if (accessibleType is null)
                 return true; // No accessible version exists → emit
 
-            // Type is accessible — check if any public method declared in the polyfill
-            // is absent from the existing type (e.g., RuntimeHelpers.GetSubArray on .NET Framework).
-            if (node is TypeDeclarationSyntax tdNode)
-            {
-                foreach (var mDecl in tdNode.Members.OfType<MethodDeclarationSyntax>())
-                {
-                    if (!mDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
-                        continue;
-                    var paramCount = mDecl.ParameterList.Parameters.Count;
-                    if (!accessibleType.GetMembers(mDecl.Identifier.Text)
-                            .OfType<IMethodSymbol>()
-                            .Any(m => m.Parameters.Length == paramCount))
-                        return true; // Method missing from existing type → emit
-                }
-            }
+            // Special case: RuntimeHelpers is a compiler-known type where the C# compiler
+            // merges all definitions across assemblies when locating members it needs for
+            // code generation (e.g., GetSubArray for array-slice syntax). The type exists on
+            // .NET Framework but lacks GetSubArray, so emit if that specific method is absent.
+            if (typeName == "RuntimeHelpers"
+                && ns == "System.Runtime.CompilerServices"
+                && !accessibleType.GetMembers("GetSubArray").OfType<IMethodSymbol>().Any())
+                return true;
         }
 
         // No BCL-replacement types found in this file → always emit
