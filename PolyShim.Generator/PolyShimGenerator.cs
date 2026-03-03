@@ -15,10 +15,9 @@ namespace PolyShim;
 internal sealed class PolyShimGenerator : IIncrementalGenerator
 {
     // Strongly-typed feature flags for the current compilation.
-    // Each property name matches the preprocessor symbol evaluated by ApplyFeatureConditions.
+    // Each property name matches a preprocessor symbol prepended as a #define to emitted sources.
     private sealed class PolyfillFeatures
     {
-        public required bool ALLOW_UNSAFE_BLOCKS { get; init; }
         public required bool FEATURE_ASYNCINTERFACES { get; init; }
         public required bool FEATURE_MANAGEMENT { get; init; }
         public required bool FEATURE_PROCESS { get; init; }
@@ -26,20 +25,14 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     }
 
     // Computes feature flags for the current compilation by querying type availability.
-    // The resulting booleans are merged into definedSymbols so that #if FEATURE_* and
-    // #if ALLOW_UNSAFE_BLOCKS directives in polyfill files are evaluated correctly.
-    private static PolyfillFeatures ComputeFeatures(Compilation compilation)
-    {
-        bool allowUnsafe = compilation is CSharpCompilation cs && cs.Options.AllowUnsafe;
-        return new PolyfillFeatures
+    private static PolyfillFeatures ComputeFeatures(Compilation compilation) =>
+        new PolyfillFeatures
         {
-            ALLOW_UNSAFE_BLOCKS = allowUnsafe,
             FEATURE_ASYNCINTERFACES = compilation.GetTypeByMetadataName("System.Collections.Generic.IAsyncEnumerable`1") is not null,
             FEATURE_MANAGEMENT = compilation.GetTypeByMetadataName("System.Management.ManagementObjectSearcher") is not null,
             FEATURE_PROCESS = compilation.GetTypeByMetadataName("System.Diagnostics.Process") is not null,
             FEATURE_TASK = compilation.GetTypeByMetadataName("System.Threading.Tasks.Task") is not null,
         };
-    }
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -49,19 +42,17 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     private static void Execute(SourceProductionContext context, Compilation compilation)
     {
         var features = ComputeFeatures(compilation);
-        // All source files in a C# project share the same preprocessor symbols (they are
-        // project-level settings), so reading from the first tree is sufficient.
-        var definedSymbols = new HashSet<string>(
-            (compilation.SyntaxTrees.FirstOrDefault()?.Options as CSharpParseOptions)?
-                .PreprocessorSymbolNames ?? Array.Empty<string>()
-        );
-        // Merge generator-computed feature flags into definedSymbols so that #if FEATURE_*
-        // and #if ALLOW_UNSAFE_BLOCKS conditions are evaluated alongside TFM symbols.
-        if (features.ALLOW_UNSAFE_BLOCKS) definedSymbols.Add(nameof(features.ALLOW_UNSAFE_BLOCKS));
-        if (features.FEATURE_ASYNCINTERFACES) definedSymbols.Add(nameof(features.FEATURE_ASYNCINTERFACES));
-        if (features.FEATURE_MANAGEMENT) definedSymbols.Add(nameof(features.FEATURE_MANAGEMENT));
-        if (features.FEATURE_PROCESS) definedSymbols.Add(nameof(features.FEATURE_PROCESS));
-        if (features.FEATURE_TASK) definedSymbols.Add(nameof(features.FEATURE_TASK));
+
+        // Build a preamble with #define lines for generator-computed feature flags.
+        // FEATURE_* symbols are not standard project symbols, so the consumer's compiler
+        // cannot evaluate them without this preamble. TFM symbols (e.g. NET5_0_OR_GREATER)
+        // and ALLOW_UNSAFE_BLOCKS are standard and handled by the consumer's compiler directly.
+        var preamble = new StringBuilder();
+        if (features.FEATURE_ASYNCINTERFACES) preamble.AppendLine("#define FEATURE_ASYNCINTERFACES");
+        if (features.FEATURE_MANAGEMENT) preamble.AppendLine("#define FEATURE_MANAGEMENT");
+        if (features.FEATURE_PROCESS) preamble.AppendLine("#define FEATURE_PROCESS");
+        if (features.FEATURE_TASK) preamble.AppendLine("#define FEATURE_TASK");
+        var preambleStr = preamble.ToString();
 
         var assembly = typeof(PolyShimGenerator).Assembly;
         foreach (var resourceName in assembly.GetManifestResourceNames().OrderBy(n => n, StringComparer.Ordinal))
@@ -86,136 +77,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             if (baseName.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
                 baseName = baseName.Substring(0, baseName.Length - 3);
 
-            context.AddSource(baseName + ".g.cs", SourceText.From(ApplyConditions(content, definedSymbols), Encoding.UTF8));
+            context.AddSource(baseName + ".g.cs", SourceText.From(preambleStr + content, Encoding.UTF8));
         }
-    }
-
-    // Evaluates all #if/#elif/#else/#endif directives in a polyfill file against the
-    // defined preprocessor symbols (TFM symbols, feature flags, and any others), stripping
-    // all directive lines and inactive branches from the emitted source. Unknown symbols
-    // evaluate to false (matching C# preprocessor semantics). #pragma, #nullable, and other
-    // non-conditional directives are passed through unchanged.
-    private static string ApplyConditions(string content, HashSet<string> definedSymbols)
-    {
-        content = content.Replace("\r\n", "\n").Replace("\r", "\n");
-        var parseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview);
-        var tree = CSharpSyntaxTree.ParseText(content, parseOptions);
-
-        // Map line number → directive syntax node (one directive per line in practice)
-        var directiveAtLine = new Dictionary<int, DirectiveTriviaSyntax>();
-        foreach (var trivia in tree.GetRoot().DescendantTrivia(descendIntoTrivia: true))
-        {
-            if (!trivia.IsDirective) continue;
-            if (trivia.GetStructure() is not DirectiveTriviaSyntax dir) continue;
-            directiveAtLine[tree.GetLineSpan(trivia.Span).StartLinePosition.Line] = dir;
-        }
-
-        var lines = content.Split('\n');
-        var sb = new StringBuilder(content.Length);
-
-        // Stack: (anyBranchTaken: bool, currentlyExcluding: bool)
-        //   anyBranchTaken=true    → a previous branch was already active; remaining branches are skipped
-        //   currentlyExcluding=true → this branch incremented excludeDepth (must decrement on #elif/#else/#endif)
-        var stack = new Stack<(bool anyBranchTaken, bool currentlyExcluding)>();
-        // Number of false #if branches we're nested inside
-        int excludeDepth = 0;
-
-        for (var i = 0; i < lines.Length; i++)
-        {
-            if (!directiveAtLine.TryGetValue(i, out var directive))
-            {
-                if (excludeDepth == 0)
-                    sb.Append(lines[i]).Append('\n');
-            }
-            else if (directive is IfDirectiveTriviaSyntax ifDir)
-            {
-                var result = excludeDepth == 0 && EvaluateCondition(ifDir.Condition, definedSymbols);
-                stack.Push((result, !result));
-                if (!result)
-                    excludeDepth++;
-                // Suppress the directive line
-            }
-            else if (directive is ElifDirectiveTriviaSyntax elifDir)
-            {
-                if (stack.Count > 0)
-                {
-                    var (anyBranchTaken, currentlyExcluding) = stack.Pop();
-                    if (currentlyExcluding)
-                        excludeDepth--;
-                    if (anyBranchTaken)
-                    {
-                        stack.Push((true, true));
-                        excludeDepth++;
-                    }
-                    else
-                    {
-                        var result = excludeDepth == 0 && EvaluateCondition(elifDir.Condition, definedSymbols);
-                        stack.Push((result, !result));
-                        if (!result)
-                            excludeDepth++;
-                    }
-                }
-                // Suppress the directive line
-            }
-            else if (directive is ElseDirectiveTriviaSyntax)
-            {
-                if (stack.Count > 0)
-                {
-                    var (anyBranchTaken, currentlyExcluding) = stack.Pop();
-                    if (currentlyExcluding)
-                        excludeDepth--;
-                    if (anyBranchTaken)
-                    {
-                        stack.Push((true, true));
-                        excludeDepth++;
-                    }
-                    else
-                    {
-                        stack.Push((true, false));
-                    }
-                }
-                // Suppress the directive line
-            }
-            else if (directive is EndIfDirectiveTriviaSyntax)
-            {
-                if (stack.Count > 0)
-                {
-                    var (_, currentlyExcluding) = stack.Pop();
-                    if (currentlyExcluding)
-                        excludeDepth--;
-                }
-                // Suppress the directive line
-            }
-            else
-            {
-                // #pragma, #nullable, etc.: pass through unchanged if not inside an excluded branch
-                if (excludeDepth == 0)
-                    sb.Append(lines[i]).Append('\n');
-            }
-        }
-
-        return sb.ToString();
-    }
-
-    // Evaluates a preprocessor condition expression against the defined preprocessor symbols.
-    // Undefined symbols evaluate to false, matching C# preprocessor semantics.
-    // Parenthesized subexpressions are unwrapped recursively.
-    private static bool EvaluateCondition(ExpressionSyntax condition, HashSet<string> definedSymbols)
-    {
-        if (condition is IdentifierNameSyntax ident)
-            return definedSymbols.Contains(ident.Identifier.Text);
-        if (condition is PrefixUnaryExpressionSyntax prefix && prefix.IsKind(SyntaxKind.LogicalNotExpression))
-            return !EvaluateCondition(prefix.Operand, definedSymbols);
-        if (condition is BinaryExpressionSyntax binary)
-        {
-            if (binary.IsKind(SyntaxKind.LogicalAndExpression))
-                return EvaluateCondition(binary.Left, definedSymbols) && EvaluateCondition(binary.Right, definedSymbols);
-            if (binary.IsKind(SyntaxKind.LogicalOrExpression))
-                return EvaluateCondition(binary.Left, definedSymbols) || EvaluateCondition(binary.Right, definedSymbols);
-        }
-        if (condition is ParenthesizedExpressionSyntax paren)
-            return EvaluateCondition(paren.Expression, definedSymbols);
-        return false;
     }
 
     // Determines whether a polyfill file should be emitted by inspecting its content:
@@ -364,7 +227,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
                     {
                         // The extension block's receiver is implicit; the native static method
                         // has it as an explicit first parameter, so add 1 to the polyfill count.
-                        if (IsExtensionHostMethodMissing(hostType, meth.Identifier.Text, meth.ParameterList.Parameters.Count + 1))
+                        if (IsMethodMissing(hostType, meth.Identifier.Text, meth.ParameterList.Parameters.Count + 1))
                             return true;
                     }
                 }
@@ -416,7 +279,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // or if the host class itself doesn't exist in the compilation.
     // minParamCount includes the implicit receiver parameter that becomes explicit on the static method
     // (so minParamCount = polyfill_param_count + 1 for extension methods).
-    private static bool IsExtensionHostMethodMissing(INamedTypeSymbol? hostType, string methodName, int minParamCount)
+    private static bool IsMethodMissing(INamedTypeSymbol? hostType, string methodName, int minParamCount)
     {
         if (hostType is null)
             return true; // Extension host class absent → polyfill is needed
