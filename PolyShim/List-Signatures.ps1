@@ -8,7 +8,7 @@ if (Test-Path $OutputPath -PathType Container) {
     $OutputPath = Join-Path $OutputPath "Signatures.md"
 }
 
-$codeFiles = Get-ChildItem -Path (Join-Path $PSScriptRoot "../PolyShim.Generator/Polyfills") -Filter "*.cs" -Recurse |
+$codeFiles = Get-ChildItem -Path (Join-Path $PSScriptRoot "Polyfills") -Filter "*.cs" -Recurse |
 Where-Object { $_.FullName -notmatch '\\obj\\|\\bin\\' }
 
 $signatures = @()

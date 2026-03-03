@@ -1,146 +1,34 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Import polyfill props for LangVersion -->
-  <Import Project="PolyShim.props" />
-
   <PropertyGroup>
-    <!-- Target frameworks here are only used to verify source compatibility with different API levels -->
-    <TargetFrameworks>
-      netstandard1.0;netstandard1.1;netstandard1.6;netstandard2.0;netstandard2.1;
-      netcoreapp1.1;netcoreapp2.2;netcoreapp3.1;
-      net35;net40;net45;net461;net462;net48;
-      net5.0;net7.0;net8.0
-    </TargetFrameworks>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <IsPackable>false</IsPackable>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <PackageId>PolyShim</PackageId>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
 
-  <!-- Use the generator to inject polyfills for each TFM (multi-TFM verification) -->
-  <!-- SkipGetTargetFrameworkProperties is required because netstandard2.0 cannot be auto-matched
-       from old TFMs like net35; the generator is always consumed as an analyzer, not a library. -->
   <ItemGroup>
-    <ProjectReference
-      Include="../PolyShim.Generator/PolyShim.Generator.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="false"
-      SkipGetTargetFrameworkProperties="true"
-      SetTargetFramework="TargetFramework=netstandard2.0"
-    />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference
-      Include="Microsoft.Bcl.AsyncInterfaces"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))"
-    />
-    <PackageReference
-      Include="Microsoft.Bcl.AsyncInterfaces"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '3.0'))"
-    />
-    <PackageReference
-      Include="Microsoft.Bcl.AsyncInterfaces"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))"
-    />
-    <PackageReference
-      Include="System.Management"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))"
-    />
-    <PackageReference
-      Include="System.Management"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '5.0'))"
-    />
-    <PackageReference
-      Include="System.Memory"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '1.1')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.1'))"
-    />
-    <PackageReference
-      Include="System.Memory"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.1'))"
-    />
-    <PackageReference
-      Include="System.Memory"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))"
-    />
-    <PackageReference
-      Include="System.ValueTuple"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.0'))"
-    />
-    <PackageReference
-      Include="System.ValueTuple"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.0'))"
-    />
-    <PackageReference
-      Include="System.ValueTuple"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))"
-    />
-    <PackageReference
-      Include="System.Threading.Tasks.Extensions"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '2.0'))"
-    />
-    <PackageReference
-      Include="System.Threading.Tasks.Extensions"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1'))"
-    />
-    <PackageReference
-      Include="Microsoft.Bcl.Async"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.0'))"
-    />
-    <PackageReference
-      Include="Microsoft.Bcl.Memory"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.6.2'))"
-    />
-    <PackageReference
-      Include="Microsoft.Net.Http"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionEquals($(TargetFrameworkVersion), '4.0'))"
-    />
-    <PackageReference
-      Include="Microsoft.Bcl.TimeProvider"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))"
-    />
-    <PackageReference
-      Include="Microsoft.Bcl.TimeProvider"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETCoreApp' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0')) AND $([MSBuild]::VersionLessThan($(TargetFrameworkVersion), '8.0'))"
-    />
-    <PackageReference
-      Include="Microsoft.Bcl.TimeProvider"
-      PrivateAssets="all"
-      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.2'))"
-    />
+    <EmbeddedResource Include="Polyfills/**/*.cs" />
+    <Compile Remove="Polyfills/**/*.cs" />
+    <None Include="PolyShim.props" Pack="true" PackagePath="build/PolyShim.props" />
+    <None Include="PolyShim.targets" Pack="true" PackagePath="build/PolyShim.targets" />
+    <None Include="$(TargetDir)$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 
-  <!-- Import common .NET Framework libraries for metadata references -->
-  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
-    <Reference Include="System.Management" />
-    <Reference
-      Include="System.Net.Http"
-      Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.5'))"
-    />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
+    <PackageReference Include="PolySharp">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
-  <!-- Import official compatibility packages for metadata references -->
-  <!-- (condition added to run it once per build, not per TFM) -->
   <Target
     Name="ListSignatures"
     AfterTargets="AfterBuild"
-    Condition="'$(TargetFramework)' == 'netstandard2.0'"
   >
     <Exec Command="pwsh -ExecutionPolicy Bypass -File $(ProjectDir)/List-Signatures.ps1" />
   </Target>

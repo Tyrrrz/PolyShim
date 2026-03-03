@@ -57,7 +57,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         var assembly = typeof(PolyShimGenerator).Assembly;
         foreach (var resourceName in assembly.GetManifestResourceNames().OrderBy(n => n, StringComparer.Ordinal))
         {
-            const string polyfillsPrefix = "PolyShim.Generator.Polyfills.";
+            const string polyfillsPrefix = "PolyShim.Polyfills.";
             if (!resourceName.StartsWith(polyfillsPrefix, StringComparison.Ordinal))
                 continue;
 

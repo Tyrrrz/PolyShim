@@ -41,7 +41,7 @@
   <!-- Reference the generator as an analyzer so it emits polyfills into this project -->
   <ItemGroup>
     <ProjectReference
-      Include="../PolyShim.Generator/PolyShim.Generator.csproj"
+      Include="../PolyShim/PolyShim.csproj"
       OutputItemType="Analyzer"
       ReferenceOutputAssembly="false"
     />
