@@ -19,19 +19,10 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     private sealed class PolyfillFeatures
     {
         public required bool ALLOW_UNSAFE_BLOCKS { get; init; }
-        public required bool FEATURE_ARRAYPOOL { get; init; }
         public required bool FEATURE_ASYNCINTERFACES { get; init; }
-        public required bool FEATURE_HASHCODE { get; init; }
-        public required bool FEATURE_HTTPCLIENT { get; init; }
-        public required bool FEATURE_INDEXRANGE { get; init; }
         public required bool FEATURE_MANAGEMENT { get; init; }
-        public required bool FEATURE_MEMORY { get; init; }
         public required bool FEATURE_PROCESS { get; init; }
-        public required bool FEATURE_RUNTIMEINFORMATION { get; init; }
         public required bool FEATURE_TASK { get; init; }
-        public required bool FEATURE_VALUETASK { get; init; }
-        public required bool FEATURE_VALUETUPLE { get; init; }
-        public required bool FEATURE_TIMEPROVIDER { get; init; }
     }
 
     // Computes feature flags for the current compilation by querying type availability.
@@ -43,19 +34,10 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         return new PolyfillFeatures
         {
             ALLOW_UNSAFE_BLOCKS = allowUnsafe,
-            FEATURE_ARRAYPOOL = compilation.GetTypeByMetadataName("System.Buffers.ArrayPool`1") is not null,
             FEATURE_ASYNCINTERFACES = compilation.GetTypeByMetadataName("System.Collections.Generic.IAsyncEnumerable`1") is not null,
-            FEATURE_HASHCODE = compilation.GetTypeByMetadataName("System.HashCode") is not null,
-            FEATURE_HTTPCLIENT = compilation.GetTypeByMetadataName("System.Net.Http.HttpClient") is not null,
-            FEATURE_INDEXRANGE = compilation.GetTypeByMetadataName("System.Index") is not null,
             FEATURE_MANAGEMENT = compilation.GetTypeByMetadataName("System.Management.ManagementObjectSearcher") is not null,
-            FEATURE_MEMORY = compilation.GetTypeByMetadataName("System.Memory`1") is not null,
             FEATURE_PROCESS = compilation.GetTypeByMetadataName("System.Diagnostics.Process") is not null,
-            FEATURE_RUNTIMEINFORMATION = compilation.GetTypeByMetadataName("System.Runtime.InteropServices.RuntimeInformation") is not null,
             FEATURE_TASK = compilation.GetTypeByMetadataName("System.Threading.Tasks.Task") is not null,
-            FEATURE_VALUETASK = compilation.GetTypeByMetadataName("System.Threading.Tasks.ValueTask") is not null,
-            FEATURE_VALUETUPLE = compilation.GetTypeByMetadataName("System.ValueTuple") is not null,
-            FEATURE_TIMEPROVIDER = compilation.GetTypeByMetadataName("System.TimeProvider") is not null,
         };
     }
 
@@ -76,19 +58,10 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         // Merge generator-computed feature flags into definedSymbols so that #if FEATURE_*
         // and #if ALLOW_UNSAFE_BLOCKS conditions are evaluated alongside TFM symbols.
         if (features.ALLOW_UNSAFE_BLOCKS) definedSymbols.Add(nameof(features.ALLOW_UNSAFE_BLOCKS));
-        if (features.FEATURE_ARRAYPOOL) definedSymbols.Add(nameof(features.FEATURE_ARRAYPOOL));
         if (features.FEATURE_ASYNCINTERFACES) definedSymbols.Add(nameof(features.FEATURE_ASYNCINTERFACES));
-        if (features.FEATURE_HASHCODE) definedSymbols.Add(nameof(features.FEATURE_HASHCODE));
-        if (features.FEATURE_HTTPCLIENT) definedSymbols.Add(nameof(features.FEATURE_HTTPCLIENT));
-        if (features.FEATURE_INDEXRANGE) definedSymbols.Add(nameof(features.FEATURE_INDEXRANGE));
         if (features.FEATURE_MANAGEMENT) definedSymbols.Add(nameof(features.FEATURE_MANAGEMENT));
-        if (features.FEATURE_MEMORY) definedSymbols.Add(nameof(features.FEATURE_MEMORY));
         if (features.FEATURE_PROCESS) definedSymbols.Add(nameof(features.FEATURE_PROCESS));
-        if (features.FEATURE_RUNTIMEINFORMATION) definedSymbols.Add(nameof(features.FEATURE_RUNTIMEINFORMATION));
         if (features.FEATURE_TASK) definedSymbols.Add(nameof(features.FEATURE_TASK));
-        if (features.FEATURE_VALUETASK) definedSymbols.Add(nameof(features.FEATURE_VALUETASK));
-        if (features.FEATURE_VALUETUPLE) definedSymbols.Add(nameof(features.FEATURE_VALUETUPLE));
-        if (features.FEATURE_TIMEPROVIDER) definedSymbols.Add(nameof(features.FEATURE_TIMEPROVIDER));
 
         var assembly = typeof(PolyShimGenerator).Assembly;
         foreach (var resourceName in assembly.GetManifestResourceNames().OrderBy(n => n, StringComparer.Ordinal))
