@@ -351,7 +351,10 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         {
             // Not found as instance/static member — also check for BCL extension methods
             // (e.g., IEnumerable<T>.FirstOrDefault lives in System.Linq.Enumerable).
-            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation);
+            // Pass targetType so only receiver-compatible extensions are considered
+            // (e.g., Enumerable.AsEnumerable<T>(IEnumerable<T>) does NOT apply to
+            // MatchCollection on .NET Framework because it doesn't implement IEnumerable<T>).
+            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation, targetType);
         }
 
         if (paramCount < 0)
@@ -385,11 +388,11 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             }
 
             // Exact count match found but types differ — check BCL extension methods too.
-            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation);
+            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation, targetType);
         }
 
         // No exact-count match at all — check for a matching BCL extension method.
-        return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation);
+        return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation, targetType);
     }
 
     // Returns the base type name of a Roslyn type symbol for parameter-type comparison.
@@ -439,9 +442,13 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // method with the given name and at least paramCount non-receiver parameters.
     // This detects BCL extension methods that extend interface types (e.g., Enumerable.FirstOrDefault
     // extends IEnumerable<T>) or array/string types (e.g., MemoryExtensions.AsSpan extends T[]).
+    // When targetType is provided, only extension methods whose receiver type is compatible with
+    // targetType are considered (e.g., Enumerable.AsEnumerable<T>(IEnumerable<T>) is NOT applicable
+    // to MatchCollection on .NET Framework because it doesn't implement IEnumerable<T>).
     private static bool HasPublicExtensionMethodInNamespaces(
         string methodName, int paramCount,
-        IReadOnlyList<string> usingNamespaces, Compilation compilation)
+        IReadOnlyList<string> usingNamespaces, Compilation compilation,
+        INamedTypeSymbol? targetType = null)
     {
         if (paramCount < 0)
             return false; // No BCL extension properties
@@ -460,10 +467,51 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
                     if (method.DeclaredAccessibility != Accessibility.Public) continue;
                     // Extension method has a 'this' receiver as first parameter;
                     // the remaining parameters must be >= paramCount.
-                    if (method.Parameters.Length - 1 >= paramCount)
-                        return true;
+                    if (method.Parameters.Length - 1 < paramCount)
+                        continue;
+
+                    // If targetType is provided, verify the receiver type is compatible.
+                    if (targetType is not null
+                        && !IsReceiverTypeCompatible(targetType, method.Parameters[0].Type))
+                        continue;
+
+                    return true;
                 }
             }
+        }
+
+        return false;
+    }
+
+    // Returns true if targetType is compatible with the extension method's receiver parameter type.
+    // Compatibility means targetType is the same as, inherits from, or implements the receiver type.
+    // For generic receiver types (e.g., IEnumerable<T>), the original definition is used so that
+    // any constructed form of that generic interface satisfies the check.
+    // Type-parameter receivers (e.g., T in where T : class) are conservatively treated as compatible.
+    private static bool IsReceiverTypeCompatible(INamedTypeSymbol targetType, ITypeSymbol receiverType)
+    {
+        // Type-parameter receiver (e.g., void Foo<T>(this T value)): conservatively compatible.
+        if (receiverType.TypeKind == TypeKind.TypeParameter)
+            return true;
+
+        var receiverOrigDef = receiverType is INamedTypeSymbol namedReceiver
+            ? namedReceiver.OriginalDefinition
+            : receiverType;
+
+        // Check targetType itself and its base types
+        INamedTypeSymbol? cur = targetType;
+        while (cur is not null)
+        {
+            if (SymbolEqualityComparer.Default.Equals(cur.OriginalDefinition, receiverOrigDef))
+                return true;
+            cur = cur.BaseType;
+        }
+
+        // Check implemented interfaces
+        foreach (var iface in targetType.AllInterfaces)
+        {
+            if (SymbolEqualityComparer.Default.Equals(iface.OriginalDefinition, receiverOrigDef))
+                return true;
         }
 
         return false;
