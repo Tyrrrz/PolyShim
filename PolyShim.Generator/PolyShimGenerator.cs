@@ -339,20 +339,32 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             var param0 = ext.ParameterList?.Parameters.FirstOrDefault();
             if (param0 is null) continue;
 
+            // Determine if the extension parameter is an array type (T[]) — a special case
+            // where the resolved targetType may be null but the polyfill is still needed.
+            var rawType = param0.Type is NullableTypeSyntax nts ? nts.ElementType : param0.Type;
+            var isArrayTarget = rawType is ArrayTypeSyntax;
+
             var targetType = ResolveExtensionTarget(param0.Type, usingNamespaces, compilation);
+
+            // If the direct target type is absent from this compilation, the polyfill body
+            // would reference a non-existent type and fail to compile — skip this block.
+            // Exception: array targets (T[]) use a representative type lookup; null there
+            // simply means the representative (MemoryExtensions) is absent, not the array.
+            if (targetType is null && !isArrayTarget)
+                continue;
 
             foreach (var member in ext.Members)
             {
                 if (member is MethodDeclarationSyntax meth &&
                     meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
                 {
-                    if (IsMemberMissing(targetType, meth.Identifier.Text, meth.ParameterList.Parameters.Count))
+                    if (IsMemberMissing(targetType, meth.Identifier.Text, meth.ParameterList.Parameters.Count, usingNamespaces, compilation))
                         return true;
                 }
                 else if (member is PropertyDeclarationSyntax prop &&
                          prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
                 {
-                    if (IsMemberMissing(targetType, prop.Identifier.Text, paramCount: -1))
+                    if (IsMemberMissing(targetType, prop.Identifier.Text, paramCount: -1, usingNamespaces, compilation))
                         return true;
                 }
             }
@@ -363,15 +375,24 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
     // Returns true if the named member is absent from the resolved target type.
     // paramCount == -1 means a property check (existence only, no parameter matching).
-    private static bool IsMemberMissing(INamedTypeSymbol? targetType, string memberName, int paramCount)
+    // Also checks for BCL extension methods in static types of the imported namespaces so
+    // that polyfills for interface targets (e.g., IEnumerable<T>) correctly detect native
+    // LINQ/collection extensions that live in separate static classes (e.g., Enumerable).
+    private static bool IsMemberMissing(INamedTypeSymbol? targetType, string memberName, int paramCount,
+        IReadOnlyList<string> usingNamespaces, Compilation compilation)
     {
-        // If the target type is absent from the compilation, conservatively emit the polyfill
+        // If the target type is absent (e.g., T[] representative MemoryExtensions not in compilation),
+        // fall back to checking for BCL extension methods in the imported namespaces.
         if (targetType is null)
-            return true;
+            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation);
 
         var members = GetPublicMembersNamed(targetType, memberName).ToList();
         if (members.Count == 0)
-            return true; // Member doesn't exist at all
+        {
+            // Not found as instance/static member — also check for BCL extension methods
+            // (e.g., IEnumerable<T>.FirstOrDefault lives in System.Linq.Enumerable).
+            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation);
+        }
 
         if (paramCount < 0)
             return false; // Property: presence is sufficient
@@ -379,12 +400,62 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         // Method: verify at least one overload accepts at least as many parameters as the polyfill.
         // This distinguishes new CT-accepting overloads from pre-existing ones (e.g. ReadLineAsync(CT)
         // vs ReadLineAsync() which existed long before the CT overload).
-        return members.All(m => m is IMethodSymbol ms && ms.Parameters.Length < paramCount);
+        if (!members.All(m => m is IMethodSymbol ms && ms.Parameters.Length < paramCount))
+            return false;
+
+        // All instance overloads have too few params — check for a matching BCL extension method.
+        return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation);
+    }
+
+    // Returns true if any public static type in the given namespaces declares a public extension
+    // method with the given name and at least paramCount non-receiver parameters.
+    // This detects BCL extension methods that extend interface types (e.g., Enumerable.FirstOrDefault
+    // extends IEnumerable<T>) or array/string types (e.g., MemoryExtensions.AsSpan extends T[]).
+    private static bool HasPublicExtensionMethodInNamespaces(
+        string methodName, int paramCount,
+        IReadOnlyList<string> usingNamespaces, Compilation compilation)
+    {
+        if (paramCount < 0)
+            return false; // No BCL extension properties
+
+        foreach (var nsName in usingNamespaces)
+        {
+            var nsSymbol = GetNamespaceSymbol(compilation, nsName);
+            if (nsSymbol is null) continue;
+
+            foreach (var type in nsSymbol.GetTypeMembers())
+            {
+                if (!type.IsStatic) continue;
+                foreach (var method in type.GetMembers(methodName).OfType<IMethodSymbol>())
+                {
+                    if (!method.IsExtensionMethod) continue;
+                    if (method.DeclaredAccessibility != Accessibility.Public) continue;
+                    // Extension method has a 'this' receiver as first parameter;
+                    // the remaining parameters must be >= paramCount.
+                    if (method.Parameters.Length - 1 >= paramCount)
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // Traverses the compilation's global namespace hierarchy to find the symbol for a
+    // dotted namespace name (e.g., "System.Linq" → INamespaceSymbol for System.Linq).
+    private static INamespaceSymbol? GetNamespaceSymbol(Compilation compilation, string namespaceName)
+    {
+        INamespaceSymbol? current = compilation.GlobalNamespace;
+        foreach (var part in namespaceName.Split('.'))
+            current = current?.GetMembers(part).OfType<INamespaceSymbol>().FirstOrDefault();
+        return current;
     }
 
     // Resolves the extension parameter's TypeSyntax to the Roslyn type symbol whose members we check.
-    // Special cases: array (T[]), string, and ArraySegment<T> extensions add methods that live
-    // natively in System.MemoryExtensions, so we check that type instead.
+    // For array (T[]) targets, returns null — extension method lookup via the imported namespaces
+    // is used instead (e.g., System.MemoryExtensions provides T[] span/memory methods).
+    // For string targets, returns System.String so both instance members and MemoryExtensions
+    // extension methods (AsSpan, AsMemory, etc.) are correctly considered.
     private static INamedTypeSymbol? ResolveExtensionTarget(
         TypeSyntax? typeSyntax,
         IReadOnlyList<string> usingNamespaces,
@@ -397,16 +468,18 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         if (typeSyntax is NullableTypeSyntax nullable)
             typeSyntax = nullable.ElementType;
 
-        // Array type (T[]): span-related members live in System.MemoryExtensions
+        // Array type (T[]): no single concrete type symbol; extension methods in the imported
+        // namespaces (e.g., System.MemoryExtensions) are checked via HasPublicExtensionMethodInNamespaces.
         if (typeSyntax is ArrayTypeSyntax)
-            return compilation.GetTypeByMetadataName("System.MemoryExtensions");
+            return null;
 
         // Predefined keyword type (string, byte, int, etc.)
         if (typeSyntax is PredefinedTypeSyntax pre)
         {
-            // string: span/memory members live in System.MemoryExtensions
+            // string: check System.String for instance/static members; MemoryExtensions
+            // extension methods (AsSpan, AsMemory, etc.) are found via namespace lookup.
             if (pre.Keyword.IsKind(SyntaxKind.StringKeyword))
-                return compilation.GetTypeByMetadataName("System.MemoryExtensions");
+                return compilation.GetTypeByMetadataName("System.String");
 
             // Other predefined types (byte, int, etc.): conservatively emit
             return null;
@@ -419,10 +492,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         // Generic name: GenericNameSyntax (e.g., "IEnumerable<T>", "Task<T>", "ArraySegment<T>")
         if (typeSyntax is GenericNameSyntax generic)
         {
-            // ArraySegment<T>: span-related members live in System.MemoryExtensions
-            if (generic.Identifier.Text == "ArraySegment")
-                return compilation.GetTypeByMetadataName("System.MemoryExtensions");
-
+            // ArraySegment<T>: resolve to the actual type; MemoryExtensions extension methods
+            // (e.g., AsSpan(ArraySegment<T>)) are found via HasPublicExtensionMethodInNamespaces.
             return ResolveTypeName(
                 generic.Identifier.Text,
                 generic.TypeArgumentList.Arguments.Count,
