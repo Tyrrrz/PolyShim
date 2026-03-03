@@ -299,28 +299,48 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
     // For type polyfills: emit the file if any type it declares is absent from the compilation.
     // Uses Roslyn's own syntax parser so all valid C# type declarations are handled correctly.
+    // Handles class, struct, interface, record, enum (BaseTypeDeclarationSyntax) and delegate
+    // (DelegateDeclarationSyntax) — the latter is not a BaseTypeDeclarationSyntax in Roslyn.
     private static bool ShouldEmitTypePolyfill(SyntaxNode root, Compilation compilation)
     {
         bool foundAnyBclType = false;
 
         foreach (var node in root.DescendantNodes())
         {
-            if (node is not BaseTypeDeclarationSyntax typeDecl)
+            string? typeName;
+            int arity;
+            SyntaxNode? parent;
+
+            if (node is BaseTypeDeclarationSyntax typeDecl)
+            {
+                typeName = typeDecl.Identifier.Text;
+                arity = (typeDecl as TypeDeclarationSyntax)?.TypeParameterList?.Parameters.Count ?? 0;
+                parent = typeDecl.Parent;
+            }
+            else if (node is DelegateDeclarationSyntax delegateDecl)
+            {
+                typeName = delegateDecl.Identifier.Text;
+                arity = delegateDecl.TypeParameterList?.Parameters.Count ?? 0;
+                parent = delegateDecl.Parent;
+            }
+            else
+            {
                 continue;
+            }
 
             // All PolyShim type polyfills declare their types inside a named namespace.
             // Skip any type not directly inside a namespace (shouldn't happen in practice).
-            if (typeDecl.Parent is not BaseNamespaceDeclarationSyntax nsDecl)
+            if (parent is not BaseNamespaceDeclarationSyntax nsDecl)
                 continue;
 
             foundAnyBclType = true;
             var ns = nsDecl.Name.ToString();
-            var name = typeDecl.Identifier.Text;
-            // Enums cannot be generic in C#, so the null-coalesce to 0 is always correct.
-            var arity = (typeDecl as TypeDeclarationSyntax)?.TypeParameterList?.Parameters.Count ?? 0;
-            var fullName = arity > 0 ? $"{ns}.{name}`{arity}" : $"{ns}.{name}";
+            var fullName = arity > 0 ? $"{ns}.{typeName}`{arity}" : $"{ns}.{typeName}";
 
-            if (compilation.GetTypeByMetadataName(fullName) is null)
+            // Use GetTypesByMetadataName instead of GetTypeByMetadataName: the latter returns
+            // null when a type is defined in multiple assemblies (e.g., due to type forwarding
+            // in newer .NET versions), which would cause false-positive polyfill emission.
+            if (compilation.GetTypesByMetadataName(fullName).IsEmpty)
                 return true; // At least one declared type is missing → emit
         }
 
@@ -330,47 +350,109 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
     // For member polyfills: emit the file if any method/property in any extension block is
     // absent from the target type in the compilation.
+    //
+    // Uses a naming-convention heuristic to determine what to check:
+    //   1. MemberPolyfills_*_{Type} in a System.* namespace:
+    //      → the polyfill extends an existing BCL class (e.g., System.Linq.Enumerable);
+    //        look up {ns}.{Type} and check if each method exists as a public static member.
+    //   2. MemberPolyfills_*_{Type} in the global namespace:
+    //      → the polyfill adds members to a BCL type (e.g., HttpClient);
+    //        resolve {Type} via using directives and check instance/extension members.
     private static bool ShouldEmitMemberPolyfill(SyntaxNode root, Compilation compilation)
     {
         var usingNamespaces = CollectUsingNamespaces(root);
 
         foreach (var ext in root.DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>())
         {
-            var param0 = ext.ParameterList?.Parameters.FirstOrDefault();
-            if (param0 is null) continue;
+            // Find the enclosing MemberPolyfills_* class to determine the check strategy.
+            var polyfillClass = ext.Ancestors()
+                .OfType<ClassDeclarationSyntax>()
+                .FirstOrDefault(c => c.Identifier.Text.StartsWith("MemberPolyfills_", StringComparison.Ordinal));
 
-            // Determine if the extension parameter is an array type (T[]) — a special case
-            // where the resolved targetType may be null but the polyfill is still needed.
-            var rawType = param0.Type is NullableTypeSyntax nts ? nts.ElementType : param0.Type;
-            var isArrayTarget = rawType is ArrayTypeSyntax;
-
-            var targetType = ResolveExtensionTarget(param0.Type, usingNamespaces, compilation);
-
-            // If the direct target type is absent from this compilation, the polyfill body
-            // would reference a non-existent type and fail to compile — skip this block.
-            // Exception: array targets (T[]) use a representative type lookup; null there
-            // simply means the representative (MemoryExtensions) is absent, not the array.
-            if (targetType is null && !isArrayTarget)
-                continue;
-
-            foreach (var member in ext.Members)
+            // For Case 1 to apply, the class must be in a System.* namespace AND follow the
+            // MemberPolyfills_{VERSION}_{Type} naming convention (at least 3 underscore parts).
+            var parts = polyfillClass?.Identifier.Text.Split('_');
+            if (polyfillClass?.Parent is BaseNamespaceDeclarationSyntax nsDecl && parts?.Length >= 3)
             {
-                if (member is MethodDeclarationSyntax meth &&
-                    meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                // Case 1: MemberPolyfills_*_{Type} in a System.* namespace.
+                // The {Type} portion (third underscore-separated part, index 2) names the BCL static
+                // class that hosts these extension methods. Look it up directly and check public static
+                // methods. Using parts[2] handles disambiguator suffixes like:
+                //   MemberPolyfills_NetCore21_MemoryExtensions_Contains → type = "MemoryExtensions"
+                var typeSegment = parts[2];
+                // Use GetTypesByMetadataName to handle type-forwarded types correctly.
+                var hostTypes = compilation.GetTypesByMetadataName($"{nsDecl.Name}.{typeSegment}");
+                var hostType = hostTypes.IsEmpty ? null : hostTypes[0];
+
+                foreach (var member in ext.Members)
                 {
-                    if (IsMemberMissing(targetType, meth.Identifier.Text, meth.ParameterList.Parameters.Count, usingNamespaces, compilation))
-                        return true;
+                    if (member is MethodDeclarationSyntax meth &&
+                        meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                    {
+                        // The extension block's receiver is implicit; the native static method
+                        // has it as an explicit first parameter, so add 1 to the polyfill count.
+                        if (IsExtensionHostMethodMissing(hostType, meth.Identifier.Text, meth.ParameterList.Parameters.Count + 1))
+                            return true;
+                    }
                 }
-                else if (member is PropertyDeclarationSyntax prop &&
-                         prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+            }
+            else
+            {
+                // Case 2: MemberPolyfills_*_{Type} in the global namespace (or no MemberPolyfills_*
+                // class found). Resolve the target type from the extension block's parameter type
+                // and check instance members and BCL extension methods in the imported namespaces.
+                var param0 = ext.ParameterList?.Parameters.FirstOrDefault();
+                if (param0 is null) continue;
+
+                // Determine if the extension parameter is an array type (T[]) — a special case
+                // where the resolved targetType may be null but the polyfill is still needed.
+                var rawType = param0.Type is NullableTypeSyntax nts ? nts.ElementType : param0.Type;
+                var isArrayTarget = rawType is ArrayTypeSyntax;
+
+                var targetType = ResolveExtensionTarget(param0.Type, usingNamespaces, compilation);
+
+                // If the direct target type is absent from this compilation, the polyfill body
+                // would reference a non-existent type and fail to compile — skip this block.
+                // Exception: array targets (T[]) use a representative type lookup; null there
+                // simply means the representative (MemoryExtensions) is absent, not the array.
+                if (targetType is null && !isArrayTarget)
+                    continue;
+
+                foreach (var member in ext.Members)
                 {
-                    if (IsMemberMissing(targetType, prop.Identifier.Text, paramCount: -1, usingNamespaces, compilation))
-                        return true;
+                    if (member is MethodDeclarationSyntax meth &&
+                        meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                    {
+                        if (IsMemberMissing(targetType, meth.Identifier.Text, meth.ParameterList.Parameters.Count, usingNamespaces, compilation))
+                            return true;
+                    }
+                    else if (member is PropertyDeclarationSyntax prop &&
+                             prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                    {
+                        if (IsMemberMissing(targetType, prop.Identifier.Text, paramCount: -1, usingNamespaces, compilation))
+                            return true;
+                    }
                 }
             }
         }
 
         return false;
+    }
+
+    // Returns true if the named public static method is absent from the extension host class,
+    // or if the host class itself doesn't exist in the compilation.
+    // minParamCount includes the implicit receiver parameter that becomes explicit on the static method
+    // (so minParamCount = polyfill_param_count + 1 for extension methods).
+    private static bool IsExtensionHostMethodMissing(INamedTypeSymbol? hostType, string methodName, int minParamCount)
+    {
+        if (hostType is null)
+            return true; // Extension host class absent → polyfill is needed
+
+        return !hostType.GetMembers(methodName)
+            .OfType<IMethodSymbol>()
+            .Any(m => m.DeclaredAccessibility == Accessibility.Public
+                   && m.IsStatic
+                   && m.Parameters.Length >= minParamCount);
     }
 
     // Returns true if the named member is absent from the resolved target type.

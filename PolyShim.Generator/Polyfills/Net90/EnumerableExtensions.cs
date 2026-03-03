@@ -12,7 +12,7 @@ namespace System.Linq;
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal static class MemberPolyfills_Net90_EnumerableExtensions
+internal static class MemberPolyfills_Net90_Enumerable
 {
     extension<T>(IEnumerable<T> source)
     {

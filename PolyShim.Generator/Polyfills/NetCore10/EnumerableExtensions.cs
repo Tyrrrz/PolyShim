@@ -1,4 +1,3 @@
-#if (NETFRAMEWORK && !NET471_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_6_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -13,7 +12,7 @@ namespace System.Linq;
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal static class MemberPolyfills_NetCore10_EnumerableExtensions
+internal static class MemberPolyfills_NetCore10_Enumerable
 {
     extension<T>(IEnumerable<T> source)
     {
@@ -52,4 +51,3 @@ internal static class MemberPolyfills_NetCore10_EnumerableExtensions
     }
 }
 
-#endif
