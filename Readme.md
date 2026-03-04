@@ -1,9 +1,9 @@
 # PolyShim
 
-[![Status](https://img.shields.io/badge/status-active-47c219.svg)](https://github.com/Tyrrrz/.github/blob/master/docs/project-status.md)
+[![Status](https://img.shields.io/badge/status-active-47c219.svg)](https://github.com/Tyrrrz/.github/blob/prime/docs/project-status.md)
 [![Made in Ukraine](https://img.shields.io/badge/made_in-ukraine-ffd700.svg?labelColor=0057b7)](https://tyrrrz.me/ukraine)
-[![Build](https://img.shields.io/github/actions/workflow/status/Tyrrrz/PolyShim/main.yml?branch=master)](https://github.com/Tyrrrz/PolyShim/actions)
-[![Coverage](https://img.shields.io/codecov/c/github/Tyrrrz/PolyShim/master)](https://codecov.io/gh/Tyrrrz/PolyShim)
+[![Build](https://img.shields.io/github/actions/workflow/status/Tyrrrz/PolyShim/main.yml?branch=prime)](https://github.com/Tyrrrz/PolyShim/actions)
+[![Coverage](https://img.shields.io/codecov/c/github/Tyrrrz/PolyShim/prime)](https://codecov.io/gh/Tyrrrz/PolyShim)
 [![Version](https://img.shields.io/nuget/v/PolyShim.svg)](https://nuget.org/packages/PolyShim)
 [![Downloads](https://img.shields.io/nuget/dt/PolyShim.svg)](https://nuget.org/packages/PolyShim)
 [![Discord](https://img.shields.io/discord/869237470565392384?label=discord)](https://discord.gg/2SUWKFnHSm)
@@ -18,7 +18,7 @@
 **PolyShim** is a collection of polyfills that enable many modern framework APIs and compiler features for projects targeting older versions of .NET.
 It's distributed as a source-only package that can be referenced without imposing any run-time dependencies.
 
-## Terms of use<sup>[[?]](https://github.com/Tyrrrz/.github/blob/master/docs/why-so-political.md)</sup>
+## Terms of use<sup>[[?]](https://github.com/Tyrrrz/.github/blob/prime/docs/why-so-political.md)</sup>
 
 By using this project or its source code, for any purpose and in any shape or form, you grant your **implicit agreement** to all the following statements:
 
@@ -66,7 +66,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 - Provides member polyfills for:
   - `string.ReplaceLineEndings(...)`, `string.AsSpan()`, etc.
   - `Stream.ReadExactly(...)`, `Stream.ReadAtLeast(...)`, etc.
-  - `IEnumerable<T>.Chunk(...)`, `IEnumerable<T>.TakeLast(...)`, etc. 
+  - `IEnumerable<T>.Chunk(...)`, `IEnumerable<T>.TakeLast(...)`, etc.
   - `Task.WaitAsync(...)`, `Task.WhenEach(...)`, etc.
   - `Parallel.ForEachAsync(...)`, `Parallel.ForAsync(...)`, etc.
   - `File.WriteAllTextAsync(...)`, `File.ReadAllTextAsync(...)`, etc.
@@ -156,7 +156,7 @@ To do that, set the `<AllowUnsafeBlocks>` property to `true`:
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    
+
     <!-- Enable unsafe code for polyfills that require it -->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -164,7 +164,7 @@ To do that, set the `<AllowUnsafeBlocks>` property to `true`:
   <ItemGroup>
     <PackageReference Include="PolyShim" Version="..." />
   </ItemGroup>
-  
+
 </Project>
 ```
 
@@ -177,7 +177,7 @@ Span<byte> buffer = stackalloc byte[256];
 ### Compatibility packages
 
 Some features from newer versions of .NET can also be made available on older frameworks using official compatibility packages published by Microsoft.
-**PolyShim** automatically detects if any of these packages are installed and adjusts its polyfill coverage accordingly — either by enabling additional polyfills that build upon those features, or by disabling polyfills for APIs that are already provided in the compatibility packages. 
+**PolyShim** automatically detects if any of these packages are installed and adjusts its polyfill coverage accordingly — either by enabling additional polyfills that build upon those features, or by disabling polyfills for APIs that are already provided in the compatibility packages.
 
 Currently, **PolyShim** recognizes the following packages:
 
