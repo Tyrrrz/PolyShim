@@ -4,11 +4,11 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -26,7 +26,9 @@ internal static class MemberPolyfills_Net50_HttpContent
         }
 
         // https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)
-        public async Task<byte[]> ReadAsByteArrayAsync(CancellationToken cancellationToken = default)
+        public async Task<byte[]> ReadAsByteArrayAsync(
+            CancellationToken cancellationToken = default
+        )
         {
             cancellationToken.ThrowIfCancellationRequested();
             return await httpContent.ReadAsByteArrayAsync().ConfigureAwait(false);

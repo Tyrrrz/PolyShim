@@ -5,8 +5,8 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System.Buffers;
-using System.IO;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]

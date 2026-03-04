@@ -31,4 +31,3 @@ internal static class MemberPolyfills_NetCore20_Enumerable
 #endif
     }
 }
-

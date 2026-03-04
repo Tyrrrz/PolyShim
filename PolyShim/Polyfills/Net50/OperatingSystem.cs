@@ -5,8 +5,8 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Runtime.InteropServices;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -32,7 +32,12 @@ internal static class MemberPolyfills_Net50_OperatingSystem
         // Can only detect OS version on .NET Standard 2.0+ and .NET Core 2.0
 #if (!NETSTANDARD || NETSTANDARD2_0_OR_GREATER) && (!NETCOREAPP || NETCOREAPP2_0_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindowsversionatleast
-        public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
+        public static bool IsWindowsVersionAtLeast(
+            int major,
+            int minor = 0,
+            int build = 0,
+            int revision = 0
+        )
         {
             if (!IsWindows())
                 return false;

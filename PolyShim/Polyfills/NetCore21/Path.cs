@@ -5,8 +5,8 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.IO;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 file static class PathEx
 {

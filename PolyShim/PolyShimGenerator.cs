@@ -28,10 +28,16 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     private static PolyfillFeatures ComputeFeatures(Compilation compilation) =>
         new PolyfillFeatures
         {
-            FEATURE_ASYNCINTERFACES = compilation.GetTypeByMetadataName("System.Collections.Generic.IAsyncEnumerable`1") is not null,
-            FEATURE_MANAGEMENT = compilation.GetTypeByMetadataName("System.Management.ManagementObjectSearcher") is not null,
-            FEATURE_PROCESS = compilation.GetTypeByMetadataName("System.Diagnostics.Process") is not null,
-            FEATURE_TASK = compilation.GetTypeByMetadataName("System.Threading.Tasks.Task") is not null,
+            FEATURE_ASYNCINTERFACES =
+                compilation.GetTypeByMetadataName("System.Collections.Generic.IAsyncEnumerable`1")
+                    is not null,
+            FEATURE_MANAGEMENT =
+                compilation.GetTypeByMetadataName("System.Management.ManagementObjectSearcher")
+                    is not null,
+            FEATURE_PROCESS =
+                compilation.GetTypeByMetadataName("System.Diagnostics.Process") is not null,
+            FEATURE_TASK =
+                compilation.GetTypeByMetadataName("System.Threading.Tasks.Task") is not null,
         };
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -49,16 +55,27 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         // are standard and handled by the consumer's compiler directly.
         // ALLOW_UNSAFE_BLOCKS is also not automatically defined; read it from compilation options.
         var preamble = new StringBuilder();
-        if (features.FEATURE_ASYNCINTERFACES) preamble.AppendLine("#define FEATURE_ASYNCINTERFACES");
-        if (features.FEATURE_MANAGEMENT) preamble.AppendLine("#define FEATURE_MANAGEMENT");
-        if (features.FEATURE_PROCESS) preamble.AppendLine("#define FEATURE_PROCESS");
-        if (features.FEATURE_TASK) preamble.AppendLine("#define FEATURE_TASK");
-        if (compilation.Options is CSharpCompilationOptions csharpOptions && csharpOptions.AllowUnsafe)
+        if (features.FEATURE_ASYNCINTERFACES)
+            preamble.AppendLine("#define FEATURE_ASYNCINTERFACES");
+        if (features.FEATURE_MANAGEMENT)
+            preamble.AppendLine("#define FEATURE_MANAGEMENT");
+        if (features.FEATURE_PROCESS)
+            preamble.AppendLine("#define FEATURE_PROCESS");
+        if (features.FEATURE_TASK)
+            preamble.AppendLine("#define FEATURE_TASK");
+        if (
+            compilation.Options is CSharpCompilationOptions csharpOptions
+            && csharpOptions.AllowUnsafe
+        )
             preamble.AppendLine("#define ALLOW_UNSAFE_BLOCKS");
         var preambleStr = preamble.ToString();
 
         var assembly = typeof(PolyShimGenerator).Assembly;
-        foreach (var resourceName in assembly.GetManifestResourceNames().OrderBy(n => n, StringComparer.Ordinal))
+        foreach (
+            var resourceName in assembly
+                .GetManifestResourceNames()
+                .OrderBy(n => n, StringComparer.Ordinal)
+        )
         {
             const string polyfillsPrefix = "PolyShim.Polyfills.";
             if (!resourceName.StartsWith(polyfillsPrefix, StringComparison.Ordinal))
@@ -80,7 +97,10 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             if (baseName.EndsWith(".cs", StringComparison.OrdinalIgnoreCase))
                 baseName = baseName.Substring(0, baseName.Length - 3);
 
-            context.AddSource(baseName + ".g.cs", SourceText.From(preambleStr + content, Encoding.UTF8));
+            context.AddSource(
+                baseName + ".g.cs",
+                SourceText.From(preambleStr + content, Encoding.UTF8)
+            );
         }
     }
 
@@ -116,7 +136,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         var directiveLines = new HashSet<int>();
         foreach (var trivia in firstTree.GetRoot().DescendantTrivia(descendIntoTrivia: true))
         {
-            if (!trivia.IsDirective) continue;
+            if (!trivia.IsDirective)
+                continue;
             var span = firstTree.GetLineSpan(trivia.Span);
             for (var l = span.StartLinePosition.Line; l <= span.EndLinePosition.Line; l++)
                 directiveLines.Add(l);
@@ -153,7 +174,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             if (node is BaseTypeDeclarationSyntax typeDecl)
             {
                 typeName = typeDecl.Identifier.Text;
-                arity = (typeDecl as TypeDeclarationSyntax)?.TypeParameterList?.Parameters.Count ?? 0;
+                arity =
+                    (typeDecl as TypeDeclarationSyntax)?.TypeParameterList?.Parameters.Count ?? 0;
                 parent = typeDecl.Parent;
             }
             else if (node is DelegateDeclarationSyntax delegateDecl)
@@ -187,10 +209,7 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             var foundTypes = compilation.GetTypesByMetadataName(fullName);
             var accessibleType = foundTypes.FirstOrDefault(t =>
                 t.DeclaredAccessibility == Accessibility.Public
-                || SymbolEqualityComparer.Default.Equals(
-                    t.ContainingAssembly,
-                    compilation.Assembly
-                )
+                || SymbolEqualityComparer.Default.Equals(t.ContainingAssembly, compilation.Assembly)
             );
             if (accessibleType is null)
                 return true; // No accessible version exists → emit
@@ -199,9 +218,11 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             // merges all definitions across assemblies when locating members it needs for
             // code generation (e.g., GetSubArray for array-slice syntax). The type exists on
             // .NET Framework but lacks GetSubArray, so emit if that specific method is absent.
-            if (typeName == "RuntimeHelpers"
+            if (
+                typeName == "RuntimeHelpers"
                 && ns == "System.Runtime.CompilerServices"
-                && !accessibleType.GetMembers("GetSubArray").OfType<IMethodSymbol>().Any())
+                && !accessibleType.GetMembers("GetSubArray").OfType<IMethodSymbol>().Any()
+            )
                 return true;
         }
 
@@ -228,12 +249,17 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             // Find the enclosing MemberPolyfills_* class to determine the check strategy.
             var polyfillClass = ext.Ancestors()
                 .OfType<ClassDeclarationSyntax>()
-                .FirstOrDefault(c => c.Identifier.Text.StartsWith("MemberPolyfills_", StringComparison.Ordinal));
+                .FirstOrDefault(c =>
+                    c.Identifier.Text.StartsWith("MemberPolyfills_", StringComparison.Ordinal)
+                );
 
             // For Case 1 to apply, the class must be in a System.* namespace AND follow the
             // MemberPolyfills_{VERSION}_{Type} naming convention (at least 3 underscore parts).
             var parts = polyfillClass?.Identifier.Text.Split('_');
-            if (polyfillClass?.Parent is BaseNamespaceDeclarationSyntax nsDecl && parts?.Length >= 3)
+            if (
+                polyfillClass?.Parent is BaseNamespaceDeclarationSyntax nsDecl
+                && parts?.Length >= 3
+            )
             {
                 // Case 1: MemberPolyfills_*_{Type} in a System.* namespace.
                 // The {Type} portion (third underscore-separated part, index 2) names the BCL static
@@ -247,21 +273,37 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
                 foreach (var member in ext.Members)
                 {
-                    if (member is MethodDeclarationSyntax meth &&
-                        meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                    if (
+                        member is MethodDeclarationSyntax meth
+                        && meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword))
+                    )
                     {
                         // The extension block's receiver is implicit; the native static method
                         // has it as an explicit first parameter, so add 1 to the polyfill count.
-                        if (IsMethodMissing(hostType, meth.Identifier.Text, meth.ParameterList.Parameters.Count + 1))
+                        if (
+                            IsMethodMissing(
+                                hostType,
+                                meth.Identifier.Text,
+                                meth.ParameterList.Parameters.Count + 1
+                            )
+                        )
                             return true;
                     }
-                    else if (member is PropertyDeclarationSyntax prop &&
-                             prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                    else if (
+                        member is PropertyDeclarationSyntax prop
+                        && prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword))
+                    )
                     {
                         // Check for the property as a public static property on the host type.
-                        if (hostType is null || !hostType.GetMembers(prop.Identifier.Text)
+                        if (
+                            hostType is null
+                            || !hostType
+                                .GetMembers(prop.Identifier.Text)
                                 .OfType<IPropertySymbol>()
-                                .Any(p => p.DeclaredAccessibility == Accessibility.Public && p.IsStatic))
+                                .Any(p =>
+                                    p.DeclaredAccessibility == Accessibility.Public && p.IsStatic
+                                )
+                        )
                             return true;
                     }
                 }
@@ -272,7 +314,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
                 // class found). Resolve the target type from the extension block's parameter type
                 // and check instance members and BCL extension methods in the imported namespaces.
                 var param0 = ext.ParameterList?.Parameters.FirstOrDefault();
-                if (param0 is null) continue;
+                if (param0 is null)
+                    continue;
 
                 // Determine if the extension parameter is an array type (T[]) — a special case
                 // where the resolved targetType may be null but the polyfill is still needed.
@@ -290,20 +333,41 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
                 foreach (var member in ext.Members)
                 {
-                    if (member is MethodDeclarationSyntax meth &&
-                        meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                    if (
+                        member is MethodDeclarationSyntax meth
+                        && meth.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword))
+                    )
                     {
                         var paramCount = meth.ParameterList.Parameters.Count;
-                        var paramTypeNames = meth.ParameterList.Parameters
-                            .Select(p => GetPolyfillParamTypeName(p.Type))
+                        var paramTypeNames = meth
+                            .ParameterList.Parameters.Select(p => GetPolyfillParamTypeName(p.Type))
                             .ToList();
-                        if (IsMemberMissing(targetType, meth.Identifier.Text, paramCount, usingNamespaces, compilation, paramTypeNames))
+                        if (
+                            IsMemberMissing(
+                                targetType,
+                                meth.Identifier.Text,
+                                paramCount,
+                                usingNamespaces,
+                                compilation,
+                                paramTypeNames
+                            )
+                        )
                             return true;
                     }
-                    else if (member is PropertyDeclarationSyntax prop &&
-                             prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
+                    else if (
+                        member is PropertyDeclarationSyntax prop
+                        && prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword))
+                    )
                     {
-                        if (IsMemberMissing(targetType, prop.Identifier.Text, paramCount: -1, usingNamespaces, compilation))
+                        if (
+                            IsMemberMissing(
+                                targetType,
+                                prop.Identifier.Text,
+                                paramCount: -1,
+                                usingNamespaces,
+                                compilation
+                            )
+                        )
                             return true;
                     }
                 }
@@ -317,16 +381,23 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // or if the host class itself doesn't exist in the compilation.
     // minParamCount includes the implicit receiver parameter that becomes explicit on the static method
     // (so minParamCount = polyfill_param_count + 1 for extension methods).
-    private static bool IsMethodMissing(INamedTypeSymbol? hostType, string methodName, int minParamCount)
+    private static bool IsMethodMissing(
+        INamedTypeSymbol? hostType,
+        string methodName,
+        int minParamCount
+    )
     {
         if (hostType is null)
             return true; // Extension host class absent → polyfill is needed
 
-        return !hostType.GetMembers(methodName)
+        return !hostType
+            .GetMembers(methodName)
             .OfType<IMethodSymbol>()
-            .Any(m => m.DeclaredAccessibility == Accessibility.Public
-                   && m.IsStatic
-                   && m.Parameters.Length >= minParamCount);
+            .Any(m =>
+                m.DeclaredAccessibility == Accessibility.Public
+                && m.IsStatic
+                && m.Parameters.Length >= minParamCount
+            );
     }
 
     // Returns true if the named member is absent from the resolved target type.
@@ -337,14 +408,24 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // Also checks for BCL extension methods in static types of the imported namespaces so
     // that polyfills for interface targets (e.g., IEnumerable<T>) correctly detect native
     // LINQ/collection extensions that live in separate static classes (e.g., Enumerable).
-    private static bool IsMemberMissing(INamedTypeSymbol? targetType, string memberName, int paramCount,
-        IReadOnlyList<string> usingNamespaces, Compilation compilation,
-        IReadOnlyList<string>? polyfillParamTypeNames = null)
+    private static bool IsMemberMissing(
+        INamedTypeSymbol? targetType,
+        string memberName,
+        int paramCount,
+        IReadOnlyList<string> usingNamespaces,
+        Compilation compilation,
+        IReadOnlyList<string>? polyfillParamTypeNames = null
+    )
     {
         // If the target type is absent (e.g., T[] representative MemoryExtensions not in compilation),
         // fall back to checking for BCL extension methods in the imported namespaces.
         if (targetType is null)
-            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation);
+            return !HasPublicExtensionMethodInNamespaces(
+                memberName,
+                paramCount,
+                usingNamespaces,
+                compilation
+            );
 
         var members = GetPublicMembersNamed(targetType, memberName).ToList();
         if (members.Count == 0)
@@ -354,7 +435,13 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             // Pass targetType so only receiver-compatible extensions are considered
             // (e.g., Enumerable.AsEnumerable<T>(IEnumerable<T>) does NOT apply to
             // MatchCollection on .NET Framework because it doesn't implement IEnumerable<T>).
-            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation, targetType);
+            return !HasPublicExtensionMethodInNamespaces(
+                memberName,
+                paramCount,
+                usingNamespaces,
+                compilation,
+                targetType
+            );
         }
 
         if (paramCount < 0)
@@ -388,11 +475,23 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
             }
 
             // Exact count match found but types differ — check BCL extension methods too.
-            return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation, targetType);
+            return !HasPublicExtensionMethodInNamespaces(
+                memberName,
+                paramCount,
+                usingNamespaces,
+                compilation,
+                targetType
+            );
         }
 
         // No exact-count match at all — check for a matching BCL extension method.
-        return !HasPublicExtensionMethodInNamespaces(memberName, paramCount, usingNamespaces, compilation, targetType);
+        return !HasPublicExtensionMethodInNamespaces(
+            memberName,
+            paramCount,
+            usingNamespaces,
+            compilation,
+            targetType
+        );
     }
 
     // Returns the base type name of a Roslyn type symbol for parameter-type comparison.
@@ -408,7 +507,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // Nullable wrappers (T?) are unwrapped; C# keyword types are normalized to their CLR names.
     private static string GetPolyfillParamTypeName(TypeSyntax? typeSyntax)
     {
-        if (typeSyntax is NullableTypeSyntax nts) typeSyntax = nts.ElementType;
+        if (typeSyntax is NullableTypeSyntax nts)
+            typeSyntax = nts.ElementType;
         return typeSyntax switch
         {
             PredefinedTypeSyntax pre => pre.Keyword.ValueText switch
@@ -446,9 +546,12 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // targetType are considered (e.g., Enumerable.AsEnumerable<T>(IEnumerable<T>) is NOT applicable
     // to MatchCollection on .NET Framework because it doesn't implement IEnumerable<T>).
     private static bool HasPublicExtensionMethodInNamespaces(
-        string methodName, int paramCount,
-        IReadOnlyList<string> usingNamespaces, Compilation compilation,
-        INamedTypeSymbol? targetType = null)
+        string methodName,
+        int paramCount,
+        IReadOnlyList<string> usingNamespaces,
+        Compilation compilation,
+        INamedTypeSymbol? targetType = null
+    )
     {
         if (paramCount < 0)
             return false; // No BCL extension properties
@@ -456,23 +559,29 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         foreach (var nsName in usingNamespaces)
         {
             var nsSymbol = GetNamespaceSymbol(compilation, nsName);
-            if (nsSymbol is null) continue;
+            if (nsSymbol is null)
+                continue;
 
             foreach (var type in nsSymbol.GetTypeMembers())
             {
-                if (!type.IsStatic) continue;
+                if (!type.IsStatic)
+                    continue;
                 foreach (var method in type.GetMembers(methodName).OfType<IMethodSymbol>())
                 {
-                    if (!method.IsExtensionMethod) continue;
-                    if (method.DeclaredAccessibility != Accessibility.Public) continue;
+                    if (!method.IsExtensionMethod)
+                        continue;
+                    if (method.DeclaredAccessibility != Accessibility.Public)
+                        continue;
                     // Extension method has a 'this' receiver as first parameter;
                     // the remaining parameters must be >= paramCount.
                     if (method.Parameters.Length - 1 < paramCount)
                         continue;
 
                     // If targetType is provided, verify the receiver type is compatible.
-                    if (targetType is not null
-                        && !IsReceiverTypeCompatible(targetType, method.Parameters[0].Type))
+                    if (
+                        targetType is not null
+                        && !IsReceiverTypeCompatible(targetType, method.Parameters[0].Type)
+                    )
                         continue;
 
                     return true;
@@ -488,7 +597,10 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // For generic receiver types (e.g., IEnumerable<T>), the original definition is used so that
     // any constructed form of that generic interface satisfies the check.
     // Type-parameter receivers (e.g., T in where T : class) are conservatively treated as compatible.
-    private static bool IsReceiverTypeCompatible(INamedTypeSymbol targetType, ITypeSymbol receiverType)
+    private static bool IsReceiverTypeCompatible(
+        INamedTypeSymbol targetType,
+        ITypeSymbol receiverType
+    )
     {
         // Type-parameter receiver (e.g., void Foo<T>(this T value)): conservatively compatible.
         if (receiverType.TypeKind == TypeKind.TypeParameter)
@@ -519,7 +631,10 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
     // Traverses the compilation's global namespace hierarchy to find the symbol for a
     // dotted namespace name (e.g., "System.Linq" → INamespaceSymbol for System.Linq).
-    private static INamespaceSymbol? GetNamespaceSymbol(Compilation compilation, string namespaceName)
+    private static INamespaceSymbol? GetNamespaceSymbol(
+        Compilation compilation,
+        string namespaceName
+    )
     {
         INamespaceSymbol? current = compilation.GlobalNamespace;
         foreach (var part in namespaceName.Split('.'))
@@ -535,7 +650,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     private static INamedTypeSymbol? ResolveExtensionTarget(
         TypeSyntax? typeSyntax,
         IReadOnlyList<string> usingNamespaces,
-        Compilation compilation)
+        Compilation compilation
+    )
     {
         if (typeSyntax is null)
             return null;
@@ -577,7 +693,8 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
                 generic.Identifier.Text,
                 generic.TypeArgumentList.Arguments.Count,
                 usingNamespaces,
-                compilation);
+                compilation
+            );
         }
 
         // Fall back: return null for any unhandled type form (conservative — emit the polyfill).
@@ -592,13 +709,15 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         string baseName,
         int arity,
         IReadOnlyList<string> usingNamespaces,
-        Compilation compilation)
+        Compilation compilation
+    )
     {
         var metadataName = arity > 0 ? $"{baseName}`{arity}" : baseName;
         foreach (var ns in usingNamespaces)
         {
             var sym = GetFirstAccessibleType(compilation, $"{ns}.{metadataName}");
-            if (sym is not null) return sym;
+            if (sym is not null)
+                return sym;
         }
         return null;
     }
@@ -614,15 +733,20 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // Framework). This prevents the host runtime's richer API surface from incorrectly masking
     // methods that are absent in the actual target framework (e.g., String.Contains(string,
     // StringComparison) exists in System.Private.CoreLib but not in .NET Framework's mscorlib.dll).
-    private static INamedTypeSymbol? GetFirstAccessibleType(Compilation compilation, string metadataName)
+    private static INamedTypeSymbol? GetFirstAccessibleType(
+        Compilation compilation,
+        string metadataName
+    )
     {
         var types = compilation.GetTypesByMetadataName(metadataName);
-        if (types.IsEmpty) return null;
+        if (types.IsEmpty)
+            return null;
 
         var accessible = types
             .Where(t =>
                 t.DeclaredAccessibility == Accessibility.Public
-                || SymbolEqualityComparer.Default.Equals(t.ContainingAssembly, compilation.Assembly))
+                || SymbolEqualityComparer.Default.Equals(t.ContainingAssembly, compilation.Assembly)
+            )
             .ToArray();
 
         if (accessible.Length == 0)
@@ -644,14 +768,18 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
 
         foreach (var u in root.DescendantNodes().OfType<UsingDirectiveSyntax>())
         {
-            if (u.StaticKeyword.IsKind(SyntaxKind.StaticKeyword)) continue;
-            if (u.Alias is not null) continue;
+            if (u.StaticKeyword.IsKind(SyntaxKind.StaticKeyword))
+                continue;
+            if (u.Alias is not null)
+                continue;
             var name = u.Name?.ToString();
             if (name is not null && !result.Contains(name))
                 result.Add(name);
         }
 
-        var fileNs = root.DescendantNodes().OfType<FileScopedNamespaceDeclarationSyntax>().FirstOrDefault();
+        var fileNs = root.DescendantNodes()
+            .OfType<FileScopedNamespaceDeclarationSyntax>()
+            .FirstOrDefault();
         if (fileNs is not null)
         {
             var name = fileNs.Name.ToString();

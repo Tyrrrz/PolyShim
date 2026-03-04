@@ -8,4 +8,3 @@ namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.timercallback
 internal delegate void TimerCallback(object? state);
-

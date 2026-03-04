@@ -5,8 +5,8 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Linq;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -20,4 +20,3 @@ internal static class MemberPolyfills_NetCore10_String
             value is null || value.All(char.IsWhiteSpace);
     }
 }
-

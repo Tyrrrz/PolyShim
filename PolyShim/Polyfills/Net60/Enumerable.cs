@@ -283,4 +283,3 @@ internal static class MemberPolyfills_Net60_Enumerable
         }
     }
 }
-

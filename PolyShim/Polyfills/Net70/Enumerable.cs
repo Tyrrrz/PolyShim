@@ -32,4 +32,3 @@ internal static class MemberPolyfills_Net70_Enumerable
             source.OrderDescending(Comparer<T>.Default);
     }
 }
-

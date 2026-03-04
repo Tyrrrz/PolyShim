@@ -6,10 +6,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -111,24 +111,30 @@ internal static class MemberPolyfills_Net60_Parallel
 
             await foreach (var item in source.WithCancellation(parallelOptions.CancellationToken))
             {
-                tasks.Add(Task.Factory.StartNew(
-                    async () =>
-                    {
-                        await semaphore.WaitAsync(parallelOptions.CancellationToken).ConfigureAwait(false);
+                tasks.Add(
+                    Task.Factory.StartNew(
+                            async () =>
+                            {
+                                await semaphore
+                                    .WaitAsync(parallelOptions.CancellationToken)
+                                    .ConfigureAwait(false);
 
-                        try
-                        {
-                            await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
-                        }
-                        finally
-                        {
-                            semaphore.Release();
-                        }
-                    },
-                    parallelOptions.CancellationToken,
-                    TaskCreationOptions.None,
-                    parallelOptions.TaskScheduler ?? TaskScheduler.Default
-                ).Unwrap());
+                                try
+                                {
+                                    await body(item, parallelOptions.CancellationToken)
+                                        .ConfigureAwait(false);
+                                }
+                                finally
+                                {
+                                    semaphore.Release();
+                                }
+                            },
+                            parallelOptions.CancellationToken,
+                            TaskCreationOptions.None,
+                            parallelOptions.TaskScheduler ?? TaskScheduler.Default
+                        )
+                        .Unwrap()
+                );
             }
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -142,10 +148,11 @@ internal static class MemberPolyfills_Net60_Parallel
             Func<T, CancellationToken, Task> body
         ) =>
             await ForEachAsync(
-                source,
-                new ParallelOptions { CancellationToken = cancellationToken },
-                body
-            ).ConfigureAwait(false);
+                    source,
+                    new ParallelOptions { CancellationToken = cancellationToken },
+                    body
+                )
+                .ConfigureAwait(false);
 
         // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))

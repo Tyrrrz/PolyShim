@@ -30,4 +30,3 @@ internal static class MemberPolyfills_NetCore20_CollectionExtensions
         public TValue? GetValueOrDefault(TKey key) => dictionary.GetValueOrDefault(key, default);
     }
 }
-

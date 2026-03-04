@@ -4,10 +4,10 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Diagnostics.CodeAnalysis;
 
 file static class PathEx
 {

@@ -16,7 +16,12 @@
     <Compile Remove="Polyfills/**/*.cs" />
     <None Include="PolyShim.props" Pack="true" PackagePath="build/PolyShim.props" />
     <None Include="PolyShim.targets" Pack="true" PackagePath="build/PolyShim.targets" />
-    <None Include="$(TargetDir)$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None
+      Include="$(TargetDir)$(AssemblyName).dll"
+      Pack="true"
+      PackagePath="analyzers/dotnet/cs"
+      Visible="false"
+    />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,10 +32,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <Target
-    Name="ListSignatures"
-    AfterTargets="AfterBuild"
-  >
+  <Target Name="ListSignatures" AfterTargets="AfterBuild">
     <Exec Command="pwsh -ExecutionPolicy Bypass -File $(ProjectDir)/List-Signatures.ps1" />
   </Target>
 </Project>

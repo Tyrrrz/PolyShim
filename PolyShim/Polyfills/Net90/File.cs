@@ -4,10 +4,10 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -48,7 +48,8 @@ internal static class MemberPolyfills_Net90_File
                 true
             );
 
-            await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken)
+            await stream
+                .WriteAsync(bytes, 0, bytes.Length, cancellationToken)
                 .ConfigureAwait(false);
 
             await stream.FlushAsync(cancellationToken).ConfigureAwait(false);

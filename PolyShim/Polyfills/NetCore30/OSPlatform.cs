@@ -4,8 +4,8 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-using System.Runtime.InteropServices;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]

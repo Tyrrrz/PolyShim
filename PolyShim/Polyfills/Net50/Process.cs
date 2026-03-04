@@ -6,9 +6,9 @@
 
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -34,7 +34,7 @@ internal static class MemberPolyfills_Net50_Process
                 process.EnableRaisingEvents = true;
             }
             // May throw if the process has already exited
-            catch when(process.HasExited)
+            catch when (process.HasExited)
             {
                 return;
             }

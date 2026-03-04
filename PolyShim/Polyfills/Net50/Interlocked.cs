@@ -135,4 +135,3 @@ internal static class MemberPolyfills_Net50_Interlocked
 #endif
     }
 }
-

@@ -15,4 +15,3 @@ internal enum StringMarshalling
     Utf8,
     Utf16,
 }
-
