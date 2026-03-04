@@ -609,14 +609,32 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // and public types from referenced assemblies are preferred.
     // Falls back to types[0] if no public/own-assembly definition exists — this can happen for
     // rare internal-forwarded types, but in practice BCL types are always public.
+    // When multiple accessible types are found, types from System.Private.CoreLib (the host .NET
+    // runtime) are deprioritized in favor of target-framework types (e.g., mscorlib.dll on .NET
+    // Framework). This prevents the host runtime's richer API surface from incorrectly masking
+    // methods that are absent in the actual target framework (e.g., String.Contains(string,
+    // StringComparison) exists in System.Private.CoreLib but not in .NET Framework's mscorlib.dll).
     private static INamedTypeSymbol? GetFirstAccessibleType(Compilation compilation, string metadataName)
     {
         var types = compilation.GetTypesByMetadataName(metadataName);
         if (types.IsEmpty) return null;
-        return types.FirstOrDefault(t =>
-            t.DeclaredAccessibility == Accessibility.Public
-            || SymbolEqualityComparer.Default.Equals(t.ContainingAssembly, compilation.Assembly)
-        ) ?? types[0];
+
+        var accessible = types
+            .Where(t =>
+                t.DeclaredAccessibility == Accessibility.Public
+                || SymbolEqualityComparer.Default.Equals(t.ContainingAssembly, compilation.Assembly))
+            .ToArray();
+
+        if (accessible.Length == 0)
+            return types[0];
+
+        // Prefer types that are not from System.Private.CoreLib (the host .NET runtime) when
+        // other target-framework-specific types are available (e.g., mscorlib.dll for net462).
+        var nonHostRuntime = accessible
+            .Where(t => t.ContainingAssembly.Name != "System.Private.CoreLib")
+            .ToArray();
+
+        return nonHostRuntime.Length > 0 ? nonHostRuntime[0] : accessible[0];
     }
 
     // Collects all non-alias, non-static using namespaces plus the file-scoped namespace (if any).
