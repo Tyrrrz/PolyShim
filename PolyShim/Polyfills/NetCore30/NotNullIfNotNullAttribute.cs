@@ -1,0 +1,20 @@
+#nullable enable
+
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+namespace System.Diagnostics.CodeAnalysis;
+
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.notnullifnotnullattribute
+[AttributeUsage(
+    AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue
+)]
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal class NotNullIfNotNullAttribute(string parameterName) : Attribute
+{
+    public string ParameterName { get; } = parameterName;
+}

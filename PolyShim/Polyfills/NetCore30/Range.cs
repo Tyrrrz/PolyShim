@@ -1,0 +1,46 @@
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+using System.Diagnostics.CodeAnalysis;
+
+namespace System;
+
+// https://learn.microsoft.com/dotnet/api/system.range
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal readonly struct Range(Index start, Index end) : IEquatable<Range>
+{
+    public Index Start { get; } = start;
+
+    public Index End { get; } = end;
+
+    public (int Offset, int Length) GetOffsetAndLength(int length)
+    {
+        var start = Start.IsFromEnd ? length - Start.Value : Start.Value;
+        var end = End.IsFromEnd ? length - End.Value : End.Value;
+
+        if ((uint)end > (uint)length || (uint)start > (uint)end)
+            throw new ArgumentOutOfRangeException(nameof(length));
+
+        return (start, end - start);
+    }
+
+    public override bool Equals(object? value) =>
+        value is Range r && r.Start.Equals(Start) && r.End.Equals(End);
+
+    public bool Equals(Range other) => other.Start.Equals(Start) && other.End.Equals(End);
+
+    public override int GetHashCode() => Start.GetHashCode() * 31 + End.GetHashCode();
+
+    public override string ToString() => Start + ".." + End;
+
+    public static Range StartAt(Index start) => new(start, Index.End);
+
+    public static Range EndAt(Index end) => new(Index.Start, end);
+
+    public static Range All => new(Index.Start, Index.End);
+}

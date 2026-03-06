@@ -1,0 +1,23 @@
+#nullable enable
+
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+namespace System.Diagnostics.CodeAnalysis;
+
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.requiresunreferencedcodeattribute
+[AttributeUsage(
+    AttributeTargets.Class | AttributeTargets.Constructor | AttributeTargets.Method,
+    Inherited = false
+)]
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal class RequiresUnreferencedCodeAttribute(string message) : Attribute
+{
+    public string Message { get; } = message;
+
+    public string? Url { get; init; }
+}

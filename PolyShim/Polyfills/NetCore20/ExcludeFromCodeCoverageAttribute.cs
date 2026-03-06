@@ -1,0 +1,24 @@
+#nullable enable
+
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+namespace System.Diagnostics.CodeAnalysis;
+
+// https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.excludefromcodecoverageattribute
+[AttributeUsage(
+    AttributeTargets.Assembly
+        | AttributeTargets.Class
+        | AttributeTargets.Constructor
+        | AttributeTargets.Event
+        | AttributeTargets.Method
+        | AttributeTargets.Property
+        | AttributeTargets.Struct,
+    Inherited = false
+)]
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal class ExcludeFromCodeCoverageAttribute : Attribute;

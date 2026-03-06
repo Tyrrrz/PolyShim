@@ -1,0 +1,20 @@
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+using System.Diagnostics.CodeAnalysis;
+
+namespace System.Threading;
+
+// https://learn.microsoft.com/dotnet/api/system.threading.threadabortexception
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal class ThreadAbortException : SystemException
+{
+    // This exception cannot be instantiated by user code
+    private ThreadAbortException() => HResult = unchecked((int)0x80131530);
+
+    public object? ExceptionState => null;
+}

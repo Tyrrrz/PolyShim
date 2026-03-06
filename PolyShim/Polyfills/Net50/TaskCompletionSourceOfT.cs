@@ -1,0 +1,30 @@
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
+
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal static class MemberPolyfills_Net50_TaskCompletionSourceOfT
+{
+    extension<T>(TaskCompletionSource<T> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)
+        public void SetCanceled(CancellationToken cancellationToken)
+        {
+            if (!source.TrySetCanceled(cancellationToken))
+            {
+                throw new InvalidOperationException(
+                    "The task is already completed, canceled, or failed."
+                );
+            }
+        }
+    }
+}
