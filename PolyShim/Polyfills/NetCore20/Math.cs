@@ -1,0 +1,32 @@
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal static class MemberPolyfills_NetCore20_Math
+{
+    extension(Math)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.math.clamp
+        // Technically, the original implementation has overloads for each separate numeric type,
+        // but this generic version is fully source-compatible and simpler to maintain.
+        public static T Clamp<T>(T value, T min, T max)
+            where T : IComparable<T>
+        {
+            if (value.CompareTo(min) < 0)
+                return min;
+
+            if (value.CompareTo(max) > 0)
+                return max;
+
+            return value;
+        }
+    }
+}

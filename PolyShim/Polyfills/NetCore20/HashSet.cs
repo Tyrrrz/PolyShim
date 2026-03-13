@@ -1,0 +1,36 @@
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal static class MemberPolyfills_NetCore20_HashSet
+{
+    extension<T>(HashSet<T> set)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1.trygetvalue
+        public bool TryGetValue(T equalValue, out T? actualValue)
+        {
+            if (set.Contains(equalValue))
+            {
+                foreach (var item in set)
+                {
+                    if (set.Comparer.Equals(item, equalValue))
+                    {
+                        actualValue = item;
+                        return true;
+                    }
+                }
+            }
+
+            actualValue = default;
+            return false;
+        }
+    }
+}

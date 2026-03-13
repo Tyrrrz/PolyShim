@@ -1,0 +1,42 @@
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Threading.Tasks;
+
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal static class MemberPolyfills_NetCore30_Stream
+{
+    extension(Stream stream)
+    {
+#if FEATURE_TASK
+        // https://learn.microsoft.com/dotnet/api/system.io.stream.disposeasync
+        public async Task DisposeAsync()
+        {
+#if FEATURE_ASYNCINTERFACES
+            if (stream is IAsyncDisposable asyncDisposable)
+            {
+                await asyncDisposable.DisposeAsync();
+                return;
+            }
+#endif
+
+            try
+            {
+                await stream.FlushAsync();
+            }
+            finally
+            {
+                stream.Dispose();
+            }
+        }
+#endif
+    }
+}

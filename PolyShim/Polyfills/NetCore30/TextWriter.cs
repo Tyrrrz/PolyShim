@@ -1,0 +1,42 @@
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Threading.Tasks;
+
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal static class MemberPolyfills_NetCore30_TextWriter
+{
+    extension(TextWriter writer)
+    {
+#if FEATURE_TASK
+        // https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync
+        public async Task DisposeAsync()
+        {
+#if FEATURE_ASYNCINTERFACES
+            if (writer is IAsyncDisposable asyncDisposable)
+            {
+                await asyncDisposable.DisposeAsync();
+                return;
+            }
+#endif
+
+            try
+            {
+                await writer.FlushAsync();
+            }
+            finally
+            {
+                writer.Dispose();
+            }
+        }
+#endif
+    }
+}

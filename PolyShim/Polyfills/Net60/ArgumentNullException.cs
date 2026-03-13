@@ -1,0 +1,28 @@
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal static class MemberPolyfills_Net60_ArgumentNullException
+{
+    extension(ArgumentNullException)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.argumentnullexception.throwifnull#system-argumentnullexception-throwifnull(system-object-system-string)
+        public static void ThrowIfNull(
+            object? argument,
+            [CallerArgumentExpression(nameof(argument))] string? paramName = null
+        )
+        {
+            if (argument is null)
+                throw new ArgumentNullException(paramName);
+        }
+    }
+}

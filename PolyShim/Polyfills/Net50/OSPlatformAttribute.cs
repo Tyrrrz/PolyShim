@@ -1,0 +1,18 @@
+#nullable enable
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable CheckNamespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable PartialTypeWithSinglePart
+
+using System.Diagnostics.CodeAnalysis;
+
+namespace System.Runtime.Versioning;
+
+// https://learn.microsoft.com/dotnet/api/system.runtime.versioning.osplatformattribute
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal abstract class OSPlatformAttribute(string platformName) : Attribute
+{
+    public string PlatformName { get; } = platformName;
+}
