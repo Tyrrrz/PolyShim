@@ -728,11 +728,15 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
     // and public types from referenced assemblies are preferred.
     // Falls back to types[0] if no public/own-assembly definition exists — this can happen for
     // rare internal-forwarded types, but in practice BCL types are always public.
-    // When multiple accessible types are found, types from System.Private.CoreLib (the host .NET
-    // runtime) are deprioritized in favor of target-framework types (e.g., mscorlib.dll on .NET
-    // Framework). This prevents the host runtime's richer API surface from incorrectly masking
-    // methods that are absent in the actual target framework (e.g., String.Contains(string,
-    // StringComparison) exists in System.Private.CoreLib but not in .NET Framework's mscorlib.dll).
+    //
+    // When multiple accessible types exist, priority is:
+    //   1. mscorlib — always the authoritative .NET Framework assembly; its API surface accurately
+    //      reflects what is available on .NET Framework without any modern additions.
+    //   2. Non-host-runtime types — excludes System.Private.CoreLib (host .NET runtime) and
+    //      netstandard (stub assembly) which may expose newer APIs not in the actual target
+    //      framework (e.g., String.Contains(string, StringComparison) exists in both but is absent
+    //      from .NET Framework's mscorlib.dll).
+    //   3. Any remaining accessible type as a fallback.
     private static INamedTypeSymbol? GetFirstAccessibleType(
         Compilation compilation,
         string metadataName
@@ -752,13 +756,26 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         if (accessible.Length == 0)
             return types[0];
 
-        // Prefer types that are not from System.Private.CoreLib (the host .NET runtime) when
-        // other target-framework-specific types are available (e.g., mscorlib.dll for net462).
-        var nonHostRuntime = accessible
-            .Where(t => t.ContainingAssembly.Name != "System.Private.CoreLib")
-            .ToArray();
+        if (accessible.Length == 1)
+            return accessible[0];
 
-        return nonHostRuntime.Length > 0 ? nonHostRuntime[0] : accessible[0];
+        // Priority 1: mscorlib — always use the actual .NET Framework assembly when present.
+        // It has the most restrictive API surface for .NET Framework targets and is never present
+        // on .NET Core/.NET 5+ compilations.
+        var mscorlibType = accessible.FirstOrDefault(t => t.ContainingAssembly.Name == "mscorlib");
+        if (mscorlibType is not null)
+            return mscorlibType;
+
+        // Priority 2: Prefer non-host-runtime types over System.Private.CoreLib and netstandard.
+        // System.Private.CoreLib is the host .NET runtime (richer API surface than target).
+        // netstandard.dll is a stub/compatibility assembly that may expose APIs not yet present
+        // in the actual target framework (e.g., String.Contains(string, StringComparison) appears
+        // in netstandard 2.1 stubs but is absent from .NET Framework mscorlib.dll).
+        var targetFrameworkType = accessible.FirstOrDefault(t =>
+            t.ContainingAssembly.Name != "System.Private.CoreLib"
+            && t.ContainingAssembly.Name != "netstandard"
+        );
+        return targetFrameworkType ?? accessible[0];
     }
 
     // Collects all non-alias, non-static using namespaces plus the file-scoped namespace (if any).
