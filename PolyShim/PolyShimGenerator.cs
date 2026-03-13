@@ -665,19 +665,35 @@ internal sealed class PolyShimGenerator : IIncrementalGenerator
         if (typeSyntax is ArrayTypeSyntax)
             return null;
 
-        // Predefined keyword type (string, byte, int, etc.)
+        // Predefined keyword type (string, int, long, etc.)
+        // Use GetSpecialType so the compiler's own binding for the target framework is used,
+        // which avoids assembly-resolution ambiguity (e.g., System.Private.CoreLib from the
+        // host .NET runtime vs mscorlib.dll from the .NET Framework reference assemblies).
         if (typeSyntax is PredefinedTypeSyntax pre)
         {
-            // string: check System.String for instance/static members; MemoryExtensions
-            // extension methods (AsSpan, AsMemory, etc.) are found via namespace lookup.
-            // Use GetTypesByMetadataName to handle type-forwarded types (e.g., on .NET Framework
-            // System.String is defined in mscorlib.dll and forwarded from System.Runtime.dll,
-            // causing GetTypeByMetadataName to return null due to ambiguity).
-            if (pre.Keyword.IsKind(SyntaxKind.StringKeyword))
-                return GetFirstAccessibleType(compilation, "System.String");
-
-            // Other predefined types (byte, int, etc.): conservatively emit
-            return null;
+            var specialType = pre.Keyword.Kind() switch
+            {
+                SyntaxKind.StringKeyword => SpecialType.System_String,
+                SyntaxKind.IntKeyword => SpecialType.System_Int32,
+                SyntaxKind.LongKeyword => SpecialType.System_Int64,
+                SyntaxKind.ShortKeyword => SpecialType.System_Int16,
+                SyntaxKind.ByteKeyword => SpecialType.System_Byte,
+                SyntaxKind.SByteKeyword => SpecialType.System_SByte,
+                SyntaxKind.UIntKeyword => SpecialType.System_UInt32,
+                SyntaxKind.ULongKeyword => SpecialType.System_UInt64,
+                SyntaxKind.UShortKeyword => SpecialType.System_UInt16,
+                SyntaxKind.FloatKeyword => SpecialType.System_Single,
+                SyntaxKind.DoubleKeyword => SpecialType.System_Double,
+                SyntaxKind.DecimalKeyword => SpecialType.System_Decimal,
+                SyntaxKind.BoolKeyword => SpecialType.System_Boolean,
+                SyntaxKind.CharKeyword => SpecialType.System_Char,
+                SyntaxKind.ObjectKeyword => SpecialType.System_Object,
+                _ => SpecialType.None,
+            };
+            if (specialType == SpecialType.None)
+                return null;
+            var typeSymbol = compilation.GetSpecialType(specialType);
+            return typeSymbol.TypeKind == TypeKind.Error ? null : typeSymbol;
         }
 
         // Simple name: IdentifierNameSyntax (e.g., "Path", "Random", "HttpClient")
