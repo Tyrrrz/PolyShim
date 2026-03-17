@@ -142,10 +142,7 @@ internal static class MemberPolyfills_NetCore20_String
             string? separator,
             StringSplitOptions options = StringSplitOptions.None
         ) => str.Split([separator ?? ""], options);
-    }
 
-    extension(string)
-    {
         // https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-object())
         public static string Join(char separator, params object?[] values) =>
             string.Join(separator.ToString(), values.Select(v => v?.ToString()).ToArray());
