@@ -6,7 +6,9 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Diagnostics.CodeAnalysis;
 
@@ -140,6 +142,25 @@ internal static class MemberPolyfills_NetCore20_String
             string? separator,
             StringSplitOptions options = StringSplitOptions.None
         ) => str.Split([separator ?? ""], options);
+
+        // https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-object())
+        public static string Join(char separator, params object?[] values) =>
+            string.Join(separator.ToString(), values.Select(v => v?.ToString()).ToArray());
+
+        // https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string())
+        public static string Join(char separator, params string?[] values) =>
+            string.Join(separator.ToString(), values);
+
+        // https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))
+        public static string Join<T>(char separator, IEnumerable<T> values) =>
+            string.Join(
+                separator.ToString(),
+                values.Select(v => ((object?)v)?.ToString()).ToArray()
+            );
+
+        // https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32)
+        public static string Join(char separator, string?[] value, int startIndex, int count) =>
+            string.Join(separator.ToString(), value, startIndex, count);
     }
 }
 #endif

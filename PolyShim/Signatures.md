@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 373
+- **Total:** 379
 - **Types:** 79
-- **Members:** 294
+- **Members:** 300
 
 ___
 
@@ -371,6 +371,12 @@ ___
   - [`bool IsNullOrWhiteSpace(string?)`](https://learn.microsoft.com/dotnet/api/system.string.isnullorwhitespace) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool StartsWith(char)`](https://learn.microsoft.com/dotnet/api/system.string.startswith#system-string-startswith(system-char)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int GetHashCode(StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`string Join(char, params object?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-object())) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`string Join(char, params string?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string())) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`string Join(char, string?[], int, int)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`string Join(string?, params object?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-string-system-object())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`string Join<T>(char, IEnumerable<T>)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`string Join<T>(string?, IEnumerable<T>)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join-1(system-string-system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 1.0</sub></sup>
   - [`string Replace(string, string?, bool, CultureInfo?)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-boolean-system-globalization-cultureinfo)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Replace(string, string?, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string ReplaceLineEndings()`](https://learn.microsoft.com/dotnet/api/system.string.replacelineendings#system-string-replacelineendings) <sup><sub>.NET 6.0</sub></sup>
