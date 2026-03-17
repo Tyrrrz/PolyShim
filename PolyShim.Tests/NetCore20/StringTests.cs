@@ -129,4 +129,46 @@ public class StringTests
         str.Split(" ", 2).Should().Equal("a", "b c");
         str.Split(" ", 1).Should().Equal("a b c");
     }
+
+    [Fact]
+    public void Join_CharSeparator_ObjectArray_Test()
+    {
+        // Act & assert
+        string.Join(',', new object?[] { 1, "two", 3.0 }).Should().Be("1,two,3");
+        string.Join(',', new object?[] { }).Should().Be("");
+        string.Join(',', new object?[] { null, "a", null }).Should().Be(",a,");
+    }
+
+    [Fact]
+    public void Join_CharSeparator_StringArray_Test()
+    {
+        // Act & assert
+        string.Join(',', "a", "b", "c").Should().Be("a,b,c");
+        string.Join(',', new string?[] { }).Should().Be("");
+        string.Join(',', new string?[] { null, "a", null }).Should().Be(",a,");
+    }
+
+    [Fact]
+    public void Join_CharSeparator_EnumerableT_Test()
+    {
+        // Act & assert
+        string.Join(',', new System.Collections.Generic.List<int> { 1, 2, 3 })
+            .Should()
+            .Be("1,2,3");
+        string.Join(',', new System.Collections.Generic.List<string?> { "a", null, "b" })
+            .Should()
+            .Be("a,,b");
+    }
+
+    [Fact]
+    public void Join_CharSeparator_WithIndexAndCount_Test()
+    {
+        // Arrange
+        var values = new string?[] { "a", "b", "c", "d" };
+
+        // Act & assert
+        string.Join(',', values, 1, 2).Should().Be("b,c");
+        string.Join(',', values, 0, 4).Should().Be("a,b,c,d");
+        string.Join(',', values, 2, 0).Should().Be("");
+    }
 }
