@@ -30,11 +30,13 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             where T : struct, IComparable<T>
         {
             if (value.CompareTo(default) < 0)
+            {
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
                     $"'{paramName}' must be a non-negative value."
                 );
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero
@@ -46,11 +48,13 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             where T : struct, IComparable<T>
         {
             if (value.CompareTo(default) <= 0)
+            {
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
                     $"'{paramName}' must be a positive value."
                 );
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifzero
@@ -62,11 +66,13 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             where T : struct, IComparable<T>
         {
             if (value.CompareTo(default) == 0)
+            {
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
                     $"'{paramName}' must be a non-zero value."
                 );
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan
@@ -78,11 +84,13 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             where T : IComparable<T>
         {
             if (Comparer<T>.Default.Compare(value, other) > 0)
+            {
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
                     $"'{paramName}' must be less than or equal to '{other}'."
                 );
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal
@@ -94,11 +102,13 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             where T : IComparable<T>
         {
             if (Comparer<T>.Default.Compare(value, other) >= 0)
+            {
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
                     $"'{paramName}' must be less than '{other}'."
                 );
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthan
@@ -110,11 +120,13 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             where T : IComparable<T>
         {
             if (Comparer<T>.Default.Compare(value, other) < 0)
+            {
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
                     $"'{paramName}' must be greater than or equal to '{other}'."
                 );
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal
@@ -126,11 +138,13 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             where T : IComparable<T>
         {
             if (Comparer<T>.Default.Compare(value, other) <= 0)
+            {
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
                     $"'{paramName}' must be greater than '{other}'."
                 );
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifequal
@@ -142,11 +156,13 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             where T : IEquatable<T>
         {
             if (EqualityComparer<T>.Default.Equals(value, other))
+            {
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
                     $"'{paramName}' must not be equal to '{other}'."
                 );
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnotequal
@@ -158,11 +174,13 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             where T : IEquatable<T>
         {
             if (!EqualityComparer<T>.Default.Equals(value, other))
+            {
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
                     $"'{paramName}' must be equal to '{other}'."
                 );
+            }
         }
     }
 }
