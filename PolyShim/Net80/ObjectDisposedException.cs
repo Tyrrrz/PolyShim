@@ -23,7 +23,7 @@ internal static class MemberPolyfills_Net80_ObjectDisposedException
         )
         {
             if (condition)
-                throw new ObjectDisposedException(instance?.GetType()?.FullName);
+                throw new ObjectDisposedException(instance.GetType().FullName);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-type)
@@ -33,7 +33,7 @@ internal static class MemberPolyfills_Net80_ObjectDisposedException
         )
         {
             if (condition)
-                throw new ObjectDisposedException(type?.FullName);
+                throw new ObjectDisposedException(type.FullName);
         }
     }
 }

@@ -19,7 +19,7 @@ public class TimeSpanTests
     public void FromSeconds_Test()
     {
         // Act & assert
-        TimeSpan.FromSeconds(1L, 500L).Should().Be(TimeSpan.FromMilliseconds(1500));
+        TimeSpan.FromSeconds(1L, 500L, 0L).Should().Be(TimeSpan.FromMilliseconds(1500));
         TimeSpan.FromSeconds(1L, 500L, 250L).Should().Be(TimeSpan.FromTicks(15_002_500));
     }
 
@@ -27,21 +27,21 @@ public class TimeSpanTests
     public void FromMinutes_Test()
     {
         // Act & assert
-        TimeSpan.FromMinutes(1L, 30L).Should().Be(TimeSpan.FromSeconds(90));
-        TimeSpan.FromMinutes(1L, 0L, 500L).Should().Be(TimeSpan.FromMilliseconds(60_500));
+        TimeSpan.FromMinutes(1L, 30L, 0L, 0L).Should().Be(TimeSpan.FromSeconds(90));
+        TimeSpan.FromMinutes(1L, 0L, 500L, 0L).Should().Be(TimeSpan.FromMilliseconds(60_500));
     }
 
     [Fact]
     public void FromHours_Test()
     {
         // Act & assert
-        TimeSpan.FromHours(1, 30L).Should().Be(TimeSpan.FromMinutes(90));
+        TimeSpan.FromHours(1, 30L, 0L, 0L, 0L).Should().Be(TimeSpan.FromMinutes(90));
     }
 
     [Fact]
     public void FromDays_Test()
     {
         // Act & assert
-        TimeSpan.FromDays(1, 12).Should().Be(TimeSpan.FromHours(36));
+        TimeSpan.FromDays(1, 12, 0L, 0L, 0L, 0L).Should().Be(TimeSpan.FromHours(36));
     }
 }
