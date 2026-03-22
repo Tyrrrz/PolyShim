@@ -26,7 +26,7 @@ internal static class MemberPolyfills_Net70_DateTime
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out DateTime result
-        ) => DateTime.TryParse(s.ToString(), provider, out result);
+        ) => DateTime.TryParse(new string(s.ToArray()), provider, out result);
 #endif
     }
 }

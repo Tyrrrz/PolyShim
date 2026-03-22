@@ -29,7 +29,7 @@ internal static class MemberPolyfills_Net70_DateTimeOffset
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out DateTimeOffset result
-        ) => DateTimeOffset.TryParse(s.ToString(), provider, out result);
+        ) => DateTimeOffset.TryParse(new string(s.ToArray()), provider, out result);
 #endif
     }
 }

@@ -51,7 +51,7 @@ internal static class MemberPolyfills_Net50_Convert
 #if FEATURE_MEMORY
         // https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))
         public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
-            Convert.FromHexString(chars.ToString());
+            Convert.FromHexString(new string(chars.ToArray()));
 #endif
 
         // https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte()-system-int32-system-int32)

@@ -26,7 +26,7 @@ internal static class MemberPolyfills_Net70_Decimal
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out decimal result
-        ) => decimal.TryParse(s.ToString(), provider, out result);
+        ) => decimal.TryParse(new string(s.ToArray()), provider, out result);
 #endif
     }
 }

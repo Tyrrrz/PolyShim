@@ -31,7 +31,7 @@ internal static class MemberPolyfills_Net70_Single
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out float result
-        ) => float.TryParse(s.ToString(), provider, out result);
+        ) => float.TryParse(new string(s.ToArray()), provider, out result);
 #endif
     }
 }

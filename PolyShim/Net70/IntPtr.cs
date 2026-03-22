@@ -39,7 +39,7 @@ internal static class MemberPolyfills_Net70_IntPtr
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out IntPtr result
-        ) => IntPtr.TryParse(s.ToString(), provider, out result);
+        ) => IntPtr.TryParse(new string(s.ToArray()), provider, out result);
 #endif
     }
 }

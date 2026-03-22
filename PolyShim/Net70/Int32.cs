@@ -26,7 +26,7 @@ internal static class MemberPolyfills_Net70_Int32
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out int result
-        ) => int.TryParse(s.ToString(), provider, out result);
+        ) => int.TryParse(new string(s.ToArray()), provider, out result);
 #endif
     }
 }

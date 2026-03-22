@@ -26,7 +26,7 @@ internal static class MemberPolyfills_Net70_UInt64
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out ulong result
-        ) => ulong.TryParse(s.ToString(), provider, out result);
+        ) => ulong.TryParse(new string(s.ToArray()), provider, out result);
 #endif
     }
 }

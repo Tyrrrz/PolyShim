@@ -26,7 +26,7 @@ internal static class MemberPolyfills_Net70_SByte
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out sbyte result
-        ) => sbyte.TryParse(s.ToString(), provider, out result);
+        ) => sbyte.TryParse(new string(s.ToArray()), provider, out result);
 #endif
     }
 }
