@@ -6,7 +6,6 @@ namespace PolyShim.Tests.Net70;
 
 public class Int64Tests
 {
-#if FEATURE_MEMORY
     [Fact]
     public void TryParse_Span_Test()
     {
@@ -16,5 +15,4 @@ public class Int64Tests
 
         long.TryParse("abc".AsSpan(), null, out _).Should().BeFalse();
     }
-#endif
 }

@@ -6,7 +6,6 @@ namespace PolyShim.Tests.Net70;
 
 public class ByteTests
 {
-#if FEATURE_MEMORY
     [Fact]
     public void TryParse_Span_Test()
     {
@@ -16,5 +15,4 @@ public class ByteTests
 
         byte.TryParse("999".AsSpan(), null, out _).Should().BeFalse();
     }
-#endif
 }

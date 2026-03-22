@@ -7,7 +7,6 @@ namespace PolyShim.Tests.Net70;
 
 public class SingleTests
 {
-#if FEATURE_MEMORY
     [Fact]
     public void TryParse_Span_Test()
     {
@@ -19,5 +18,4 @@ public class SingleTests
 
         float.TryParse("abc".AsSpan(), null, out _).Should().BeFalse();
     }
-#endif
 }

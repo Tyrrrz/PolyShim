@@ -7,7 +7,6 @@ namespace PolyShim.Tests.Net70;
 
 public class DateTimeOffsetTests
 {
-#if FEATURE_MEMORY
     [Fact]
     public void TryParse_Span_Test()
     {
@@ -26,5 +25,4 @@ public class DateTimeOffsetTests
 
         DateTimeOffset.TryParse("not a date".AsSpan(), null, out _).Should().BeFalse();
     }
-#endif
 }
