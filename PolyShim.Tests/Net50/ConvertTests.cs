@@ -18,6 +18,7 @@ public class ConvertTests
         Assert.Throws<FormatException>(() => Convert.FromHexString("4A6F68GH")); // Invalid character
     }
 
+#if FEATURE_MEMORY
     [Fact]
     public void FromHexString_Span_Test()
     {
@@ -26,6 +27,7 @@ public class ConvertTests
         Convert.FromHexString("4a6f686e".AsSpan()).Should().Equal("John"u8.ToArray());
         Convert.FromHexString("".AsSpan()).Should().BeEmpty();
     }
+#endif
 
     [Fact]
     public void ToHexString_Array_Test()

@@ -6,6 +6,7 @@ namespace PolyShim.Tests.Net70;
 
 public class UInt16Tests
 {
+#if FEATURE_MEMORY
     [Fact]
     public void TryParse_Span_Test()
     {
@@ -15,4 +16,5 @@ public class UInt16Tests
 
         ushort.TryParse("-1".AsSpan(), null, out _).Should().BeFalse();
     }
+#endif
 }
