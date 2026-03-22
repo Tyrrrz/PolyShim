@@ -19,6 +19,13 @@ internal static class MemberPolyfills_Net70_SByte
         // https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@)
         public static bool TryParse(string s, IFormatProvider? provider, out sbyte result) =>
             sbyte.TryParse(s, NumberStyles.Integer, provider, out result);
+
+        // https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-sbyte@)
+        public static bool TryParse(
+            ReadOnlySpan<char> s,
+            IFormatProvider? provider,
+            out sbyte result
+        ) => sbyte.TryParse(s.ToString(), provider, out result);
     }
 }
 #endif

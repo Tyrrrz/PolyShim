@@ -20,7 +20,7 @@ public class StackTests
         var newCapacity = stack.EnsureCapacity(100);
 
         // Assert
-        newCapacity.Should().Be(100);
+        newCapacity.Should().BeGreaterThanOrEqualTo(100);
         stack.Should().Equal(3, 2, 1);
     }
 

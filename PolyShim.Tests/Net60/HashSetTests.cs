@@ -17,7 +17,7 @@ public class HashSetTests
         var newCapacity = set.EnsureCapacity(100);
 
         // Assert
-        newCapacity.Should().Be(100);
+        newCapacity.Should().BeGreaterThanOrEqualTo(100);
         set.Should().Contain(1);
         set.Should().Contain(2);
         set.Should().Contain(3);

@@ -32,6 +32,13 @@ internal static class MemberPolyfills_Net70_UIntPtr
                 return success;
             }
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uintptr@)
+        public static bool TryParse(
+            ReadOnlySpan<char> s,
+            IFormatProvider? provider,
+            out UIntPtr result
+        ) => UIntPtr.TryParse(s.ToString(), provider, out result);
     }
 }
 #endif

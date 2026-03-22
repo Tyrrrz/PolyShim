@@ -19,6 +19,13 @@ internal static class MemberPolyfills_Net70_Int16
         // https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-string-system-iformatprovider-system-int16@)
         public static bool TryParse(string s, IFormatProvider? provider, out short result) =>
             short.TryParse(s, NumberStyles.Integer, provider, out result);
+
+        // https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int16@)
+        public static bool TryParse(
+            ReadOnlySpan<char> s,
+            IFormatProvider? provider,
+            out short result
+        ) => short.TryParse(s.ToString(), provider, out result);
     }
 }
 #endif

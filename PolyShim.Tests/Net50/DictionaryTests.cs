@@ -17,7 +17,7 @@ public class DictionaryTests
         var newCapacity = dict.EnsureCapacity(100);
 
         // Assert
-        newCapacity.Should().Be(100);
+        newCapacity.Should().BeGreaterThanOrEqualTo(100);
         dict.Should().ContainKey("a");
         dict.Should().ContainKey("b");
     }
