@@ -22,9 +22,10 @@ internal static class MemberPolyfills_Net60_Queue
             if (capacity < 0)
                 throw new ArgumentOutOfRangeException(nameof(capacity));
 
-            // Queue<T> does not expose a Capacity property prior to .NET 6.
-            // We return the requested capacity as a best-effort indication; the actual
-            // internal capacity may differ, but it will grow automatically as needed.
+            // Note: Queue<T> does not expose a writable Capacity property prior to .NET 6.
+            // This polyfill validates the argument and returns the requested value, but cannot
+            // actually pre-allocate internal storage. The queue will resize on demand as entries
+            // are added. This is a best-effort, API-compatible stub.
             return capacity;
         }
     }

@@ -17,7 +17,7 @@ internal static class MemberPolyfills_Net70_TimeSpan
     {
         // https://learn.microsoft.com/dotnet/api/system.timespan.frommicroseconds
         public static TimeSpan FromMicroseconds(double microseconds) =>
-            TimeSpan.FromTicks((long)(microseconds * TimeSpan.TicksPerMillisecond / 1000.0));
+            TimeSpan.FromTicks((long)(microseconds * 10));
     }
 }
 #endif
