@@ -16,25 +16,16 @@ internal static class MemberPolyfills_Net80_ObjectDisposedException
 {
     extension(ObjectDisposedException)
     {
-        // https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-object)
-        public static void ThrowIf(
-            [DoesNotReturnIf(true)] bool condition,
-            object instance
-        )
-        {
-            if (condition)
-                throw new ObjectDisposedException(instance.GetType().FullName);
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-type)
-        public static void ThrowIf(
-            [DoesNotReturnIf(true)] bool condition,
-            Type type
-        )
+        public static void ThrowIf([DoesNotReturnIf(true)] bool condition, Type type)
         {
             if (condition)
                 throw new ObjectDisposedException(type.FullName);
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-object)
+        public static void ThrowIf([DoesNotReturnIf(true)] bool condition, object instance) =>
+            ThrowIf(condition, instance.GetType());
     }
 }
 #endif

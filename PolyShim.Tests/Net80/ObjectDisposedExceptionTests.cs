@@ -9,21 +9,15 @@ public class ObjectDisposedExceptionTests
     [Fact]
     public void ThrowIf_Object_NotDisposed_Test()
     {
-        // Arrange
-        var obj = new object();
-
         // Act & assert (should not throw)
-        ObjectDisposedException.ThrowIf(false, obj);
+        ObjectDisposedException.ThrowIf(false, this);
     }
 
     [Fact]
     public void ThrowIf_Object_Disposed_Test()
     {
-        // Arrange
-        var obj = new object();
-
         // Act
-        var act = () => ObjectDisposedException.ThrowIf(true, obj);
+        var act = () => ObjectDisposedException.ThrowIf(true, this);
 
         // Assert
         act.Should().Throw<ObjectDisposedException>();
@@ -32,21 +26,15 @@ public class ObjectDisposedExceptionTests
     [Fact]
     public void ThrowIf_Type_NotDisposed_Test()
     {
-        // Arrange
-        var type = typeof(string);
-
         // Act & assert (should not throw)
-        ObjectDisposedException.ThrowIf(false, type);
+        ObjectDisposedException.ThrowIf(false, this.GetType());
     }
 
     [Fact]
     public void ThrowIf_Type_Disposed_Test()
     {
-        // Arrange
-        var type = typeof(string);
-
         // Act
-        var act = () => ObjectDisposedException.ThrowIf(true, type);
+        var act = () => ObjectDisposedException.ThrowIf(true, this.GetType());
 
         // Assert
         act.Should().Throw<ObjectDisposedException>();

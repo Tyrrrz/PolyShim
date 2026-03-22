@@ -18,13 +18,18 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
     extension(ArgumentOutOfRangeException)
     {
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegative
+        // Note: the original API constrains T to INumber<T> (numeric types only). Because
+        // INumber<T> is not available on older TFMs, we use 'struct, IComparable<T>' instead.
+        // This accepts any value type (including non-numeric structs such as enums) but still
+        // prevents null and correctly compares against default(T) which is zero for all
+        // built-in numeric types.
         public static void ThrowIfNegative<T>(
             T value,
             [CallerArgumentExpression(nameof(value))] string? paramName = null
         )
             where T : struct, IComparable<T>
         {
-            if (value.CompareTo(default!) < 0)
+            if (value.CompareTo(default) < 0)
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
@@ -33,13 +38,14 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero
+        // Note: see ThrowIfNegative for constraint rationale.
         public static void ThrowIfNegativeOrZero<T>(
             T value,
             [CallerArgumentExpression(nameof(value))] string? paramName = null
         )
             where T : struct, IComparable<T>
         {
-            if (value.CompareTo(default!) <= 0)
+            if (value.CompareTo(default) <= 0)
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
@@ -48,13 +54,14 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
         }
 
         // https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifzero
+        // Note: see ThrowIfNegative for constraint rationale.
         public static void ThrowIfZero<T>(
             T value,
             [CallerArgumentExpression(nameof(value))] string? paramName = null
         )
             where T : struct, IComparable<T>
         {
-            if (value.CompareTo(default!) == 0)
+            if (value.CompareTo(default) == 0)
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,

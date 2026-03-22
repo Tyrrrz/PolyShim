@@ -7,7 +7,7 @@ namespace PolyShim.Tests.Net90;
 public class TimeSpanTests
 {
     [Fact]
-    public void FromMilliseconds_TwoArgs_Test()
+    public void FromMilliseconds_Test()
     {
         // Act & assert
         TimeSpan.FromMilliseconds(1234L, 567L).Should().Be(TimeSpan.FromTicks(12_345_670));

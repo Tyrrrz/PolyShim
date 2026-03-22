@@ -12,5 +12,7 @@ public class UInt16Tests
         // Act & assert
         ushort.TryParse("1000".AsSpan(), null, out var result).Should().BeTrue();
         result.Should().Be(1000);
+
+        ushort.TryParse("-1".AsSpan(), null, out _).Should().BeFalse();
     }
 }

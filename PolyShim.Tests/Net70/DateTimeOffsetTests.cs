@@ -20,6 +20,8 @@ public class DateTimeOffsetTests
             .Should()
             .BeTrue();
         result.Year.Should().Be(2024);
+        result.Month.Should().Be(1);
+        result.Day.Should().Be(15);
 
         DateTimeOffset.TryParse("not a date".AsSpan(), null, out _).Should().BeFalse();
     }

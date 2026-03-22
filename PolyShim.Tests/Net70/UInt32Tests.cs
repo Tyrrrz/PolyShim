@@ -12,5 +12,7 @@ public class UInt32Tests
         // Act & assert
         uint.TryParse("4000000000".AsSpan(), null, out var result).Should().BeTrue();
         result.Should().Be(4000000000U);
+
+        uint.TryParse("-1".AsSpan(), null, out _).Should().BeFalse();
     }
 }

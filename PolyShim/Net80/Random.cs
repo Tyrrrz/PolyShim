@@ -17,37 +17,38 @@ internal static class MemberPolyfills_Net80_Random
     extension(Random random)
     {
         // https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(-0()-system-int32)
-        public T[] GetItems<T>(T[] choices, int length) =>
-            random.GetItems(choices.AsSpan(), length);
-
-        // https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-int32)
-        public T[] GetItems<T>(ReadOnlySpan<T> choices, int length)
+        public T[] GetItems<T>(T[] choices, int length)
         {
             var result = new T[length];
-            random.GetItems(choices, result.AsSpan());
+            for (var i = 0; i < length; i++)
+                result[i] = choices[random.Next(choices.Length)];
             return result;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0)))
-        public void GetItems<T>(ReadOnlySpan<T> choices, Span<T> destination)
-        {
-            for (var i = 0; i < destination.Length; i++)
-            {
-                destination[i] = choices[random.Next(choices.Length)];
-            }
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())
-        public void Shuffle<T>(T[] items) => random.Shuffle(items.AsSpan());
-
-        // https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(system-span((-0)))
-        public void Shuffle<T>(Span<T> items)
+        public void Shuffle<T>(T[] items)
         {
             for (var i = items.Length - 1; i > 0; i--)
             {
                 var j = random.Next(i + 1);
                 (items[i], items[j]) = (items[j], items[i]);
             }
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-int32)
+        public T[] GetItems<T>(ReadOnlySpan<T> choices, int length) =>
+            random.GetItems(choices.ToArray(), length);
+
+        // https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0)))
+        public void GetItems<T>(ReadOnlySpan<T> choices, Span<T> destination) =>
+            random.GetItems(choices.ToArray(), destination.Length).CopyTo(destination);
+
+        // https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(system-span((-0)))
+        public void Shuffle<T>(Span<T> items)
+        {
+            var arr = items.ToArray();
+            random.Shuffle(arr);
+            arr.CopyTo(items);
         }
     }
 }

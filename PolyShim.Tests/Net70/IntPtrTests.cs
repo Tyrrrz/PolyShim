@@ -12,5 +12,7 @@ public class IntPtrTests
         // Act & assert
         IntPtr.TryParse("42".AsSpan(), null, out var result).Should().BeTrue();
         result.Should().Be(new IntPtr(42));
+
+        IntPtr.TryParse("abc".AsSpan(), null, out _).Should().BeFalse();
     }
 }
