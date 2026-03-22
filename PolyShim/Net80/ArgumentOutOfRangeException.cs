@@ -22,7 +22,7 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             T value,
             [CallerArgumentExpression(nameof(value))] string? paramName = null
         )
-            where T : IComparable<T>
+            where T : struct, IComparable<T>
         {
             if (value.CompareTo(default!) < 0)
                 throw new ArgumentOutOfRangeException(
@@ -37,7 +37,7 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             T value,
             [CallerArgumentExpression(nameof(value))] string? paramName = null
         )
-            where T : IComparable<T>
+            where T : struct, IComparable<T>
         {
             if (value.CompareTo(default!) <= 0)
                 throw new ArgumentOutOfRangeException(
@@ -52,7 +52,7 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
             T value,
             [CallerArgumentExpression(nameof(value))] string? paramName = null
         )
-            where T : IComparable<T>
+            where T : struct, IComparable<T>
         {
             if (value.CompareTo(default!) == 0)
                 throw new ArgumentOutOfRangeException(
