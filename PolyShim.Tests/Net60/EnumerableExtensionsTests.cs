@@ -292,4 +292,37 @@ public class EnumerableExtensionsTests
                 [10],
             ]);
     }
+
+    [Fact]
+    public void Zip_ThreeSequences_Test()
+    {
+        // Arrange
+        var first = new[] { 1, 2, 3 };
+        var second = new[] { "a", "b", "c" };
+        var third = new[] { true, false, true };
+
+        // Act
+        var result = first.Zip(second, third).ToArray();
+
+        // Assert
+        result.Should().HaveCount(3);
+        result[0].Should().Be((1, "a", true));
+        result[1].Should().Be((2, "b", false));
+        result[2].Should().Be((3, "c", true));
+    }
+
+    [Fact]
+    public void Zip_ThreeSequences_UnequalLength_Test()
+    {
+        // Arrange
+        var first = new[] { 1, 2, 3, 4 };
+        var second = new[] { "a", "b", "c" };
+        var third = new[] { true, false };
+
+        // Act
+        var result = first.Zip(second, third).ToArray();
+
+        // Assert
+        result.Should().HaveCount(2);
+    }
 }
