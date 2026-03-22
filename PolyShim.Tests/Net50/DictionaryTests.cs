@@ -20,4 +20,22 @@ public class DictionaryTests
         dict.Should().ContainKey("a");
         dict.Should().ContainKey("b");
     }
+
+    [Fact]
+    public void EnsureCapacity_LowerCapacity_Test()
+    {
+        // Arrange
+        var dict = new Dictionary<string, int>
+        {
+            ["a"] = 1,
+            ["b"] = 2,
+            ["c"] = 3,
+        };
+
+        // Act
+        var newCapacity = dict.EnsureCapacity(1);
+
+        // Assert
+        newCapacity.Should().BeGreaterThanOrEqualTo(dict.Count);
+    }
 }

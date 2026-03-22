@@ -22,4 +22,20 @@ public class QueueTests
         newCapacity.Should().BeGreaterThanOrEqualTo(100);
         queue.Should().Equal(1, 2, 3);
     }
+
+    [Fact]
+    public void EnsureCapacity_LowerCapacity_Test()
+    {
+        // Arrange
+        var queue = new Queue<int>();
+        queue.Enqueue(1);
+        queue.Enqueue(2);
+        queue.Enqueue(3);
+
+        // Act
+        var newCapacity = queue.EnsureCapacity(1);
+
+        // Assert
+        newCapacity.Should().BeGreaterThanOrEqualTo(queue.Count);
+    }
 }

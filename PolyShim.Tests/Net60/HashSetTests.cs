@@ -21,4 +21,17 @@ public class HashSetTests
         set.Should().Contain(2);
         set.Should().Contain(3);
     }
+
+    [Fact]
+    public void EnsureCapacity_LowerCapacity_Test()
+    {
+        // Arrange
+        var set = new HashSet<int> { 1, 2, 3 };
+
+        // Act
+        var newCapacity = set.EnsureCapacity(1);
+
+        // Assert
+        newCapacity.Should().BeGreaterThanOrEqualTo(set.Count);
+    }
 }

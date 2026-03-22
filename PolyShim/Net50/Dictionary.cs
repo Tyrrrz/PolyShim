@@ -5,6 +5,7 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -20,10 +21,10 @@ internal static class MemberPolyfills_Net50_Dictionary
         public int EnsureCapacity(int capacity)
         {
             // Note: Dictionary<TKey,TValue> does not expose a writable Capacity property prior
-            // to .NET 5. This polyfill returns the requested value but cannot actually
-            // pre-allocate internal storage. The dictionary will resize on demand as entries
-            // are added. This is a best-effort, API-compatible stub.
-            return capacity;
+            // to .NET 5. This polyfill returns a value compatible with the .NET 5+ API contract
+            // but cannot actually pre-allocate internal storage. The dictionary will resize on
+            // demand as entries are added. This is a best-effort, API-compatible stub.
+            return Math.Max(capacity, dictionary.Count);
         }
     }
 }

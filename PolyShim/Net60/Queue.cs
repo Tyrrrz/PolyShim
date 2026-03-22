@@ -5,6 +5,7 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -19,10 +20,10 @@ internal static class MemberPolyfills_Net60_Queue
         public int EnsureCapacity(int capacity)
         {
             // Note: Queue<T> does not expose a writable Capacity property prior to .NET 6.
-            // This polyfill returns the requested value but cannot actually pre-allocate
-            // internal storage. The queue will resize on demand as entries are added. This is a
-            // best-effort, API-compatible stub.
-            return capacity;
+            // This polyfill returns a value compatible with the .NET 6+ API contract but cannot
+            // actually pre-allocate internal storage. The queue will resize on demand as entries
+            // are added. This is a best-effort, API-compatible stub.
+            return Math.Max(capacity, queue.Count);
         }
     }
 }
