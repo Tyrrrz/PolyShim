@@ -7,7 +7,7 @@ namespace PolyShim.Tests.Net80;
 public class RandomTests
 {
     [Fact]
-    public void GetItems_Test()
+    public void GetItems_Array_Test()
     {
         // Arrange
         var random = new Random(0);
@@ -29,7 +29,50 @@ public class RandomTests
     }
 
     [Fact]
-    public void Shuffle_Test()
+    public void GetItems_Span_Test()
+    {
+        // Arrange
+        var random = new Random(0);
+        ReadOnlySpan<int> choices = [1, 2, 3, 4, 5];
+
+        for (var i = 0; i < 100; i++)
+        {
+            // Act
+            var items = random.GetItems(choices, 3);
+
+            // Assert
+            items.Should().HaveCount(3);
+
+            foreach (var item in items)
+            {
+                choices.ToArray().Should().Contain(item);
+            }
+        }
+    }
+
+    [Fact]
+    public void GetItems_SpanDestination_Test()
+    {
+        // Arrange
+        var random = new Random(0);
+        ReadOnlySpan<int> choices = [1, 2, 3, 4, 5];
+        Span<int> destination = new int[3];
+
+        for (var i = 0; i < 100; i++)
+        {
+            // Act
+            random.GetItems(choices, destination);
+
+            // Assert
+            foreach (var item in destination)
+            {
+                choices.ToArray().Should().Contain(item);
+            }
+        }
+    }
+
+    [Fact]
+    public void Shuffle_Array_Test()
     {
         // Arrange
         var random = new Random(0);
@@ -40,6 +83,30 @@ public class RandomTests
             // Act
             var items = (int[])originalItems.Clone();
             random.Shuffle(items);
+
+            // Assert
+            items.Should().HaveCount(originalItems.Length);
+            items.Should().BeEquivalentTo(originalItems);
+
+            foreach (var item in items)
+            {
+                originalItems.Should().Contain(item);
+            }
+        }
+    }
+
+    [Fact]
+    public void Shuffle_Span_Test()
+    {
+        // Arrange
+        var random = new Random(0);
+        var originalItems = new[] { 1, 2, 3, 4, 5 };
+
+        for (var i = 0; i < 100; i++)
+        {
+            // Act
+            var items = (int[])originalItems.Clone();
+            random.Shuffle(items.AsSpan());
 
             // Assert
             items.Should().HaveCount(originalItems.Length);
