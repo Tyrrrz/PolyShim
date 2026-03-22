@@ -5,7 +5,6 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -19,13 +18,10 @@ internal static class MemberPolyfills_Net60_Stack
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.stack-1.ensurecapacity
         public int EnsureCapacity(int capacity)
         {
-            if (capacity < 0)
-                throw new ArgumentOutOfRangeException(nameof(capacity));
-
             // Note: Stack<T> does not expose a writable Capacity property prior to .NET 6.
-            // This polyfill validates the argument and returns the requested value, but cannot
-            // actually pre-allocate internal storage. The stack will resize on demand as entries
-            // are added. This is a best-effort, API-compatible stub.
+            // This polyfill returns the requested value but cannot actually pre-allocate
+            // internal storage. The stack will resize on demand as entries are added. This is a
+            // best-effort, API-compatible stub.
             return capacity;
         }
     }

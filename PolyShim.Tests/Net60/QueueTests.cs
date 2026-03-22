@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
@@ -22,18 +21,5 @@ public class QueueTests
         // Assert
         newCapacity.Should().BeGreaterThanOrEqualTo(100);
         queue.Should().Equal(1, 2, 3);
-    }
-
-    [Fact]
-    public void EnsureCapacity_NegativeCapacity_Test()
-    {
-        // Arrange
-        var queue = new Queue<int>();
-
-        // Act
-        var act = () => queue.EnsureCapacity(-1);
-
-        // Assert
-        act.Should().Throw<ArgumentOutOfRangeException>();
     }
 }

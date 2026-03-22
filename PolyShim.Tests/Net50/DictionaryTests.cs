@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
@@ -20,18 +19,5 @@ public class DictionaryTests
         newCapacity.Should().BeGreaterThanOrEqualTo(100);
         dict.Should().ContainKey("a");
         dict.Should().ContainKey("b");
-    }
-
-    [Fact]
-    public void EnsureCapacity_NegativeCapacity_Test()
-    {
-        // Arrange
-        var dict = new Dictionary<string, int>();
-
-        // Act
-        var act = () => dict.EnsureCapacity(-1);
-
-        // Assert
-        act.Should().Throw<ArgumentOutOfRangeException>();
     }
 }

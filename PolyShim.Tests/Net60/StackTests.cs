@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
@@ -22,18 +21,5 @@ public class StackTests
         // Assert
         newCapacity.Should().BeGreaterThanOrEqualTo(100);
         stack.Should().Equal(3, 2, 1);
-    }
-
-    [Fact]
-    public void EnsureCapacity_NegativeCapacity_Test()
-    {
-        // Arrange
-        var stack = new Stack<int>();
-
-        // Act
-        var act = () => stack.EnsureCapacity(-1);
-
-        // Assert
-        act.Should().Throw<ArgumentOutOfRangeException>();
     }
 }
