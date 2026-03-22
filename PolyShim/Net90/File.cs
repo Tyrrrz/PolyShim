@@ -32,6 +32,19 @@ internal static class MemberPolyfills_Net90_File
             stream.Write(bytes, 0, bytes.Length);
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-readonlyspan((system-byte)))
+        public static void AppendAllBytes(string path, ReadOnlySpan<byte> bytes)
+        {
+            using var stream = new FileStream(
+                path,
+                FileMode.Append,
+                FileAccess.Write,
+                FileShare.None
+            );
+
+            stream.Write(bytes);
+        }
+
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
         public static async Task AppendAllBytesAsync(
@@ -52,6 +65,26 @@ internal static class MemberPolyfills_Net90_File
             await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken)
                 .ConfigureAwait(false);
 
+            await stream.FlushAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
+        public static async Task AppendAllBytesAsync(
+            string path,
+            ReadOnlyMemory<byte> bytes,
+            CancellationToken cancellationToken = default
+        )
+        {
+            using var stream = new FileStream(
+                path,
+                FileMode.Append,
+                FileAccess.Write,
+                FileShare.None,
+                4096,
+                true
+            );
+
+            await stream.WriteAsync(bytes, cancellationToken).ConfigureAwait(false);
             await stream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
 #endif
