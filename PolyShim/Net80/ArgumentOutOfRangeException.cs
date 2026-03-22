@@ -134,7 +134,7 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
         )
             where T : IEquatable<T>
         {
-            if (value.Equals(other))
+            if (EqualityComparer<T>.Default.Equals(value, other))
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
@@ -150,7 +150,7 @@ internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException
         )
             where T : IEquatable<T>
         {
-            if (!value.Equals(other))
+            if (!EqualityComparer<T>.Default.Equals(value, other))
                 throw new ArgumentOutOfRangeException(
                     paramName,
                     value,
