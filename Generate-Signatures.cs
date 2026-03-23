@@ -82,13 +82,6 @@ foreach (var file in codeFiles)
             if (sig is null)
                 continue;
 
-            if (url is null)
-            {
-                Console.Error.WriteLine(
-                    $"Warning: Missing documentation URL for '{typeName}.{sig}' in '{relativePath}'."
-                );
-            }
-
             records.Add(new SignatureRecord(typeName, sig, "Extension", framework, url));
         }
     }
