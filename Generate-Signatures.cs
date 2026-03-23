@@ -49,12 +49,20 @@ foreach (var file in codeFiles)
         continue;
 
     var source = File.ReadAllText(file);
-    var stripped = StripDirectives(source);
-    var tree = CSharpSyntaxTree.ParseText(stripped, parseOptions);
-    var root = tree.GetRoot();
 
-    // Extension block members
-    foreach (var extBlock in root.DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>())
+    // Parse the file twice:
+    //  Pass 1 (keep #if branches): captures extension blocks in the primary code path.
+    //  Pass 2 (blank all directives): captures extension blocks that live exclusively in
+    //         #else branches (e.g. the IDictionary<TKey,TValue> fallback in CollectionExtensions.cs
+    //         for .NET Framework < 4.5, where IReadOnlyDictionary<TKey,TValue> doesn't exist).
+    //         Roslyn's error recovery handles any resulting in-method-body syntax conflicts.
+    var tree1 = CSharpSyntaxTree.ParseText(StripDirectivesKeepFirst(source), parseOptions);
+    var tree2 = CSharpSyntaxTree.ParseText(StripDirectivesBlankAll(source), parseOptions);
+
+    // Extension block members — both passes (duplicates are removed in deduplication below)
+    foreach (var extBlock in
+        tree1.GetRoot().DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>().Concat(
+        tree2.GetRoot().DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>()))
     {
         var typeName = GetExtensionTypeName(extBlock);
         if (typeName is null)
@@ -101,8 +109,8 @@ foreach (var file in codeFiles)
         }
     }
 
-    // Internal type declarations (not MemberPolyfills_*)
-    foreach (var typeDecl in root.DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
+    // Internal type declarations (not MemberPolyfills_*) — pass 1 only
+    foreach (var typeDecl in tree1.GetRoot().DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
     {
         if (!typeDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.InternalKeyword)))
             continue;
@@ -118,9 +126,13 @@ foreach (var file in codeFiles)
     }
 }
 
-// Deduplicate: for type declarations, keep the one with URL; extensions are never deduplicated
+// Deduplicate:
+// - Extension records: deduplicate by (TypeName, Member, Framework) — two-pass parsing may
+//   produce the same method from both pass 1 and pass 2 for files without #else branches.
+// - Type declarations: keep the one with a URL.
 var deduplicated = new List<SignatureRecord>();
 var seenTypes = new Dictionary<string, SignatureRecord>();
+var seenExtensions = new HashSet<string>();
 
 foreach (
     var record in records
@@ -130,14 +142,16 @@ foreach (
 {
     if (record.Kind == "Extension")
     {
-        deduplicated.Add(record);
+        var key = $"{record.TypeName}|{record.Member}|{record.Framework}";
+        if (seenExtensions.Add(key))
+            deduplicated.Add(record);
         continue;
     }
 
-    var key = $"{record.TypeName}|{record.Kind}";
-    if (!seenTypes.TryGetValue(key, out var existing))
+    var typeKey = $"{record.TypeName}|{record.Kind}";
+    if (!seenTypes.TryGetValue(typeKey, out var existing))
     {
-        seenTypes[key] = record;
+        seenTypes[typeKey] = record;
         deduplicated.Add(record);
     }
     else if (record.Url is not null && existing.Url is null)
@@ -145,7 +159,7 @@ foreach (
         // Replace with the one that has a URL
         var idx = deduplicated.IndexOf(existing);
         deduplicated[idx] = record;
-        seenTypes[key] = record;
+        seenTypes[typeKey] = record;
     }
 }
 
@@ -225,11 +239,12 @@ static string? GetFrameworkName(string dirName)
     return null;
 }
 
-static string StripDirectives(string source)
+static string StripDirectivesKeepFirst(string source)
 {
     // Process line-by-line:
-    // - Replace preprocessor directive lines with empty lines (preserves line count)
-    // - When a #else/#elif is encountered, skip that branch until the matching #endif
+    // - Replace preprocessor directive lines with blank lines (preserves line count).
+    // - When a #else/#elif is encountered, skip that branch until the matching #endif.
+    // This keeps only the primary (#if) branch for each conditional block.
     var lines = source.Split('\n');
     var result = new StringBuilder();
 
@@ -276,6 +291,30 @@ static string StripDirectives(string source)
         {
             result.AppendLine(line);
         }
+    }
+
+    return result.ToString();
+}
+
+static string StripDirectivesBlankAll(string source)
+{
+    // Replace ALL preprocessor directive lines with blank lines, keeping code from ALL branches.
+    // This lets Roslyn see extension blocks in both #if and #else branches. Roslyn's error
+    // recovery handles any resulting syntax conflicts inside method bodies gracefully.
+    // Combined with StripDirectivesKeepFirst and deduplication, this recovers receiver-type
+    // fallbacks like the IDictionary<TKey,TValue> variant in CollectionExtensions.cs.
+    var lines = source.Split('\n');
+    var result = new StringBuilder();
+
+    foreach (var rawLine in lines)
+    {
+        var line = rawLine.TrimEnd('\r');
+        var trimmed = line.TrimStart();
+
+        if (trimmed.StartsWith("#", StringComparison.Ordinal))
+            result.AppendLine();
+        else
+            result.AppendLine(line);
     }
 
     return result.ToString();

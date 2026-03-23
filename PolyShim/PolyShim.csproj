@@ -162,7 +162,7 @@
     Condition="'$(TargetFramework)' == 'netstandard2.0'"
   >
     <Exec
-      Command="dotnet run --file &quot;$(ProjectDir)Generate-Signatures.cs&quot; -- &quot;$(ProjectDir.TrimEnd('\').TrimEnd('/'))&quot; &quot;$(ProjectDir)Signatures.md&quot;"
+      Command="dotnet run --file &quot;$(MSBuildThisFileDirectory)..\Generate-Signatures.cs&quot; -- &quot;$(ProjectDir.TrimEnd('\').TrimEnd('/'))&quot; &quot;$(MSBuildThisFileDirectory)..\Signatures.md&quot;"
     />
   </Target>
 </Project>
