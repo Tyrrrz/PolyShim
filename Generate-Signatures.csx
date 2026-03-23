@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 // Repo root: derived from the script file's own path (resolved at compile time via [CallerFilePath])
-var repoRoot = Path.GetDirectoryName(ThisFile())!;
+var repoRoot = Path.GetDirectoryName(ThisFile()) ?? throw new InvalidOperationException("Could not resolve repo root from script path.");
 var sourceDir = Path.Combine(repoRoot, "PolyShim");
 var outputPath = Path.Combine(repoRoot, "Signatures.md");
 
