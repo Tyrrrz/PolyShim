@@ -11,7 +11,7 @@ public class TimeSpanTests
     {
         // Act & assert
         TimeSpan.FromMicroseconds(1_000_000).Should().Be(TimeSpan.FromSeconds(1));
-        TimeSpan.FromMicroseconds(500).Should().Be(TimeSpan.FromMilliseconds(0.5));
+        TimeSpan.FromMicroseconds(500).Should().Be(TimeSpan.FromTicks(5_000));
         TimeSpan.FromMicroseconds(0).Should().Be(TimeSpan.Zero);
     }
 }
