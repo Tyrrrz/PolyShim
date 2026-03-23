@@ -13,7 +13,7 @@ var repoRoot = Path.GetDirectoryName(ThisFile())!;
 var sourceDir = Path.Combine(repoRoot, "PolyShim");
 var outputPath = Path.Combine(repoRoot, "Signatures.md");
 
-var records = new List<SignatureRecord>();
+var records = new List<Signature>();
 
 var codeFiles = Directory.EnumerateFiles(sourceDir, "*.cs", SearchOption.AllDirectories)
     .Where(f =>
@@ -83,7 +83,7 @@ foreach (var file in codeFiles)
             if (sig is null)
                 continue;
 
-            records.Add(new SignatureRecord(typeName, sig, "Extension", framework, url));
+            records.Add(new Signature(typeName, sig, "Extension", framework, url));
         }
     }
 
@@ -100,13 +100,13 @@ foreach (var file in codeFiles)
         var typeKind = GetTypeKind(typeDecl);
         var url = ExtractDocUrl(typeDecl);
 
-        records.Add(new SignatureRecord(typeName, "", typeKind, framework, url));
+        records.Add(new Signature(typeName, "", typeKind, framework, url));
     }
 }
 
 // Deduplicate type declarations: keep the one with a URL.
-var deduplicated = new List<SignatureRecord>();
-var seenTypes = new Dictionary<string, SignatureRecord>();
+var deduplicated = new List<Signature>();
+var seenTypes = new Dictionary<string, Signature>();
 
 foreach (
     var record in records
@@ -430,4 +430,4 @@ static string NormalizeWhitespace(string text) => Regex.Replace(text.Trim(), @"\
 
 static string ThisFile([CallerFilePath] string path = "") => path;
 
-record SignatureRecord(string TypeName, string Member, string Kind, string Framework, string? Url);
+record Signature(string TypeName, string Member, string Kind, string Framework, string? Url);
