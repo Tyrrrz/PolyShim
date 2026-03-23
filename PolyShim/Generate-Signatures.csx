@@ -1,17 +1,21 @@
+#!/usr/bin/env dotnet-script
+#r "nuget: Microsoft.CodeAnalysis.CSharp, 5.3.0"
+#nullable enable
+
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-if (args.Length < 2)
+if (Args.Count < 2)
 {
-    Console.Error.WriteLine("Usage: PolyShim.SignatureGen <source-dir> <output-path>");
-    return 1;
+    Console.Error.WriteLine("Usage: Generate-Signatures.csx <source-dir> <output-path>");
+    Environment.Exit(1);
 }
 
-var sourceDir = args[0];
-var outputPath = args[1];
+var sourceDir = Args[0];
+var outputPath = Args[1];
 
 if (Directory.Exists(outputPath))
     outputPath = Path.Combine(outputPath, "Signatures.md");
@@ -203,11 +207,9 @@ Console.WriteLine($"Total: {total}");
 Console.WriteLine($"Types: {totalTypes}");
 Console.WriteLine($"Members: {totalMembers}");
 
-return 0;
-
 // --- Helpers ---
 
-static string? GetFrameworkName(string dirName)
+string? GetFrameworkName(string dirName)
 {
     // Net100 -> .NET 10.0, Net70 -> .NET 7.0, etc.
     var m = Regex.Match(dirName, @"^Net(\d+)(\d)$");
@@ -222,7 +224,7 @@ static string? GetFrameworkName(string dirName)
     return null;
 }
 
-static string StripDirectives(string source)
+string StripDirectives(string source)
 {
     // Process line-by-line:
     // - Replace preprocessor directive lines with empty lines (preserves line count)
@@ -230,9 +232,9 @@ static string StripDirectives(string source)
     var lines = source.Split('\n');
     var result = new StringBuilder();
 
-    // Track nesting: skipDepth > 0 means we're inside a branch that should be skipped
+    // Track nesting: skipFromDepth < MaxValue means we're inside a branch to skip
     var depth = 0;
-    var skipFromDepth = int.MaxValue; // start skipping at this depth (inclusive)
+    var skipFromDepth = int.MaxValue;
 
     foreach (var rawLine in lines)
     {
@@ -278,16 +280,16 @@ static string StripDirectives(string source)
     return result.ToString();
 }
 
-static string? GetExtensionTypeName(ExtensionBlockDeclarationSyntax extBlock)
+string? GetExtensionTypeName(ExtensionBlockDeclarationSyntax extBlock)
 {
-    var param = extBlock.ParameterList.Parameters.FirstOrDefault();
+    var param = extBlock.ParameterList?.Parameters.FirstOrDefault();
     if (param?.Type is null)
         return null;
 
-    return FormatType(param.Type);
+    return FormatType(param.Type!);
 }
 
-static string FormatType(TypeSyntax type) =>
+string FormatType(TypeSyntax type) =>
     type switch
     {
         // Tuple types: strip element names -> (int, T) instead of (int index, T value)
@@ -320,7 +322,7 @@ static string FormatType(TypeSyntax type) =>
         _ => NormalizeWhitespace(type.ToString()),
     };
 
-static string FormatMethodSignature(MethodDeclarationSyntax method)
+string FormatMethodSignature(MethodDeclarationSyntax method)
 {
     var sb = new StringBuilder();
 
@@ -348,10 +350,10 @@ static string FormatMethodSignature(MethodDeclarationSyntax method)
     return sb.ToString();
 }
 
-static string FormatPropertySignature(PropertyDeclarationSyntax prop) =>
+string FormatPropertySignature(PropertyDeclarationSyntax prop) =>
     $"{FormatType(prop.Type)} {prop.Identifier.Text}";
 
-static string FormatParameter(ParameterSyntax param)
+string FormatParameter(ParameterSyntax param)
 {
     var sb = new StringBuilder();
 
@@ -373,7 +375,7 @@ static string FormatParameter(ParameterSyntax param)
     return sb.ToString();
 }
 
-static string FormatConstraintClause(TypeParameterConstraintClauseSyntax clause)
+string FormatConstraintClause(TypeParameterConstraintClauseSyntax clause)
 {
     var name = clause.Name.Identifier.Text;
     var constraints = clause.Constraints.Select<TypeParameterConstraintSyntax, string>(c =>
@@ -390,7 +392,7 @@ static string FormatConstraintClause(TypeParameterConstraintClauseSyntax clause)
     return $"where {name} : {string.Join(", ", constraints)}";
 }
 
-static string FormatTypeDeclarationName(BaseTypeDeclarationSyntax typeDecl)
+string FormatTypeDeclarationName(BaseTypeDeclarationSyntax typeDecl)
 {
     if (
         typeDecl is TypeDeclarationSyntax td
@@ -406,7 +408,7 @@ static string FormatTypeDeclarationName(BaseTypeDeclarationSyntax typeDecl)
     return typeDecl.Identifier.Text;
 }
 
-static string GetTypeKind(BaseTypeDeclarationSyntax typeDecl) =>
+string GetTypeKind(BaseTypeDeclarationSyntax typeDecl) =>
     typeDecl switch
     {
         ClassDeclarationSyntax => "class",
@@ -419,7 +421,7 @@ static string GetTypeKind(BaseTypeDeclarationSyntax typeDecl) =>
         _ => typeDecl.Kind().ToString().ToLowerInvariant(),
     };
 
-static string? ExtractDocUrl(SyntaxNode node)
+string? ExtractDocUrl(SyntaxNode node)
 {
     // Scan for a // https://... URL comment in the leading trivia.
     // For type declarations with attributes, the URL may appear between
@@ -430,7 +432,7 @@ static string? ExtractDocUrl(SyntaxNode node)
             : null);
 }
 
-static string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
+string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
 {
     // Scan leading trivia in reverse order for a // https://... URL comment.
     // Continue scanning through all comment lines (not stopping at non-URL comments),
@@ -446,7 +448,7 @@ static string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
             );
             if (match.Success)
                 return match.Groups[1].Value;
-            // Non-URL comment – keep scanning upward (may have URL above Notes)
+            // Non-URL comment – keep scanning upward (may have URL above notes)
         }
         else if (
             trivia.IsKind(SyntaxKind.WhitespaceTrivia)
@@ -465,6 +467,6 @@ static string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
     return null;
 }
 
-static string NormalizeWhitespace(string text) => Regex.Replace(text.Trim(), @"\s+", " ");
+string NormalizeWhitespace(string text) => Regex.Replace(text.Trim(), @"\s+", " ");
 
 record SignatureRecord(string TypeName, string Member, string Kind, string Framework, string? Url);

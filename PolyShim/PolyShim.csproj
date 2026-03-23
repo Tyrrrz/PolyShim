@@ -161,8 +161,10 @@
     AfterTargets="AfterBuild"
     Condition="'$(TargetFramework)' == 'netstandard2.0'"
   >
+    <Exec Command="dotnet tool restore" WorkingDirectory="$(MSBuildThisFileDirectory).." />
     <Exec
-      Command="dotnet run --project &quot;$(MSBuildThisFileDirectory)../PolyShim.SignatureGen/PolyShim.SignatureGen.csproj&quot; -- &quot;$(ProjectDir.TrimEnd('\').TrimEnd('/'))&quot; &quot;$(ProjectDir)Signatures.md&quot;"
+      Command="dotnet dotnet-script &quot;$(ProjectDir)Generate-Signatures.csx&quot; -- &quot;$(ProjectDir.TrimEnd('\').TrimEnd('/'))&quot; &quot;$(ProjectDir)Signatures.md&quot;"
+      WorkingDirectory="$(MSBuildThisFileDirectory).."
     />
   </Target>
 </Project>
