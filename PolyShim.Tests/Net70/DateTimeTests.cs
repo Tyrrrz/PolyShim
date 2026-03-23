@@ -7,6 +7,7 @@ namespace PolyShim.Tests.Net70;
 
 public class DateTimeTests
 {
+#if !NETFRAMEWORK
     [Fact]
     public void TryParse_Span_Test()
     {
@@ -21,4 +22,5 @@ public class DateTimeTests
 
         DateTime.TryParse("not a date".AsSpan(), null, out _).Should().BeFalse();
     }
+#endif
 }

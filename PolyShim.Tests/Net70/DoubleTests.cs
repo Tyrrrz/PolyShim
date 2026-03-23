@@ -7,6 +7,7 @@ namespace PolyShim.Tests.Net70;
 
 public class DoubleTests
 {
+#if !NETFRAMEWORK
     [Fact]
     public void TryParse_Span_Test()
     {
@@ -18,4 +19,5 @@ public class DoubleTests
 
         double.TryParse("abc".AsSpan(), null, out _).Should().BeFalse();
     }
+#endif
 }

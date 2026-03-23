@@ -6,6 +6,7 @@ namespace PolyShim.Tests.Net70;
 
 public class Int16Tests
 {
+#if !NETFRAMEWORK
     [Fact]
     public void TryParse_Span_Test()
     {
@@ -15,4 +16,5 @@ public class Int16Tests
 
         short.TryParse("99999".AsSpan(), null, out _).Should().BeFalse();
     }
+#endif
 }
