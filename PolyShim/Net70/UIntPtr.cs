@@ -7,7 +7,6 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
