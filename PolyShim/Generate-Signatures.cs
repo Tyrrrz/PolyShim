@@ -1,6 +1,5 @@
-#!/usr/bin/env dotnet-script
-#r "nuget: Microsoft.CodeAnalysis.CSharp, 5.3.0"
-#nullable enable
+#!/usr/bin/env dotnet-run
+#:package Microsoft.CodeAnalysis.CSharp
 
 using System.Text;
 using System.Text.RegularExpressions;
@@ -8,14 +7,14 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-if (Args.Count < 2)
+if (args.Length < 2)
 {
-    Console.Error.WriteLine("Usage: Generate-Signatures.csx <source-dir> <output-path>");
-    Environment.Exit(1);
+    Console.Error.WriteLine("Usage: Generate-Signatures.cs <source-dir> <output-path>");
+    return 1;
 }
 
-var sourceDir = Args[0];
-var outputPath = Args[1];
+var sourceDir = args[0];
+var outputPath = args[1];
 
 if (Directory.Exists(outputPath))
     outputPath = Path.Combine(outputPath, "Signatures.md");
@@ -207,9 +206,11 @@ Console.WriteLine($"Total: {total}");
 Console.WriteLine($"Types: {totalTypes}");
 Console.WriteLine($"Members: {totalMembers}");
 
+return 0;
+
 // --- Helpers ---
 
-string? GetFrameworkName(string dirName)
+static string? GetFrameworkName(string dirName)
 {
     // Net100 -> .NET 10.0, Net70 -> .NET 7.0, etc.
     var m = Regex.Match(dirName, @"^Net(\d+)(\d)$");
@@ -224,7 +225,7 @@ string? GetFrameworkName(string dirName)
     return null;
 }
 
-string StripDirectives(string source)
+static string StripDirectives(string source)
 {
     // Process line-by-line:
     // - Replace preprocessor directive lines with empty lines (preserves line count)
@@ -280,7 +281,7 @@ string StripDirectives(string source)
     return result.ToString();
 }
 
-string? GetExtensionTypeName(ExtensionBlockDeclarationSyntax extBlock)
+static string? GetExtensionTypeName(ExtensionBlockDeclarationSyntax extBlock)
 {
     var param = extBlock.ParameterList?.Parameters.FirstOrDefault();
     if (param?.Type is null)
@@ -289,7 +290,7 @@ string? GetExtensionTypeName(ExtensionBlockDeclarationSyntax extBlock)
     return FormatType(param.Type!);
 }
 
-string FormatType(TypeSyntax type) =>
+static string FormatType(TypeSyntax type) =>
     type switch
     {
         // Tuple types: strip element names -> (int, T) instead of (int index, T value)
@@ -322,7 +323,7 @@ string FormatType(TypeSyntax type) =>
         _ => NormalizeWhitespace(type.ToString()),
     };
 
-string FormatMethodSignature(MethodDeclarationSyntax method)
+static string FormatMethodSignature(MethodDeclarationSyntax method)
 {
     var sb = new StringBuilder();
 
@@ -350,10 +351,10 @@ string FormatMethodSignature(MethodDeclarationSyntax method)
     return sb.ToString();
 }
 
-string FormatPropertySignature(PropertyDeclarationSyntax prop) =>
+static string FormatPropertySignature(PropertyDeclarationSyntax prop) =>
     $"{FormatType(prop.Type)} {prop.Identifier.Text}";
 
-string FormatParameter(ParameterSyntax param)
+static string FormatParameter(ParameterSyntax param)
 {
     var sb = new StringBuilder();
 
@@ -375,7 +376,7 @@ string FormatParameter(ParameterSyntax param)
     return sb.ToString();
 }
 
-string FormatConstraintClause(TypeParameterConstraintClauseSyntax clause)
+static string FormatConstraintClause(TypeParameterConstraintClauseSyntax clause)
 {
     var name = clause.Name.Identifier.Text;
     var constraints = clause.Constraints.Select<TypeParameterConstraintSyntax, string>(c =>
@@ -392,7 +393,7 @@ string FormatConstraintClause(TypeParameterConstraintClauseSyntax clause)
     return $"where {name} : {string.Join(", ", constraints)}";
 }
 
-string FormatTypeDeclarationName(BaseTypeDeclarationSyntax typeDecl)
+static string FormatTypeDeclarationName(BaseTypeDeclarationSyntax typeDecl)
 {
     if (
         typeDecl is TypeDeclarationSyntax td
@@ -408,7 +409,7 @@ string FormatTypeDeclarationName(BaseTypeDeclarationSyntax typeDecl)
     return typeDecl.Identifier.Text;
 }
 
-string GetTypeKind(BaseTypeDeclarationSyntax typeDecl) =>
+static string GetTypeKind(BaseTypeDeclarationSyntax typeDecl) =>
     typeDecl switch
     {
         ClassDeclarationSyntax => "class",
@@ -421,7 +422,7 @@ string GetTypeKind(BaseTypeDeclarationSyntax typeDecl) =>
         _ => typeDecl.Kind().ToString().ToLowerInvariant(),
     };
 
-string? ExtractDocUrl(SyntaxNode node)
+static string? ExtractDocUrl(SyntaxNode node)
 {
     // Scan for a // https://... URL comment in the leading trivia.
     // For type declarations with attributes, the URL may appear between
@@ -432,7 +433,7 @@ string? ExtractDocUrl(SyntaxNode node)
             : null);
 }
 
-string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
+static string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
 {
     // Scan leading trivia in reverse order for a // https://... URL comment.
     // Continue scanning through all comment lines (not stopping at non-URL comments),
@@ -467,6 +468,6 @@ string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
     return null;
 }
 
-string NormalizeWhitespace(string text) => Regex.Replace(text.Trim(), @"\s+", " ");
+static string NormalizeWhitespace(string text) => Regex.Replace(text.Trim(), @"\s+", " ");
 
 record SignatureRecord(string TypeName, string Member, string Kind, string Framework, string? Url);
