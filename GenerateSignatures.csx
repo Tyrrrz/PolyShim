@@ -45,7 +45,7 @@ public class GenerateSignaturesCommand : ICommand
         var sourceDir = ProjectDir?.FullName ?? Path.Combine(scriptDir, "PolyShim");
         var outputPath = OutputFile?.FullName ?? Path.Combine(scriptDir, "Signatures.md");
 
-        var records = new List<Signature>();
+        var signatures = new List<Signature>();
 
         var codeFiles = Directory
             .EnumerateFiles(sourceDir, "*.cs", SearchOption.AllDirectories)
@@ -122,7 +122,7 @@ public class GenerateSignaturesCommand : ICommand
                     if (sig is null)
                         continue;
 
-                    records.Add(new Signature(typeName, sig, "Extension", framework, url));
+                    signatures.Add(new Signature(typeName, sig, "Extension", framework, url));
                 }
             }
 
@@ -139,7 +139,7 @@ public class GenerateSignaturesCommand : ICommand
                 var typeKind = GetTypeKind(typeDecl);
                 var url = ExtractDocUrl(typeDecl);
 
-                records.Add(new Signature(typeName, "", typeKind, framework, url));
+                signatures.Add(new Signature(typeName, "", typeKind, framework, url));
             }
         }
 
@@ -148,7 +148,7 @@ public class GenerateSignaturesCommand : ICommand
         var seenTypes = new Dictionary<string, Signature>();
 
         foreach (
-            var record in records
+            var record in signatures
                 .OrderBy(r => r.TypeName, StringComparer.OrdinalIgnoreCase)
                 .ThenBy(r => r.Member, StringComparer.OrdinalIgnoreCase)
         )
