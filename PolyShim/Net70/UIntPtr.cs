@@ -1,4 +1,4 @@
-﻿#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
+#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -32,6 +32,15 @@ internal static class MemberPolyfills_Net70_UIntPtr
                 return success;
             }
         }
+
+#if FEATURE_MEMORY
+        // https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uintptr@)
+        public static bool TryParse(
+            ReadOnlySpan<char> s,
+            IFormatProvider? provider,
+            out UIntPtr result
+        ) => UIntPtr.TryParse(new string(s.ToArray()), provider, out result);
+#endif
     }
 }
 #endif

@@ -283,5 +283,22 @@ internal static class MemberPolyfills_Net60_EnumerableExtensions
                 yield return chunk.ToArray();
         }
     }
+
+    extension<TFirst>(IEnumerable<TFirst> first)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2)))
+        public IEnumerable<(TFirst, TSecond, TThird)> Zip<TSecond, TThird>(
+            IEnumerable<TSecond> second,
+            IEnumerable<TThird> third
+        )
+        {
+            using var e1 = first.GetEnumerator();
+            using var e2 = second.GetEnumerator();
+            using var e3 = third.GetEnumerator();
+
+            while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
+                yield return (e1.Current, e2.Current, e3.Current);
+        }
+    }
 }
 #endif

@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 379
+- **Total:** 427
 - **Types:** 79
-- **Members:** 300
+- **Members:** 348
 
 ___
 
@@ -18,11 +18,22 @@ ___
   - [`void ThrowIfNullOrWhiteSpace(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorwhitespace) <sup><sub>.NET 7.0</sub></sup>
 - `ArgumentNullException`
   - [`void ThrowIfNull(object?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentnullexception.throwifnull#system-argumentnullexception-throwifnull(system-object-system-string)) <sup><sub>.NET 6.0</sub></sup>
+- `ArgumentOutOfRangeException`
+  - [`void ThrowIfEqual<T>(T, T, string?) where T : IEquatable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifequal) <sup><sub>.NET 8.0</sub></sup>
+  - [`void ThrowIfGreaterThan<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan) <sup><sub>.NET 8.0</sub></sup>
+  - [`void ThrowIfGreaterThanOrEqual<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal) <sup><sub>.NET 8.0</sub></sup>
+  - [`void ThrowIfLessThan<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthan) <sup><sub>.NET 8.0</sub></sup>
+  - [`void ThrowIfLessThanOrEqual<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal) <sup><sub>.NET 8.0</sub></sup>
+  - `void ThrowIfNegative<T>(T, string?) where T : struct, IComparable<T>` <sup><sub>.NET 8.0</sub></sup>
+  - [`void ThrowIfNegativeOrZero<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero) <sup><sub>.NET 8.0</sub></sup>
+  - [`void ThrowIfNotEqual<T>(T, T, string?) where T : IEquatable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnotequal) <sup><sub>.NET 8.0</sub></sup>
+  - [`void ThrowIfZero<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifzero) <sup><sub>.NET 8.0</sub></sup>
 - `ArrayPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `ArraySegment<T>`
   - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
 - `CallerArgumentExpressionAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute) <sup><sub>.NET Core 3.0</sub></sup>
@@ -37,21 +48,28 @@ ___
 - `CompilerFeatureRequiredAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute) <sup><sub>.NET 7.0</sub></sup>
 - `Convert`
+  - [`byte[] FromHexString(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))) <sup><sub>.NET 5.0</sub></sup>
   - [`byte[] FromHexString(string)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-string)) <sup><sub>.NET 5.0</sub></sup>
   - [`string ToHexString(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte()-system-int32-system-int32)) <sup><sub>.NET 5.0</sub></sup>
   - [`string ToHexString(byte[])`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte())) <sup><sub>.NET 5.0</sub></sup>
+  - [`string ToHexString(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-readonlyspan((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
   - [`string ToHexStringLower(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte()-system-int32-system-int32)) <sup><sub>.NET 9.0</sub></sup>
   - [`string ToHexStringLower(byte[])`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte())) <sup><sub>.NET 9.0</sub></sup>
+  - [`string ToHexStringLower(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-readonlyspan((system-byte)))) <sup><sub>.NET 9.0</sub></sup>
 - `DateTime`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out DateTime)`](https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetime@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, IFormatProvider?, out DateTime)`](https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@)) <sup><sub>.NET 7.0</sub></sup>
   - [`DateTime UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetime.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
 - `DateTimeOffset`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out DateTimeOffset)`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetimeoffset@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, IFormatProvider?, out DateTimeOffset)`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-string-system-iformatprovider-system-datetimeoffset@)) <sup><sub>.NET 7.0</sub></sup>
   - [`DateTimeOffset UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
 - `decimal`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-string-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
 - `Dictionary<TKey, TValue>`
   - [`bool TryAdd(TKey, TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2.tryadd) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity) <sup><sub>.NET 5.0</sub></sup>
 - `DictionaryEntry`
   - [`void Deconstruct(out object, out object?)`](https://learn.microsoft.com/dotnet/api/system.collections.dictionaryentry.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `DisallowNullAttribute`
@@ -61,6 +79,7 @@ ___
 - `DoesNotReturnIfAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.doesnotreturnifattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `double`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out double)`](https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-double@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out double)`](https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-string-system-iformatprovider-system-double@)) <sup><sub>.NET 7.0</sub></sup>
 - `DynamicallyAccessedMembersAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembersattribute) <sup><sub>.NET 5.0</sub></sup>
@@ -92,6 +111,7 @@ ___
   - [`IAsyncEnumerable<string> ReadLinesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
   - [`IAsyncEnumerable<string> ReadLinesAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
   - [`Task AppendAllBytesAsync(string, byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)) <sup><sub>.NET 9.0</sub></sup>
+  - [`Task AppendAllBytesAsync(string, ReadOnlyMemory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 9.0</sub></sup>
   - [`Task AppendAllLinesAsync(string, IEnumerable<string>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`Task AppendAllLinesAsync(string, IEnumerable<string>, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`Task AppendAllTextAsync(string, string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
@@ -107,13 +127,16 @@ ___
   - [`Task<string> ReadAllTextAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`Task<string> ReadAllTextAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`void AppendAllBytes(string, byte[])`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-byte())) <sup><sub>.NET 9.0</sub></sup>
+  - [`void AppendAllBytes(string, ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-readonlyspan((system-byte)))) <sup><sub>.NET 9.0</sub></sup>
   - [`void Move(string, string, bool)`](https://learn.microsoft.com/dotnet/api/system.io.file.move#system-io-file-move(system-string-system-string-system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
 - `float`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
 - `HashCode`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.hashcode) <sup><sub>.NET Core 2.1</sub></sup>
 - `HashSet<T>`
   - [`bool TryGetValue(T, out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1.trygetvalue) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1.ensurecapacity) <sup><sub>.NET 6.0</sub></sup>
 - `HttpClient`
   - [`Task<byte[]> GetByteArrayAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<byte[]> GetByteArrayAsync(Uri, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-uri-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
@@ -169,11 +192,14 @@ ___
   - [`T? Min(IComparer<T>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.min#system-linq-enumerable-min-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))) <sup><sub>.NET 6.0</sub></sup>
   - [`T? MinBy<TKey>(Func<T, TKey>, IComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))) <sup><sub>.NET 6.0</sub></sup>
   - [`T? MinBy<TKey>(Func<T, TKey>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))) <sup><sub>.NET 6.0</sub></sup>
+- `IEnumerable<TFirst>`
+  - [`IEnumerable<(TFirst, TSecond, TThird)> Zip<TSecond, TThird>(IEnumerable<TSecond> second, IEnumerable<TThird>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2)))) <sup><sub>.NET 6.0</sub></sup>
 - `IMemoryOwner<T>`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.buffers.imemoryowner-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `Index`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.index) <sup><sub>.NET Core 3.0</sub></sup>
 - `int`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
 - `Interlocked`
   - [`int And(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
@@ -185,6 +211,7 @@ ___
   - [`ulong And(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
   - [`ulong Or(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
 - `IntPtr`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-intptr@)) <sup><sub>.NET 5.0</sub></sup>
   - [`IntPtr Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
@@ -207,6 +234,7 @@ ___
 - `Lock`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.lock) <sup><sub>.NET 9.0</sub></sup>
 - `long`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
 - `MatchCollection`
   - [`IEnumerable<Match> AsEnumerable()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
@@ -235,6 +263,9 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.notnullifnotnullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `NotNullWhenAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.notnullwhenattribute) <sup><sub>.NET Core 3.0</sub></sup>
+- `ObjectDisposedException`
+  - [`void ThrowIf(bool, object)`](https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-object)) <sup><sub>.NET 8.0</sub></sup>
+  - [`void ThrowIf(bool, Type)`](https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-type)) <sup><sub>.NET 8.0</sub></sup>
 - `ObsoletedOSPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.obsoletedosplatformattribute) <sup><sub>.NET 7.0</sub></sup>
 - `OperatingSystem`
@@ -266,6 +297,7 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.paralleloptions) <sup><sub>.NET Core 1.0</sub></sup>
 - `Path`
   - [`bool EndsInDirectorySeparator(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.endsindirectoryseparator#system-io-path-endsindirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`bool Exists(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.exists) <sup><sub>.NET 7.0</sub></sup>
   - [`bool IsPathFullyQualified(string)`](https://learn.microsoft.com/dotnet/api/system.io.path.ispathfullyqualified#system-io-path-ispathfullyqualified(system-string)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`string Combine(params string[])`](https://learn.microsoft.com/dotnet/api/system.io.path.combine#system-io-path-combine(system-string())) <sup><sub>.NET Core 1.0</sub></sup>
   - [`string GetRelativePath(string, string)`](https://learn.microsoft.com/dotnet/api/system.io.path.getrelativepath) <sup><sub>.NET Core 2.0</sub></sup>
@@ -277,6 +309,7 @@ ___
 - `Queue<T>`
   - [`bool TryDequeue(out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.queue-1.trydequeue) <sup><sub>.NET Core 2.0</sub></sup>
   - [`bool TryPeek(out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.queue-1.trypeek) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.queue-1.ensurecapacity) <sup><sub>.NET 6.0</sub></sup>
 - `Random`
   - [`float NextSingle()`](https://learn.microsoft.com/dotnet/api/system.random.nextsingle) <sup><sub>.NET 6.0</sub></sup>
   - [`long NextInt64()`](https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64) <sup><sub>.NET 6.0</sub></sup>
@@ -285,8 +318,11 @@ ___
   - [`Random Shared`](https://learn.microsoft.com/dotnet/api/system.random.shared) <sup><sub>.NET 6.0</sub></sup>
   - [`string GetHexString(int, bool)`](https://learn.microsoft.com/dotnet/api/system.random.gethexstring#system-random-gethexstring(system-int32-system-boolean)) <sup><sub>.NET 10.0</sub></sup>
   - [`string GetString(ReadOnlySpan<char>, int)`](https://learn.microsoft.com/dotnet/api/system.random.getstring) <sup><sub>.NET 10.0</sub></sup>
+  - [`T[] GetItems<T>(ReadOnlySpan<T>, int)`](https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-int32)) <sup><sub>.NET 8.0</sub></sup>
   - [`T[] GetItems<T>(T[], int)`](https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(-0()-system-int32)) <sup><sub>.NET 8.0</sub></sup>
+  - [`void GetItems<T>(ReadOnlySpan<T>, Span<T>)`](https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
   - [`void NextBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void Shuffle<T>(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
   - [`void Shuffle<T>(T[])`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())) <sup><sub>.NET 8.0</sub></sup>
 - `RandomNumberGenerator`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator) <sup><sub>.NET Core 1.0</sub></sup>
@@ -330,10 +366,12 @@ ___
 - `RuntimeInformation`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.runtimeinformation) <sup><sub>.NET Core 1.0</sub></sup>
 - `sbyte`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
 - `SetsRequiredMembersAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute) <sup><sub>.NET 7.0</sub></sup>
 - `short`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-string-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
 - `SkipLocalsInitAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.skiplocalsinitattribute) <sup><sub>.NET 5.0</sub></sup>
@@ -345,6 +383,10 @@ ___
   - [`bool SequenceEqual(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int IndexOf(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-span((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Reverse()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.reverse#system-memoryextensions-reverse-1(system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `Stack<T>`
+  - [`bool TryPeek(out T)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.stack-1.trypeek) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`bool TryPop(out T)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.stack-1.trypop) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.stack-1.ensurecapacity) <sup><sub>.NET 6.0</sub></sup>
 - `Stopwatch`
   - [`TimeSpan GetElapsedTime(long, long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64-system-int64)) <sup><sub>.NET 7.0</sub></sup>
   - [`TimeSpan GetElapsedTime(long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64)) <sup><sub>.NET 7.0</sub></sup>
@@ -371,6 +413,7 @@ ___
   - [`bool IsNullOrWhiteSpace(string?)`](https://learn.microsoft.com/dotnet/api/system.string.isnullorwhitespace) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool StartsWith(char)`](https://learn.microsoft.com/dotnet/api/system.string.startswith#system-string-startswith(system-char)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int GetHashCode(StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`int IndexOf(char, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.indexof#system-string-indexof(system-char-system-stringcomparison)) <sup><sub>.NET 5.0</sub></sup>
   - [`string Join(char, params object?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-object())) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Join(char, params string?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string())) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Join(char, string?[], int, int)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32)) <sup><sub>.NET Core 2.0</sub></sup>
@@ -471,8 +514,13 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.timer) <sup><sub>.NET Core 1.0</sub></sup>
   - [`ValueTask DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.timer.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
 - `TimeSpan`
+  - [`TimeSpan FromDays(int, int, long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromdays#system-timespan-fromdays(system-int64-system-int64-system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
+  - [`TimeSpan FromHours(int, long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromhours#system-timespan-fromhours(system-int64-system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
+  - [`TimeSpan FromMicroseconds(double)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommicroseconds) <sup><sub>.NET 7.0</sub></sup>
   - [`TimeSpan FromMilliseconds(long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
   - [`TimeSpan FromMilliseconds(long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64)) <sup><sub>.NET 10.0</sub></sup>
+  - [`TimeSpan FromMinutes(long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromminutes#system-timespan-fromminutes(system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
+  - [`TimeSpan FromSeconds(long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromseconds#system-timespan-fromseconds(system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
 - `TupleElementNamesAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.tupleelementnamesattribute) <sup><sub>.NET Core 2.0</sub></sup>
 - `Type`
@@ -480,8 +528,10 @@ ___
   - [`bool IsAssignableTo(Type?)`](https://learn.microsoft.com/dotnet/api/system.type.isassignableto) <sup><sub>.NET 5.0</sub></sup>
   - [`bool IsSubclassOf(Type)`](https://learn.microsoft.com/dotnet/api/system.type.issubclassof) <sup><sub>.NET Core 2.0</sub></sup>
 - `uint`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out uint)`](https://learn.microsoft.com/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint32@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out uint)`](https://learn.microsoft.com/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-string-system-iformatprovider-system-uint32@)) <sup><sub>.NET 7.0</sub></sup>
 - `UIntPtr`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uintptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-iformatprovider-system-uintptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-uintptr@)) <sup><sub>.NET 5.0</sub></sup>
   - [`UIntPtr Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
@@ -489,6 +539,7 @@ ___
   - [`UIntPtr Parse(string, NumberStyles)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-globalization-numberstyles)) <sup><sub>.NET 5.0</sub></sup>
   - [`UIntPtr Parse(string)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string)) <sup><sub>.NET 5.0</sub></sup>
 - `ulong`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
 - `UnconditionalSuppressMessageAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute) <sup><sub>.NET 5.0</sub></sup>
@@ -497,6 +548,7 @@ ___
 - `UnsupportedOSPlatformGuardAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformguardattribute) <sup><sub>.NET 6.0</sub></sup>
 - `ushort`
+  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
 - `ValueTuple`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.valuetuple) <sup><sub>.NET Core 2.0</sub></sup>

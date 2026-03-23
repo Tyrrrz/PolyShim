@@ -1,4 +1,4 @@
-﻿#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
+#if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -24,6 +24,15 @@ internal static class MemberPolyfills_Net70_Single
                 provider,
                 out result
             );
+
+#if FEATURE_MEMORY
+        // https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@)
+        public static bool TryParse(
+            ReadOnlySpan<char> s,
+            IFormatProvider? provider,
+            out float result
+        ) => float.TryParse(new string(s.ToArray()), provider, out result);
+#endif
     }
 }
 #endif

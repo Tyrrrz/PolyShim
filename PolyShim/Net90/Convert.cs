@@ -22,6 +22,10 @@ internal static class MemberPolyfills_Net90_Convert
         // https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte())
         public static string ToHexStringLower(byte[] value) =>
             ToHexStringLower(value, 0, value.Length);
+
+        // https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-readonlyspan((system-byte)))
+        public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
+            Convert.ToHexString(bytes).ToLowerInvariant();
     }
 }
 #endif

@@ -48,6 +48,12 @@ internal static class MemberPolyfills_Net50_Convert
             return bytes;
         }
 
+#if FEATURE_MEMORY
+        // https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))
+        public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
+            Convert.FromHexString(new string(chars.ToArray()));
+#endif
+
         // https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte()-system-int32-system-int32)
         public static string ToHexString(byte[] value, int startIndex, int length)
         {
@@ -72,6 +78,10 @@ internal static class MemberPolyfills_Net50_Convert
 
         // https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte())
         public static string ToHexString(byte[] value) => ToHexString(value, 0, value.Length);
+
+        // https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-readonlyspan((system-byte)))
+        public static string ToHexString(ReadOnlySpan<byte> bytes) =>
+            Convert.ToHexString(bytes.ToArray(), 0, bytes.Length);
     }
 }
 #endif

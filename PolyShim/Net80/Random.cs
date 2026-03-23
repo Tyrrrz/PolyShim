@@ -21,9 +21,7 @@ internal static class MemberPolyfills_Net80_Random
         {
             var result = new T[length];
             for (var i = 0; i < length; i++)
-            {
                 result[i] = choices[random.Next(choices.Length)];
-            }
             return result;
         }
 
@@ -35,6 +33,22 @@ internal static class MemberPolyfills_Net80_Random
                 var j = random.Next(i + 1);
                 (items[i], items[j]) = (items[j], items[i]);
             }
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-int32)
+        public T[] GetItems<T>(ReadOnlySpan<T> choices, int length) =>
+            random.GetItems(choices.ToArray(), length);
+
+        // https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0)))
+        public void GetItems<T>(ReadOnlySpan<T> choices, Span<T> destination) =>
+            random.GetItems(choices.ToArray(), destination.Length).CopyTo(destination);
+
+        // https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(system-span((-0)))
+        public void Shuffle<T>(Span<T> items)
+        {
+            var arr = items.ToArray();
+            random.Shuffle(arr);
+            arr.CopyTo(items);
         }
     }
 }

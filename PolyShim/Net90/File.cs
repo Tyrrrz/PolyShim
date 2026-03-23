@@ -5,6 +5,7 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,6 +33,10 @@ internal static class MemberPolyfills_Net90_File
             stream.Write(bytes, 0, bytes.Length);
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-readonlyspan((system-byte)))
+        public static void AppendAllBytes(string path, ReadOnlySpan<byte> bytes) =>
+            File.AppendAllBytes(path, bytes.ToArray());
+
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
         public static async Task AppendAllBytesAsync(
@@ -54,6 +59,13 @@ internal static class MemberPolyfills_Net90_File
 
             await stream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
+        public static Task AppendAllBytesAsync(
+            string path,
+            ReadOnlyMemory<byte> bytes,
+            CancellationToken cancellationToken = default
+        ) => File.AppendAllBytesAsync(path, bytes.ToArray(), cancellationToken);
 #endif
     }
 #endif
