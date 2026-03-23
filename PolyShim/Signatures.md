@@ -237,8 +237,8 @@ ___
   - [`bool TryParse(string, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
 - `MatchCollection`
   - [`IEnumerable<Match> AsEnumerable()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
-  - `IEnumerator<Match> GetEnumerator()` <sup><sub>.NET Core 2.0</sub></sup>
-  - `Match[] ToArray()` <sup><sub>.NET Core 2.0</sub></sup>
+  - [`IEnumerator<Match> GetEnumerator()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`Match[] ToArray()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
 - `Math`
   - [`IntPtr Clamp(IntPtr, IntPtr, IntPtr)`](https://learn.microsoft.com/dotnet/api/system.math.clamp#system-math-clamp(system-intptr-system-intptr-system-intptr)) <sup><sub>.NET 6.0</sub></sup>
   - [`T Clamp<T>(T, T, T) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.math.clamp) <sup><sub>.NET Core 2.0</sub></sup>

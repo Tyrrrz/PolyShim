@@ -23,8 +23,10 @@ internal static class MemberPolyfills_NetCore20_MatchCollection
         // https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator
         public IEnumerable<Match> AsEnumerable() => matchCollection.Cast<Match>();
 
+        // https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator
         public IEnumerator<Match> GetEnumerator() => matchCollection.AsEnumerable().GetEnumerator();
 
+        // https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator
         public Match[] ToArray() => matchCollection.AsEnumerable().ToArray();
     }
 }
