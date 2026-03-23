@@ -14,8 +14,13 @@ namespace System.Collections.Generic;
 #endif
 internal static class MemberPolyfills_NetCore20_CollectionExtensions
 {
+    extension<TKey, TValue>(
 #if !NETFRAMEWORK || NET45_OR_GREATER
-    extension<TKey, TValue>(IReadOnlyDictionary<TKey, TValue> dictionary)
+        IReadOnlyDictionary<TKey, TValue> dictionary
+#else
+        IDictionary<TKey, TValue> dictionary
+#endif
+    )
     {
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1)
         public TValue? GetValueOrDefault(TKey key, TValue? defaultValue) =>
@@ -24,18 +29,5 @@ internal static class MemberPolyfills_NetCore20_CollectionExtensions
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0)
         public TValue? GetValueOrDefault(TKey key) => dictionary.GetValueOrDefault(key, default);
     }
-#endif
-
-#if NETFRAMEWORK && !NET45_OR_GREATER
-    extension<TKey, TValue>(IDictionary<TKey, TValue> dictionary)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1)
-        public TValue? GetValueOrDefault(TKey key, TValue? defaultValue) =>
-            dictionary.TryGetValue(key, out var value) ? value : defaultValue;
-
-        // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0)
-        public TValue? GetValueOrDefault(TKey key) => dictionary.GetValueOrDefault(key, default);
-    }
-#endif
 }
 #endif

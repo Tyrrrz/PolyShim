@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 427
+- **Total:** 425
 - **Types:** 79
-- **Members:** 348
+- **Members:** 346
 
 ___
 
@@ -148,9 +148,6 @@ ___
   - [`Task<byte[]> ReadAsByteArrayAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<Stream> ReadAsStreamAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> ReadAsStringAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
-- `IDictionary<TKey, TValue>`
-  - [`TValue? GetValueOrDefault(TKey)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`TValue? GetValueOrDefault(TKey, TValue?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1)) <sup><sub>.NET Core 2.0</sub></sup>
 - `IEnumerable<T>`
   - [`HashSet<T> ToHashSet()`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
   - [`HashSet<T> ToHashSet(IEqualityComparer<T>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))) <sup><sub>.NET Core 2.0</sub></sup>

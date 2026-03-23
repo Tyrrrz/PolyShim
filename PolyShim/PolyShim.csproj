@@ -161,8 +161,6 @@
     AfterTargets="AfterBuild"
     Condition="'$(TargetFramework)' == 'netstandard2.0'"
   >
-    <Exec
-      Command="dotnet run --file &quot;$(MSBuildThisFileDirectory)..\Generate-Signatures.cs&quot;"
-    />
+    <Exec Command="dotnet run --file &quot;$(MSBuildThisFileDirectory)..\Generate-Signatures.cs&quot;" />
   </Target>
 </Project>
