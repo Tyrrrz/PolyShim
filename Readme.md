@@ -62,7 +62,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `HashCode`
   - `ArrayPool<T>`
   - `TaskCompletionSource`
-  - [...and 70+ more](PolyShim/Signatures.md)
+  - [...and 70+ more](Signatures.md)
 - Provides member polyfills for:
   - `string.ReplaceLineEndings(...)`, `string.AsSpan()`, etc.
   - `Stream.ReadExactly(...)`, `Stream.ReadAtLeast(...)`, etc.
@@ -72,7 +72,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `File.WriteAllTextAsync(...)`, `File.ReadAllTextAsync(...)`, etc.
   - `Environment.ProcessPath`, `Environment.ProcessId`, etc.
   - `OperatingSystem.IsWindows()`, `OperatingSystem.IsLinux()`, etc.
-  - [...and 250+ more](PolyShim/Signatures.md)
+  - [...and 250+ more](Signatures.md)
 - Adjusts polyfills based on available capabilities
 - Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
 - Imposes no run-time dependencies
@@ -124,7 +124,7 @@ var part = array[3..^1];
 ```
 
 > [!NOTE]
-> You can find the full list of type polyfills [here](PolyShim/Signatures.md).
+> You can find the full list of type polyfills [here](Signatures.md).
 
 ### Member polyfills
 
@@ -143,7 +143,7 @@ var processId = Environment.ProcessId;
 ```
 
 > [!NOTE]
-> You can find the full list of member polyfills [here](PolyShim/Signatures.md).
+> You can find the full list of member polyfills [here](Signatures.md).
 
 ### Unsafe code
 
