@@ -31,7 +31,7 @@ public class TaskTests
 
         // Act
         CompleteNext();
-        await foreach (var completedTask in Task.WhenEach(tcs1.Task, tcs2.Task, tcs3.Task))
+        await foreach (var completedTask in Task.WhenEach([tcs1.Task, tcs2.Task, tcs3.Task]))
         {
             completedTasks.Add(completedTask);
             CompleteNext();
@@ -78,7 +78,7 @@ public class TaskTests
 
         // Act
         CompleteNext();
-        await foreach (var completedTask in Task.WhenEach(tcs1.Task, tcs2.Task, tcs3.Task))
+        await foreach (var completedTask in Task.WhenEach([tcs1.Task, tcs2.Task, tcs3.Task]))
         {
             completedTasks.Add(completedTask);
             CompleteNext();
@@ -114,9 +114,7 @@ public class TaskTests
 
         // Act
         CompleteNext();
-        await foreach (
-            var completedTask in Task.WhenEach(new[] { tcs1.Task, tcs2.Task, tcs3.Task })
-        )
+        await foreach (var completedTask in Task.WhenEach([tcs1.Task, tcs2.Task, tcs3.Task]))
         {
             completedTasks.Add(completedTask);
             CompleteNext();
@@ -166,9 +164,7 @@ public class TaskTests
 
         // Act
         CompleteNext();
-        await foreach (
-            var completedTask in Task.WhenEach(new[] { tcs1.Task, tcs2.Task, tcs3.Task })
-        )
+        await foreach (var completedTask in Task.WhenEach([tcs1.Task, tcs2.Task, tcs3.Task]))
         {
             completedTasks.Add(completedTask);
             CompleteNext();
