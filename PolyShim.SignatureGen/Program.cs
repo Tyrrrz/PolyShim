@@ -111,13 +111,6 @@ foreach (var file in codeFiles)
         var typeKind = GetTypeKind(typeDecl);
         var url = ExtractDocUrl(typeDecl);
 
-        if (url is null)
-        {
-            Console.Error.WriteLine(
-                $"Warning: Missing documentation URL for type '{typeName}' in '{relativePath}'."
-            );
-        }
-
         records.Add(new SignatureRecord(typeName, "", typeKind, framework, url));
     }
 }
@@ -151,6 +144,15 @@ foreach (
         deduplicated[idx] = record;
         seenTypes[key] = record;
     }
+}
+
+// Warn for any types or members that ended up without a documentation URL
+foreach (var record in deduplicated.Where(r => r.Url is null))
+{
+    if (record.Kind == "Extension")
+        Console.Error.WriteLine($"Warning: Missing documentation URL for member '{record.TypeName}.{record.Member}'.");
+    else
+        Console.Error.WriteLine($"Warning: Missing documentation URL for type '{record.TypeName}'.");
 }
 
 // Statistics
@@ -419,12 +421,21 @@ static string GetTypeKind(BaseTypeDeclarationSyntax typeDecl) =>
 
 static string? ExtractDocUrl(SyntaxNode node)
 {
+    // Scan for a // https://... URL comment in the leading trivia.
+    // For type declarations with attributes, the URL may appear between
+    // the attribute list and the 'internal' modifier, so check both positions.
+    return ScanTriviaForUrl(node.GetLeadingTrivia())
+        ?? (node is BaseTypeDeclarationSyntax typeDecl && typeDecl.Modifiers.Count > 0
+            ? ScanTriviaForUrl(typeDecl.Modifiers[0].LeadingTrivia)
+            : null);
+}
+
+static string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
+{
     // Scan leading trivia in reverse order for a // https://... URL comment.
     // Continue scanning through all comment lines (not stopping at non-URL comments),
     // stopping only at non-comment, non-whitespace trivia.
-    string? foundUrl = null;
-
-    foreach (var trivia in node.GetLeadingTrivia().Reverse())
+    foreach (var trivia in triviaList.Reverse())
     {
         if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
         {
@@ -434,10 +445,7 @@ static string? ExtractDocUrl(SyntaxNode node)
                 @"^//\s*(https://(?:learn|docs)\.microsoft\.com\S+)"
             );
             if (match.Success)
-            {
-                foundUrl = match.Groups[1].Value;
-                break;
-            }
+                return match.Groups[1].Value;
             // Non-URL comment – keep scanning upward (may have URL above Notes)
         }
         else if (
@@ -454,7 +462,7 @@ static string? ExtractDocUrl(SyntaxNode node)
         }
     }
 
-    return foundUrl;
+    return null;
 }
 
 static string NormalizeWhitespace(string text) => Regex.Replace(text.Trim(), @"\s+", " ");
