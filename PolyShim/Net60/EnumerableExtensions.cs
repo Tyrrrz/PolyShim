@@ -282,17 +282,14 @@ internal static class MemberPolyfills_Net60_EnumerableExtensions
             if (chunk.Count > 0)
                 yield return chunk.ToArray();
         }
-    }
 
-    extension<TFirst>(IEnumerable<TFirst> first)
-    {
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2)))
-        public IEnumerable<(TFirst, TSecond, TThird)> Zip<TSecond, TThird>(
+        public IEnumerable<(T, TSecond, TThird)> Zip<TSecond, TThird>(
             IEnumerable<TSecond> second,
             IEnumerable<TThird> third
         )
         {
-            using var e1 = first.GetEnumerator();
+            using var e1 = source.GetEnumerator();
             using var e2 = second.GetEnumerator();
             using var e3 = third.GetEnumerator();
 
