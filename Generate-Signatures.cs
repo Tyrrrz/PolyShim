@@ -214,49 +214,20 @@ static string StripDirectives(string source)
 {
     // Process line-by-line:
     // - Replace preprocessor directive lines with blank lines (preserves line count).
-    // - When a #else/#elif is encountered, skip that branch until the matching #endif.
-    // This keeps only the primary (#if) branch for each conditional block.
+    // - Keep all non-directive lines, regardless of #if/#else/#elif branches.
+    // This ensures declarations in inactive conditional branches are not discarded.
     var lines = source.Split('\n');
     var result = new StringBuilder();
-
-    // Track nesting: skipFromDepth < MaxValue means we're inside a branch to skip
-    var depth = 0;
-    var skipFromDepth = int.MaxValue;
 
     foreach (var rawLine in lines)
     {
         var line = rawLine.TrimEnd('\r');
         var trimmed = line.TrimStart();
 
-        if (trimmed.StartsWith("#if", StringComparison.Ordinal))
+        if (trimmed.StartsWith("#", StringComparison.Ordinal))
         {
-            depth++;
+            // Strip directive lines but preserve line count for diagnostics.
             result.AppendLine();
-        }
-        else if (
-            (trimmed.StartsWith("#else", StringComparison.Ordinal) || trimmed.StartsWith("#elif", StringComparison.Ordinal))
-            && depth > 0
-        )
-        {
-            // Start skipping this branch if we're not already skipping at a lower depth
-            if (depth < skipFromDepth)
-                skipFromDepth = depth;
-            result.AppendLine();
-        }
-        else if (trimmed.StartsWith("#endif", StringComparison.Ordinal) && depth > 0)
-        {
-            if (depth <= skipFromDepth)
-                skipFromDepth = int.MaxValue;
-            depth--;
-            result.AppendLine();
-        }
-        else if (trimmed.StartsWith("#", StringComparison.Ordinal))
-        {
-            result.AppendLine(); // other directives (#nullable, #pragma, etc.)
-        }
-        else if (depth >= skipFromDepth)
-        {
-            result.AppendLine(); // inside a skipped branch
         }
         else
         {
