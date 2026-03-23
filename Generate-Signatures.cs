@@ -7,17 +7,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-if (args.Length < 2)
-{
-    Console.Error.WriteLine("Usage: Generate-Signatures.cs <source-dir> <output-path>");
-    return 1;
-}
-
-var sourceDir = args[0];
-var outputPath = args[1];
-
-if (Directory.Exists(outputPath))
-    outputPath = Path.Combine(outputPath, "Signatures.md");
+// Source directory: the PolyShim project folder (script is at the repo root, MSBuild CWD is PolyShim/)
+var sourceDir = Directory.GetCurrentDirectory();
+// Output: Signatures.md one level up, at the repo root
+var outputPath = Path.GetFullPath(Path.Combine(sourceDir, "..", "Signatures.md"));
 
 var records = new List<SignatureRecord>();
 
@@ -49,20 +42,11 @@ foreach (var file in codeFiles)
         continue;
 
     var source = File.ReadAllText(file);
+    var tree = CSharpSyntaxTree.ParseText(StripDirectives(source), parseOptions);
+    var root = tree.GetRoot();
 
-    // Parse the file twice:
-    //  Pass 1 (keep #if branches): captures extension blocks in the primary code path.
-    //  Pass 2 (blank all directives): captures extension blocks that live exclusively in
-    //         #else branches (e.g. the IDictionary<TKey,TValue> fallback in CollectionExtensions.cs
-    //         for .NET Framework < 4.5, where IReadOnlyDictionary<TKey,TValue> doesn't exist).
-    //         Roslyn's error recovery handles any resulting in-method-body syntax conflicts.
-    var tree1 = CSharpSyntaxTree.ParseText(StripDirectivesKeepFirst(source), parseOptions);
-    var tree2 = CSharpSyntaxTree.ParseText(StripDirectivesBlankAll(source), parseOptions);
-
-    // Extension block members — both passes (duplicates are removed in deduplication below)
-    foreach (var extBlock in
-        tree1.GetRoot().DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>().Concat(
-        tree2.GetRoot().DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>()))
+    // Extension block members
+    foreach (var extBlock in root.DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>())
     {
         var typeName = GetExtensionTypeName(extBlock);
         if (typeName is null)
@@ -109,8 +93,8 @@ foreach (var file in codeFiles)
         }
     }
 
-    // Internal type declarations (not MemberPolyfills_*) — pass 1 only
-    foreach (var typeDecl in tree1.GetRoot().DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
+    // Internal type declarations (not MemberPolyfills_*)
+    foreach (var typeDecl in root.DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
     {
         if (!typeDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.InternalKeyword)))
             continue;
@@ -126,13 +110,9 @@ foreach (var file in codeFiles)
     }
 }
 
-// Deduplicate:
-// - Extension records: deduplicate by (TypeName, Member, Framework) — two-pass parsing may
-//   produce the same method from both pass 1 and pass 2 for files without #else branches.
-// - Type declarations: keep the one with a URL.
+// Deduplicate type declarations: keep the one with a URL.
 var deduplicated = new List<SignatureRecord>();
 var seenTypes = new Dictionary<string, SignatureRecord>();
-var seenExtensions = new HashSet<string>();
 
 foreach (
     var record in records
@@ -142,9 +122,7 @@ foreach (
 {
     if (record.Kind == "Extension")
     {
-        var key = $"{record.TypeName}|{record.Member}|{record.Framework}";
-        if (seenExtensions.Add(key))
-            deduplicated.Add(record);
+        deduplicated.Add(record);
         continue;
     }
 
@@ -239,7 +217,7 @@ static string? GetFrameworkName(string dirName)
     return null;
 }
 
-static string StripDirectivesKeepFirst(string source)
+static string StripDirectives(string source)
 {
     // Process line-by-line:
     // - Replace preprocessor directive lines with blank lines (preserves line count).
@@ -291,30 +269,6 @@ static string StripDirectivesKeepFirst(string source)
         {
             result.AppendLine(line);
         }
-    }
-
-    return result.ToString();
-}
-
-static string StripDirectivesBlankAll(string source)
-{
-    // Replace ALL preprocessor directive lines with blank lines, keeping code from ALL branches.
-    // This lets Roslyn see extension blocks in both #if and #else branches. Roslyn's error
-    // recovery handles any resulting syntax conflicts inside method bodies gracefully.
-    // Combined with StripDirectivesKeepFirst and deduplication, this recovers receiver-type
-    // fallbacks like the IDictionary<TKey,TValue> variant in CollectionExtensions.cs.
-    var lines = source.Split('\n');
-    var result = new StringBuilder();
-
-    foreach (var rawLine in lines)
-    {
-        var line = rawLine.TrimEnd('\r');
-        var trimmed = line.TrimStart();
-
-        if (trimmed.StartsWith("#", StringComparison.Ordinal))
-            result.AppendLine();
-        else
-            result.AppendLine(line);
     }
 
     return result.ToString();
