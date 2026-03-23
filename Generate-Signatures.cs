@@ -1,16 +1,17 @@
 #!/usr/bin/env dotnet-run
 #:package Microsoft.CodeAnalysis.CSharp
 
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-// Source directory: the PolyShim project folder (script is at the repo root, MSBuild CWD is PolyShim/)
-var sourceDir = Directory.GetCurrentDirectory();
-// Output: Signatures.md one level up, at the repo root
-var outputPath = Path.GetFullPath(Path.Combine(sourceDir, "..", "Signatures.md"));
+// Repo root: derived from the script file's own path (resolved at compile time via [CallerFilePath])
+var repoRoot = Path.GetDirectoryName(ThisFile())!;
+var sourceDir = Path.Combine(repoRoot, "PolyShim");
+var outputPath = Path.Combine(repoRoot, "Signatures.md");
 
 var records = new List<SignatureRecord>();
 
@@ -426,5 +427,7 @@ static string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
 }
 
 static string NormalizeWhitespace(string text) => Regex.Replace(text.Trim(), @"\s+", " ");
+
+static string ThisFile([CallerFilePath] string path = "") => path;
 
 record SignatureRecord(string TypeName, string Member, string Kind, string Framework, string? Url);
