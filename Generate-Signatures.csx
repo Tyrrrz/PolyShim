@@ -1,4 +1,4 @@
-#!/usr/bin/env dotnet-run
+#!/usr/bin/env -S dotnet run
 #:package Microsoft.CodeAnalysis.CSharp
 
 using System.Runtime.CompilerServices;
