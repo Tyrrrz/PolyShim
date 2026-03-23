@@ -14,8 +14,10 @@ namespace System.Collections.Generic;
 #endif
 internal static class MemberPolyfills_NetCore20_CollectionExtensions
 {
-    // This weird conditional compilation pattern is needed so that List-Signatures.ps1 can pick up
-    // both of the type receivers correctly.
+    // The conditional compilation pattern here is needed so that the extension
+    // targets IReadOnlyDictionary<TKey, TValue> (the correct receiver type) on modern
+    // platforms, and falls back to IDictionary<TKey, TValue> on .NET Framework < 4.5
+    // where IReadOnlyDictionary<TKey, TValue> is not available.
 #if !NETFRAMEWORK || NET45_OR_GREATER
     extension<TKey, TValue>(IReadOnlyDictionary<TKey, TValue> dictionary)
     {

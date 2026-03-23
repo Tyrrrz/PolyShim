@@ -161,6 +161,8 @@
     AfterTargets="AfterBuild"
     Condition="'$(TargetFramework)' == 'netstandard2.0'"
   >
-    <Exec Command="pwsh -ExecutionPolicy Bypass -File $(ProjectDir)/List-Signatures.ps1" />
+    <Exec
+      Command="dotnet run --project &quot;$(MSBuildThisFileDirectory)../PolyShim.SignatureGen/PolyShim.SignatureGen.csproj&quot; -- &quot;$(ProjectDir.TrimEnd('\').TrimEnd('/'))&quot; &quot;$(ProjectDir)Signatures.md&quot;"
+    />
   </Target>
 </Project>

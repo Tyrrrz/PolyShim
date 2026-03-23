@@ -1,0 +1,462 @@
+using System.Text;
+using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+if (args.Length < 2)
+{
+    Console.Error.WriteLine("Usage: PolyShim.SignatureGen <source-dir> <output-path>");
+    return 1;
+}
+
+var sourceDir = args[0];
+var outputPath = args[1];
+
+if (Directory.Exists(outputPath))
+    outputPath = Path.Combine(outputPath, "Signatures.md");
+
+var records = new List<SignatureRecord>();
+
+var codeFiles = Directory.EnumerateFiles(sourceDir, "*.cs", SearchOption.AllDirectories)
+    .Where(f =>
+        !f.Contains(Path.DirectorySeparatorChar + "obj" + Path.DirectorySeparatorChar)
+        && !f.Contains(Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar)
+        && !f.Contains(Path.AltDirectorySeparatorChar + "obj" + Path.AltDirectorySeparatorChar)
+        && !f.Contains(Path.AltDirectorySeparatorChar + "bin" + Path.AltDirectorySeparatorChar)
+    );
+
+var parseOptions = CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Preview);
+
+foreach (var file in codeFiles)
+{
+    var relativePath = Path.GetRelativePath(sourceDir, file);
+
+    // Extract framework directory name (first segment of relative path)
+    var dirName = relativePath.Split(
+        new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar },
+        StringSplitOptions.RemoveEmptyEntries
+    ).FirstOrDefault();
+
+    if (dirName is null)
+        continue;
+
+    var framework = GetFrameworkName(dirName);
+    if (framework is null)
+        continue;
+
+    var source = File.ReadAllText(file);
+    var stripped = StripDirectives(source);
+    var tree = CSharpSyntaxTree.ParseText(stripped, parseOptions);
+    var root = tree.GetRoot();
+
+    // Extension block members
+    foreach (var extBlock in root.DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>())
+    {
+        var typeName = GetExtensionTypeName(extBlock);
+        if (typeName is null)
+        {
+            Console.Error.WriteLine(
+                $"Warning: Unable to extract type from extension block in '{relativePath}'."
+            );
+            continue;
+        }
+
+        foreach (var member in extBlock.Members)
+        {
+            string? sig = null;
+            string? url = null;
+
+            if (
+                member is MethodDeclarationSyntax method
+                && method.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword))
+            )
+            {
+                sig = FormatMethodSignature(method);
+                url = ExtractDocUrl(member);
+            }
+            else if (
+                member is PropertyDeclarationSyntax prop
+                && prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword))
+            )
+            {
+                sig = FormatPropertySignature(prop);
+                url = ExtractDocUrl(member);
+            }
+
+            if (sig is null)
+                continue;
+
+            if (url is null)
+            {
+                Console.Error.WriteLine(
+                    $"Warning: Missing documentation URL for '{typeName}.{sig}' in '{relativePath}'."
+                );
+            }
+
+            records.Add(new SignatureRecord(typeName, sig, "Extension", framework, url));
+        }
+    }
+
+    // Internal type declarations (not MemberPolyfills_*)
+    foreach (var typeDecl in root.DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
+    {
+        if (!typeDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.InternalKeyword)))
+            continue;
+
+        if (typeDecl.Identifier.Text.StartsWith("MemberPolyfills_", StringComparison.Ordinal))
+            continue;
+
+        var typeName = FormatTypeDeclarationName(typeDecl);
+        var typeKind = GetTypeKind(typeDecl);
+        var url = ExtractDocUrl(typeDecl);
+
+        if (url is null)
+        {
+            Console.Error.WriteLine(
+                $"Warning: Missing documentation URL for type '{typeName}' in '{relativePath}'."
+            );
+        }
+
+        records.Add(new SignatureRecord(typeName, "", typeKind, framework, url));
+    }
+}
+
+// Deduplicate: for type declarations, keep the one with URL; extensions are never deduplicated
+var deduplicated = new List<SignatureRecord>();
+var seenTypes = new Dictionary<string, SignatureRecord>();
+
+foreach (
+    var record in records
+        .OrderBy(r => r.TypeName, StringComparer.OrdinalIgnoreCase)
+        .ThenBy(r => r.Member, StringComparer.OrdinalIgnoreCase)
+)
+{
+    if (record.Kind == "Extension")
+    {
+        deduplicated.Add(record);
+        continue;
+    }
+
+    var key = $"{record.TypeName}|{record.Kind}";
+    if (!seenTypes.TryGetValue(key, out var existing))
+    {
+        seenTypes[key] = record;
+        deduplicated.Add(record);
+    }
+    else if (record.Url is not null && existing.Url is null)
+    {
+        // Replace with the one that has a URL
+        var idx = deduplicated.IndexOf(existing);
+        deduplicated[idx] = record;
+        seenTypes[key] = record;
+    }
+}
+
+// Statistics
+var totalTypes = deduplicated.Count(r => r.Kind != "Extension");
+var totalMembers = deduplicated.Count(r => r.Kind == "Extension");
+var total = deduplicated.Count;
+
+// Generate Markdown
+var sb = new StringBuilder();
+sb.AppendLine("# Signatures");
+sb.AppendLine();
+sb.AppendLine($"- **Total:** {total}");
+sb.AppendLine($"- **Types:** {totalTypes}");
+sb.AppendLine($"- **Members:** {totalMembers}");
+sb.AppendLine();
+sb.AppendLine("___");
+sb.AppendLine();
+
+var grouped = deduplicated
+    .GroupBy(r => r.TypeName.TrimEnd('?'))
+    .OrderBy(g => g.Key, StringComparer.OrdinalIgnoreCase);
+
+foreach (var group in grouped)
+{
+    sb.AppendLine($"- `{group.Key}`");
+
+    foreach (var item in group)
+    {
+        var frameworkTag = $" <sup><sub>{item.Framework}</sub></sup>";
+        var content =
+            item.Member.Length > 0 ? $"`{item.Member}`" : $"**[{item.Kind}]**";
+
+        if (item.Url is not null)
+            sb.AppendLine($"  - [{content}]({item.Url}){frameworkTag}");
+        else
+            sb.AppendLine($"  - {content}{frameworkTag}");
+    }
+}
+
+File.WriteAllText(
+    outputPath,
+    sb.ToString(),
+    new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)
+);
+
+Console.WriteLine($"Generated signature list: {outputPath}");
+Console.WriteLine($"Total: {total}");
+Console.WriteLine($"Types: {totalTypes}");
+Console.WriteLine($"Members: {totalMembers}");
+
+return 0;
+
+// --- Helpers ---
+
+static string? GetFrameworkName(string dirName)
+{
+    // Net100 -> .NET 10.0, Net70 -> .NET 7.0, etc.
+    var m = Regex.Match(dirName, @"^Net(\d+)(\d)$");
+    if (m.Success)
+        return $".NET {m.Groups[1].Value}.{m.Groups[2].Value}";
+
+    // NetCore20 -> .NET Core 2.0, etc.
+    m = Regex.Match(dirName, @"^NetCore(\d)(\d)$");
+    if (m.Success)
+        return $".NET Core {m.Groups[1].Value}.{m.Groups[2].Value}";
+
+    return null;
+}
+
+static string StripDirectives(string source)
+{
+    // Process line-by-line:
+    // - Replace preprocessor directive lines with empty lines (preserves line count)
+    // - When a #else/#elif is encountered, skip that branch until the matching #endif
+    var lines = source.Split('\n');
+    var result = new StringBuilder();
+
+    // Track nesting: skipDepth > 0 means we're inside a branch that should be skipped
+    var depth = 0;
+    var skipFromDepth = int.MaxValue; // start skipping at this depth (inclusive)
+
+    foreach (var rawLine in lines)
+    {
+        var line = rawLine.TrimEnd('\r');
+        var trimmed = line.TrimStart();
+
+        if (trimmed.StartsWith("#if", StringComparison.Ordinal))
+        {
+            depth++;
+            result.AppendLine();
+        }
+        else if (
+            (trimmed.StartsWith("#else", StringComparison.Ordinal) || trimmed.StartsWith("#elif", StringComparison.Ordinal))
+            && depth > 0
+        )
+        {
+            // Start skipping this branch if we're not already skipping at a lower depth
+            if (depth < skipFromDepth)
+                skipFromDepth = depth;
+            result.AppendLine();
+        }
+        else if (trimmed.StartsWith("#endif", StringComparison.Ordinal) && depth > 0)
+        {
+            if (depth <= skipFromDepth)
+                skipFromDepth = int.MaxValue;
+            depth--;
+            result.AppendLine();
+        }
+        else if (trimmed.StartsWith("#", StringComparison.Ordinal))
+        {
+            result.AppendLine(); // other directives (#nullable, #pragma, etc.)
+        }
+        else if (depth >= skipFromDepth)
+        {
+            result.AppendLine(); // inside a skipped branch
+        }
+        else
+        {
+            result.AppendLine(line);
+        }
+    }
+
+    return result.ToString();
+}
+
+static string? GetExtensionTypeName(ExtensionBlockDeclarationSyntax extBlock)
+{
+    var param = extBlock.ParameterList.Parameters.FirstOrDefault();
+    if (param?.Type is null)
+        return null;
+
+    return FormatType(param.Type);
+}
+
+static string FormatType(TypeSyntax type) =>
+    type switch
+    {
+        // Tuple types: strip element names -> (int, T) instead of (int index, T value)
+        TupleTypeSyntax tuple =>
+            "(" + string.Join(", ", tuple.Elements.Select(e => FormatType(e.Type))) + ")",
+
+        // Generic types: recursively format type args
+        GenericNameSyntax generic =>
+            generic.Identifier.Text
+            + "<"
+            + string.Join(", ", generic.TypeArgumentList.Arguments.Select(FormatType))
+            + ">",
+
+        // Nullable types: T?
+        NullableTypeSyntax nullable => FormatType(nullable.ElementType) + "?",
+
+        // Array types: T[]
+        ArrayTypeSyntax array =>
+            FormatType(array.ElementType)
+            + string.Concat(array.RankSpecifiers.Select(r => r.ToString())),
+
+        // ref T
+        RefTypeSyntax refType => "ref " + FormatType(refType.Type),
+
+        // Qualified names: use the right-most identifier/generic name
+        QualifiedNameSyntax qualified =>
+            qualified.Right is GenericNameSyntax gn ? FormatType(gn) : qualified.Right.ToString(),
+
+        // Predefined types, identifier names, etc.
+        _ => NormalizeWhitespace(type.ToString()),
+    };
+
+static string FormatMethodSignature(MethodDeclarationSyntax method)
+{
+    var sb = new StringBuilder();
+
+    sb.Append(FormatType(method.ReturnType));
+    sb.Append(' ');
+    sb.Append(method.Identifier.Text);
+
+    if (method.TypeParameterList is { Parameters.Count: > 0 } tpl)
+    {
+        sb.Append('<');
+        sb.Append(string.Join(", ", tpl.Parameters.Select(p => p.Identifier.Text)));
+        sb.Append('>');
+    }
+
+    sb.Append('(');
+    sb.Append(string.Join(", ", method.ParameterList.Parameters.Select(FormatParameter)));
+    sb.Append(')');
+
+    foreach (var constraint in method.ConstraintClauses)
+    {
+        sb.Append(' ');
+        sb.Append(FormatConstraintClause(constraint));
+    }
+
+    return sb.ToString();
+}
+
+static string FormatPropertySignature(PropertyDeclarationSyntax prop) =>
+    $"{FormatType(prop.Type)} {prop.Identifier.Text}";
+
+static string FormatParameter(ParameterSyntax param)
+{
+    var sb = new StringBuilder();
+
+    foreach (var mod in param.Modifiers)
+    {
+        if (
+            mod.IsKind(SyntaxKind.OutKeyword)
+            || mod.IsKind(SyntaxKind.RefKeyword)
+            || mod.IsKind(SyntaxKind.InKeyword)
+            || mod.IsKind(SyntaxKind.ParamsKeyword)
+        )
+        {
+            sb.Append(mod.Text);
+            sb.Append(' ');
+        }
+    }
+
+    sb.Append(FormatType(param.Type!));
+    return sb.ToString();
+}
+
+static string FormatConstraintClause(TypeParameterConstraintClauseSyntax clause)
+{
+    var name = clause.Name.Identifier.Text;
+    var constraints = clause.Constraints.Select<TypeParameterConstraintSyntax, string>(c =>
+        c switch
+        {
+            ClassOrStructConstraintSyntax cls => cls.ClassOrStructKeyword.Text,
+            TypeConstraintSyntax tc => FormatType(tc.Type),
+            ConstructorConstraintSyntax => "new()",
+            DefaultConstraintSyntax => "default",
+            _ => NormalizeWhitespace(c.ToString()),
+        }
+    );
+
+    return $"where {name} : {string.Join(", ", constraints)}";
+}
+
+static string FormatTypeDeclarationName(BaseTypeDeclarationSyntax typeDecl)
+{
+    if (
+        typeDecl is TypeDeclarationSyntax td
+        && td.TypeParameterList is { Parameters.Count: > 0 } tpl
+    )
+    {
+        return td.Identifier.Text
+            + "<"
+            + string.Join(", ", tpl.Parameters.Select(p => p.Identifier.Text))
+            + ">";
+    }
+
+    return typeDecl.Identifier.Text;
+}
+
+static string GetTypeKind(BaseTypeDeclarationSyntax typeDecl) =>
+    typeDecl switch
+    {
+        ClassDeclarationSyntax => "class",
+        StructDeclarationSyntax => "struct",
+        EnumDeclarationSyntax => "enum",
+        InterfaceDeclarationSyntax => "interface",
+        RecordDeclarationSyntax rec => rec.ClassOrStructKeyword.IsKind(SyntaxKind.StructKeyword)
+            ? "record struct"
+            : "record",
+        _ => typeDecl.Kind().ToString().ToLowerInvariant(),
+    };
+
+static string? ExtractDocUrl(SyntaxNode node)
+{
+    // Scan leading trivia in reverse order for a // https://... URL comment.
+    // Continue scanning through all comment lines (not stopping at non-URL comments),
+    // stopping only at non-comment, non-whitespace trivia.
+    string? foundUrl = null;
+
+    foreach (var trivia in node.GetLeadingTrivia().Reverse())
+    {
+        if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+        {
+            var text = trivia.ToString().Trim();
+            var match = Regex.Match(
+                text,
+                @"^//\s*(https://(?:learn|docs)\.microsoft\.com\S+)"
+            );
+            if (match.Success)
+            {
+                foundUrl = match.Groups[1].Value;
+                break;
+            }
+            // Non-URL comment – keep scanning upward (may have URL above Notes)
+        }
+        else if (
+            trivia.IsKind(SyntaxKind.WhitespaceTrivia)
+            || trivia.IsKind(SyntaxKind.EndOfLineTrivia)
+        )
+        {
+            // Skip whitespace / newlines
+        }
+        else
+        {
+            // Any other trivia (attributes, directives) – stop
+            break;
+        }
+    }
+
+    return foundUrl;
+}
+
+static string NormalizeWhitespace(string text) => Regex.Replace(text.Trim(), @"\s+", " ");
+
+record SignatureRecord(string TypeName, string Member, string Kind, string Framework, string? Url);
