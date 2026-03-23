@@ -6,8 +6,8 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Globalization;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,12 @@ internal static class MemberPolyfills_Net70_DateTimeOffset
             out DateTimeOffset result
         ) => DateTimeOffset.TryParse(s, provider, DateTimeStyles.None, out result);
 
-#if FEATURE_MEMORY
         // https://learn.microsoft.com/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetimeoffset@)
         public static bool TryParse(
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out DateTimeOffset result
         ) => DateTimeOffset.TryParse(new string(s.ToArray()), provider, out result);
-#endif
     }
 }
 #endif

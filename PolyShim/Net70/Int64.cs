@@ -6,8 +6,8 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Globalization;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -20,14 +20,12 @@ internal static class MemberPolyfills_Net70_Int64
         public static bool TryParse(string s, IFormatProvider? provider, out long result) =>
             long.TryParse(s, NumberStyles.Integer, provider, out result);
 
-#if FEATURE_MEMORY
         // https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int64@)
         public static bool TryParse(
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out long result
         ) => long.TryParse(new string(s.ToArray()), provider, out result);
-#endif
     }
 }
 #endif

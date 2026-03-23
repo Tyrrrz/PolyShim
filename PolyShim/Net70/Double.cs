@@ -6,8 +6,8 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
-using System.Globalization;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -25,14 +25,12 @@ internal static class MemberPolyfills_Net70_Double
                 out result
             );
 
-#if FEATURE_MEMORY
         // https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-double@)
         public static bool TryParse(
             ReadOnlySpan<char> s,
             IFormatProvider? provider,
             out double result
         ) => double.TryParse(new string(s.ToArray()), provider, out result);
-#endif
     }
 }
 #endif
