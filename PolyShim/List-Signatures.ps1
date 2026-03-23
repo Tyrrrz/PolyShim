@@ -233,11 +233,16 @@ function Get-ExtensionMembers {
                 }
             }
 
-            # Find documentation URL for this member (search backwards from current line)
+            # Find documentation URL for this member (search backwards through contiguous comments)
             $currentUrl = $null
-            for ($i = $lineIndex - 1; $i -ge 0 -and $i -ge $lineIndex - 5; $i--) {
-                if ($lines[$i] -match '^\s*//\s*(https://(?:learn\.microsoft\.com|docs\.microsoft\.com)\S+)') {
+            for ($i = $lineIndex - 1; $i -ge 0; $i--) {
+                $trimmedSearchLine = $lines[$i].Trim()
+                if ($trimmedSearchLine -match '^//\s*(https://(?:learn\.microsoft\.com|docs\.microsoft\.com)\S+)') {
                     $currentUrl = $matches[1]
+                    break
+                }
+                # Stop if we hit a non-comment, non-blank line (i.e. actual code)
+                if ($trimmedSearchLine -and -not $trimmedSearchLine.StartsWith('//')) {
                     break
                 }
             }

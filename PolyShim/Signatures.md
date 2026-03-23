@@ -24,7 +24,7 @@ ___
   - [`void ThrowIfGreaterThanOrEqual<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal) <sup><sub>.NET 8.0</sub></sup>
   - [`void ThrowIfLessThan<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthan) <sup><sub>.NET 8.0</sub></sup>
   - [`void ThrowIfLessThanOrEqual<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal) <sup><sub>.NET 8.0</sub></sup>
-  - `void ThrowIfNegative<T>(T, string?) where T : struct, IComparable<T>` <sup><sub>.NET 8.0</sub></sup>
+  - [`void ThrowIfNegative<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegative) <sup><sub>.NET 8.0</sub></sup>
   - [`void ThrowIfNegativeOrZero<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero) <sup><sub>.NET 8.0</sub></sup>
   - [`void ThrowIfNotEqual<T>(T, T, string?) where T : IEquatable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnotequal) <sup><sub>.NET 8.0</sub></sup>
   - [`void ThrowIfZero<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifzero) <sup><sub>.NET 8.0</sub></sup>
@@ -238,8 +238,8 @@ ___
   - [`bool TryParse(string, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
 - `MatchCollection`
   - [`IEnumerable<Match> AsEnumerable()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`IEnumerator<Match> GetEnumerator()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Match[] ToArray()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
+  - `IEnumerator<Match> GetEnumerator()` <sup><sub>.NET Core 2.0</sub></sup>
+  - `Match[] ToArray()` <sup><sub>.NET Core 2.0</sub></sup>
 - `Math`
   - [`IntPtr Clamp(IntPtr, IntPtr, IntPtr)`](https://learn.microsoft.com/dotnet/api/system.math.clamp#system-math-clamp(system-intptr-system-intptr-system-intptr)) <sup><sub>.NET 6.0</sub></sup>
   - [`T Clamp<T>(T, T, T) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.math.clamp) <sup><sub>.NET Core 2.0</sub></sup>
