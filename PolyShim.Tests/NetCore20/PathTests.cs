@@ -22,6 +22,7 @@ public class PathTests
             .Should()
             .Be(Path.Combine("..", "..", "..", "d", "e", "f.txt"));
 
+#if PLATFORM_WINDOWS
         Path.GetRelativePath("C:\\a\\b\\c", "C:\\a\\b\\c").Should().Be(".");
 
         Path.GetRelativePath("C:\\a\\b\\c", "C:\\a\\b\\c\\d\\e.txt")
@@ -35,5 +36,6 @@ public class PathTests
         Path.GetRelativePath("C:\\a\\b\\c\\", "D:\\d\\e\\f.txt")
             .Should()
             .Be(Path.Combine("D:\\", "d", "e", "f.txt"));
+#endif
     }
 }
