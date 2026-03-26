@@ -18,7 +18,8 @@ public class AggregateExceptionTests
         );
 
         // Act
-        var result = Assert.Throws<AggregateException>(void () => throw exception);
+        var act = void () => throw exception;
+        var result = act.Should().Throw<AggregateException>().Which;
 
         // Assert
         result.Message.Should().Contain("One or more errors occurred");
@@ -57,9 +58,8 @@ public class AggregateExceptionTests
         );
 
         // Act
-        var result = Assert.Throws<AggregateException>(void () =>
-            exception.Handle(ex => ex.Message == "Exception 2")
-        );
+        var act = void () => exception.Handle(ex => ex.Message == "Exception 2");
+        var result = act.Should().Throw<AggregateException>().Which;
 
         // Assert
         result

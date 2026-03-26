@@ -17,9 +17,8 @@ public class TaskCompletionSourceTests
 
         // Act
         var result = tcs.TrySetCanceled(cancellationToken);
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await tcs.Task
-        );
+        var act = async () => await tcs.Task;
+        var ex = (await act.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         // Assert
         result.Should().BeTrue();

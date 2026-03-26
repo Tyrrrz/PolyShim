@@ -34,7 +34,7 @@ public class ParallelTests
         var cancellationToken = new CancellationToken(true);
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+        var act = async () =>
             await Parallel.ForAsync(
                 1,
                 6,
@@ -43,8 +43,8 @@ public class ParallelTests
                 {
                     await Task.Delay(10, innerCancellationToken);
                 }
-            )
-        );
+            );
+        var ex = (await act.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         ex.CancellationToken.Should().Be(cancellationToken);
     }

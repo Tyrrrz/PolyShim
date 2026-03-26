@@ -86,7 +86,8 @@ public class TaskTests
 
         // Assert
         completedTasks.Should().Equal(tcs2.Task, tcs1.Task, tcs3.Task);
-        await Assert.ThrowsAsync<InvalidOperationException>(async () => await completedTasks[0]);
+        var act = async () => await completedTasks[0];
+        await act.Should().ThrowAsync<InvalidOperationException>();
         await completedTasks[1];
         await completedTasks[2];
     }
@@ -172,7 +173,8 @@ public class TaskTests
 
         // Assert
         completedTasks.Should().Equal(tcs2.Task, tcs1.Task, tcs3.Task);
-        await Assert.ThrowsAsync<InvalidOperationException>(async () => await completedTasks[0]);
+        var act = async () => await completedTasks[0];
+        await act.Should().ThrowAsync<InvalidOperationException>();
         (await completedTasks[1]).Should().Be(22);
         (await completedTasks[2]).Should().Be(33);
     }

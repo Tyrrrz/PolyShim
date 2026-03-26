@@ -39,9 +39,9 @@ public class HttpClientTests
         using var httpClient = new HttpClient();
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await httpClient.GetStreamAsync("https://example.com", cancellationToken)
-        );
+        var streamAct = async () =>
+            await httpClient.GetStreamAsync("https://example.com", cancellationToken);
+        var ex = (await streamAct.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         ex.CancellationToken.Should().Be(cancellationToken);
     }
@@ -69,9 +69,9 @@ public class HttpClientTests
         using var httpClient = new HttpClient();
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await httpClient.GetByteArrayAsync("https://example.com", cancellationToken)
-        );
+        var byteArrayAct = async () =>
+            await httpClient.GetByteArrayAsync("https://example.com", cancellationToken);
+        var ex = (await byteArrayAct.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         ex.CancellationToken.Should().Be(cancellationToken);
     }
@@ -98,9 +98,9 @@ public class HttpClientTests
         using var httpClient = new HttpClient();
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await httpClient.GetStringAsync("https://example.com", cancellationToken)
-        );
+        var stringAct = async () =>
+            await httpClient.GetStringAsync("https://example.com", cancellationToken);
+        var ex = (await stringAct.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         ex.CancellationToken.Should().Be(cancellationToken);
     }

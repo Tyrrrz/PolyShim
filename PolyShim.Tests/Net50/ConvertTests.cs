@@ -14,8 +14,10 @@ public class ConvertTests
         Convert.FromHexString("4a6f686e").Should().Equal("John"u8.ToArray());
         Convert.FromHexString("4A6f686E").Should().Equal("John"u8.ToArray());
         Convert.FromHexString("").Should().BeEmpty();
-        Assert.Throws<FormatException>(() => Convert.FromHexString("4A6F686")); // Odd length
-        Assert.Throws<FormatException>(() => Convert.FromHexString("4A6F68GH")); // Invalid character
+        var oddLengthAct = () => Convert.FromHexString("4A6F686");
+        oddLengthAct.Should().Throw<FormatException>(); // Odd length
+        var invalidCharAct = () => Convert.FromHexString("4A6F68GH");
+        invalidCharAct.Should().Throw<FormatException>(); // Invalid character
     }
 
 #if !NETFRAMEWORK

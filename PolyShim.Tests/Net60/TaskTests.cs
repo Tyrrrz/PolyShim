@@ -26,9 +26,8 @@ public class TaskTests
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await task.WaitAsync(cts.Token)
-        );
+        var tokenAct = async () => await task.WaitAsync(cts.Token);
+        var ex = (await tokenAct.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         ex.CancellationToken.Should().Be(cts.Token);
     }
@@ -50,9 +49,8 @@ public class TaskTests
         var task = Task.Delay(Timeout.InfiniteTimeSpan);
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(0.1))
-        );
+        var timeoutAct = async () => await task.WaitAsync(TimeSpan.FromSeconds(0.1));
+        await timeoutAct.Should().ThrowAsync<TimeoutException>();
     }
 
     [Fact(Timeout = 5000)]
@@ -73,9 +71,9 @@ public class TaskTests
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token)
-        );
+        var tokenAndTimeoutAct = async () =>
+            await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token);
+        var ex = (await tokenAndTimeoutAct.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         ex.CancellationToken.Should().Be(cts.Token);
     }
@@ -87,9 +85,9 @@ public class TaskTests
         var task = Task.Delay(Timeout.InfiniteTimeSpan);
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None)
-        );
+        var tokenAndTimeoutAct = async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+        await tokenAndTimeoutAct.Should().ThrowAsync<TimeoutException>();
     }
 
     [Fact(Timeout = 5000)]
@@ -122,9 +120,8 @@ public class TaskTests
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await task.WaitAsync(cts.Token)
-        );
+        var tokenAct = async () => await task.WaitAsync(cts.Token);
+        var ex = (await tokenAct.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         ex.CancellationToken.Should().Be(cts.Token);
     }
@@ -157,9 +154,8 @@ public class TaskTests
         });
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(0.1))
-        );
+        var timeoutAct = async () => await task.WaitAsync(TimeSpan.FromSeconds(0.1));
+        await timeoutAct.Should().ThrowAsync<TimeoutException>();
     }
 
     [Fact(Timeout = 5000)]
@@ -192,9 +188,9 @@ public class TaskTests
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(0.1));
 
         // Act & assert
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token)
-        );
+        var tokenAndTimeoutAct = async () =>
+            await task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token);
+        var ex = (await tokenAndTimeoutAct.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         ex.CancellationToken.Should().Be(cts.Token);
     }
@@ -210,8 +206,8 @@ public class TaskTests
         });
 
         // Act & assert
-        await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None)
-        );
+        var tokenAndTimeoutAct = async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(0.1), CancellationToken.None);
+        await tokenAndTimeoutAct.Should().ThrowAsync<TimeoutException>();
     }
 }

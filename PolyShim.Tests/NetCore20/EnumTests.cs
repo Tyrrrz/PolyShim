@@ -12,7 +12,9 @@ public class EnumTests
         // Act & assert
         Enum.Parse<DayOfWeek>("Friday").Should().Be(DayOfWeek.Friday);
         Enum.Parse<DayOfWeek>("friday", true).Should().Be(DayOfWeek.Friday);
-        Assert.Throws<ArgumentException>(() => Enum.Parse<DayOfWeek>("Moonday"));
-        Assert.Throws<ArgumentException>(() => Enum.Parse<DayOfWeek>("friday", false));
+        var act1 = () => Enum.Parse<DayOfWeek>("Moonday");
+        act1.Should().Throw<ArgumentException>();
+        var act2 = () => Enum.Parse<DayOfWeek>("friday", false);
+        act2.Should().Throw<ArgumentException>();
     }
 }

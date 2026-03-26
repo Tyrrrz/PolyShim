@@ -16,9 +16,8 @@ public class ArgumentNullExceptionTests
         // Act & assert
         ArgumentNullException.ThrowIfNull(notNullValue);
 
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentNullException.ThrowIfNull(nullValue)
-        );
+        var act = () => ArgumentNullException.ThrowIfNull(nullValue);
+        var ex = act.Should().Throw<ArgumentNullException>().Which;
 
         ex.ParamName.Should().Be(nameof(nullValue));
     }

@@ -22,9 +22,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int negativeValue = -1;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(negativeValue)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfNegative(negativeValue);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(negativeValue));
@@ -45,9 +44,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int zeroValue = 0;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(zeroValue)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfNegativeOrZero(zeroValue);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(zeroValue));
@@ -60,9 +58,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int negativeValue = -5;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(negativeValue)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfNegativeOrZero(negativeValue);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(negativeValue));
@@ -83,9 +80,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int zeroValue = 0;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfZero(zeroValue)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfZero(zeroValue);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(zeroValue));
@@ -106,9 +102,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int value = 11;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 10)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfGreaterThan(value, 10);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(value));
@@ -129,9 +124,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int value = 10;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, 10)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, 10);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(value));
@@ -152,9 +146,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int value = 4;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThan(value, 5)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfLessThan(value, 5);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(value));
@@ -175,9 +168,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int value = 5;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, 5)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, 5);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(value));
@@ -198,9 +190,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int value = 42;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(value, 42)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfEqual(value, 42);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(value));
@@ -221,9 +212,8 @@ public class ArgumentOutOfRangeExceptionTests
         const int value = 42;
 
         // Act
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(value, 100)
-        );
+        var act = () => ArgumentOutOfRangeException.ThrowIfNotEqual(value, 100);
+        var ex = act.Should().Throw<ArgumentOutOfRangeException>().Which;
 
         // Assert
         ex.ParamName.Should().Be(nameof(value));

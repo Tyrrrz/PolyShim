@@ -39,10 +39,8 @@ public class TextReaderTests
         await cts.CancelAsync();
 
         // Act & Assert
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-        {
-            await reader.ReadLineAsync(cts.Token);
-        });
+        var lineAct = async () => await reader.ReadLineAsync(cts.Token);
+        await lineAct.Should().ThrowAsync<OperationCanceledException>();
     }
 
     [Fact]
@@ -69,9 +67,7 @@ public class TextReaderTests
         await cts.CancelAsync();
 
         // Act & Assert
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-        {
-            await reader.ReadToEndAsync(cts.Token);
-        });
+        var endAct = async () => await reader.ReadToEndAsync(cts.Token);
+        await endAct.Should().ThrowAsync<OperationCanceledException>();
     }
 }

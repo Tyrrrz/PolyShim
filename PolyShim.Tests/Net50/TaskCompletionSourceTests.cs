@@ -31,7 +31,8 @@ public class TaskCompletionSourceTests
 
         // Act
         tcs.SetException(exception);
-        var ex = await Assert.ThrowsAsync<InvalidOperationException>(async () => await tcs.Task);
+        var act = async () => await tcs.Task;
+        var ex = (await act.Should().ThrowAsync<InvalidOperationException>()).Which;
 
         // Assert
         tcs.Task.IsFaulted.Should().BeTrue();
@@ -46,7 +47,8 @@ public class TaskCompletionSourceTests
 
         // Act
         tcs.SetCanceled();
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await tcs.Task);
+        var act = async () => await tcs.Task;
+        await act.Should().ThrowAsync<OperationCanceledException>();
 
         // Assert
         tcs.Task.IsCanceled.Should().BeTrue();
@@ -61,7 +63,8 @@ public class TaskCompletionSourceTests
 
         // Act
         tcs.SetCanceled(cancellationToken);
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await tcs.Task);
+        var act = async () => await tcs.Task;
+        await act.Should().ThrowAsync<OperationCanceledException>();
 
         // Assert
         tcs.Task.IsCanceled.Should().BeTrue();
@@ -75,9 +78,8 @@ public class TaskCompletionSourceTests
         tcs.SetResult();
 
         // Act & Assert
-        Assert.Throws<InvalidOperationException>(() =>
-            tcs.SetCanceled(new CancellationToken(true))
-        );
+        var act = () => tcs.SetCanceled(new CancellationToken(true));
+        act.Should().Throw<InvalidOperationException>();
     }
 
     [Fact]
@@ -103,7 +105,8 @@ public class TaskCompletionSourceTests
 
         // Act
         var result = tcs.TrySetException(exception);
-        var ex = await Assert.ThrowsAsync<InvalidOperationException>(async () => await tcs.Task);
+        var act = async () => await tcs.Task;
+        var ex = (await act.Should().ThrowAsync<InvalidOperationException>()).Which;
 
         // Assert
         result.Should().BeTrue();
@@ -119,7 +122,8 @@ public class TaskCompletionSourceTests
 
         // Act
         var result = tcs.TrySetCanceled();
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await tcs.Task);
+        var act = async () => await tcs.Task;
+        await act.Should().ThrowAsync<OperationCanceledException>();
 
         // Assert
         result.Should().BeTrue();
@@ -135,7 +139,8 @@ public class TaskCompletionSourceTests
 
         // Act
         var result = tcs.TrySetCanceled(cancellationToken);
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await tcs.Task);
+        var act = async () => await tcs.Task;
+        await act.Should().ThrowAsync<OperationCanceledException>();
 
         // Assert
         result.Should().BeTrue();
@@ -165,9 +170,8 @@ public class TaskCompletionSourceTests
 
         // Act
         tcs.SetCanceled(cancellationToken);
-        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
-            await tcs.Task
-        );
+        var act = async () => await tcs.Task;
+        var ex = (await act.Should().ThrowAsync<OperationCanceledException>()).Which;
 
         // Assert
         tcs.Task.IsCanceled.Should().BeTrue();
@@ -183,8 +187,7 @@ public class TaskCompletionSourceTests
         tcs.SetResult(42);
 
         // Act & assert
-        Assert.ThrowsAny<InvalidOperationException>(() =>
-            tcs.SetCanceled(new CancellationToken(true))
-        );
+        var act = () => tcs.SetCanceled(new CancellationToken(true));
+        act.Should().Throw<InvalidOperationException>();
     }
 }

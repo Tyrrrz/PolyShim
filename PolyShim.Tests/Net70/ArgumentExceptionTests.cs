@@ -17,15 +17,13 @@ public class ArgumentExceptionTests
         // Act & assert
         ArgumentException.ThrowIfNullOrEmpty(notEmptyValue);
 
-        var ex1 = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrEmpty(emptyValue)
-        );
+        var act1 = () => ArgumentException.ThrowIfNullOrEmpty(emptyValue);
+        var ex1 = act1.Should().Throw<ArgumentException>().Which;
 
         ex1.ParamName.Should().Be(nameof(emptyValue));
 
-        var ex2 = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentException.ThrowIfNullOrEmpty(nullValue)
-        );
+        var act2 = () => ArgumentException.ThrowIfNullOrEmpty(nullValue);
+        var ex2 = act2.Should().Throw<ArgumentNullException>().Which;
 
         ex2.ParamName.Should().Be(nameof(nullValue));
     }
@@ -41,15 +39,13 @@ public class ArgumentExceptionTests
         // Act & assert
         ArgumentException.ThrowIfNullOrWhiteSpace(notWhiteSpaceValue);
 
-        var ex1 = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(whiteSpaceValue)
-        );
+        var act1 = () => ArgumentException.ThrowIfNullOrWhiteSpace(whiteSpaceValue);
+        var ex1 = act1.Should().Throw<ArgumentException>().Which;
 
         ex1.ParamName.Should().Be(nameof(whiteSpaceValue));
 
-        var ex2 = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(nullValue)
-        );
+        var act2 = () => ArgumentException.ThrowIfNullOrWhiteSpace(nullValue);
+        var ex2 = act2.Should().Throw<ArgumentNullException>().Which;
 
         ex2.ParamName.Should().Be(nameof(nullValue));
     }
