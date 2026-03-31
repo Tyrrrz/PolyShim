@@ -25,7 +25,7 @@ internal static class MemberPolyfills_NetCore10_Enum
         }
 
         // https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-system-boolean-0@)
-        public static bool TryParse<T>(string value, bool ignoreCase, out T result)
+        public static bool TryParse<T>(string? value, bool ignoreCase, out T result)
             where T : struct, Enum
         {
             try
@@ -41,7 +41,7 @@ internal static class MemberPolyfills_NetCore10_Enum
         }
 
         // https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-0@)
-        public static bool TryParse<T>(string value, out T result)
+        public static bool TryParse<T>(string? value, out T result)
             where T : struct, Enum
         {
             try

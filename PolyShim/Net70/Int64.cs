@@ -17,7 +17,7 @@ internal static class MemberPolyfills_Net70_Int64
     extension(long)
     {
         // https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)
-        public static bool TryParse(string s, IFormatProvider? provider, out long result) =>
+        public static bool TryParse(string? s, IFormatProvider? provider, out long result) =>
             long.TryParse(s, NumberStyles.Integer, provider, out result);
 
         // https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int64@)

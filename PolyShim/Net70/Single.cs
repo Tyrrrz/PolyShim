@@ -17,7 +17,7 @@ internal static class MemberPolyfills_Net70_Single
     extension(float)
     {
         // https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)
-        public static bool TryParse(string s, IFormatProvider? provider, out float result) =>
+        public static bool TryParse(string? s, IFormatProvider? provider, out float result) =>
             float.TryParse(
                 s,
                 NumberStyles.Float | NumberStyles.AllowThousands,
