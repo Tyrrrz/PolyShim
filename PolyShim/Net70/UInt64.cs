@@ -17,7 +17,7 @@ internal static class MemberPolyfills_Net70_UInt64
     extension(ulong)
     {
         // https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)
-        public static bool TryParse(string s, IFormatProvider? provider, out ulong result) =>
+        public static bool TryParse(string? s, IFormatProvider? provider, out ulong result) =>
             ulong.TryParse(s, NumberStyles.Integer, provider, out result);
 
         // https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint64@)

@@ -34,7 +34,7 @@ ___
   - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
 - `CallerArgumentExpressionAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `CallerFilePathAttribute`
@@ -66,7 +66,7 @@ ___
   - [`DateTimeOffset UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
 - `decimal`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-string-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-string-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
 - `Dictionary<TKey, TValue>`
   - [`bool TryAdd(TKey, TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2.tryadd) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity) <sup><sub>.NET 5.0</sub></sup>
@@ -80,7 +80,7 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.doesnotreturnifattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `double`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out double)`](https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-double@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out double)`](https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-string-system-iformatprovider-system-double@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out double)`](https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-string-system-iformatprovider-system-double@)) <sup><sub>.NET 7.0</sub></sup>
 - `DynamicallyAccessedMembersAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembersattribute) <sup><sub>.NET 5.0</sub></sup>
 - `DynamicallyAccessedMemberTypes`
@@ -88,8 +88,8 @@ ___
 - `Enum`
   - [`bool HasFlag(Enum)`](https://learn.microsoft.com/dotnet/api/system.enum.hasflag) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool IsDefined<T>(T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.isdefined#system-enum-isdefined-1(-0)) <sup><sub>.NET 5.0</sub></sup>
-  - [`bool TryParse<T>(string, bool, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-system-boolean-0@)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`bool TryParse<T>(string, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-0@)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`bool TryParse<T>(string?, bool, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-system-boolean-0@)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`bool TryParse<T>(string?, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-0@)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`string[] GetNames<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getnames#system-enum-getnames-1) <sup><sub>.NET 5.0</sub></sup>
   - [`T Parse<T>(string) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`T Parse<T>(string, bool) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)) <sup><sub>.NET Core 2.0</sub></sup>
@@ -131,7 +131,7 @@ ___
   - [`void Move(string, string, bool)`](https://learn.microsoft.com/dotnet/api/system.io.file.move#system-io-file-move(system-string-system-string-system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
 - `float`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
 - `HashCode`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.hashcode) <sup><sub>.NET Core 2.1</sub></sup>
 - `HashSet<T>`
@@ -196,7 +196,7 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.index) <sup><sub>.NET Core 3.0</sub></sup>
 - `int`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
 - `Interlocked`
   - [`int And(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
   - [`int Or(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
@@ -208,7 +208,7 @@ ___
   - [`ulong Or(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
 - `IntPtr`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-intptr@)) <sup><sub>.NET 5.0</sub></sup>
   - [`IntPtr Parse(string)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string)) <sup><sub>.NET 5.0</sub></sup>
   - [`IntPtr Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
@@ -231,7 +231,7 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.lock) <sup><sub>.NET 9.0</sub></sup>
 - `long`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
 - `MatchCollection`
   - [`IEnumerable<Match> AsEnumerable()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
   - [`IEnumerator<Match> GetEnumerator()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
@@ -363,12 +363,12 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.runtimeinformation) <sup><sub>.NET Core 1.0</sub></sup>
 - `sbyte`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
 - `SetsRequiredMembersAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute) <sup><sub>.NET 7.0</sub></sup>
 - `short`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-string-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-string-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
 - `SkipLocalsInitAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.skiplocalsinitattribute) <sup><sub>.NET 5.0</sub></sup>
 - `SortedSet<T>`
@@ -525,10 +525,10 @@ ___
   - [`void CopyTo(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.copyto#system-memoryextensions-copyto-1(-0()-system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `uint`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out uint)`](https://learn.microsoft.com/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint32@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out uint)`](https://learn.microsoft.com/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-string-system-iformatprovider-system-uint32@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out uint)`](https://learn.microsoft.com/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-string-system-iformatprovider-system-uint32@)) <sup><sub>.NET 7.0</sub></sup>
 - `UIntPtr`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uintptr@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-iformatprovider-system-uintptr@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-iformatprovider-system-uintptr@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-uintptr@)) <sup><sub>.NET 5.0</sub></sup>
   - [`UIntPtr Parse(string)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string)) <sup><sub>.NET 5.0</sub></sup>
   - [`UIntPtr Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
@@ -536,7 +536,7 @@ ___
   - [`UIntPtr Parse(string, NumberStyles, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-globalization-numberstyles-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
 - `ulong`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
 - `UnconditionalSuppressMessageAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute) <sup><sub>.NET 5.0</sub></sup>
 - `UnsupportedOSPlatformAttribute`
@@ -545,7 +545,7 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformguardattribute) <sup><sub>.NET 6.0</sub></sup>
 - `ushort`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool TryParse(string?, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
 - `ValueTuple`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.valuetuple) <sup><sub>.NET Core 2.0</sub></sup>
 - `ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>`

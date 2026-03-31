@@ -16,7 +16,7 @@ internal static class MemberPolyfills_Net70_UIntPtr
     extension(UIntPtr)
     {
         // https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-iformatprovider-system-uintptr@)
-        public static bool TryParse(string s, IFormatProvider? provider, out UIntPtr result)
+        public static bool TryParse(string? s, IFormatProvider? provider, out UIntPtr result)
         {
             if (IntPtr.Size == 4)
             {
