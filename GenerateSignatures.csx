@@ -2,37 +2,32 @@
 #:package Microsoft.CodeAnalysis.CSharp
 #:package CliFx
 
-using CliFx;
-using CliFx.Attributes;
-using CliFx.Infrastructure;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using CliFx;
+using CliFx.Binding;
+using CliFx.Infrastructure;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-return await new CliApplicationBuilder()
-    .AddCommand<GenerateSignaturesCommand>()
-    .Build()
-    .RunAsync(args);
-
 [Command(Description = "Generates Signatures.md from PolyShim polyfill source files.")]
-public class GenerateSignaturesCommand : ICommand
+public partial class GenerateSignaturesCommand : ICommand
 {
     [CommandOption(
         "project-dir",
         'p',
         Description = "Path to the PolyShim project directory containing polyfill source files. Defaults to the 'PolyShim' subdirectory relative to the script."
     )]
-    public DirectoryInfo? ProjectDir { get; init; }
+    public DirectoryInfo? ProjectDir { get; set; }
 
     [CommandOption(
         "output",
         'o',
         Description = "Path to the output Signatures.md file. Defaults to 'Signatures.md' in the script's directory."
     )]
-    public FileInfo? OutputFile { get; init; }
+    public FileInfo? OutputFile { get; set; }
 
     public ValueTask ExecuteAsync(IConsole console)
     {
@@ -86,7 +81,9 @@ public class GenerateSignaturesCommand : ICommand
             var root = tree.GetRoot();
 
             // Extension block members
-            foreach (var extBlock in root.DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>())
+            foreach (
+                var extBlock in root.DescendantNodes().OfType<ExtensionBlockDeclarationSyntax>()
+            )
             {
                 var typeName = GetExtensionTypeName(extBlock);
                 if (typeName is null)
@@ -132,7 +129,12 @@ public class GenerateSignaturesCommand : ICommand
                 if (!typeDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.InternalKeyword)))
                     continue;
 
-                if (typeDecl.Identifier.Text.StartsWith("MemberPolyfills_", StringComparison.Ordinal))
+                if (
+                    typeDecl.Identifier.Text.StartsWith(
+                        "MemberPolyfills_",
+                        StringComparison.Ordinal
+                    )
+                )
                     continue;
 
                 var typeName = FormatTypeDeclarationName(typeDecl);
@@ -214,8 +216,7 @@ public class GenerateSignaturesCommand : ICommand
             foreach (var item in group)
             {
                 var frameworkTag = $" <sup><sub>{item.Framework}</sub></sup>";
-                var content =
-                    item.Member.Length > 0 ? $"`{item.Member}`" : $"**[{item.Kind}]**";
+                var content = item.Member.Length > 0 ? $"`{item.Member}`" : $"**[{item.Kind}]**";
 
                 if (item.Url is not null)
                     sb.AppendLine($"  - [{content}]({item.Url}){frameworkTag}");
@@ -296,12 +297,12 @@ public class GenerateSignaturesCommand : ICommand
         type switch
         {
             // Tuple types: strip element names -> (int, T) instead of (int index, T value)
-            TupleTypeSyntax tuple =>
-                "(" + string.Join(", ", tuple.Elements.Select(e => FormatType(e.Type))) + ")",
+            TupleTypeSyntax tuple => "("
+                + string.Join(", ", tuple.Elements.Select(e => FormatType(e.Type)))
+                + ")",
 
             // Generic types: recursively format type args
-            GenericNameSyntax generic =>
-                generic.Identifier.Text
+            GenericNameSyntax generic => generic.Identifier.Text
                 + "<"
                 + string.Join(", ", generic.TypeArgumentList.Arguments.Select(FormatType))
                 + ">",
@@ -310,16 +311,16 @@ public class GenerateSignaturesCommand : ICommand
             NullableTypeSyntax nullable => FormatType(nullable.ElementType) + "?",
 
             // Array types: T[]
-            ArrayTypeSyntax array =>
-                FormatType(array.ElementType)
+            ArrayTypeSyntax array => FormatType(array.ElementType)
                 + string.Concat(array.RankSpecifiers.Select(r => r.ToString())),
 
             // ref T
             RefTypeSyntax refType => "ref " + FormatType(refType.Type),
 
             // Qualified names: use the right-most identifier/generic name
-            QualifiedNameSyntax qualified =>
-                qualified.Right is GenericNameSyntax gn ? FormatType(gn) : qualified.Right.ToString(),
+            QualifiedNameSyntax qualified => qualified.Right is GenericNameSyntax gn
+                ? FormatType(gn)
+                : qualified.Right.ToString(),
 
             // Predefined types, identifier names, etc.
             _ => NormalizeWhitespace(type.ToString()),
@@ -430,9 +431,11 @@ public class GenerateSignaturesCommand : ICommand
         // For type declarations with attributes, the URL may appear between
         // the attribute list and the 'internal' modifier, so check both positions.
         return ScanTriviaForUrl(node.GetLeadingTrivia())
-            ?? (node is BaseTypeDeclarationSyntax typeDecl && typeDecl.Modifiers.Count > 0
-                ? ScanTriviaForUrl(typeDecl.Modifiers[0].LeadingTrivia)
-                : null);
+            ?? (
+                node is BaseTypeDeclarationSyntax typeDecl && typeDecl.Modifiers.Count > 0
+                    ? ScanTriviaForUrl(typeDecl.Modifiers[0].LeadingTrivia)
+                    : null
+            );
     }
 
     private static string? ScanTriviaForUrl(SyntaxTriviaList triviaList)
@@ -445,10 +448,7 @@ public class GenerateSignaturesCommand : ICommand
             if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
             {
                 var text = trivia.ToString().Trim();
-                var match = Regex.Match(
-                    text,
-                    @"^//\s*(https://(?:learn|docs)\.microsoft\.com\S+)"
-                );
+                var match = Regex.Match(text, @"^//\s*(https://(?:learn|docs)\.microsoft\.com\S+)");
                 if (match.Success)
                     return match.Groups[1].Value;
                 // Non-URL comment – keep scanning upward (may have URL above notes)
@@ -473,5 +473,11 @@ public class GenerateSignaturesCommand : ICommand
     private static string NormalizeWhitespace(string text) =>
         Regex.Replace(text.Trim(), @"\s+", " ");
 
-    private record Signature(string TypeName, string Member, string Kind, string Framework, string? Url);
+    private record Signature(
+        string TypeName,
+        string Member,
+        string Kind,
+        string Framework,
+        string? Url
+    );
 }
