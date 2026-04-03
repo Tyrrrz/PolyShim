@@ -15,6 +15,10 @@
     </tr>
 </table>
 
+<p align="center">
+    <img src="favicon.png" alt="Icon" />
+</p>
+
 **PolyShim** is a collection of polyfills that enable many modern framework APIs and compiler features for projects targeting older versions of .NET.
 It's distributed as a source-only package that can be referenced without imposing any run-time dependencies.
 

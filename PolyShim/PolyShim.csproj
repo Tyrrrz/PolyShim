@@ -11,13 +11,14 @@
       net35;net40;net45;net461;net462;net48;
       net5.0;net7.0;net8.0
     </TargetFrameworks>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IsPackable>true</IsPackable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     <NuGetAudit>false</NuGetAudit>
   </PropertyGroup>
 
   <PropertyGroup>
+    <PackageIcon>favicon.png</PackageIcon>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <DevelopmentDependency>true</DevelopmentDependency>
@@ -43,10 +44,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="../favicon.png" Pack="true" PackagePath="" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CSharpier.MsBuild" PrivateAssets="all" />
   </ItemGroup>
 
-  <!-- Import official compatibilty packages for metadata references -->
+  <!-- Import official compatibility packages for metadata references -->
   <ItemGroup>
     <PackageReference
       Include="Microsoft.Bcl.AsyncInterfaces"
