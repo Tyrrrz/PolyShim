@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Runtime.CompilerServices;
 
 // https://devblogs.microsoft.com/dotnet/csharp-15-union-types/
-[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
