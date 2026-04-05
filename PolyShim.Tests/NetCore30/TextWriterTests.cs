@@ -11,11 +11,11 @@ public class TextWriterTests
     public async Task DisposeAsync_Test()
     {
         // Arrange
-        await using var innerStream = new MemoryStream();
+        using var innerStream = new MemoryStream();
 
         // Use a buffered stream to ensure flushing data is required
-        await using var stream = new BufferedStream(innerStream, bufferSize: 4096);
-        await using var writer = new StreamWriter(stream, leaveOpen: true);
+        using var stream = new BufferedStream(innerStream, bufferSize: 4096);
+        using var writer = new StreamWriter(stream);
         await writer.WriteAsync("Hello, World!");
 
         // Act

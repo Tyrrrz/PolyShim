@@ -117,7 +117,7 @@ public class MemoryExtensionsTests
     public void ArraySegment_AsSpan_Test()
     {
         // Arrange
-        var segment = new ArraySegment<int>(new[] { 10, 20, 30, 40, 50 }, 1, 3);
+        var segment = new ArraySegment<int>([10, 20, 30, 40, 50], 1, 3);
 
         // Act
         var span = segment.AsSpan();

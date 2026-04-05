@@ -11,10 +11,10 @@ public class StreamTests
     public async Task DisposeAsync_Test()
     {
         // Arrange
-        await using var innerStream = new MemoryStream();
+        using var innerStream = new MemoryStream();
 
         // Use a buffered stream to ensure flushing data is required
-        await using var stream = new BufferedStream(innerStream, bufferSize: 4096);
+        using var stream = new BufferedStream(innerStream, bufferSize: 4096);
         await stream.WriteAsync(new byte[] { 1, 2, 3, 4, 5 });
 
         // Act
