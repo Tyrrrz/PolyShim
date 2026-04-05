@@ -64,6 +64,8 @@ public class PathTests
 
         Path.Join(["C:/", "/Program Files"]).Should().Be("C://Program Files");
 
+        Path.Join(["C:", "Program Files"]).Should().Be("C:/Program Files");
+
         Path.Join(["C:/Users/Public/Documents/", "C:/Users/User1/Documents/Financial/"])
             .Should()
             .Be("C:/Users/Public/Documents/C:/Users/User1/Documents/Financial/");
