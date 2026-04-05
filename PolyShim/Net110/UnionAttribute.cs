@@ -1,4 +1,4 @@
-#if !FEATURE_UNIONTYPES
+#if (NETCOREAPP && !NET11_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Runtime.CompilerServices;
 
 // https://devblogs.microsoft.com/dotnet/csharp-15-union-types/
+[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
