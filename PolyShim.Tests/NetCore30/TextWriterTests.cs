@@ -5,7 +5,7 @@ using Xunit;
 
 namespace PolyShim.Tests.NetCore30;
 
-public class StreamTests
+public class TextWriterTests
 {
     [Fact]
     public async Task DisposeAsync_Test()
@@ -15,12 +15,13 @@ public class StreamTests
 
         // Use a buffered stream to ensure flushing data is required
         await using var stream = new BufferedStream(innerStream, bufferSize: 4096);
-        await stream.WriteAsync(new byte[] { 1, 2, 3, 4, 5 });
+        await using var writer = new StreamWriter(stream, leaveOpen: true);
+        await writer.WriteAsync("Hello, World!");
 
         // Act
-        await stream.DisposeAsync();
+        await writer.DisposeAsync();
 
         // Assert
-        innerStream.ToArray().Should().Equal(1, 2, 3, 4, 5);
+        innerStream.ToArray().Should().Equal(writer.Encoding.GetBytes("Hello, World!"));
     }
 }
