@@ -56,4 +56,35 @@ public class MemoryTests
         result.Should().BeTrue();
         destination.ToArray().Should().Equal(1, 2, 3, 4, 5);
     }
+
+    [Fact]
+    public void Equals_Test()
+    {
+        // Arrange
+        var arr = new byte[] { 1, 2, 3 };
+        Memory<byte> a = arr;
+        Memory<byte> b = arr;
+        Memory<byte> c = new byte[] { 1, 2, 3 };
+
+        // Act & Assert
+        a.Equals(b).Should().BeTrue();
+        a.Equals(c).Should().BeFalse();
+        a.Equals((object)b).Should().BeTrue();
+        a.Equals((object)c).Should().BeFalse();
+        a.Equals(null).Should().BeFalse();
+    }
+
+    [Fact]
+    public void GetHashCode_Test()
+    {
+        // Arrange
+        var arr = new byte[] { 1, 2, 3 };
+        Memory<byte> a = arr;
+        Memory<byte> b = arr;
+        Memory<byte> c = new byte[] { 1, 2, 3 };
+
+        // Act & Assert
+        a.GetHashCode().Should().Be(b.GetHashCode());
+        a.GetHashCode().Should().NotBe(c.GetHashCode());
+    }
 }
