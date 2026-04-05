@@ -41,10 +41,10 @@ internal static class MemberPolyfills_NetCore21_MemoryExtensions
         public void CopyTo(Memory<T> destination) => array.AsSpan().CopyTo(destination.Span);
     }
 
-    extension<T>(ArraySegment<T>? segment)
+    extension<T>(ArraySegment<T> segment)
     {
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))
-        public Span<T> AsSpan() => new(segment?.Array, segment?.Offset ?? 0, segment?.Count ?? 0);
+        public Span<T> AsSpan() => new(segment.Array, segment.Offset, segment.Count);
     }
 
     extension(string? text)
