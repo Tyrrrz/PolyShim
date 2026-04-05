@@ -4,16 +4,16 @@ using Xunit;
 
 namespace PolyShim.Tests.Net50;
 
+file static class Initializer
+{
+    public static bool IsInitialized { get; private set; }
+
+    [ModuleInitializer]
+    public static void Initialize() => IsInitialized = true;
+}
+
 public class ModuleInitializerAttributeTests
 {
-    public static class Initializer
-    {
-        public static bool IsInitialized { get; private set; }
-
-        [ModuleInitializer]
-        public static void Initialize() => IsInitialized = true;
-    }
-
     [Fact]
     public void Initialization_Test()
     {

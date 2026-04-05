@@ -3,14 +3,14 @@ using Xunit;
 
 namespace PolyShim.Tests.Net50;
 
+file interface IBaseInterface;
+
+file class BaseClass : IBaseInterface;
+
+file class DerivedClass : BaseClass;
+
 public class TypeTests
 {
-    private interface IBaseInterface;
-
-    private class BaseClass : IBaseInterface;
-
-    private class DerivedClass : BaseClass;
-
     [Fact]
     public void IsAssignableTo_Test()
     {

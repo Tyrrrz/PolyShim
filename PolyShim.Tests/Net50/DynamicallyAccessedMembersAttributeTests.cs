@@ -3,14 +3,14 @@ using Xunit;
 
 namespace PolyShim.Tests.Net50;
 
+file class MyClass
+{
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+    public void Foo() { }
+}
+
 public class DynamicallyAccessedMembersAttributeTests
 {
-    private class MyClass
-    {
-        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
-        public void Foo() { }
-    }
-
     [Fact]
     public void Initialization_Test()
     {

@@ -3,10 +3,10 @@ using Xunit;
 
 namespace PolyShim.Tests.Net50;
 
+file record MyRecord(string Foo, int Bar);
+
 public class IsExternalInitTests
 {
-    private record MyRecord(string Foo, int Bar);
-
     [Fact]
     public void Initialization_Test()
     {
