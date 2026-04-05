@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using FluentAssertions;
+using PolyShim.Tests.Utils.Extensions;
 using Xunit;
 
 namespace PolyShim.Tests.Net70;
@@ -28,14 +29,7 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(tempFilePath);
         }
     }
 }
