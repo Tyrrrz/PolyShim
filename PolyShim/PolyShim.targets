@@ -256,6 +256,15 @@
       <DefineConstants Condition="$(FeatureTimeProvider)"
         >$(DefineConstants);FEATURE_TIMEPROVIDER</DefineConstants
       >
+
+      <FeatureUnionTypes>false</FeatureUnionTypes>
+      <FeatureUnionTypes
+        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '11.0'))"
+        >true</FeatureUnionTypes
+      >
+      <DefineConstants Condition="$(FeatureUnionTypes)"
+        >$(DefineConstants);FEATURE_UNIONTYPES</DefineConstants
+      >
     </PropertyGroup>
   </Target>
 </Project>
