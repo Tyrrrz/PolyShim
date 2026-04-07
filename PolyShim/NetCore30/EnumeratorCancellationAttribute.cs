@@ -15,5 +15,5 @@ namespace System.Runtime.CompilerServices;
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal sealed class EnumeratorCancellationAttribute : Attribute { }
+internal sealed class EnumeratorCancellationAttribute : Attribute;
 #endif
