@@ -67,6 +67,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `HashCode`
   - `ArrayPool<T>`
   - `TaskCompletionSource`
+  - `IAsyncEnumerable<T>` and `IAsyncDisposable`
   - [...and 70+ more](Signatures.md)
 - Provides member polyfills for:
   - `string.ReplaceLineEndings(...)`, `string.AsSpan()`, etc.
