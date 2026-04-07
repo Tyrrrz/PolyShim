@@ -22,21 +22,21 @@ internal readonly struct ValueTask(Task task) : IEquatable<ValueTask>
 {
     private readonly Task? _task = task ?? throw new ArgumentNullException(nameof(task));
 
-    public bool IsCompleted => _task == null || _task.IsCompleted;
+    public bool IsCompleted => _task is null || _task.IsCompleted;
 
     public bool IsCompletedSuccessfully =>
-        _task == null || _task.Status == TaskStatus.RanToCompletion;
+        _task is null || _task.Status == TaskStatus.RanToCompletion;
 
-    public bool IsFaulted => _task != null && _task.IsFaulted;
+    public bool IsFaulted => _task is not null && _task.IsFaulted;
 
-    public bool IsCanceled => _task != null && _task.IsCanceled;
+    public bool IsCanceled => _task is not null && _task.IsCanceled;
 
     public Task AsTask() => _task ?? Task.CompletedTask;
 
-    public ValueTaskAwaiter GetAwaiter() => new ValueTaskAwaiter(this);
+    public ValueTaskAwaiter GetAwaiter() => new(this);
 
     public ConfiguredValueTaskAwaitable ConfigureAwait(bool continueOnCapturedContext) =>
-        new ConfiguredValueTaskAwaitable(this, continueOnCapturedContext);
+        new(this, continueOnCapturedContext);
 
     public bool Equals(ValueTask other) => _task == other._task;
 

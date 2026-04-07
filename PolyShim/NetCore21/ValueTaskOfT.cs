@@ -19,53 +19,45 @@ namespace System.Threading.Tasks;
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal readonly struct ValueTask<TResult> : IEquatable<ValueTask<TResult>>
+internal readonly struct ValueTask<TResult>(TResult result) : IEquatable<ValueTask<TResult>>
 {
     private readonly Task<TResult>? _task;
-    private readonly TResult _result;
 
-    public ValueTask(TResult result)
-    {
-        _task = null;
-        _result = result;
-    }
-
-    public ValueTask(Task<TResult> task)
+    public ValueTask(Task<TResult> task) : this(default!)
     {
         _task = task ?? throw new ArgumentNullException(nameof(task));
-        _result = default!;
     }
 
-    public bool IsCompleted => _task == null || _task.IsCompleted;
+    public bool IsCompleted => _task is null || _task.IsCompleted;
 
     public bool IsCompletedSuccessfully =>
-        _task == null || _task.Status == TaskStatus.RanToCompletion;
+        _task is null || _task.Status == TaskStatus.RanToCompletion;
 
-    public bool IsFaulted => _task != null && _task.IsFaulted;
+    public bool IsFaulted => _task is not null && _task.IsFaulted;
 
-    public bool IsCanceled => _task != null && _task.IsCanceled;
+    public bool IsCanceled => _task is not null && _task.IsCanceled;
 
-    public TResult Result => _task == null ? _result : _task.GetAwaiter().GetResult();
+    public TResult Result => _task is null ? result : _task.GetAwaiter().GetResult();
 
     public Task<TResult> AsTask()
     {
-        if (_task != null)
+        if (_task is not null)
             return _task;
 
         var tcs = new TaskCompletionSource<TResult>();
-        tcs.SetResult(_result);
+        tcs.SetResult(result);
         return tcs.Task;
     }
 
-    public ValueTaskAwaiter<TResult> GetAwaiter() => new ValueTaskAwaiter<TResult>(this);
+    public ValueTaskAwaiter<TResult> GetAwaiter() => new(this);
 
     public ConfiguredValueTaskAwaitable<TResult> ConfigureAwait(bool continueOnCapturedContext) =>
-        new ConfiguredValueTaskAwaitable<TResult>(this, continueOnCapturedContext);
+        new(this, continueOnCapturedContext);
 
     public bool Equals(ValueTask<TResult> other)
     {
-        if (_task == null && other._task == null)
-            return EqualityComparer<TResult>.Default.Equals(_result, other._result);
+        if (_task is null && other._task is null)
+            return EqualityComparer<TResult>.Default.Equals(result, other.Result);
 
         return _task == other._task;
     }
@@ -73,9 +65,9 @@ internal readonly struct ValueTask<TResult> : IEquatable<ValueTask<TResult>>
     public override bool Equals(object? obj) => obj is ValueTask<TResult> other && Equals(other);
 
     public override int GetHashCode() =>
-        _task != null ? _task.GetHashCode() : _result?.GetHashCode() ?? 0;
+        _task is not null ? _task.GetHashCode() : result?.GetHashCode() ?? 0;
 
-    public override string? ToString() => _task == null ? _result?.ToString() : _task.ToString();
+    public override string? ToString() => _task is null ? result?.ToString() : _task.ToString();
 
     public static bool operator ==(ValueTask<TResult> left, ValueTask<TResult> right) =>
         left.Equals(right);
