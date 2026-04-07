@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 428
-- **Types:** 82
+- **Total:** 437
+- **Types:** 91
 - **Members:** 346
 
 ___
@@ -32,6 +32,12 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `ArraySegment<T>`
   - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `AsyncMethodBuilderAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncmethodbuilderattribute) <sup><sub>.NET Core 2.1</sub></sup>
+- `AsyncValueTaskMethodBuilder`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder) <sup><sub>.NET Core 2.1</sub></sup>
+- `AsyncValueTaskMethodBuilder<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
@@ -47,6 +53,10 @@ ___
   - [`Task CancelAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.cancellationtokensource.cancelasync) <sup><sub>.NET 8.0</sub></sup>
 - `CompilerFeatureRequiredAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute) <sup><sub>.NET 7.0</sub></sup>
+- `ConfiguredValueTaskAwaitable`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredvaluetaskawaitable) <sup><sub>.NET Core 2.1</sub></sup>
+- `ConfiguredValueTaskAwaitable<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredvaluetaskawaitable-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `Convert`
   - [`byte[] FromHexString(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))) <sup><sub>.NET 5.0</sub></sup>
   - [`byte[] FromHexString(string)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-string)) <sup><sub>.NET 5.0</sub></sup>
@@ -552,6 +562,14 @@ ___
 - `ushort`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
+- `ValueTask`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTask<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTaskAwaiter`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.valuetaskawaiter) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTaskAwaiter<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.valuetaskawaiter-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `ValueTuple`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.valuetuple) <sup><sub>.NET Core 2.0</sub></sup>
 - `ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>`

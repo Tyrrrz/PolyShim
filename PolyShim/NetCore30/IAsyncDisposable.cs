@@ -1,4 +1,4 @@
-#if !FEATURE_ASYNCINTERFACES && FEATURE_VALUETASK && !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
+#if !FEATURE_ASYNCINTERFACES && FEATURE_TASK && !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
