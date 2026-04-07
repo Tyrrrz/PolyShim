@@ -5,7 +5,7 @@ using Xunit;
 
 namespace PolyShim.Tests.NetCore30;
 
-public class IAsyncDisposableTests
+public class AsyncDisposableTests
 {
     private class AsyncResource : IAsyncDisposable
     {

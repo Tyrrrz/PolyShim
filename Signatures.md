@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 437
-- **Types:** 91
-- **Members:** 346
+- **Total:** 441
+- **Types:** 93
+- **Members:** 348
 
 ___
 
@@ -53,6 +53,8 @@ ___
   - [`Task CancelAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.cancellationtokensource.cancelasync) <sup><sub>.NET 8.0</sub></sup>
 - `CompilerFeatureRequiredAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute) <sup><sub>.NET 7.0</sub></sup>
+- `ConfiguredCancelableAsyncEnumerable<T>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1) <sup><sub>.NET Core 3.0</sub></sup>
 - `ConfiguredValueTaskAwaitable`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredvaluetaskawaitable) <sup><sub>.NET Core 2.1</sub></sup>
 - `ConfiguredValueTaskAwaitable<TResult>`
@@ -104,6 +106,8 @@ ___
   - [`T Parse<T>(string) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`T Parse<T>(string, bool) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`T[] GetValues<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getvalues#system-enum-getvalues-1) <sup><sub>.NET 5.0</sub></sup>
+- `EnumeratorCancellationAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.enumeratorcancellationattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `Environment`
   - [`int ProcessId`](https://learn.microsoft.com/dotnet/api/system.environment.processid) <sup><sub>.NET 5.0</sub></sup>
   - [`string? ProcessPath`](https://learn.microsoft.com/dotnet/api/system.environment.processpath) <sup><sub>.NET 6.0</sub></sup>
@@ -162,6 +166,8 @@ ___
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.iasyncdisposable) <sup><sub>.NET Core 3.0</sub></sup>
 - `IAsyncEnumerable<T>`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`ConfiguredCancelableAsyncEnumerable<T> ConfigureAwait(bool)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.configureawait) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`ConfiguredCancelableAsyncEnumerable<T> WithCancellation(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation) <sup><sub>.NET Core 3.0</sub></sup>
 - `IAsyncEnumerator<T>`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerator-1) <sup><sub>.NET Core 3.0</sub></sup>
 - `IEnumerable<T>`

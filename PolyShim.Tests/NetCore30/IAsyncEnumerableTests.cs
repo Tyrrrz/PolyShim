@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -6,34 +8,18 @@ using Xunit;
 
 namespace PolyShim.Tests.NetCore30;
 
-public class IAsyncEnumerableTests
+public class AsyncEnumerableTests
 {
-    private class NumberSequence : IAsyncEnumerable<int>
+    private static async IAsyncEnumerable<int> GetNumbersAsync(
+        int count,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default
+    )
     {
-        private readonly int[] _numbers;
-
-        public NumberSequence(int[] numbers) => _numbers = numbers;
-
-        public IAsyncEnumerator<int> GetAsyncEnumerator(
-            CancellationToken cancellationToken = default
-        ) => new Enumerator(_numbers);
-
-        private class Enumerator : IAsyncEnumerator<int>
+        for (var i = 1; i <= count; i++)
         {
-            private readonly int[] _numbers;
-            private int _index = -1;
-
-            public Enumerator(int[] numbers) => _numbers = numbers;
-
-            public int Current => _numbers[_index];
-
-            public ValueTask<bool> MoveNextAsync()
-            {
-                _index++;
-                return new ValueTask<bool>(_index < _numbers.Length);
-            }
-
-            public ValueTask DisposeAsync() => default;
+            cancellationToken.ThrowIfCancellationRequested();
+            await Task.Yield();
+            yield return i;
         }
     }
 
@@ -41,11 +27,10 @@ public class IAsyncEnumerableTests
     public async Task AwaitForEach_Test()
     {
         // Arrange
-        var sequence = new NumberSequence([1, 2, 3, 4, 5]);
         var result = new List<int>();
 
         // Act
-        await foreach (var item in sequence)
+        await foreach (var item in GetNumbersAsync(5))
             result.Add(item);
 
         // Assert
@@ -56,14 +41,47 @@ public class IAsyncEnumerableTests
     public async Task AwaitForEach_Empty_Test()
     {
         // Arrange
-        var sequence = new NumberSequence([]);
         var result = new List<int>();
 
         // Act
-        await foreach (var item in sequence)
+        await foreach (var item in GetNumbersAsync(0))
             result.Add(item);
 
         // Assert
         result.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task AwaitForEach_WithCancellation_Test()
+    {
+        // Arrange
+        using var cts = new CancellationTokenSource();
+        var result = new List<int>();
+
+        // Act
+        await foreach (var item in GetNumbersAsync(5).WithCancellation(cts.Token))
+            result.Add(item);
+
+        // Assert
+        result.Should().Equal(1, 2, 3, 4, 5);
+    }
+
+    [Fact]
+    public async Task AwaitForEach_WithCancellation_Canceled_Test()
+    {
+        // Arrange
+        using var cts = new CancellationTokenSource();
+
+        // Act
+        var act = async () =>
+        {
+            await foreach (var _ in GetNumbersAsync(5).WithCancellation(cts.Token))
+            {
+                await cts.CancelAsync();
+            }
+        };
+
+        // Assert
+        await act.Should().ThrowAsync<OperationCanceledException>();
     }
 }
