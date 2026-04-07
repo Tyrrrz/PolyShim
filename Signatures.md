@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 425
-- **Types:** 79
+- **Total:** 428
+- **Types:** 82
 - **Members:** 346
 
 ___
@@ -148,6 +148,12 @@ ___
   - [`Task<byte[]> ReadAsByteArrayAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<Stream> ReadAsStreamAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> ReadAsStringAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+- `IAsyncDisposable`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.iasyncdisposable) <sup><sub>.NET Core 3.0</sub></sup>
+- `IAsyncEnumerable<T>`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1) <sup><sub>.NET Core 3.0</sub></sup>
+- `IAsyncEnumerator<T>`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerator-1) <sup><sub>.NET Core 3.0</sub></sup>
 - `IEnumerable<T>`
   - [`HashSet<T> ToHashSet()`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
   - [`HashSet<T> ToHashSet(IEqualityComparer<T>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
