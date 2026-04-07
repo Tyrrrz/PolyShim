@@ -21,7 +21,7 @@ internal struct AsyncValueTaskMethodBuilder<TResult>
     private AsyncTaskMethodBuilder<TResult> _taskBuilder;
 
     public static AsyncValueTaskMethodBuilder<TResult> Create() =>
-        new AsyncValueTaskMethodBuilder<TResult>
+        new()
         {
             _taskBuilder = AsyncTaskMethodBuilder<TResult>.Create(),
         };
@@ -36,7 +36,7 @@ internal struct AsyncValueTaskMethodBuilder<TResult>
 
     public void SetException(Exception exception) => _taskBuilder.SetException(exception);
 
-    public ValueTask<TResult> Task => new ValueTask<TResult>(_taskBuilder.Task);
+    public ValueTask<TResult> Task => new(_taskBuilder.Task);
 
     public void AwaitOnCompleted<TAwaiter, TStateMachine>(
         ref TAwaiter awaiter,
