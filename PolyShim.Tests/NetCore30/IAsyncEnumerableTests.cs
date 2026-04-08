@@ -8,7 +8,6 @@ using Xunit;
 
 namespace PolyShim.Tests.NetCore30;
 
-#if !NETFRAMEWORK
 file static class AsyncEnumerableHelpers
 {
     public static async IAsyncEnumerable<int> GetNumbersAsync(
@@ -24,11 +23,9 @@ file static class AsyncEnumerableHelpers
         }
     }
 }
-#endif
 
 public class AsyncEnumerableTests
 {
-#if !NETFRAMEWORK
     [Fact]
     public async Task AwaitForEach_Test()
     {
@@ -94,5 +91,4 @@ public class AsyncEnumerableTests
         // Assert
         await act.Should().ThrowAsync<OperationCanceledException>();
     }
-#endif
 }
