@@ -23,6 +23,8 @@ internal struct AsyncValueTaskMethodBuilder
     public static AsyncValueTaskMethodBuilder Create() =>
         new() { _taskBuilder = AsyncTaskMethodBuilder.Create() };
 
+    public ValueTask Task => new(_taskBuilder.Task);
+
     public void Start<TStateMachine>(ref TStateMachine stateMachine)
         where TStateMachine : IAsyncStateMachine => _taskBuilder.Start(ref stateMachine);
 
@@ -32,8 +34,6 @@ internal struct AsyncValueTaskMethodBuilder
     public void SetResult() => _taskBuilder.SetResult();
 
     public void SetException(Exception exception) => _taskBuilder.SetException(exception);
-
-    public ValueTask Task => new(_taskBuilder.Task);
 
     public void AwaitOnCompleted<TAwaiter, TStateMachine>(
         ref TAwaiter awaiter,
