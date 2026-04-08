@@ -36,13 +36,7 @@ internal struct ManualResetValueTaskSourceCore<TResult>
         _tcs = null;
     }
 
-    private TaskCompletionSource<TResult> GetOrCreateTcs()
-    {
-        if (_tcs is null)
-            _tcs = new TaskCompletionSource<TResult>();
-
-        return _tcs;
-    }
+    private TaskCompletionSource<TResult> GetOrCreateTcs() => _tcs ??= new();
 
     public void SetResult(TResult result) => GetOrCreateTcs().TrySetResult(result);
 
