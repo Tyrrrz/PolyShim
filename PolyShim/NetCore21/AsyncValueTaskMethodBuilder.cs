@@ -87,7 +87,7 @@ internal struct AsyncValueTaskMethodBuilder<TResult>
         ref TAwaiter awaiter,
         ref TStateMachine stateMachine
     )
-        where TAwaiter : struct, ICriticalNotifyCompletion
+        where TAwaiter : ICriticalNotifyCompletion
         where TStateMachine : IAsyncStateMachine =>
         _taskBuilder.AwaitUnsafeOnCompleted(ref awaiter, ref stateMachine);
 }
