@@ -18,7 +18,7 @@ file static class ValueTaskHelpers
 public class ValueTaskTests
 {
     [Fact]
-    public void Default_IsCompletedSuccessfully_Test()
+    public void Default_Test()
     {
         // Act
         var task = ValueTask.CompletedTask;
@@ -36,13 +36,13 @@ public class ValueTaskTests
         // Arrange
         var task = new ValueTask<int>(42);
 
-        // Act & assert (no exception)
+        // Act & assert
         task.IsCompleted.Should().BeTrue();
         task.IsCompletedSuccessfully.Should().BeTrue();
         task.IsFaulted.Should().BeFalse();
         task.IsCanceled.Should().BeFalse();
-        (await new ValueTask<int>(42)).Should().Be(42);
-        (await new ValueTask<int>(42).ConfigureAwait(true)).Should().Be(42);
+        (await task).Should().Be(42);
+        (await task.ConfigureAwait(false)).Should().Be(42);
     }
 
     [Fact]
@@ -52,23 +52,24 @@ public class ValueTaskTests
         var task = new ValueTask(Task.CompletedTask);
         var taskOfT = new ValueTask<int>(Task.FromResult(42));
 
-        // Act & assert (no exception)
+        // Act & assert
         task.IsCompleted.Should().BeTrue();
         task.IsCompletedSuccessfully.Should().BeTrue();
         task.IsFaulted.Should().BeFalse();
         task.IsCanceled.Should().BeFalse();
+        await task;
+        await task.ConfigureAwait(false);
+        
         taskOfT.IsCompleted.Should().BeTrue();
         taskOfT.IsCompletedSuccessfully.Should().BeTrue();
         taskOfT.IsFaulted.Should().BeFalse();
         taskOfT.IsCanceled.Should().BeFalse();
-        await new ValueTask(Task.CompletedTask);
-        await new ValueTask(Task.CompletedTask).ConfigureAwait(true);
-        (await new ValueTask<int>(Task.FromResult(42))).Should().Be(42);
-        (await new ValueTask<int>(Task.FromResult(42)).ConfigureAwait(true)).Should().Be(42);
+        (await taskOfT).Should().Be(42);
+        (await taskOfT.ConfigureAwait(false)).Should().Be(42);
     }
 
     [Fact]
-    public async Task Async_Method_Test()
+    public async Task AsyncMethodBuilder_Test()
     {
         // Act
         await ValueTaskHelpers.DoWorkAsync();
@@ -86,15 +87,15 @@ public class ValueTaskTests
         var taskOfT = new ValueTask<int>(42);
 
         // Act
-        var t = task.AsTask();
-        var tOfT = taskOfT.AsTask();
-        var result = await tOfT;
+        var classicTask = task.AsTask();
+        var classicTaskOfT = taskOfT.AsTask();
+        var result = await classicTaskOfT;
 
         // Assert
-        t.Should().NotBeNull();
-        t.IsCompleted.Should().BeTrue();
-        tOfT.Should().NotBeNull();
-        tOfT.IsCompleted.Should().BeTrue();
+        classicTask.Should().NotBeNull();
+        classicTask.IsCompleted.Should().BeTrue();
+        classicTaskOfT.Should().NotBeNull();
+        classicTaskOfT.IsCompleted.Should().BeTrue();
         result.Should().Be(42);
     }
 
