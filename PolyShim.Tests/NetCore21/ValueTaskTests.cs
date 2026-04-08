@@ -21,7 +21,7 @@ public class ValueTaskTests
     public void Default_Test()
     {
         // Act
-        var task = ValueTask.CompletedTask;
+        var task = default(ValueTask);
 
         // Assert
         task.IsCompleted.Should().BeTrue();
@@ -42,7 +42,7 @@ public class ValueTaskTests
         task.IsFaulted.Should().BeFalse();
         task.IsCanceled.Should().BeFalse();
         (await task).Should().Be(42);
-        (await task.ConfigureAwait(false)).Should().Be(42);
+        (await task.ConfigureAwait(true)).Should().Be(42);
     }
 
     [Fact]
@@ -58,14 +58,14 @@ public class ValueTaskTests
         task.IsFaulted.Should().BeFalse();
         task.IsCanceled.Should().BeFalse();
         await task;
-        await task.ConfigureAwait(false);
-        
+        await task.ConfigureAwait(true);
+
         taskOfT.IsCompleted.Should().BeTrue();
         taskOfT.IsCompletedSuccessfully.Should().BeTrue();
         taskOfT.IsFaulted.Should().BeFalse();
         taskOfT.IsCanceled.Should().BeFalse();
         (await taskOfT).Should().Be(42);
-        (await taskOfT.ConfigureAwait(false)).Should().Be(42);
+        (await taskOfT.ConfigureAwait(true)).Should().Be(42);
     }
 
     [Fact]
@@ -103,8 +103,8 @@ public class ValueTaskTests
     public void Equals_Test()
     {
         // Arrange
-        var a = ValueTask.CompletedTask;
-        var b = ValueTask.CompletedTask;
+        var a = default(ValueTask);
+        var b = default(ValueTask);
         var underlyingTask = Task.CompletedTask;
         var c = new ValueTask(underlyingTask);
         var d = new ValueTask(underlyingTask);
