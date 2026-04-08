@@ -10,16 +10,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Security.Cryptography;
 
-#if !POLYFILL_COVERAGE
-[ExcludeFromCodeCoverage]
-#endif
-file class RandomWrapper : RandomNumberGenerator
-{
-    private readonly Random _random = new();
-
-    public override void GetBytes(byte[] data) => _random.NextBytes(data);
-}
-
 // Polyfill for RandomNumberGenerator class on .NET Standard < 1.3
 // Note: This uses Random instead of cryptographically secure RNG as System.Security.Cryptography
 // types are not available on these older platforms.
@@ -40,5 +30,15 @@ internal abstract class RandomNumberGenerator : IDisposable
         Dispose(true);
         GC.SuppressFinalize(this);
     }
+}
+
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+file class RandomWrapper : RandomNumberGenerator
+{
+    private readonly Random _random = new();
+
+    public override void GetBytes(byte[] data) => _random.NextBytes(data);
 }
 #endif
