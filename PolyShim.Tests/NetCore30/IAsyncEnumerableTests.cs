@@ -8,9 +8,9 @@ using Xunit;
 
 namespace PolyShim.Tests.NetCore30;
 
-public class AsyncEnumerableTests
+file static class AsyncEnumerableHelpers
 {
-    private static async IAsyncEnumerable<int> GetNumbersAsync(
+    public static async IAsyncEnumerable<int> GetNumbersAsync(
         int count,
         [EnumeratorCancellation] CancellationToken cancellationToken = default
     )
@@ -22,7 +22,10 @@ public class AsyncEnumerableTests
             yield return i;
         }
     }
+}
 
+public class AsyncEnumerableTests
+{
     [Fact]
     public async Task AwaitForEach_Test()
     {
@@ -30,7 +33,7 @@ public class AsyncEnumerableTests
         var result = new List<int>();
 
         // Act
-        await foreach (var item in GetNumbersAsync(5))
+        await foreach (var item in AsyncEnumerableHelpers.GetNumbersAsync(5))
             result.Add(item);
 
         // Assert
@@ -44,7 +47,7 @@ public class AsyncEnumerableTests
         var result = new List<int>();
 
         // Act
-        await foreach (var item in GetNumbersAsync(0))
+        await foreach (var item in AsyncEnumerableHelpers.GetNumbersAsync(0))
             result.Add(item);
 
         // Assert
@@ -59,7 +62,9 @@ public class AsyncEnumerableTests
         var result = new List<int>();
 
         // Act
-        await foreach (var item in GetNumbersAsync(5).WithCancellation(cts.Token))
+        await foreach (
+            var item in AsyncEnumerableHelpers.GetNumbersAsync(5).WithCancellation(cts.Token)
+        )
             result.Add(item);
 
         // Assert
@@ -75,7 +80,9 @@ public class AsyncEnumerableTests
         // Act
         var act = async () =>
         {
-            await foreach (var _ in GetNumbersAsync(5).WithCancellation(cts.Token))
+            await foreach (
+                var _ in AsyncEnumerableHelpers.GetNumbersAsync(5).WithCancellation(cts.Token)
+            )
             {
                 await cts.CancelAsync();
             }

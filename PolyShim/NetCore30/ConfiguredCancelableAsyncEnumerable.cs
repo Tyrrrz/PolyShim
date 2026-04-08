@@ -29,14 +29,9 @@ internal readonly struct ConfiguredCancelableAsyncEnumerable<T>(
         new(enumerable, continueOnCapturedContext, ct);
 
     public ConfiguredCancelableAsyncEnumerable<T> ConfigureAwait(bool continueOnCapturedContext) =>
-        new(
-            enumerable,
-            continueOnCapturedContext,
-            cancellationToken
-        );
+        new(enumerable, continueOnCapturedContext, cancellationToken);
 
-    public Enumerator GetAsyncEnumerator() =>
-        new(enumerable.GetAsyncEnumerator(cancellationToken));
+    public Enumerator GetAsyncEnumerator() => new(enumerable.GetAsyncEnumerator(cancellationToken));
 
 #if !POLYFILL_COVERAGE
     [ExcludeFromCodeCoverage]

@@ -31,36 +31,28 @@ public class ValueTaskTests
     }
 
     [Fact]
-    public void FromResult_IsCompletedSuccessfully_Test()
+    public async Task FromResult_Test()
     {
-        // Act
+        // Arrange
         var task = new ValueTask<int>(42);
 
-        // Assert
+        // Act & assert (no exception)
         task.IsCompleted.Should().BeTrue();
         task.IsCompletedSuccessfully.Should().BeTrue();
         task.IsFaulted.Should().BeFalse();
         task.IsCanceled.Should().BeFalse();
+        (await new ValueTask<int>(42)).Should().Be(42);
+        (await new ValueTask<int>(42).ConfigureAwait(true)).Should().Be(42);
     }
 
     [Fact]
-    public async Task FromResult_Result_Test()
+    public async Task FromTask_Test()
     {
-        // Act
-        var result = await new ValueTask<int>(42);
-
-        // Assert
-        result.Should().Be(42);
-    }
-
-    [Fact]
-    public void FromTask_IsCompletedSuccessfully_Test()
-    {
-        // Act
+        // Arrange
         var task = new ValueTask(Task.CompletedTask);
         var taskOfT = new ValueTask<int>(Task.FromResult(42));
 
-        // Assert
+        // Act & assert (no exception)
         task.IsCompleted.Should().BeTrue();
         task.IsCompletedSuccessfully.Should().BeTrue();
         task.IsFaulted.Should().BeFalse();
@@ -69,46 +61,10 @@ public class ValueTaskTests
         taskOfT.IsCompletedSuccessfully.Should().BeTrue();
         taskOfT.IsFaulted.Should().BeFalse();
         taskOfT.IsCanceled.Should().BeFalse();
-    }
-
-    [Fact]
-    public async Task FromTask_Result_Test()
-    {
-        // Act
-        var result = await new ValueTask<int>(Task.FromResult(42));
-
-        // Assert
-        result.Should().Be(42);
-    }
-
-    [Fact]
-    public async Task Await_Test()
-    {
-        // Arrange
-        var task = new ValueTask(Task.CompletedTask);
-        var taskOfT = new ValueTask<int>(Task.FromResult(42));
-
-        // Act
-        await task;
-        var result = await taskOfT;
-
-        // Assert
-        result.Should().Be(42);
-    }
-
-    [Fact]
-    public async Task Await_ConfigureAwait_Test()
-    {
-        // Arrange
-        var task = new ValueTask(Task.CompletedTask);
-        var taskOfT = new ValueTask<int>(Task.FromResult(42));
-
-        // Act
-        await task.ConfigureAwait(true);
-        var result = await taskOfT.ConfigureAwait(true);
-
-        // Assert
-        result.Should().Be(42);
+        await new ValueTask(Task.CompletedTask);
+        await new ValueTask(Task.CompletedTask).ConfigureAwait(true);
+        (await new ValueTask<int>(Task.FromResult(42))).Should().Be(42);
+        (await new ValueTask<int>(Task.FromResult(42)).ConfigureAwait(true)).Should().Be(42);
     }
 
     [Fact]
@@ -151,9 +107,10 @@ public class ValueTaskTests
         var underlyingTask = Task.CompletedTask;
         var c = new ValueTask(underlyingTask);
         var d = new ValueTask(underlyingTask);
-        var e = new ValueTask<int>(42);
-        var f = new ValueTask<int>(42);
-        var g = new ValueTask<int>(99);
+        var sharedTaskOfT = Task.FromResult(42);
+        var e = new ValueTask<int>(sharedTaskOfT);
+        var f = new ValueTask<int>(sharedTaskOfT);
+        var g = new ValueTask<int>(Task.FromResult(99));
 
         // Assert
         a.Equals(b).Should().BeTrue();

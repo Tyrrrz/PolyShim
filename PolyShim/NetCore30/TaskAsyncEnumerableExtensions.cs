@@ -17,7 +17,8 @@ namespace System.Threading.Tasks;
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal static class MemberPolyfills_NetCore30_TaskAsyncEnumerableExtensions
+// https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions
+internal static class TaskAsyncEnumerableExtensions
 {
     extension<T>(IAsyncEnumerable<T> source)
     {

@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 441
-- **Types:** 93
+- **Total:** 442
+- **Types:** 94
 - **Members:** 348
 
 ___
@@ -501,6 +501,8 @@ ___
   - [`Task<T> WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
+- `TaskAsyncEnumerableExtensions`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions) <sup><sub>.NET Core 3.0</sub></sup>
 - `TaskCompletionSource`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource) <sup><sub>.NET 5.0</sub></sup>
 - `TaskCompletionSource<T>`

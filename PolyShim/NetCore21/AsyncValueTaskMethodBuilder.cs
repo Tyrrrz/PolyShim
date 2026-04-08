@@ -61,10 +61,7 @@ internal struct AsyncValueTaskMethodBuilder<TResult>
     private AsyncTaskMethodBuilder<TResult> _taskBuilder;
 
     public static AsyncValueTaskMethodBuilder<TResult> Create() =>
-        new()
-        {
-            _taskBuilder = AsyncTaskMethodBuilder<TResult>.Create(),
-        };
+        new() { _taskBuilder = AsyncTaskMethodBuilder<TResult>.Create() };
 
     public ValueTask<TResult> Task => new(_taskBuilder.Task);
 
