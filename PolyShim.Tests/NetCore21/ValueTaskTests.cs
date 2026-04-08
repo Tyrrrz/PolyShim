@@ -6,10 +6,7 @@ namespace PolyShim.Tests.NetCore21;
 
 file static class ValueTaskHelpers
 {
-    public static async ValueTask DoWorkAsync()
-    {
-        await Task.Yield();
-    }
+    public static async ValueTask DoWorkAsync() => await Task.Yield();
 
     public static async ValueTask<int> GetValueAsync()
     {
