@@ -7,6 +7,7 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -51,6 +52,68 @@ internal readonly struct ValueTask(Task task) : IEquatable<ValueTask>
     public static bool operator ==(ValueTask left, ValueTask right) => left.Equals(right);
 
     public static bool operator !=(ValueTask left, ValueTask right) => !left.Equals(right);
+}
+
+// https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
+[AsyncMethodBuilder(typeof(AsyncValueTaskMethodBuilder<>))]
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal readonly struct ValueTask<TResult>(TResult result) : IEquatable<ValueTask<TResult>>
+{
+    private readonly Task<TResult>? _task;
+
+    public ValueTask(Task<TResult> task) : this(default!)
+    {
+        _task = task ?? throw new ArgumentNullException(nameof(task));
+    }
+
+    public bool IsCompleted => _task is null || _task.IsCompleted;
+
+    public bool IsCompletedSuccessfully =>
+        _task is null || _task.Status == TaskStatus.RanToCompletion;
+
+    public bool IsFaulted => _task is not null && _task.IsFaulted;
+
+    public bool IsCanceled => _task is not null && _task.IsCanceled;
+
+    public TResult Result => _task is null ? result : _task.GetAwaiter().GetResult();
+
+    public Task<TResult> AsTask()
+    {
+        if (_task is not null)
+            return _task;
+
+        var tcs = new TaskCompletionSource<TResult>();
+        tcs.SetResult(result);
+        return tcs.Task;
+    }
+
+    public ValueTaskAwaiter<TResult> GetAwaiter() => new(this);
+
+    public ConfiguredValueTaskAwaitable<TResult> ConfigureAwait(bool continueOnCapturedContext) =>
+        new(this, continueOnCapturedContext);
+
+    public bool Equals(ValueTask<TResult> other)
+    {
+        if (_task is null && other._task is null)
+            return EqualityComparer<TResult>.Default.Equals(result, other.Result);
+
+        return _task == other._task;
+    }
+
+    public override bool Equals(object? obj) => obj is ValueTask<TResult> other && Equals(other);
+
+    public override int GetHashCode() =>
+        _task is not null ? _task.GetHashCode() : result?.GetHashCode() ?? 0;
+
+    public override string? ToString() => _task is null ? result?.ToString() : _task.ToString();
+
+    public static bool operator ==(ValueTask<TResult> left, ValueTask<TResult> right) =>
+        left.Equals(right);
+
+    public static bool operator !=(ValueTask<TResult> left, ValueTask<TResult> right) =>
+        !left.Equals(right);
 }
 #endif
 #endif
