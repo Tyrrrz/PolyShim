@@ -30,9 +30,9 @@ internal static class MemberPolyfills_NetCore10_Task
 
 #if NETFRAMEWORK && !NET45_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult
-        public static Task<T?> FromResult<T>(T? result)
+        public static Task<T> FromResult<T>(T result)
         {
-            var tcs = new TaskCompletionSource<T?>();
+            var tcs = new TaskCompletionSource<T>();
             tcs.TrySetResult(result);
 
             return tcs.Task;

@@ -62,12 +62,7 @@ internal readonly struct ValueTask<TResult>(Task<TResult> task) : IEquatable<Val
 {
     private readonly Task<TResult> _task = task ?? throw new ArgumentNullException(nameof(task));
 
-    private static Task<TResult> CreateTask(TResult result)
-    {
-        var tcs = new TaskCompletionSource<TResult>();
-        tcs.SetResult(result);
-        return tcs.Task;
-    }
+    private static Task<TResult> CreateTask(TResult result) => Task.FromResult(result);
 
     public ValueTask(TResult result)
         : this(CreateTask(result)) { }
