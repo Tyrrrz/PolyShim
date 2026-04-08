@@ -19,28 +19,26 @@ internal static class MemberPolyfills_Net80_Parallel
 {
     extension(Parallel)
     {
-        // Task instead of ValueTask for maximum compatibility
+#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForAsync(
             int fromInclusive,
             int toExclusive,
             ParallelOptions parallelOptions,
-            Func<int, CancellationToken, Task> body
+            Func<int, CancellationToken, ValueTask> body
         ) =>
             await Parallel.ForEachAsync(
                 Enumerable.Range(fromInclusive, toExclusive - fromInclusive),
                 parallelOptions,
-                // ValueTask conversion for newer targets
-                async (i, ct) => await body(i, ct).ConfigureAwait(false)
-            );
+                body
+            ).ConfigureAwait(false);
 
-        // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForAsync(
             int fromInclusive,
             int toExclusive,
             CancellationToken cancellationToken,
-            Func<int, CancellationToken, Task> body
+            Func<int, CancellationToken, ValueTask> body
         ) =>
             await ForAsync(
                     fromInclusive,
@@ -50,15 +48,15 @@ internal static class MemberPolyfills_Net80_Parallel
                 )
                 .ConfigureAwait(false);
 
-        // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForAsync(
             int fromInclusive,
             int toExclusive,
-            Func<int, CancellationToken, Task> body
+            Func<int, CancellationToken, ValueTask> body
         ) =>
             await ForAsync(fromInclusive, toExclusive, CancellationToken.None, body)
                 .ConfigureAwait(false);
+#endif
     }
 }
 #endif

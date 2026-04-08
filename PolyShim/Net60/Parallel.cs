@@ -20,12 +20,12 @@ internal static class MemberPolyfills_Net60_Parallel
 {
     extension(Parallel)
     {
-        // Task instead of ValueTask for maximum compatibility
+#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IEnumerable<T> source,
             ParallelOptions parallelOptions,
-            Func<T, CancellationToken, Task> body
+            Func<T, CancellationToken, ValueTask> body
         )
         {
             using var semaphore = new SemaphoreSlim(
@@ -71,12 +71,11 @@ internal static class MemberPolyfills_Net60_Parallel
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 
-        // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IEnumerable<T> source,
             CancellationToken cancellationToken,
-            Func<T, CancellationToken, Task> body
+            Func<T, CancellationToken, ValueTask> body
         ) =>
             await ForEachAsync(
                     source,
@@ -85,20 +84,17 @@ internal static class MemberPolyfills_Net60_Parallel
                 )
                 .ConfigureAwait(false);
 
-        // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IEnumerable<T> source,
-            Func<T, CancellationToken, Task> body
+            Func<T, CancellationToken, ValueTask> body
         ) => await ForEachAsync(source, CancellationToken.None, body).ConfigureAwait(false);
 
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
-        // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IAsyncEnumerable<T> source,
             ParallelOptions parallelOptions,
-            Func<T, CancellationToken, Task> body
+            Func<T, CancellationToken, ValueTask> body
         )
         {
             using var semaphore = new SemaphoreSlim(
@@ -136,12 +132,11 @@ internal static class MemberPolyfills_Net60_Parallel
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 
-        // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IAsyncEnumerable<T> source,
             CancellationToken cancellationToken,
-            Func<T, CancellationToken, Task> body
+            Func<T, CancellationToken, ValueTask> body
         ) =>
             await ForEachAsync(
                 source,
@@ -149,11 +144,10 @@ internal static class MemberPolyfills_Net60_Parallel
                 body
             ).ConfigureAwait(false);
 
-        // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IAsyncEnumerable<T> source,
-            Func<T, CancellationToken, Task> body
+            Func<T, CancellationToken, ValueTask> body
         ) => await ForEachAsync(source, CancellationToken.None, body).ConfigureAwait(false);
 #endif
     }
