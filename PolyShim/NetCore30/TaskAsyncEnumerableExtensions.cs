@@ -7,39 +7,29 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PartialTypeWithSinglePart
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
+
+namespace System.Threading.Tasks;
 
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal static class MemberPolyfills_NetCore30_IAsyncEnumerable
+internal static class MemberPolyfills_NetCore30_TaskAsyncEnumerableExtensions
 {
     extension<T>(IAsyncEnumerable<T> source)
     {
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation
         public ConfiguredCancelableAsyncEnumerable<T> WithCancellation(
             CancellationToken cancellationToken
-        ) =>
-            new ConfiguredCancelableAsyncEnumerable<T>(
-                source,
-                continueOnCapturedContext: true,
-                cancellationToken
-            );
+        ) => new(source, continueOnCapturedContext: true, cancellationToken);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.configureawait
         public ConfiguredCancelableAsyncEnumerable<T> ConfigureAwait(
             bool continueOnCapturedContext
-        ) =>
-            new ConfiguredCancelableAsyncEnumerable<T>(
-                source,
-                continueOnCapturedContext,
-                cancellationToken: default
-            );
+        ) => new(source, continueOnCapturedContext, cancellationToken: default);
     }
 }
 #endif
