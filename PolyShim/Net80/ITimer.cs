@@ -12,7 +12,8 @@ namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.itimer
 internal interface ITimer : IDisposable
-#if FEATURE_ASYNCINTERFACES || !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
+#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
+    , IAsyncDisposable
 #endif
 {
     bool Change(TimeSpan dueTime, TimeSpan period);
