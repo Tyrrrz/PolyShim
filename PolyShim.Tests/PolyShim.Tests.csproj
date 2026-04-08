@@ -50,7 +50,6 @@
     <PackageReference Include="GitHubActionsTestLogger" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="System.Threading.Tasks.Extensions" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
     <PackageReference Include="Xunit.SkippableFact" />

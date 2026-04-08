@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 442
-- **Types:** 94
+- **Total:** 449
+- **Types:** 101
 - **Members:** 348
 
 ___
@@ -32,6 +32,10 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `ArraySegment<T>`
   - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `AsyncIteratorMethodBuilder`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asynciteratormethodbuilder) <sup><sub>.NET Core 3.0</sub></sup>
+- `AsyncIteratorStateMachineAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asynciteratorstatemachineattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `AsyncMethodBuilderAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncmethodbuilderattribute) <sup><sub>.NET Core 2.1</sub></sup>
 - `AsyncValueTaskMethodBuilder`
@@ -243,6 +247,10 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.isexternalinit) <sup><sub>.NET 5.0</sub></sup>
 - `ITimer`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.itimer) <sup><sub>.NET 8.0</sub></sup>
+- `IValueTaskSource`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource) <sup><sub>.NET Core 2.1</sub></sup>
+- `IValueTaskSource<TResult>`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `KeyValuePair<TKey, TValue>`
   - [`void Deconstruct(out TKey, out TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `LibraryImportAttribute`
@@ -254,6 +262,8 @@ ___
 - `long`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
+- `ManualResetValueTaskSourceCore<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.manualresetvaluetasksourcecore-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `MatchCollection`
   - [`IEnumerable<Match> AsEnumerable()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
   - [`IEnumerator<Match> GetEnumerator()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
@@ -578,6 +588,10 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.valuetaskawaiter) <sup><sub>.NET Core 2.1</sub></sup>
 - `ValueTaskAwaiter<TResult>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.valuetaskawaiter-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTaskSourceOnCompletedFlags`
+  - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.valuetasksourceoncompletedflag) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTaskSourceStatus`
+  - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.valuetasksourcestatus) <sup><sub>.NET Core 2.1</sub></sup>
 - `ValueTuple`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.valuetuple) <sup><sub>.NET Core 2.0</sub></sup>
 - `ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>`

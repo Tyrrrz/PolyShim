@@ -9,7 +9,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Sources;
 
 namespace System.Threading.Tasks;
 
@@ -66,6 +68,73 @@ internal readonly struct ValueTask<TResult>(Task<TResult> task) : IEquatable<Val
 
     public ValueTask(TResult result)
         : this(CreateTask(result)) { }
+
+    public ValueTask(IValueTaskSource<TResult> source, short token)
+        : this(WrapSource(source ?? throw new ArgumentNullException(nameof(source)), token)) { }
+
+    private static Task<TResult> WrapSource(IValueTaskSource<TResult> source, short token)
+    {
+        switch (source.GetStatus(token))
+        {
+            case ValueTaskSourceStatus.Succeeded:
+                return Task.FromResult(source.GetResult(token));
+            case ValueTaskSourceStatus.Faulted:
+            {
+                var tcs = new TaskCompletionSource<TResult>();
+                try
+                {
+                    source.GetResult(token);
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
+
+                return tcs.Task;
+            }
+
+            case ValueTaskSourceStatus.Canceled:
+            {
+                var tcs = new TaskCompletionSource<TResult>();
+                tcs.SetCanceled();
+                return tcs.Task;
+            }
+
+            default: // Pending
+            {
+                var tcs = new TaskCompletionSource<TResult>();
+                source.OnCompleted(
+                    _ =>
+                    {
+                        switch (source.GetStatus(token))
+                        {
+                            case ValueTaskSourceStatus.Succeeded:
+                                tcs.TrySetResult(source.GetResult(token));
+                                break;
+                            case ValueTaskSourceStatus.Faulted:
+                                try
+                                {
+                                    source.GetResult(token);
+                                }
+                                catch (Exception ex)
+                                {
+                                    tcs.TrySetException(ex);
+                                }
+
+                                break;
+                            default:
+                                tcs.TrySetCanceled();
+                                break;
+                        }
+                    },
+                    null,
+                    token,
+                    ValueTaskSourceOnCompletedFlags.None
+                );
+                return tcs.Task;
+            }
+        }
+    }
 
     public bool IsCompleted => _task.IsCompleted;
 
