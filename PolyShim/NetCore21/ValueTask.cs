@@ -63,10 +63,8 @@ internal readonly struct ValueTask<TResult>(TResult result) : IEquatable<ValueTa
 {
     private readonly Task<TResult>? _task;
 
-    public ValueTask(Task<TResult> task) : this(default!)
-    {
+    public ValueTask(Task<TResult> task) : this(default!) =>
         _task = task ?? throw new ArgumentNullException(nameof(task));
-    }
 
     public bool IsCompleted => _task is null || _task.IsCompleted;
 

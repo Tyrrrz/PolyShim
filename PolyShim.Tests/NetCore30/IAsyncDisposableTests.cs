@@ -5,19 +5,19 @@ using Xunit;
 
 namespace PolyShim.Tests.NetCore30;
 
+file class AsyncResource : IAsyncDisposable
+{
+    public bool IsDisposed { get; private set; }
+
+    public ValueTask DisposeAsync()
+    {
+        IsDisposed = true;
+        return default;
+    }
+}
+
 public class AsyncDisposableTests
 {
-    private class AsyncResource : IAsyncDisposable
-    {
-        public bool IsDisposed { get; private set; }
-
-        public ValueTask DisposeAsync()
-        {
-            IsDisposed = true;
-            return default;
-        }
-    }
-
     [Fact]
     public async Task DisposeAsync_Test()
     {
