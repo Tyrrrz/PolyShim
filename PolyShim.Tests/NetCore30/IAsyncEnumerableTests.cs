@@ -65,7 +65,9 @@ public class AsyncEnumerableTests
         await foreach (
             var item in AsyncEnumerableHelpers.GetNumbersAsync(5).WithCancellation(cts.Token)
         )
+        {
             result.Add(item);
+        }
 
         // Assert
         result.Should().Equal(1, 2, 3, 4, 5);
