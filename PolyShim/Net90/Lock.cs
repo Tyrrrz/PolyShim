@@ -62,6 +62,9 @@ internal partial class Lock
 
 internal partial class Lock
 {
+#if !POLYFILL_COVERAGE
+    [ExcludeFromCodeCoverage]
+#endif
     public readonly ref struct Scope(Lock owner)
     {
         public void Dispose() => owner.Exit();
