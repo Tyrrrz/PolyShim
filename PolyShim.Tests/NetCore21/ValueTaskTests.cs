@@ -13,7 +13,7 @@ file static class ValueTaskHelpers
 
     public static async ValueTask<int> GetValueAsync()
     {
-        await Task.Yield();
+        await DoWorkAsync();
         return 42;
     }
 }
