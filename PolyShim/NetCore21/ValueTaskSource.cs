@@ -96,8 +96,8 @@ internal struct ManualResetValueTaskSourceCore<TResult>
 
     public void SetException(Exception error)
     {
-        if (error is OperationCanceledException)
-            GetOrCreateTcs().TrySetCanceled();
+        if (error is OperationCanceledException oce)
+            GetOrCreateTcs().TrySetCanceled(oce.CancellationToken);
         else
             GetOrCreateTcs().TrySetException(error);
     }
