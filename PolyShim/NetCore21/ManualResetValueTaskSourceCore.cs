@@ -13,54 +13,6 @@ using System.Threading.Tasks;
 
 namespace System.Threading.Tasks.Sources;
 
-// https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.valuetasksourcestatus
-internal enum ValueTaskSourceStatus
-{
-    Pending = 0,
-    Succeeded = 1,
-    Faulted = 2,
-    Canceled = 3,
-}
-
-// https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.valuetasksourceoncompletedflag
-[Flags]
-internal enum ValueTaskSourceOnCompletedFlags
-{
-    None = 0,
-    UseSchedulingContext = 1,
-    FlowExecutionContext = 2,
-}
-
-// https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource
-internal interface IValueTaskSource
-{
-    ValueTaskSourceStatus GetStatus(short token);
-
-    void OnCompleted(
-        Action<object?> continuation,
-        object? state,
-        short token,
-        ValueTaskSourceOnCompletedFlags flags
-    );
-
-    void GetResult(short token);
-}
-
-// https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource-1
-internal interface IValueTaskSource<out TResult>
-{
-    ValueTaskSourceStatus GetStatus(short token);
-
-    void OnCompleted(
-        Action<object?> continuation,
-        object? state,
-        short token,
-        ValueTaskSourceOnCompletedFlags flags
-    );
-
-    TResult GetResult(short token);
-}
-
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.manualresetvaluetasksourcecore-1
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]

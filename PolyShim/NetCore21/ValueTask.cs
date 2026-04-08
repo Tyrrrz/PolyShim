@@ -62,12 +62,10 @@ internal readonly struct ValueTask(Task task) : IEquatable<ValueTask>
 #endif
 internal readonly struct ValueTask<TResult>(Task<TResult> task) : IEquatable<ValueTask<TResult>>
 {
-    private readonly Task<TResult> _task = task ?? throw new ArgumentNullException(nameof(task));
-
-    private static Task<TResult> CreateTask(TResult result) => Task.FromResult(result);
+    private readonly Task<TResult>? _task = task ?? throw new ArgumentNullException(nameof(task));
 
     public ValueTask(TResult result)
-        : this(CreateTask(result)) { }
+        : this(Task.FromResult(result)) { }
 
     public ValueTask(IValueTaskSource<TResult> source, short token)
         : this(WrapSource(source ?? throw new ArgumentNullException(nameof(source)), token)) { }
@@ -125,17 +123,18 @@ internal readonly struct ValueTask<TResult>(Task<TResult> task) : IEquatable<Val
         return tcs.Task;
     }
 
-    public bool IsCompleted => _task.IsCompleted;
+    public bool IsCompleted => _task is null || _task.IsCompleted;
 
-    public bool IsCompletedSuccessfully => _task.Status == TaskStatus.RanToCompletion;
+    public bool IsCompletedSuccessfully =>
+        _task is null || _task.Status == TaskStatus.RanToCompletion;
 
-    public bool IsFaulted => _task.IsFaulted;
+    public bool IsFaulted => _task is not null && _task.IsFaulted;
 
-    public bool IsCanceled => _task.IsCanceled;
+    public bool IsCanceled => _task is not null && _task.IsCanceled;
 
-    public TResult Result => _task.GetAwaiter().GetResult();
+    public TResult Result => _task is null ? default! : _task.GetAwaiter().GetResult();
 
-    public Task<TResult> AsTask() => _task;
+    public Task<TResult> AsTask() => _task ?? Task.FromResult(default(TResult)!);
 
     public ValueTaskAwaiter<TResult> GetAwaiter() => new(this);
 
@@ -146,9 +145,9 @@ internal readonly struct ValueTask<TResult>(Task<TResult> task) : IEquatable<Val
 
     public override bool Equals(object? obj) => obj is ValueTask<TResult> other && Equals(other);
 
-    public override int GetHashCode() => _task.GetHashCode();
+    public override int GetHashCode() => _task?.GetHashCode() ?? 0;
 
-    public override string? ToString() => _task.ToString();
+    public override string? ToString() => _task?.ToString();
 
     public static bool operator ==(ValueTask<TResult> left, ValueTask<TResult> right) =>
         left.Equals(right);

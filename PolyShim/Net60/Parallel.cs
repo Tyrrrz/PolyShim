@@ -92,7 +92,7 @@ internal static class MemberPolyfills_Net60_Parallel
             Func<T, CancellationToken, Task> body
         ) => await ForEachAsync(source, CancellationToken.None, body).ConfigureAwait(false);
 
-#if FEATURE_ASYNCINTERFACES
+#if FEATURE_ASYNCINTERFACES || !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
         // Task instead of ValueTask for maximum compatibility
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
