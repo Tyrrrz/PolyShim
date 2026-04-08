@@ -62,15 +62,13 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `ValueTuple<...>`
   - `Index` and `Range`
   - `Span<T>` and `Memory<T>`
-  - `ValueTask` and `ValueTask<T>`
-  - `IValueTaskSource<T>` and `ManualResetValueTaskSourceCore<T>`
-  - `AsyncIteratorMethodBuilder`
   - `Lock`
   - `HashCode`
   - `ArrayPool<T>`
-  - `TaskCompletionSource`
+  - `ValueTask` and `ValueTask<T>`
+  - `TaskCompletionSource`, `IValueTaskSource<T>`
   - `IAsyncEnumerable<T>` and `IAsyncDisposable`
-  - [...and 70+ more](Signatures.md)
+  - [...and 100+ more](Signatures.md)
 - Provides member polyfills for:
   - `string.ReplaceLineEndings(...)`, `string.AsSpan()`, etc.
   - `Stream.ReadExactly(...)`, `Stream.ReadAtLeast(...)`, etc.
@@ -80,7 +78,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `File.WriteAllTextAsync(...)`, `File.ReadAllTextAsync(...)`, etc.
   - `Environment.ProcessPath`, `Environment.ProcessId`, etc.
   - `OperatingSystem.IsWindows()`, `OperatingSystem.IsLinux()`, etc.
-  - [...and 250+ more](Signatures.md)
+  - [...and 400+ more](Signatures.md)
 - Adjusts polyfills based on available capabilities
 - Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
 - Imposes no run-time dependencies
