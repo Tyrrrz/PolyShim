@@ -90,7 +90,7 @@ internal static class MemberPolyfills_Net60_Parallel
         ) => await ForEachAsync(source, CancellationToken.None, body).ConfigureAwait(false);
 
 #if FEATURE_ASYNCINTERFACES
-        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-collections-generic-iasyncenumerable
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IAsyncEnumerable<T> source,
             ParallelOptions parallelOptions,
