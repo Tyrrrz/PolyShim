@@ -21,7 +21,7 @@ internal static class MemberPolyfills_Net70_File
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
     extension(File)
     {
-#if FEATURE_TASK && FEATURE_ASYNCINTERFACES
+#if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)
         public static async IAsyncEnumerable<string> ReadLinesAsync(
             string path,

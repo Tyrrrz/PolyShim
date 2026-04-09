@@ -1,5 +1,6 @@
-#if !FEATURE_VALUETASK
 #if FEATURE_TASK
+// Compatibility package that provides FEATURE_VALUETASK doesn't backport this specific type on some target frameworks
+#if !FEATURE_VALUETASK || (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETSTANDARD && !NETSTANDARD2_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -23,6 +24,63 @@ namespace System.Threading.Tasks;
 internal readonly struct ValueTask(Task task) : IEquatable<ValueTask>
 {
     private readonly Task? _task = task ?? throw new ArgumentNullException(nameof(task));
+
+    public ValueTask(IValueTaskSource source, short token)
+        : this(WrapVoidSource(source ?? throw new ArgumentNullException(nameof(source)), token)) { }
+
+    private static void CompleteVoidFromSource(
+        TaskCompletionSource<bool> tcs,
+        IValueTaskSource source,
+        short token
+    )
+    {
+        switch (source.GetStatus(token))
+        {
+            case ValueTaskSourceStatus.Succeeded:
+                source.GetResult(token);
+                tcs.TrySetResult(false);
+                break;
+            case ValueTaskSourceStatus.Faulted:
+                try
+                {
+                    source.GetResult(token);
+                    tcs.TrySetException(
+                        new InvalidOperationException(
+                            "Source reported faulted status but GetResult did not throw."
+                        )
+                    );
+                }
+                catch (Exception ex)
+                {
+                    tcs.TrySetException(ex);
+                }
+
+                break;
+            default:
+                tcs.TrySetCanceled();
+                break;
+        }
+    }
+
+    private static Task WrapVoidSource(IValueTaskSource source, short token)
+    {
+        var tcs = new TaskCompletionSource<bool>();
+
+        if (source.GetStatus(token) != ValueTaskSourceStatus.Pending)
+        {
+            CompleteVoidFromSource(tcs, source, token);
+            return tcs.Task;
+        }
+
+        source.OnCompleted(
+            _ => CompleteVoidFromSource(tcs, source, token),
+            null,
+            token,
+            ValueTaskSourceOnCompletedFlags.None
+        );
+
+        return tcs.Task;
+    }
 
     public bool IsCompleted => _task is null || _task.IsCompleted;
 

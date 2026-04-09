@@ -15,7 +15,6 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_Net90_Task
 {
-#if FEATURE_ASYNCINTERFACES
     extension(Task task)
     {
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-collections-generic-ienumerable((system-threading-tasks-task)))
@@ -52,7 +51,6 @@ internal static class MemberPolyfills_Net90_Task
         public static IAsyncEnumerable<Task<T>> WhenEach<T>(params Task<T>[] tasks) =>
             WhenEach((IEnumerable<Task<T>>)tasks);
     }
-#endif
 }
 #endif
 #endif
