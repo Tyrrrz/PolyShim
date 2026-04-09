@@ -43,13 +43,9 @@ internal static class MemberPolyfills_Net60_Parallel
                     Task.Factory.StartNew(
                             async () =>
                             {
-#if !NETFRAMEWORK || NET45_OR_GREATER
                                 await semaphore
                                     .WaitAsync(parallelOptions.CancellationToken)
                                     .ConfigureAwait(false);
-#else
-                                semaphore.Wait(parallelOptions.CancellationToken);
-#endif
                                 try
                                 {
                                     await body(item, parallelOptions.CancellationToken)
@@ -113,13 +109,9 @@ internal static class MemberPolyfills_Net60_Parallel
                     Task.Factory.StartNew(
                             async () =>
                             {
-#if !NETFRAMEWORK || NET45_OR_GREATER
                                 await semaphore
                                     .WaitAsync(parallelOptions.CancellationToken)
                                     .ConfigureAwait(false);
-#else
-                        semaphore.Wait(parallelOptions.CancellationToken);
-#endif
 
                                 try
                                 {
