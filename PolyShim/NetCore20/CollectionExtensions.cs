@@ -1,5 +1,6 @@
 ﻿#if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #nullable enable
+#pragma warning disable CS0436
 using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable RedundantUsingDirective

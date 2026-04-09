@@ -1,11 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-
-    <!-- CS0436: System.Threading.Tasks.Extensions defines ValueTask-related types in its netstandard1.0
-         build asset, but without full IValueTaskSource-based members. PolyShim redefines those types as
-         a superset on the affected target frameworks; CS0436 fires in the definition files and in every
-         file that uses those types. All types are internal and the compiler uses our definitions. -->
-    <NoWarn>$(NoWarn);CS0436</NoWarn>
   </PropertyGroup>
 </Project>

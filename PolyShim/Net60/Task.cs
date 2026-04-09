@@ -1,6 +1,7 @@
 ﻿#if FEATURE_TASK
 #if (NETCOREAPP && !NET6_0_OR_GREATER) || (NET45_OR_GREATER) || (NETSTANDARD)
 #nullable enable
+#pragma warning disable CS0436
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
