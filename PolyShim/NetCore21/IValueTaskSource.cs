@@ -1,5 +1,5 @@
 #if FEATURE_TASK
-// The compatibility package that provides FEATURE_VALUETASK, doesn't backport this specific type on some target frameworks
+// Compatibility package that provides FEATURE_VALUETASK doesn't backport this specific type on some target frameworks
 #if !FEATURE_VALUETASK || (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK && !NET461_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
