@@ -1,5 +1,4 @@
-#if !FEATURE_VALUETASK
-#if FEATURE_TASK
+#if FEATURE_TASK && !FEATURE_ASYNCINTERFACES && !(NETCOREAPP && NETCOREAPP2_1_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -115,5 +114,4 @@ internal struct ManualResetValueTaskSourceCore<TResult>
             throw new InvalidOperationException();
     }
 }
-#endif
 #endif

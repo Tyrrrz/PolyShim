@@ -12,7 +12,7 @@ namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.itimer
 internal interface ITimer : IDisposable
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
+#if FEATURE_TASK && !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
         , IAsyncDisposable
 #endif
 {
