@@ -1,6 +1,5 @@
 #if !FEATURE_ASYNCINTERFACES
 #if FEATURE_TASK
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -16,6 +15,5 @@ internal interface IAsyncDisposable
 {
     ValueTask DisposeAsync();
 }
-#endif
 #endif
 #endif

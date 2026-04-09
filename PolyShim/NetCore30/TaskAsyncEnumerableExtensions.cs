@@ -1,6 +1,5 @@
 #if !FEATURE_ASYNCINTERFACES
 #if FEATURE_TASK
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -33,6 +32,5 @@ internal static class TaskAsyncEnumerableExtensions
         ) => new(source, continueOnCapturedContext, cancellationToken: default);
     }
 }
-#endif
 #endif
 #endif

@@ -1,6 +1,5 @@
 #if !FEATURE_ASYNCINTERFACES
 #if FEATURE_TASK
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -64,6 +63,5 @@ internal struct AsyncIteratorMethodBuilder
 [AttributeUsage(AttributeTargets.Method, Inherited = false)]
 internal sealed class AsyncIteratorStateMachineAttribute(Type stateMachineType)
     : StateMachineAttribute(stateMachineType);
-#endif
 #endif
 #endif

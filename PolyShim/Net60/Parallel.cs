@@ -20,7 +20,6 @@ internal static class MemberPolyfills_Net60_Parallel
 {
     extension(Parallel)
     {
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IEnumerable<T> source,
@@ -90,7 +89,8 @@ internal static class MemberPolyfills_Net60_Parallel
             Func<T, CancellationToken, ValueTask> body
         ) => await ForEachAsync(source, CancellationToken.None, body).ConfigureAwait(false);
 
-        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
+#if FEATURE_ASYNCINTERFACES
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-collections-generic-iasyncenumerable
         public static async Task ForEachAsync<T>(
             IAsyncEnumerable<T> source,
             ParallelOptions parallelOptions,
@@ -112,7 +112,11 @@ internal static class MemberPolyfills_Net60_Parallel
                 tasks.Add(Task.Factory.StartNew(
                     async () =>
                     {
+#if !NETFRAMEWORK || NET45_OR_GREATER
                         await semaphore.WaitAsync(parallelOptions.CancellationToken).ConfigureAwait(false);
+#else
+                        semaphore.Wait(parallelOptions.CancellationToken);
+#endif
 
                         try
                         {

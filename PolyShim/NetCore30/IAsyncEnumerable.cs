@@ -1,6 +1,5 @@
 #if !FEATURE_ASYNCINTERFACES
 #if FEATURE_TASK
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -25,6 +24,5 @@ internal interface IAsyncEnumerator<out T> : IAsyncDisposable
 
     ValueTask<bool> MoveNextAsync();
 }
-#endif
 #endif
 #endif

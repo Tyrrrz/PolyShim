@@ -85,8 +85,9 @@ internal abstract class TimeProvider
             _timer.Dispose();
         }
 
-#if FEATURE_TASK && !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
+#if FEATURE_ASYNCINTERFACES
         public ValueTask DisposeAsync() => _timer.DisposeAsync();
+#endif
     }
 }
 #endif

@@ -15,13 +15,11 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_Net90_Task
 {
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
+#if FEATURE_ASYNCINTERFACES
     extension(Task task)
     {
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-collections-generic-ienumerable((system-threading-tasks-task)))
-        public static async IAsyncEnumerable<Task> WhenEach(
-            IEnumerable<Task> tasks
-        )
+        public static async IAsyncEnumerable<Task> WhenEach(IEnumerable<Task> tasks)
         {
             var remaining = new HashSet<Task>(tasks);
             while (remaining.Count > 0)
@@ -38,9 +36,7 @@ internal static class MemberPolyfills_Net90_Task
             WhenEach((IEnumerable<Task>)tasks);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))
-        public static async IAsyncEnumerable<Task<T>> WhenEach<T>(
-            IEnumerable<Task<T>> tasks
-        )
+        public static async IAsyncEnumerable<Task<T>> WhenEach<T>(IEnumerable<Task<T>> tasks)
         {
             var remaining = new HashSet<Task<T>>(tasks);
             while (remaining.Count > 0)

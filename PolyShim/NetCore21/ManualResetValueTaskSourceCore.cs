@@ -1,4 +1,6 @@
-#if FEATURE_TASK && !FEATURE_ASYNCINTERFACES && !(NETCOREAPP && NETCOREAPP2_1_OR_GREATER)
+#if FEATURE_TASK
+// The compatibility package that provides FEATURE_VALUETASK, doesn't backport this specific type on some target frameworks
+#if !FEATURE_VALUETASK || (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK && !NET461_OR_GREATER)
 #nullable enable
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
@@ -47,6 +49,12 @@ internal struct ManualResetValueTaskSourceCore<TResult>
             GetOrCreateTcs().TrySetException(error);
     }
 
+    private void ValidateToken(short token)
+    {
+        if (token != _version)
+            throw new InvalidOperationException();
+    }
+
     public TResult GetResult(short token)
     {
         ValidateToken(token);
@@ -83,8 +91,6 @@ internal struct ManualResetValueTaskSourceCore<TResult>
                 ? SynchronizationContext.Current
                 : null;
 
-        var runAsync = RunContinuationsAsynchronously;
-
         GetOrCreateTcs()
             .Task.ContinueWith(
                 _ =>
@@ -93,25 +99,22 @@ internal struct ManualResetValueTaskSourceCore<TResult>
                     {
                         capturedContext.Post(_ => continuation(state), null);
                     }
-                    else if (runAsync)
-                    {
-                        ThreadPool.QueueUserWorkItem(_ => continuation(state));
-                    }
                     else
                     {
                         continuation(state);
                     }
                 },
                 CancellationToken.None,
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+                RunContinuationsAsynchronously
+                    ? TaskContinuationOptions.RunContinuationsAsynchronously
+                    : TaskContinuationOptions.ExecuteSynchronously,
+#else
                 TaskContinuationOptions.ExecuteSynchronously,
+#endif
                 TaskScheduler.Default
             );
     }
-
-    private void ValidateToken(short token)
-    {
-        if (token != _version)
-            throw new InvalidOperationException();
-    }
 }
+#endif
 #endif

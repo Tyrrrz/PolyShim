@@ -21,7 +21,7 @@ internal static class MemberPolyfills_NetCore30_Stream
         // https://learn.microsoft.com/dotnet/api/system.io.stream.disposeasync
         public async Task DisposeAsync()
         {
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
+#if FEATURE_ASYNCINTERFACES
             if (stream is IAsyncDisposable asyncDisposable)
             {
                 await asyncDisposable.DisposeAsync();

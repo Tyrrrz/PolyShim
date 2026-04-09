@@ -19,7 +19,6 @@ internal static class MemberPolyfills_Net80_Parallel
 {
     extension(Parallel)
     {
-#if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForAsync(
             int fromInclusive,
@@ -27,11 +26,13 @@ internal static class MemberPolyfills_Net80_Parallel
             ParallelOptions parallelOptions,
             Func<int, CancellationToken, ValueTask> body
         ) =>
-            await Parallel.ForEachAsync(
-                Enumerable.Range(fromInclusive, toExclusive - fromInclusive),
-                parallelOptions,
-                body
-            ).ConfigureAwait(false);
+            await Parallel
+                .ForEachAsync(
+                    Enumerable.Range(fromInclusive, toExclusive - fromInclusive),
+                    parallelOptions,
+                    body
+                )
+                .ConfigureAwait(false);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForAsync(
@@ -56,7 +57,6 @@ internal static class MemberPolyfills_Net80_Parallel
         ) =>
             await ForAsync(fromInclusive, toExclusive, CancellationToken.None, body)
                 .ConfigureAwait(false);
-#endif
     }
 }
 #endif

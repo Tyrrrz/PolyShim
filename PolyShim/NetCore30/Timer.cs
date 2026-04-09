@@ -16,7 +16,7 @@ internal static class MemberPolyfills_NetCore30_Timer
 {
     extension(Timer timer)
     {
-#if FEATURE_TASK && !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
+#if FEATURE_ASYNCINTERFACES
         public ValueTask DisposeAsync()
         {
             timer.Dispose();
