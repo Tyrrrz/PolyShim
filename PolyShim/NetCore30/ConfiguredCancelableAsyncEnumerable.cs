@@ -31,18 +31,18 @@ internal readonly struct ConfiguredCancelableAsyncEnumerable<T>(
     public ConfiguredCancelableAsyncEnumerable<T> ConfigureAwait(bool continueOnCapturedContext) =>
         new(enumerable, continueOnCapturedContext, cancellationToken);
 
-    public Enumerator GetAsyncEnumerator() => new(enumerable.GetAsyncEnumerator(cancellationToken));
+    public Enumerator GetAsyncEnumerator() => new(enumerable.GetAsyncEnumerator(cancellationToken), continueOnCapturedContext);
 
 #if !POLYFILL_COVERAGE
     [ExcludeFromCodeCoverage]
 #endif
-    public readonly struct Enumerator(IAsyncEnumerator<T> enumerator)
+    public readonly struct Enumerator(IAsyncEnumerator<T> enumerator, bool continueOnCapturedContext)
     {
         public T Current => enumerator.Current;
 
-        public ValueTask<bool> MoveNextAsync() => enumerator.MoveNextAsync();
+        public ConfiguredValueTaskAwaitable<bool> MoveNextAsync() => enumerator.MoveNextAsync().ConfigureAwait(continueOnCapturedContext);
 
-        public ValueTask DisposeAsync() => enumerator.DisposeAsync();
+        public ConfiguredValueTaskAwaitable DisposeAsync() => enumerator.DisposeAsync().ConfigureAwait(continueOnCapturedContext);
     }
 }
 #endif
