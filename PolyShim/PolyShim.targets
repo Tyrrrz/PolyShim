@@ -206,9 +206,14 @@
       >
       <DefineConstants Condition="$(FeatureTask)">$(DefineConstants);FEATURE_TASK</DefineConstants>
 
+      <!--
+        FEATURE_VALUETASK: non-generic ValueTask + ValueTask<T> + awaiters + async method builders are all available.
+        The compatibility package only provides the complete set on .NET Framework (any) and .NET Standard >= 2.0;
+        on older .NET Core it only shipped ValueTask<T>, so those TFMs are excluded here.
+      -->
       <FeatureValueTask>false</FeatureValueTask>
       <FeatureValueTask
-        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Threading.Tasks.Extensions'))"
+        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))"
         >true</FeatureValueTask
       >
       <FeatureValueTask
@@ -216,11 +221,55 @@
         >true</FeatureValueTask
       >
       <FeatureValueTask
-        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))"
+        Condition="$(IsNetFramework) AND @(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Threading.Tasks.Extensions'))"
         >true</FeatureValueTask
       >
       <DefineConstants Condition="$(FeatureValueTask)"
         >$(DefineConstants);FEATURE_VALUETASK</DefineConstants
+      >
+
+      <!--
+        FEATURE_VALUETASK_SOURCES: IValueTaskSource<T>, ValueTaskSourceStatus, and ValueTaskSourceOnCompletedFlags
+        are available. The compatibility package provides these on .NET Framework >= 4.6.1 and all .NET Standard
+        versions, but not on older .NET Core.
+      -->
+      <FeatureValueTaskSources>false</FeatureValueTaskSources>
+      <FeatureValueTaskSources
+        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))"
+        >true</FeatureValueTaskSources
+      >
+      <FeatureValueTaskSources
+        Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))"
+        >true</FeatureValueTaskSources
+      >
+      <FeatureValueTaskSources
+        Condition="$(IsNetStandard) AND @(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Threading.Tasks.Extensions'))"
+        >true</FeatureValueTaskSources
+      >
+      <FeatureValueTaskSources
+        Condition="$(IsNetFramework) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '4.6.1')) AND @(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Threading.Tasks.Extensions'))"
+        >true</FeatureValueTaskSources
+      >
+      <DefineConstants Condition="$(FeatureValueTaskSources)"
+        >$(DefineConstants);FEATURE_VALUETASK_SOURCES</DefineConstants
+      >
+
+      <!--
+        FEATURE_VALUETASK_MANUALRESET: ManualResetValueTaskSourceCore<T> is available.
+        The compatibility package does not provide this type on .NET Framework or old .NET Standard;
+        it is only available natively on .NET Core >= 2.1 and .NET Standard >= 2.0.
+      -->
+      <FeatureValueTaskManualReset>false</FeatureValueTaskManualReset>
+      <FeatureValueTaskManualReset
+        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))"
+        >true</FeatureValueTaskManualReset
+      >
+      <FeatureValueTaskManualReset
+        Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))"
+        >true</FeatureValueTaskManualReset
+      >
+      <DefineConstants Condition="$(FeatureValueTaskManualReset)"
+        >$(DefineConstants);FEATURE_VALUETASK_MANUALRESET</DefineConstants
       >
 
       <FeatureValueTuple>false</FeatureValueTuple>
