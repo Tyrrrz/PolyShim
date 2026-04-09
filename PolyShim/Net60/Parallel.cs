@@ -89,7 +89,6 @@ internal static class MemberPolyfills_Net60_Parallel
             Func<T, CancellationToken, ValueTask> body
         ) => await ForEachAsync(source, CancellationToken.None, body).ConfigureAwait(false);
 
-#if FEATURE_ASYNCINTERFACES
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IAsyncEnumerable<T> source,
@@ -109,28 +108,34 @@ internal static class MemberPolyfills_Net60_Parallel
 
             await foreach (var item in source.WithCancellation(parallelOptions.CancellationToken))
             {
-                tasks.Add(Task.Factory.StartNew(
-                    async () =>
-                    {
+                tasks.Add(
+                    Task.Factory.StartNew(
+                            async () =>
+                            {
 #if !NETFRAMEWORK || NET45_OR_GREATER
-                        await semaphore.WaitAsync(parallelOptions.CancellationToken).ConfigureAwait(false);
+                                await semaphore
+                                    .WaitAsync(parallelOptions.CancellationToken)
+                                    .ConfigureAwait(false);
 #else
                         semaphore.Wait(parallelOptions.CancellationToken);
 #endif
 
-                        try
-                        {
-                            await body(item, parallelOptions.CancellationToken).ConfigureAwait(false);
-                        }
-                        finally
-                        {
-                            semaphore.Release();
-                        }
-                    },
-                    parallelOptions.CancellationToken,
-                    TaskCreationOptions.None,
-                    parallelOptions.TaskScheduler ?? TaskScheduler.Default
-                ).Unwrap());
+                                try
+                                {
+                                    await body(item, parallelOptions.CancellationToken)
+                                        .ConfigureAwait(false);
+                                }
+                                finally
+                                {
+                                    semaphore.Release();
+                                }
+                            },
+                            parallelOptions.CancellationToken,
+                            TaskCreationOptions.None,
+                            parallelOptions.TaskScheduler ?? TaskScheduler.Default
+                        )
+                        .Unwrap()
+                );
             }
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
@@ -143,17 +148,17 @@ internal static class MemberPolyfills_Net60_Parallel
             Func<T, CancellationToken, ValueTask> body
         ) =>
             await ForEachAsync(
-                source,
-                new ParallelOptions { CancellationToken = cancellationToken },
-                body
-            ).ConfigureAwait(false);
+                    source,
+                    new ParallelOptions { CancellationToken = cancellationToken },
+                    body
+                )
+                .ConfigureAwait(false);
 
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))
         public static async Task ForEachAsync<T>(
             IAsyncEnumerable<T> source,
             Func<T, CancellationToken, ValueTask> body
         ) => await ForEachAsync(source, CancellationToken.None, body).ConfigureAwait(false);
-#endif
     }
 }
 #endif
