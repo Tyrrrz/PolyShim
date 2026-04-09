@@ -30,7 +30,7 @@ internal static class MemberPolyfills_NetCore21_TextReader
 
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
-        public async Task<int> ReadAsync(
+        public async ValueTask<int> ReadAsync(
             Memory<char> buffer,
             CancellationToken cancellationToken = default
         )

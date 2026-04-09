@@ -19,7 +19,7 @@ internal static class MemberPolyfills_NetCore30_TextWriter
     {
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync
-        public async Task DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
 #if FEATURE_ASYNCINTERFACES
             if (writer is IAsyncDisposable asyncDisposable)

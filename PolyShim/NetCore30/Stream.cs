@@ -19,7 +19,7 @@ internal static class MemberPolyfills_NetCore30_Stream
     {
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.stream.disposeasync
-        public async Task DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
 #if FEATURE_ASYNCINTERFACES
             if (stream is IAsyncDisposable asyncDisposable)
