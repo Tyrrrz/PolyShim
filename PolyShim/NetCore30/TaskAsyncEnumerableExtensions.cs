@@ -18,7 +18,7 @@ namespace System.Threading.Tasks;
 [ExcludeFromCodeCoverage]
 #endif
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions
-internal static class TaskAsyncEnumerableExtensions
+internal static class MemberPolyfills_NetCore30_TaskAsyncEnumerableExtensions
 {
     extension<T>(IAsyncEnumerable<T> source)
     {

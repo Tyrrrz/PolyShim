@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 455
-- **Types:** 101
-- **Members:** 354
+- **Total:** 448
+- **Types:** 100
+- **Members:** 348
 
 ___
 
@@ -396,13 +396,6 @@ ___
 - `sbyte`
   - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
   - [`bool TryParse(string?, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
-- `SemaphoreSlim`
-  - [`Task WaitAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<bool> WaitAsync(int)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-int32)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<bool> WaitAsync(int, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-int32-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<bool> WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-timespan)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<bool> WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
 - `SetsRequiredMembersAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute) <sup><sub>.NET 7.0</sub></sup>
 - `short`
@@ -518,8 +511,6 @@ ___
   - [`Task<T> WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
-- `TaskAsyncEnumerableExtensions`
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions) <sup><sub>.NET Core 3.0</sub></sup>
 - `TaskCompletionSource`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource) <sup><sub>.NET 5.0</sub></sup>
 - `TaskCompletionSource<T>`
