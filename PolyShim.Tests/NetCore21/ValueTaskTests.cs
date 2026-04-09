@@ -108,19 +108,33 @@ public class ValueTaskTests
         var underlyingTask = Task.CompletedTask;
         var c = new ValueTask(underlyingTask);
         var d = new ValueTask(underlyingTask);
+        var defaultValueTaskOfT1 = default(ValueTask<int>);
+        var defaultValueTaskOfT2 = default(ValueTask<int>);
         var sharedTaskOfT = Task.FromResult(42);
         var e = new ValueTask<int>(sharedTaskOfT);
         var f = new ValueTask<int>(sharedTaskOfT);
         var g = new ValueTask<int>(Task.FromResult(99));
+        var resultBackedA = new ValueTask<int>(42);
+        var resultBackedB = new ValueTask<int>(42);
+        var resultBackedC = new ValueTask<int>(99);
 
         // Assert
         a.Equals(b).Should().BeTrue();
         c.Equals(d).Should().BeTrue();
         (a == b).Should().BeTrue();
         (c != a).Should().BeTrue();
+
+        defaultValueTaskOfT1.Equals(defaultValueTaskOfT2).Should().BeTrue();
+        (defaultValueTaskOfT1 == defaultValueTaskOfT2).Should().BeTrue();
+
         e.Equals(f).Should().BeTrue();
         e.Equals(g).Should().BeFalse();
         (e == f).Should().BeTrue();
         (e != g).Should().BeTrue();
+
+        resultBackedA.Equals(resultBackedB).Should().BeTrue();
+        resultBackedA.Equals(resultBackedC).Should().BeFalse();
+        (resultBackedA == resultBackedB).Should().BeTrue();
+        (resultBackedA != resultBackedC).Should().BeTrue();
     }
 }
