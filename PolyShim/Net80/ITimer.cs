@@ -13,7 +13,7 @@ namespace System.Threading;
 // https://learn.microsoft.com/dotnet/api/system.threading.itimer
 internal interface ITimer : IDisposable
 #if !(NETCOREAPP && !NETCOREAPP2_0_OR_GREATER)
-    , IAsyncDisposable
+        , IAsyncDisposable
 #endif
 {
     bool Change(TimeSpan dueTime, TimeSpan period);

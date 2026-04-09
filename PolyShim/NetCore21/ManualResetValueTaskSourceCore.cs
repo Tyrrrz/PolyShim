@@ -78,11 +78,33 @@ internal struct ManualResetValueTaskSourceCore<TResult>
     )
     {
         ValidateToken(token);
+
+        var capturedContext =
+            (flags & ValueTaskSourceOnCompletedFlags.UseSchedulingContext) != 0
+                ? SynchronizationContext.Current
+                : null;
+
+        var runAsync = RunContinuationsAsynchronously;
+
         GetOrCreateTcs()
             .Task.ContinueWith(
-                _ => continuation(state),
+                _ =>
+                {
+                    if (capturedContext is not null)
+                    {
+                        capturedContext.Post(_ => continuation(state), null);
+                    }
+                    else if (runAsync)
+                    {
+                        ThreadPool.QueueUserWorkItem(_ => continuation(state));
+                    }
+                    else
+                    {
+                        continuation(state);
+                    }
+                },
                 CancellationToken.None,
-                TaskContinuationOptions.None,
+                TaskContinuationOptions.ExecuteSynchronously,
                 TaskScheduler.Default
             );
     }

@@ -86,7 +86,9 @@ internal readonly struct ValueTask<TResult>(Task<TResult> task) : IEquatable<Val
                 {
                     source.GetResult(token);
                     tcs.TrySetException(
-                        new InvalidOperationException("Source reported faulted status but GetResult did not throw.")
+                        new InvalidOperationException(
+                            "Source reported faulted status but GetResult did not throw."
+                        )
                     );
                 }
                 catch (Exception ex)
