@@ -200,6 +200,9 @@ Currently, **PolyShim** recognizes the following packages:
 - [`Microsoft.Bcl.TimeProvider`](https://nuget.org/packages/Microsoft.Bcl.TimeProvider) — `TimeProvider`, `ITimer`, etc.
 - [`Microsoft.Net.Http`](https://nuget.org/packages/Microsoft.Net.Http) — `HttpClient`, `HttpContent`, etc. (wider support than the `System.*` variant).
 
+> [!IMPORTANT]
+> Ensure your compatibility packages are referenced in their latest stable versions, so that their provided API surface matches what **PolyShim** expects.
+
 For example, adding a reference to the `Microsoft.Bcl.AsyncInterfaces` package will enable **PolyShim**'s polyfills that work with `IAsyncEnumerable<T>`, such as `Task.WhenEach(...)`:
 
 ```xml
