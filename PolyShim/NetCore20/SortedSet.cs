@@ -1,6 +1,7 @@
 #if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETFRAMEWORK && !NET472_OR_GREATER) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #if !NETFRAMEWORK || NET40_OR_GREATER
 #nullable enable
+#pragma warning disable CS0436
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming

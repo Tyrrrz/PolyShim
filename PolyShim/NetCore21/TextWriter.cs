@@ -1,5 +1,6 @@
 ﻿#if (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #nullable enable
+#pragma warning disable CS0436
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
@@ -27,7 +28,7 @@ internal static class MemberPolyfills_NetCore21_TextWriter
 
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
-        public async Task WriteAsync(
+        public async ValueTask WriteAsync(
             ReadOnlyMemory<char> buffer,
             CancellationToken cancellationToken = default
         )

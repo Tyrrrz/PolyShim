@@ -1,5 +1,6 @@
 ﻿#if (NETCOREAPP && !NETCOREAPP3_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #nullable enable
+#pragma warning disable CS0436
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
@@ -19,7 +20,7 @@ internal static class MemberPolyfills_NetCore30_TextWriter
     {
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync
-        public async Task DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
 #if FEATURE_ASYNCINTERFACES
             if (writer is IAsyncDisposable asyncDisposable)

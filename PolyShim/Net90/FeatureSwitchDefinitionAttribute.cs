@@ -1,5 +1,6 @@
 ﻿#if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
+#pragma warning disable CS0436
 #pragma warning disable CS9216
 
 // ReSharper disable RedundantUsingDirective
