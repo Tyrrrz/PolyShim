@@ -20,22 +20,43 @@ internal static class MemberPolyfills_NetCore10_SemaphoreSlim
     extension(SemaphoreSlim semaphore)
     {
         // https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync
-        public Task WaitAsync() =>
-            Task.Factory.StartNew(
+        public Task WaitAsync()
+        {
+            if (semaphore.Wait(0))
+            {
+                return Task.CompletedTask;
+            }
+
+            return Task.Factory.StartNew(
                 () => semaphore.Wait(),
                 CancellationToken.None,
                 TaskCreationOptions.None,
                 TaskScheduler.Default
             );
+        }
 
         // https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-threading-cancellationtoken)
-        public Task WaitAsync(CancellationToken cancellationToken) =>
-            Task.Factory.StartNew(
+        public Task WaitAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                if (semaphore.Wait(0, cancellationToken))
+                {
+                    return Task.CompletedTask;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                return Task.FromCanceled(cancellationToken);
+            }
+
+            return Task.Factory.StartNew(
                 () => semaphore.Wait(cancellationToken),
                 cancellationToken,
                 TaskCreationOptions.None,
                 TaskScheduler.Default
             );
+        }
 
         // https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-int32)
         public Task<bool> WaitAsync(int millisecondsTimeout) =>
