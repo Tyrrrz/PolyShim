@@ -259,17 +259,17 @@
         The compatibility package does not provide this type on .NET Framework or on .NET Standard < 2.0;
         it is only available natively on .NET Core >= 2.1 and .NET Standard >= 2.0.
       -->
-      <FeatureValueTaskManualReset>false</FeatureValueTaskManualReset>
-      <FeatureValueTaskManualReset
+      <FeatureValueTaskSourcesManualReset>false</FeatureValueTaskSourcesManualReset>
+      <FeatureValueTaskSourcesManualReset
         Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))"
-        >true</FeatureValueTaskManualReset
+        >true</FeatureValueTaskSourcesManualReset
       >
-      <FeatureValueTaskManualReset
+      <FeatureValueTaskSourcesManualReset
         Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.0'))"
-        >true</FeatureValueTaskManualReset
+        >true</FeatureValueTaskSourcesManualReset
       >
-      <DefineConstants Condition="$(FeatureValueTaskManualReset)"
-        >$(DefineConstants);FEATURE_VALUETASK_MANUALRESET</DefineConstants
+      <DefineConstants Condition="$(FeatureValueTaskSourcesManualReset)"
+        >$(DefineConstants);FEATURE_VALUETASK_SOURCES_MANUALRESET</DefineConstants
       >
 
       <FeatureValueTuple>false</FeatureValueTuple>

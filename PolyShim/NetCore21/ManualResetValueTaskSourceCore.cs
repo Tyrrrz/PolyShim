@@ -1,5 +1,5 @@
 #if FEATURE_TASK
-#if !FEATURE_VALUETASK_MANUALRESET
+#if !FEATURE_VALUETASK_SOURCES_MANUALRESET
 #nullable enable
 #pragma warning disable CS0436
 // ReSharper disable RedundantUsingDirective
