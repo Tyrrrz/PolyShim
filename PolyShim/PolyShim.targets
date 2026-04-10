@@ -255,7 +255,7 @@
       >
 
       <!--
-        FEATURE_VALUETASK_MANUALRESET: ManualResetValueTaskSourceCore<T> is available.
+        FEATURE_VALUETASK_SOURCES_MANUALRESET: ManualResetValueTaskSourceCore<T> is available.
         The compatibility package does not provide this type on .NET Framework or on .NET Standard < 2.0;
         it is only available natively on .NET Core >= 2.1 and .NET Standard >= 2.0.
       -->
