@@ -330,6 +330,11 @@ public partial class GenerateSignaturesCommand : ICommand
     {
         var sb = new StringBuilder();
 
+        if (method.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword)))
+        {
+            sb.Append("static ");
+        }
+
         sb.Append(FormatType(method.ReturnType));
         sb.Append(' ');
         sb.Append(method.Identifier.Text);
@@ -354,8 +359,11 @@ public partial class GenerateSignaturesCommand : ICommand
         return sb.ToString();
     }
 
-    private static string FormatPropertySignature(PropertyDeclarationSyntax prop) =>
-        $"{FormatType(prop.Type)} {prop.Identifier.Text}";
+    private static string FormatPropertySignature(PropertyDeclarationSyntax prop)
+    {
+        var prefix = prop.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword)) ? "static " : "";
+        return $"{prefix}{FormatType(prop.Type)} {prop.Identifier.Text}";
+    }
 
     private static string FormatParameter(ParameterSyntax param)
     {
