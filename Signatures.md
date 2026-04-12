@@ -11,8 +11,8 @@ ___
 - `AllowNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.allownullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `AppContext`
-  - [`static string? TargetFrameworkName`](https://learn.microsoft.com/dotnet/api/system.appcontext.targetframeworkname) <sup><sub>.NET Core 1.0</sub></sup>
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.appcontext) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static string? TargetFrameworkName`](https://learn.microsoft.com/dotnet/api/system.appcontext.targetframeworkname) <sup><sub>.NET Core 1.0</sub></sup>
 - `ArgumentException`
   - [`static void ThrowIfNullOrEmpty(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorempty) <sup><sub>.NET 7.0</sub></sup>
   - [`static void ThrowIfNullOrWhiteSpace(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorwhitespace) <sup><sub>.NET 7.0</sub></sup>
@@ -297,20 +297,21 @@ ___
 - `ObsoletedOSPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.obsoletedosplatformattribute) <sup><sub>.NET 7.0</sub></sup>
 - `OperatingSystem`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.operatingsystem) <sup><sub>.NET Core 2.0</sub></sup>
   - [`static bool IsFreeBSD()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.isfreebsd) <sup><sub>.NET 5.0</sub></sup>
   - [`static bool IsLinux()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.islinux) <sup><sub>.NET 5.0</sub></sup>
   - [`static bool IsMacOS()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.ismacos) <sup><sub>.NET 5.0</sub></sup>
   - [`static bool IsWindows()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindows) <sup><sub>.NET 5.0</sub></sup>
   - [`static bool IsWindowsVersionAtLeast(int, int, int, int)`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindowsversionatleast) <sup><sub>.NET 5.0</sub></sup>
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.operatingsystem) <sup><sub>.NET Core 2.0</sub></sup>
 - `OSPlatform`
-  - [`static OSPlatform FreeBSD`](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform.freebsd) <sup><sub>.NET Core 3.0</sub></sup>
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static OSPlatform FreeBSD`](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform.freebsd) <sup><sub>.NET Core 3.0</sub></sup>
 - `OSPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.osplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `OverloadResolutionPriorityAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute) <sup><sub>.NET 9.0</sub></sup>
 - `Parallel`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel) <sup><sub>.NET Core 1.0</sub></sup>
   - [`static Task ForAsync(int, int, CancellationToken, Func<int, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
   - [`static Task ForAsync(int, int, Func<int, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
   - [`static Task ForAsync(int, int, ParallelOptions, Func<int, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
@@ -320,7 +321,6 @@ ___
   - [`static Task ForEachAsync<T>(IEnumerable<T>, CancellationToken, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
   - [`static Task ForEachAsync<T>(IEnumerable<T>, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
   - [`static Task ForEachAsync<T>(IEnumerable<T>, ParallelOptions, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel) <sup><sub>.NET Core 1.0</sub></sup>
 - `ParallelOptions`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.paralleloptions) <sup><sub>.NET Core 1.0</sub></sup>
 - `Path`
@@ -353,6 +353,7 @@ ___
   - [`void Shuffle<T>(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
   - [`void Shuffle<T>(T[])`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())) <sup><sub>.NET 8.0</sub></sup>
 - `RandomNumberGenerator`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator) <sup><sub>.NET Core 1.0</sub></sup>
   - [`static byte[] GetBytes(int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-int32)) <sup><sub>.NET 6.0</sub></sup>
   - [`static int GetInt32(int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
   - [`static int GetInt32(int, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32-system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
@@ -362,7 +363,6 @@ ___
   - [`static void Fill(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.fill) <sup><sub>.NET Core 2.1</sub></sup>
   - [`static void GetItems<T>(ReadOnlySpan<T>, Span<T>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
   - [`static void Shuffle<T>(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle#system-security-cryptography-randomnumbergenerator-shuffle-1(system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator) <sup><sub>.NET Core 1.0</sub></sup>
   - [`void GetBytes(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-byte()-system-int32-system-int32)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`void GetBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void GetNonZeroBytes(byte[])`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-byte())) <sup><sub>.NET Core 2.0</sub></sup>
