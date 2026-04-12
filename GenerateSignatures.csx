@@ -98,6 +98,7 @@ public partial class GenerateSignaturesCommand : ICommand
                 {
                     string? sig = null;
                     string? url = null;
+                    bool isStatic = false;
 
                     if (
                         member is MethodDeclarationSyntax method
@@ -106,6 +107,7 @@ public partial class GenerateSignaturesCommand : ICommand
                     {
                         sig = FormatMethodSignature(method);
                         url = ExtractDocUrl(member);
+                        isStatic = method.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword));
                     }
                     else if (
                         member is PropertyDeclarationSyntax prop
@@ -114,12 +116,13 @@ public partial class GenerateSignaturesCommand : ICommand
                     {
                         sig = FormatPropertySignature(prop);
                         url = ExtractDocUrl(member);
+                        isStatic = prop.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword));
                     }
 
                     if (sig is null)
                         continue;
 
-                    signatures.Add(new Signature(typeName, sig, "Extension", framework, url));
+                    signatures.Add(new Signature(typeName, sig, "Extension", framework, url, isStatic));
                 }
             }
 
@@ -141,7 +144,7 @@ public partial class GenerateSignaturesCommand : ICommand
                 var typeKind = GetTypeKind(typeDecl);
                 var url = ExtractDocUrl(typeDecl);
 
-                signatures.Add(new Signature(typeName, "", typeKind, framework, url));
+                signatures.Add(new Signature(typeName, "", typeKind, framework, url, false));
             }
         }
 
@@ -152,6 +155,9 @@ public partial class GenerateSignaturesCommand : ICommand
         foreach (
             var record in signatures
                 .OrderBy(r => r.TypeName, StringComparer.OrdinalIgnoreCase)
+                .ThenBy(r => r.Kind == "Extension" ? 1 : 0)
+                .ThenBy(r => string.IsNullOrEmpty(r.Member) ? 0 : 1)
+                .ThenBy(r => r.IsStatic ? 0 : 1)
                 .ThenBy(r => r.Member, StringComparer.OrdinalIgnoreCase)
         )
         {
@@ -330,6 +336,11 @@ public partial class GenerateSignaturesCommand : ICommand
     {
         var sb = new StringBuilder();
 
+        if (method.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword)))
+        {
+            sb.Append("static ");
+        }
+
         sb.Append(FormatType(method.ReturnType));
         sb.Append(' ');
         sb.Append(method.Identifier.Text);
@@ -354,8 +365,11 @@ public partial class GenerateSignaturesCommand : ICommand
         return sb.ToString();
     }
 
-    private static string FormatPropertySignature(PropertyDeclarationSyntax prop) =>
-        $"{FormatType(prop.Type)} {prop.Identifier.Text}";
+    private static string FormatPropertySignature(PropertyDeclarationSyntax prop)
+    {
+        var prefix = prop.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword)) ? "static " : "";
+        return $"{prefix}{FormatType(prop.Type)} {prop.Identifier.Text}";
+    }
 
     private static string FormatParameter(ParameterSyntax param)
     {
@@ -478,6 +492,7 @@ public partial class GenerateSignaturesCommand : ICommand
         string Member,
         string Kind,
         string Framework,
-        string? Url
+        string? Url,
+        bool IsStatic
     );
 }
