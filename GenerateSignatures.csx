@@ -152,6 +152,7 @@ public partial class GenerateSignaturesCommand : ICommand
         foreach (
             var record in signatures
                 .OrderBy(r => r.TypeName, StringComparer.OrdinalIgnoreCase)
+                .ThenBy(r => r.Member.StartsWith("static ", StringComparison.Ordinal) ? 0 : 1)
                 .ThenBy(r => r.Member, StringComparer.OrdinalIgnoreCase)
         )
         {
