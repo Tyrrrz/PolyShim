@@ -7,6 +7,7 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System;
+using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 
 #if !POLYFILL_COVERAGE
@@ -23,6 +24,28 @@ internal static class MemberPolyfills_NetCore21_String
         // https://learn.microsoft.com/dotnet/api/system.string.contains#system-string-contains(system-string-system-stringcomparison)
         public bool Contains(string sub, StringComparison comparison) =>
             str.IndexOf(sub, comparison) >= 0;
+    }
+
+    extension(string)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.string.create#system-string-create-1(system-int32--0-system-buffers-spanaction(-system-char--0))
+        public static string Create<TState>(
+            int length,
+            TState state,
+            SpanAction<char, TState> action
+        )
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException(nameof(length));
+            if (action is null)
+                throw new ArgumentNullException(nameof(action));
+            if (length == 0)
+                return string.Empty;
+
+            var chars = new char[length];
+            action(chars, state);
+            return new string(chars);
+        }
     }
 }
 #endif

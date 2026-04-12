@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 454
+- **Total:** 455
 - **Types:** 100
-- **Members:** 354
+- **Members:** 355
 
 ___
 
@@ -449,6 +449,7 @@ ___
   - [`bool StartsWith(char)`](https://learn.microsoft.com/dotnet/api/system.string.startswith#system-string-startswith(system-char)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int GetHashCode(StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int IndexOf(char, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.indexof#system-string-indexof(system-char-system-stringcomparison)) <sup><sub>.NET 5.0</sub></sup>
+  - [`string Create<TState>(int, TState, SpanAction<char, TState>)`](https://learn.microsoft.com/dotnet/api/system.string.create#system-string-create-1(system-int32--0-system-buffers-spanaction(-system-char--0))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`string Join(char, params object?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-object())) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Join(char, params string?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string())) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Join(char, string?[], int, int)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32)) <sup><sub>.NET Core 2.0</sub></sup>
