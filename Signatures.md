@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 455
-- **Types:** 100
-- **Members:** 355
+- **Total:** 466
+- **Types:** 101
+- **Members:** 365
 
 ___
 
@@ -541,6 +541,11 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.timer) <sup><sub>.NET Core 1.0</sub></sup>
   - [`ValueTask DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.timer.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
 - `TimeSpan`
+  - [`static bool TryParse(string?, IFormatProvider?, out TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.timespan.tryparse#system-timespan-tryparse(system-string-system-iformatprovider-system-timespan@)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static bool TryParseExact(string?, string?, IFormatProvider?, out TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.timespan.tryparseexact#system-timespan-tryparseexact(system-string-system-string-system-iformatprovider-system-timespan@)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static bool TryParseExact(string?, string?, IFormatProvider?, TimeSpanStyles, out TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.timespan.tryparseexact#system-timespan-tryparseexact(system-string-system-string-system-iformatprovider-system-globalization-timespanstyles-system-timespan@)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static bool TryParseExact(string?, string[]?, IFormatProvider?, out TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.timespan.tryparseexact#system-timespan-tryparseexact(system-string-system-string()-system-iformatprovider-system-timespan@)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static bool TryParseExact(string?, string[]?, IFormatProvider?, TimeSpanStyles, out TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.timespan.tryparseexact#system-timespan-tryparseexact(system-string-system-string()-system-iformatprovider-system-globalization-timespanstyles-system-timespan@)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`static TimeSpan FromDays(int, int, long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromdays#system-timespan-fromdays(system-int64-system-int64-system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
   - [`static TimeSpan FromHours(int, long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromhours#system-timespan-fromhours(system-int64-system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
   - [`static TimeSpan FromMicroseconds(double)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommicroseconds) <sup><sub>.NET 7.0</sub></sup>
@@ -548,6 +553,13 @@ ___
   - [`static TimeSpan FromMilliseconds(long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
   - [`static TimeSpan FromMinutes(long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromminutes#system-timespan-fromminutes(system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
   - [`static TimeSpan FromSeconds(long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromseconds#system-timespan-fromseconds(system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
+  - [`static TimeSpan Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.timespan.parse#system-timespan-parse(system-string-system-iformatprovider)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static TimeSpan ParseExact(string, string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.timespan.parseexact#system-timespan-parseexact(system-string-system-string-system-iformatprovider)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static TimeSpan ParseExact(string, string, IFormatProvider?, TimeSpanStyles)`](https://learn.microsoft.com/dotnet/api/system.timespan.parseexact#system-timespan-parseexact(system-string-system-string-system-iformatprovider-system-globalization-timespanstyles)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static TimeSpan ParseExact(string, string[], IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.timespan.parseexact#system-timespan-parseexact(system-string-system-string()-system-iformatprovider)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static TimeSpan ParseExact(string, string[], IFormatProvider?, TimeSpanStyles)`](https://learn.microsoft.com/dotnet/api/system.timespan.parseexact#system-timespan-parseexact(system-string-system-string()-system-iformatprovider-system-globalization-timespanstyles)) <sup><sub>.NET Core 1.0</sub></sup>
+- `TimeSpanStyles`
+  - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.globalization.timespanstyles) <sup><sub>.NET Core 1.0</sub></sup>
 - `TupleElementNamesAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.tupleelementnamesattribute) <sup><sub>.NET Core 2.0</sub></sup>
 - `Type`
