@@ -70,7 +70,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `IAsyncEnumerable<T>` and `IAsyncDisposable`
   - [...and 100+ more](Signatures.md)
 - Provides member polyfills for:
-  - `string.ReplaceLineEndings(...)`, `string.AsSpan()`, etc.
+  - `string.Create(...)`, `string.ReplaceLineEndings(...)`, etc.
   - `Stream.ReadExactly(...)`, `Stream.ReadAtLeast(...)`, etc.
   - `IEnumerable<T>.Chunk(...)`, `IEnumerable<T>.TakeLast(...)`, etc.
   - `Task.WaitAsync(...)`, `Task.WhenEach(...)`, etc.
