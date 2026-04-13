@@ -130,10 +130,10 @@ internal static class MemberPolyfills_NetCore10_AggregateException
         {
             var unhandled = new List<Exception>();
 
-            foreach (var e in exception.InnerExceptions)
+            foreach (var exception in exception.InnerExceptions)
             {
-                if (!predicate(e))
-                    unhandled.Add(e);
+                if (!predicate(exception))
+                    unhandled.Add(exception);
             }
 
             if (unhandled.Count > 0)
