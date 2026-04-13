@@ -93,6 +93,8 @@ internal static class MemberPolyfills_NetCore10_Guid
 
     private static bool IsAllHex(string s, int start, int length)
     {
+        if (start < 0 || start + length > s.Length)
+            return false;
         for (var i = start; i < start + length; i++)
             if (!IsHexChar(s[i]))
                 return false;
@@ -115,7 +117,9 @@ internal static class MemberPolyfills_NetCore10_Guid
     {
         value = 0;
 
-        if (part.Length < 3 || part[0] != '0' || (part[1] != 'x' && part[1] != 'X'))
+        if (part.Length < 3)
+            return false;
+        if (part[0] != '0' || (part[1] != 'x' && part[1] != 'X'))
             return false;
 
         var hexLen = part.Length - 2;
