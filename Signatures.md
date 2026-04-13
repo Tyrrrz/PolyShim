@@ -1,13 +1,14 @@
 # Signatures
 
-- **Total:** 461
+- **Total:** 462
 - **Types:** 100
-- **Members:** 361
+- **Members:** 362
 
 ___
 
 - `AggregateException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.aggregateexception) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`void Handle(Func<Exception, bool>)`](https://learn.microsoft.com/dotnet/api/system.aggregateexception.handle) <sup><sub>.NET Core 1.0</sub></sup>
 - `AllowNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.allownullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `AppContext`
