@@ -35,28 +35,28 @@ internal static class MemberPolyfills_NetCore10_CustomAttributeExtensions
 
     extension(MemberInfo member)
     {
-        // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo)
-        public T? GetCustomAttribute<T>()
-            where T : Attribute =>
-            (T?)member.GetCustomAttributes(typeof(T), true).FirstOrDefault();
-
         // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo-system-boolean)
         public T? GetCustomAttribute<T>(bool inherit)
             where T : Attribute =>
             (T?)member.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
+
+        // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo)
+        public T? GetCustomAttribute<T>()
+            where T : Attribute =>
+            member.GetCustomAttribute<T>(true);
     }
 
     extension(ParameterInfo parameter)
     {
-        // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-parameterinfo)
-        public T? GetCustomAttribute<T>()
-            where T : Attribute =>
-            (T?)parameter.GetCustomAttributes(typeof(T), true).FirstOrDefault();
-
         // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-parameterinfo-system-boolean)
         public T? GetCustomAttribute<T>(bool inherit)
             where T : Attribute =>
             (T?)parameter.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
+
+        // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-parameterinfo)
+        public T? GetCustomAttribute<T>()
+            where T : Attribute =>
+            parameter.GetCustomAttribute<T>(true);
     }
 }
 #endif
