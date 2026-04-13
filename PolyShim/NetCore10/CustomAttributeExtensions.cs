@@ -17,6 +17,14 @@ namespace System.Reflection;
 #endif
 internal static class MemberPolyfills_NetCore10_CustomAttributeExtensions
 {
+    extension(Module module)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-module)
+        public T? GetCustomAttribute<T>()
+            where T : Attribute =>
+            (T?)module.GetCustomAttributes(typeof(T), false).FirstOrDefault();
+    }
+
     extension(Assembly assembly)
     {
         // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-assembly)
@@ -36,14 +44,6 @@ internal static class MemberPolyfills_NetCore10_CustomAttributeExtensions
         public T? GetCustomAttribute<T>(bool inherit)
             where T : Attribute =>
             (T?)member.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
-    }
-
-    extension(Module module)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-module)
-        public T? GetCustomAttribute<T>()
-            where T : Attribute =>
-            (T?)module.GetCustomAttributes(typeof(T), false).FirstOrDefault();
     }
 
     extension(ParameterInfo parameter)
