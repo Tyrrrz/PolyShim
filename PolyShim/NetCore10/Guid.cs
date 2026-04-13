@@ -17,7 +17,7 @@ internal static class MemberPolyfills_NetCore10_Guid
     extension(Guid)
     {
         // https://learn.microsoft.com/dotnet/api/system.guid.parse
-        public static Guid Parse(string input) => new Guid(input);
+        public static Guid Parse(string input) => new(input);
 
         // https://learn.microsoft.com/dotnet/api/system.guid.tryparse
         public static bool TryParse(string? input, out Guid result)
