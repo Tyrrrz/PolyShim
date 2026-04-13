@@ -30,7 +30,7 @@ internal static class MemberPolyfills_NetCore10_CustomAttributeExtensions
         // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-assembly)
         public T? GetCustomAttribute<T>()
             where T : Attribute =>
-            (T?)assembly.GetCustomAttributes(typeof(T), false).FirstOrDefault();
+            (T?)Attribute.GetCustomAttribute(assembly, typeof(T), inherit: false);
     }
 
     extension(MemberInfo member)
