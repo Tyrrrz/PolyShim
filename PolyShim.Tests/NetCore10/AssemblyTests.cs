@@ -9,7 +9,7 @@ namespace PolyShim.Tests.NetCore10;
 public class AssemblyTests
 {
     [Fact]
-    public void GetCustomAttribute_Existing_Test()
+    public void GetCustomAttribute_Test()
     {
         // Arrange
         var assembly = typeof(AssemblyTests).Assembly;
@@ -19,7 +19,7 @@ public class AssemblyTests
 
         // Assert
         attribute.Should().NotBeNull();
-        attribute!.FrameworkName.Should().NotBeNullOrWhiteSpace();
+        attribute?.FrameworkName.Should().NotBeNullOrWhiteSpace();
     }
 
     [Fact]
