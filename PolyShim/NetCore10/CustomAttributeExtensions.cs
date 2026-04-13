@@ -7,7 +7,6 @@
 // ReSharper disable PartialTypeWithSinglePart
 
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 
 namespace System.Reflection;
@@ -22,7 +21,7 @@ internal static class MemberPolyfills_NetCore10_CustomAttributeExtensions
         // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-module)
         public T? GetCustomAttribute<T>()
             where T : Attribute =>
-            (T?)module.GetCustomAttributes(typeof(T), false).FirstOrDefault();
+            (T?)Attribute.GetCustomAttribute(module, typeof(T));
     }
 
     extension(Assembly assembly)
@@ -38,7 +37,7 @@ internal static class MemberPolyfills_NetCore10_CustomAttributeExtensions
         // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo-system-boolean)
         public T? GetCustomAttribute<T>(bool inherit)
             where T : Attribute =>
-            (T?)member.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
+            (T?)Attribute.GetCustomAttribute(member, typeof(T), inherit);
 
         // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo)
         public T? GetCustomAttribute<T>()
@@ -51,7 +50,7 @@ internal static class MemberPolyfills_NetCore10_CustomAttributeExtensions
         // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-parameterinfo-system-boolean)
         public T? GetCustomAttribute<T>(bool inherit)
             where T : Attribute =>
-            (T?)parameter.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
+            (T?)Attribute.GetCustomAttribute(parameter, typeof(T), inherit);
 
         // https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-parameterinfo)
         public T? GetCustomAttribute<T>()
