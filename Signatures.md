@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 462
+- **Total:** 464
 - **Types:** 100
-- **Members:** 362
+- **Members:** 364
 
 ___
 
@@ -153,6 +153,9 @@ ___
 - `float`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
+- `Guid`
+  - [`static bool TryParse(string?, out Guid)`](https://learn.microsoft.com/dotnet/api/system.guid.tryparse) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Guid Parse(string)`](https://learn.microsoft.com/dotnet/api/system.guid.parse) <sup><sub>.NET Core 1.0</sub></sup>
 - `HashCode`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.hashcode) <sup><sub>.NET Core 2.1</sub></sup>
 - `HashSet<T>`
