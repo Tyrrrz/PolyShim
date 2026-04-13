@@ -309,7 +309,7 @@ internal static class MemberPolyfills_NetCore10_TimeSpan
         {
             if (!TryParseExactCore(s, format, TimeSpanStyles.None, out var result))
                 throw new FormatException(
-                    $"The TimeSpan string '{s}' could not be parsed because the format '{format}' is invalid."
+                    $"The TimeSpan string '{s}' could not be parsed using the format '{format}'."
                 );
             return result;
         }
@@ -341,7 +341,7 @@ internal static class MemberPolyfills_NetCore10_TimeSpan
         {
             if (!TryParseExactCore(s, format, styles, out var result))
                 throw new FormatException(
-                    $"The TimeSpan string '{s}' could not be parsed because the format '{format}' is invalid."
+                    $"The TimeSpan string '{s}' could not be parsed using the format '{format}'."
                 );
             return result;
         }
