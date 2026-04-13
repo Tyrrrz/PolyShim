@@ -10,10 +10,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
+namespace System.Reflection;
+
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal static class MemberPolyfills_NetCore10_Assembly
+internal static class MemberPolyfills_NetCore10_CustomAttributeExtensions
 {
     extension(Assembly assembly)
     {
