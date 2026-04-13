@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 455
+- **Total:** 461
 - **Types:** 100
-- **Members:** 355
+- **Members:** 361
 
 ___
 
@@ -32,6 +32,8 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `ArraySegment<T>`
   - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `Assembly`
+  - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-assembly)) <sup><sub>.NET Core 1.0</sub></sup>
 - `AsyncIteratorMethodBuilder`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asynciteratormethodbuilder) <sup><sub>.NET Core 3.0</sub></sup>
 - `AsyncIteratorStateMachineAttribute`
@@ -275,6 +277,9 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.maybenullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `MaybeNullWhenAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.maybenullwhenattribute) <sup><sub>.NET Core 3.0</sub></sup>
+- `MemberInfo`
+  - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`T? GetCustomAttribute<T>(bool) where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo-system-boolean)) <sup><sub>.NET Core 1.0</sub></sup>
 - `MemberNotNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.membernotnullattribute) <sup><sub>.NET 5.0</sub></sup>
 - `MemberNotNullWhenAttribute`
@@ -283,6 +288,8 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.memory-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `MemoryPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.memorypool-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `Module`
+  - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-module)) <sup><sub>.NET Core 1.0</sub></sup>
 - `ModuleInitializerAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute) <sup><sub>.NET 5.0</sub></sup>
 - `NotNullAttribute`
@@ -323,6 +330,9 @@ ___
   - [`static Task ForEachAsync<T>(IEnumerable<T>, ParallelOptions, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
 - `ParallelOptions`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.paralleloptions) <sup><sub>.NET Core 1.0</sub></sup>
+- `ParameterInfo`
+  - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-parameterinfo)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`T? GetCustomAttribute<T>(bool) where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-parameterinfo-system-boolean)) <sup><sub>.NET Core 1.0</sub></sup>
 - `Path`
   - [`static bool EndsInDirectorySeparator(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.endsindirectoryseparator#system-io-path-endsindirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
   - [`static bool Exists(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.exists) <sup><sub>.NET 7.0</sub></sup>
