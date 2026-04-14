@@ -2,10 +2,6 @@
 #if !FEATURE_VALUETASK_SOURCES_MANUALRESET
 #nullable enable
 #pragma warning disable CS0436
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable CheckNamespace
-// ReSharper disable InconsistentNaming
-// ReSharper disable PartialTypeWithSinglePart
 
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;

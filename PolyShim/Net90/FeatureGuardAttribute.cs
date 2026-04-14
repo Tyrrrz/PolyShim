@@ -3,11 +3,6 @@
 #pragma warning disable CS0436
 #pragma warning disable CS9216
 
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable CheckNamespace
-// ReSharper disable InconsistentNaming
-// ReSharper disable PartialTypeWithSinglePart
-
 namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.featureguardattribute
