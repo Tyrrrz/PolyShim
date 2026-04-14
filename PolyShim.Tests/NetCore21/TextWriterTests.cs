@@ -78,7 +78,8 @@ public class TextWriterTests
         // Arrange
         using var stream = new MemoryStream();
         using var writer = new StreamWriter(stream);
-        using var buffer = MemoryPool<char>.Shared.Rent(5);
+        const int bufferSize = 5;
+        using var buffer = MemoryPool<char>.Shared.Rent(bufferSize);
 
         buffer.Memory.Span[0] = 'H';
         buffer.Memory.Span[1] = 'e';
@@ -87,7 +88,7 @@ public class TextWriterTests
         buffer.Memory.Span[4] = 'o';
 
         // Act
-        await writer.WriteLineAsync(buffer.Memory[..5]);
+        await writer.WriteLineAsync(buffer.Memory[..bufferSize]);
         await writer.FlushAsync();
 
         // Assert
