@@ -25,7 +25,25 @@ internal static class MemberPolyfills_NetCore10_TimeSpan
             string? s,
             IFormatProvider? formatProvider,
             out TimeSpan result
-        ) => TimeSpan.TryParse(s, out result);
+        )
+        {
+            if (s is null)
+            {
+                result = default;
+                return false;
+            }
+
+            try
+            {
+                result = TimeSpan.Parse(s, formatProvider);
+                return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
+        }
     }
 }
 #endif
