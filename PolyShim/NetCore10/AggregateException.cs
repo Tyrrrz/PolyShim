@@ -54,15 +54,15 @@ internal class AggregateException : Exception
     {
         var innerExceptions = new List<Exception>();
 
-        foreach (var exception in InnerExceptions)
+        foreach (var innerException in InnerExceptions)
         {
-            if (exception is AggregateException aggregateException)
+            if (innerException is AggregateException aggregateException)
             {
                 innerExceptions.AddRange(aggregateException.Flatten().InnerExceptions);
             }
             else
             {
-                innerExceptions.Add(exception);
+                innerExceptions.Add(innerException);
             }
         }
 
@@ -73,10 +73,10 @@ internal class AggregateException : Exception
     {
         var unhandled = new List<Exception>();
 
-        foreach (var exception in InnerExceptions)
+        foreach (var innerException in InnerExceptions)
         {
-            if (!predicate(exception))
-                unhandled.Add(exception);
+            if (!predicate(innerException))
+                unhandled.Add(innerException);
         }
 
         if (unhandled.Count > 0)
