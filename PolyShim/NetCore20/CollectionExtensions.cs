@@ -3,7 +3,6 @@
 #pragma warning disable CS0436
 using System.Diagnostics.CodeAnalysis;
 
-
 namespace System.Collections.Generic;
 
 #if !POLYFILL_COVERAGE

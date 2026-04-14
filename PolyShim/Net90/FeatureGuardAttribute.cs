@@ -3,7 +3,6 @@
 #pragma warning disable CS0436
 #pragma warning disable CS9216
 
-
 namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.featureguardattribute

@@ -1,4 +1,3 @@
-
 // Define dummy types for several built-in namespaces to allow using declarations
 // even on frameworks that don't have any types in those namespaces.
 // This lets us write using declarations without worrying about #if guards.

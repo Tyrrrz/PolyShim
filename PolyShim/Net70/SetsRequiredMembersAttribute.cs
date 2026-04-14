@@ -2,7 +2,6 @@
 #nullable enable
 #pragma warning disable CS0436
 
-
 namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute
