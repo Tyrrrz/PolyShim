@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace System.Threading.Tasks.Sources;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.manualresetvaluetasksourcecore-1
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal struct ManualResetValueTaskSourceCore<TResult>

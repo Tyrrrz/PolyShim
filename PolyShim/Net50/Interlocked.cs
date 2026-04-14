@@ -5,7 +5,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net50_Interlocked

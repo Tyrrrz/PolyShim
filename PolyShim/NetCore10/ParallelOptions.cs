@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Threading.Tasks;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.paralleloptions
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class ParallelOptions

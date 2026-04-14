@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asynciteratormethodbuilder
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal struct AsyncIteratorMethodBuilder

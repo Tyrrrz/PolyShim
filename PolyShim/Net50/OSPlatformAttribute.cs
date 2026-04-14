@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Runtime.Versioning;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.versioning.osplatformattribute
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal abstract class OSPlatformAttribute(string platformName) : Attribute

@@ -14,7 +14,7 @@ namespace System.Threading.Tasks;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask
 [AsyncMethodBuilder(typeof(AsyncValueTaskMethodBuilder))]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly struct ValueTask(Task task) : IEquatable<ValueTask>
@@ -111,7 +111,7 @@ internal readonly struct ValueTask(Task task) : IEquatable<ValueTask>
 
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1
 [AsyncMethodBuilder(typeof(AsyncValueTaskMethodBuilder<>))]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly struct ValueTask<TResult>(Task<TResult> task) : IEquatable<ValueTask<TResult>>

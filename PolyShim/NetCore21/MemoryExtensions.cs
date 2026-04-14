@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_NetCore21_MemoryExtensions

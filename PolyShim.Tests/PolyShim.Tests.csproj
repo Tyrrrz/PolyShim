@@ -23,7 +23,7 @@
 
   <PropertyGroup>
     <!-- Enable coverage collection for referenced polyfills -->
-    <DefineConstants>$(DefineConstants);POLYFILL_COVERAGE</DefineConstants>
+    <DefineConstants>$(DefineConstants);POLYSHIM_EXCLUDE_COVERAGE</DefineConstants>
     <RunSettingsFilePath>PolyShim.Tests.runsettings</RunSettingsFilePath>
   </PropertyGroup>
 

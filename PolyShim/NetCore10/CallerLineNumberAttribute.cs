@@ -8,7 +8,7 @@ namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerlinenumberattribute
 [AttributeUsage(AttributeTargets.Parameter)]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class CallerLineNumberAttribute : Attribute;

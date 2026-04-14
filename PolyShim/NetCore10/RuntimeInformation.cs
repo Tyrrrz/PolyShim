@@ -8,7 +8,7 @@ using System.IO;
 namespace System.Runtime.InteropServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.runtimeinformation
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class RuntimeInformation

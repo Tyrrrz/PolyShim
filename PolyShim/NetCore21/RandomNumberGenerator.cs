@@ -12,7 +12,7 @@ file static class RandomNumberGeneratorEx
     public static RandomNumberGenerator Instance { get; } = RandomNumberGenerator.Create();
 }
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_NetCore21_RandomNumberGenerator

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredvaluetaskawaitable
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly struct ConfiguredValueTaskAwaitable(
@@ -19,7 +19,7 @@ internal readonly struct ConfiguredValueTaskAwaitable(
 {
     public Awaiter GetAwaiter() => new Awaiter(value, continueOnCapturedContext);
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
     [ExcludeFromCodeCoverage]
 #endif
     public readonly struct Awaiter(ValueTask value, bool continueOnCapturedContext)
@@ -47,7 +47,7 @@ internal readonly struct ConfiguredValueTaskAwaitable(
 }
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredvaluetaskawaitable-1
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly struct ConfiguredValueTaskAwaitable<TResult>(
@@ -57,7 +57,7 @@ internal readonly struct ConfiguredValueTaskAwaitable<TResult>(
 {
     public Awaiter GetAwaiter() => new Awaiter(value, continueOnCapturedContext);
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
     [ExcludeFromCodeCoverage]
 #endif
     public readonly struct Awaiter(ValueTask<TResult> value, bool continueOnCapturedContext)

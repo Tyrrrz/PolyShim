@@ -6,7 +6,7 @@ using System;
 using System.Reflection;
 using System.Diagnostics.CodeAnalysis;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net50_Type

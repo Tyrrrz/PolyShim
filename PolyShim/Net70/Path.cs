@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 // No file I/O on .NET Standard prior to 1.3
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net70_Path

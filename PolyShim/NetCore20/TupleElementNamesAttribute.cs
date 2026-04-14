@@ -16,7 +16,7 @@ using System.Diagnostics.CodeAnalysis;
         | AttributeTargets.ReturnValue
         | AttributeTargets.Struct
 )]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class TupleElementNamesAttribute(string[] transformNames) : Attribute

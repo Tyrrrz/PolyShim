@@ -8,7 +8,7 @@ namespace System.Runtime.Versioning;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.versioning.targetplatformattribute
 [AttributeUsage(AttributeTargets.Assembly)]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class TargetPlatformAttribute(string platformName) : OSPlatformAttribute(platformName);

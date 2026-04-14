@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Buffers;
 
 // https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class ArrayPool<T>

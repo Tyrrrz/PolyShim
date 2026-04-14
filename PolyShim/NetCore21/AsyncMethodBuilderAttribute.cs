@@ -17,7 +17,7 @@ namespace System.Runtime.CompilerServices;
     Inherited = false,
     AllowMultiple = false
 )]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal sealed class AsyncMethodBuilderAttribute(Type builderType) : Attribute

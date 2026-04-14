@@ -9,7 +9,7 @@ namespace System.Diagnostics.CodeAnalysis;
     AttributeTargets.Class | AttributeTargets.Constructor | AttributeTargets.Method,
     Inherited = false
 )]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_EXCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class RequiresDynamicCodeAttribute(string message) : Attribute
