@@ -57,7 +57,6 @@ public class PathTests
         // Act & assert
 
         // For some reason, dropping the array literals leads to nullability errors on .NET Framework
-        // ReSharper disable RedundantExplicitParamsArrayCreation
         Path.Join(["C:/Program Files/", "Utilities/SystemUtilities"])
             .Should()
             .Be("C:/Program Files/Utilities/SystemUtilities");
@@ -71,6 +70,5 @@ public class PathTests
         Path.Join(["C:/Users/Public/Documents/", "C:/Users/User1/Documents/Financial/"])
             .Should()
             .Be("C:/Users/Public/Documents/C:/Users/User1/Documents/Financial/");
-        // ReSharper restore RedundantExplicitParamsArrayCreation
     }
 }

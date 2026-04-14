@@ -1,10 +1,6 @@
 ﻿#if (NETFRAMEWORK && !NET40_OR_GREATER)
 #nullable enable
 #pragma warning disable CS0436
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable CheckNamespace
-// ReSharper disable InconsistentNaming
-// ReSharper disable PartialTypeWithSinglePart
 
 using System.IO;
 using System.Linq;

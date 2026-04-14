@@ -17,7 +17,6 @@ public class MatchCollectionTests
         var enumerable = matches.AsEnumerable();
 
         // Assert
-        // ReSharper disable once RedundantEnumerableCastCall
         enumerable.Should().Equal(matches.Cast<Match>());
     }
 
@@ -31,7 +30,6 @@ public class MatchCollectionTests
         var array = matches.ToArray();
 
         // Assert
-        // ReSharper disable once RedundantEnumerableCastCall
         array.Should().Equal(matches.Cast<Match>());
     }
 }

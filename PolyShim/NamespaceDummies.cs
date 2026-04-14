@@ -1,7 +1,3 @@
-﻿// ReSharper disable RedundantUsingDirective
-// ReSharper disable CheckNamespace
-// ReSharper disable InconsistentNaming
-// ReSharper disable PartialTypeWithSinglePart
 
 // Define dummy types for several built-in namespaces to allow using declarations
 // even on frameworks that don't have any types in those namespaces.

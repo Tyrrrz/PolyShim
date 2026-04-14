@@ -1,10 +1,6 @@
 #if (NETCOREAPP && !NETCOREAPP2_0_OR_GREATER) || (NETFRAMEWORK && !NET46_OR_GREATER) || (NETSTANDARD && !NETSTANDARD2_0_OR_GREATER)
 #nullable enable
 #pragma warning disable CS0436
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable CheckNamespace
-// ReSharper disable InconsistentNaming
-// ReSharper disable PartialTypeWithSinglePart
 
 using System;
 using System.Diagnostics.CodeAnalysis;
