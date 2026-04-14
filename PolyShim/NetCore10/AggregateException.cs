@@ -1,5 +1,6 @@
 ﻿#if (NETFRAMEWORK && !NET40_OR_GREATER)
 #nullable enable
+#pragma warning disable CS0436
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
@@ -53,15 +54,15 @@ internal class AggregateException : Exception
     {
         var innerExceptions = new List<Exception>();
 
-        foreach (var exception in InnerExceptions)
+        foreach (var innerException in InnerExceptions)
         {
-            if (exception is AggregateException aggregateException)
+            if (innerException is AggregateException aggregateException)
             {
                 innerExceptions.AddRange(aggregateException.Flatten().InnerExceptions);
             }
             else
             {
-                innerExceptions.Add(exception);
+                innerExceptions.Add(innerException);
             }
         }
 
@@ -70,17 +71,16 @@ internal class AggregateException : Exception
 
     public void Handle(Func<Exception, bool> predicate)
     {
-        foreach (var exception in InnerExceptions)
+        var unhandled = new List<Exception>();
+
+        foreach (var innerException in InnerExceptions)
         {
-            if (exception is AggregateException aggregateException)
-            {
-                aggregateException.Handle(predicate);
-            }
-            else if (predicate(exception))
-            {
-                throw exception;
-            }
+            if (!predicate(innerException))
+                unhandled.Add(innerException);
         }
+
+        if (unhandled.Count > 0)
+            throw new AggregateException(Message, unhandled);
     }
 
     public override string ToString()

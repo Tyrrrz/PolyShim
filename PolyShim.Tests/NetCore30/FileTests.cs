@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using FluentAssertions;
+using PolyShim.Tests.Utils.Extensions;
 using Xunit;
 
 namespace PolyShim.Tests.NetCore30;
@@ -27,15 +28,8 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(sourceFileName);
-                File.Delete(destFileName);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(sourceFileName);
+            File.TryDelete(destFileName);
         }
     }
 
@@ -57,15 +51,8 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(sourceFileName);
-                File.Delete(destFileName);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(sourceFileName);
+            File.TryDelete(destFileName);
         }
     }
 }

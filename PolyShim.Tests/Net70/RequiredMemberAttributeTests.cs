@@ -3,15 +3,15 @@ using Xunit;
 
 namespace PolyShim.Tests.Net70;
 
+file class MyClass
+{
+    public required string Foo { get; init; }
+
+    public required int Bar { get; init; }
+}
+
 public class RequiredMemberAttributeTests
 {
-    private class MyClass
-    {
-        public required string Foo { get; init; }
-
-        public required int Bar { get; init; }
-    }
-
     [Fact]
     public void Initialization_Test()
     {

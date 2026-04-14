@@ -1,5 +1,6 @@
 #if NETSTANDARD && !NETSTANDARD1_3_OR_GREATER
 #nullable enable
+#pragma warning disable CS0436
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
@@ -30,12 +31,15 @@ internal abstract class RandomNumberGenerator : IDisposable
         Dispose(true);
         GC.SuppressFinalize(this);
     }
+}
 
-    private sealed class RandomWrapper : RandomNumberGenerator
-    {
-        private readonly Random _random = new();
+#if !POLYFILL_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+file class RandomWrapper : RandomNumberGenerator
+{
+    private readonly Random _random = new();
 
-        public override void GetBytes(byte[] data) => _random.NextBytes(data);
-    }
+    public override void GetBytes(byte[] data) => _random.NextBytes(data);
 }
 #endif

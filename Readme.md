@@ -65,10 +65,12 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `Lock`
   - `HashCode`
   - `ArrayPool<T>`
-  - `TaskCompletionSource`
-  - [...and 70+ more](Signatures.md)
+  - `ValueTask` and `ValueTask<T>`
+  - `TaskCompletionSource`, `IValueTaskSource<T>`
+  - `IAsyncEnumerable<T>` and `IAsyncDisposable`
+  - [...and 100+ more](Signatures.md)
 - Provides member polyfills for:
-  - `string.ReplaceLineEndings(...)`, `string.AsSpan()`, etc.
+  - `string.Create(...)`, `string.ReplaceLineEndings(...)`, etc.
   - `Stream.ReadExactly(...)`, `Stream.ReadAtLeast(...)`, etc.
   - `IEnumerable<T>.Chunk(...)`, `IEnumerable<T>.TakeLast(...)`, etc.
   - `Task.WaitAsync(...)`, `Task.WhenEach(...)`, etc.
@@ -76,7 +78,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `File.WriteAllTextAsync(...)`, `File.ReadAllTextAsync(...)`, etc.
   - `Environment.ProcessPath`, `Environment.ProcessId`, etc.
   - `OperatingSystem.IsWindows()`, `OperatingSystem.IsLinux()`, etc.
-  - [...and 250+ more](Signatures.md)
+  - [...and 400+ more](Signatures.md)
 - Adjusts polyfills based on available capabilities
 - Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
 - Imposes no run-time dependencies
@@ -199,6 +201,9 @@ Currently, **PolyShim** recognizes the following packages:
 - [`Microsoft.Bcl.Memory`](https://nuget.org/packages/Microsoft.Bcl.Memory) — `Index`, `Range`, etc.
 - [`Microsoft.Bcl.TimeProvider`](https://nuget.org/packages/Microsoft.Bcl.TimeProvider) — `TimeProvider`, `ITimer`, etc.
 - [`Microsoft.Net.Http`](https://nuget.org/packages/Microsoft.Net.Http) — `HttpClient`, `HttpContent`, etc. (wider support than the `System.*` variant).
+
+> [!IMPORTANT]
+> Ensure your compatibility packages are referenced in their latest stable versions, so that their provided API surface matches what **PolyShim** expects.
 
 For example, adding a reference to the `Microsoft.Bcl.AsyncInterfaces` package will enable **PolyShim**'s polyfills that work with `IAsyncEnumerable<T>`, such as `Task.WhenEach(...)`:
 

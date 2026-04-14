@@ -1,6 +1,7 @@
 ﻿#if FEATURE_TASK
 #if (NETFRAMEWORK && !NET46_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_3_OR_GREATER)
 #nullable enable
+#pragma warning disable CS0436
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable CheckNamespace
 // ReSharper disable InconsistentNaming
@@ -30,9 +31,9 @@ internal static class MemberPolyfills_NetCore10_Task
 
 #if NETFRAMEWORK && !NET45_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult
-        public static Task<T?> FromResult<T>(T? result)
+        public static Task<T> FromResult<T>(T result)
         {
-            var tcs = new TaskCompletionSource<T?>();
+            var tcs = new TaskCompletionSource<T>();
             tcs.TrySetResult(result);
 
             return tcs.Task;

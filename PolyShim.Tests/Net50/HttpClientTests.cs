@@ -24,6 +24,7 @@ public class HttpClientTests
             "https://example.com",
             cancellationToken
         );
+
         using var reader = new StreamReader(stream);
         var content = await reader.ReadToEndAsync();
 

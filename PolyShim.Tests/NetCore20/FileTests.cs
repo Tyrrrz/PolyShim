@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using FluentAssertions;
+using PolyShim.Tests.Utils.Extensions;
 using Xunit;
 
 namespace PolyShim.Tests.NetCore20;
@@ -26,14 +27,7 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(tempFilePath);
         }
     }
 
@@ -55,14 +49,7 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(tempFilePath);
         }
     }
 
@@ -85,14 +72,7 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(tempFilePath);
         }
     }
 
@@ -115,14 +95,7 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(tempFilePath);
         }
     }
 
@@ -145,14 +118,7 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(tempFilePath);
         }
     }
 
@@ -174,14 +140,7 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(tempFilePath);
         }
     }
 
@@ -203,14 +162,7 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(tempFilePath);
         }
     }
 
@@ -232,14 +184,7 @@ public class FileTests
         }
         finally
         {
-            try
-            {
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                // Ignore
-            }
+            File.TryDelete(tempFilePath);
         }
     }
 }

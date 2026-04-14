@@ -1,5 +1,6 @@
 #if !FEATURE_MEMORY
 #nullable enable
+#pragma warning disable CS0436
 using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable RedundantUsingDirective
@@ -20,7 +21,7 @@ internal static class MemberPolyfills_NetCore21_MemoryExtensions
         public Span<T> AsSpan(int start, int length) => new(array, start, length);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0()-system-int32)
-        public Span<T> AsSpan(int start) => array.AsSpan(start, array?.Length ?? 0 - start);
+        public Span<T> AsSpan(int start) => array.AsSpan(start, (array?.Length ?? 0) - start);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(-0())
         public Span<T> AsSpan() => array.AsSpan(0);
@@ -29,7 +30,7 @@ internal static class MemberPolyfills_NetCore21_MemoryExtensions
         public Memory<T> AsMemory(int start, int length) => new(array, start, length);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32)
-        public Memory<T> AsMemory(int start) => array.AsMemory(start, array?.Length ?? 0 - start);
+        public Memory<T> AsMemory(int start) => array.AsMemory(start, (array?.Length ?? 0) - start);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0())
         public Memory<T> AsMemory() => array.AsMemory(0);
@@ -41,10 +42,10 @@ internal static class MemberPolyfills_NetCore21_MemoryExtensions
         public void CopyTo(Memory<T> destination) => array.AsSpan().CopyTo(destination.Span);
     }
 
-    extension<T>(ArraySegment<T>? segment)
+    extension<T>(ArraySegment<T> segment)
     {
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))
-        public Span<T> AsSpan() => new(segment?.Array, segment?.Offset ?? 0, segment?.Count ?? 0);
+        public Span<T> AsSpan() => new(segment.Array, segment.Offset, segment.Count);
     }
 
     extension(string? text)
@@ -55,7 +56,7 @@ internal static class MemberPolyfills_NetCore21_MemoryExtensions
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32)
         public ReadOnlySpan<char> AsSpan(int start) =>
-            text.AsSpan(start, text?.Length ?? 0 - start);
+            text.AsSpan(start, (text?.Length ?? 0) - start);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string)
         public ReadOnlySpan<char> AsSpan() => text.AsSpan(0);
@@ -66,7 +67,7 @@ internal static class MemberPolyfills_NetCore21_MemoryExtensions
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string-system-int32)
         public ReadOnlyMemory<char> AsMemory(int start) =>
-            text.AsMemory(start, text?.Length ?? 0 - start);
+            text.AsMemory(start, (text?.Length ?? 0) - start);
 
         // https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory(system-string)
         public ReadOnlyMemory<char> AsMemory() => text.AsMemory(0);

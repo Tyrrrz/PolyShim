@@ -19,4 +19,32 @@ public class EnumerableExtensionsTests
         // Assert
         result.Should().Equal((1, "a"), (2, "b"), (3, "c"));
     }
+
+    [Fact]
+    public void Zip_Tuple_Test()
+    {
+        // Arrange
+        var left = new[] { 1, 2, 3 };
+        var right = new[] { "a", "b", "c" };
+
+        // Act
+        var result = left.Zip(right);
+
+        // Assert
+        result.Should().Equal((1, "a"), (2, "b"), (3, "c"));
+    }
+
+    [Fact]
+    public void Zip_Tuple_UnequalLengths_Test()
+    {
+        // Arrange
+        var left = new[] { 1, 2, 3 };
+        var right = new[] { "a", "b" };
+
+        // Act
+        var result = left.Zip(right);
+
+        // Assert
+        result.Should().Equal((1, "a"), (2, "b"));
+    }
 }

@@ -1,40 +1,53 @@
 # Signatures
 
-- **Total:** 427
-- **Types:** 81
-- **Members:** 346
+- **Total:** 464
+- **Types:** 100
+- **Members:** 364
 
 ___
 
 - `AggregateException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.aggregateexception) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`void Handle(Func<Exception, bool>)`](https://learn.microsoft.com/dotnet/api/system.aggregateexception.handle) <sup><sub>.NET Core 1.0</sub></sup>
 - `AllowNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.allownullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `AppContext`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.appcontext) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`string? TargetFrameworkName`](https://learn.microsoft.com/dotnet/api/system.appcontext.targetframeworkname) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static string? TargetFrameworkName`](https://learn.microsoft.com/dotnet/api/system.appcontext.targetframeworkname) <sup><sub>.NET Core 1.0</sub></sup>
 - `ArgumentException`
-  - [`void ThrowIfNullOrEmpty(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorempty) <sup><sub>.NET 7.0</sub></sup>
-  - [`void ThrowIfNullOrWhiteSpace(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorwhitespace) <sup><sub>.NET 7.0</sub></sup>
+  - [`static void ThrowIfNullOrEmpty(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorempty) <sup><sub>.NET 7.0</sub></sup>
+  - [`static void ThrowIfNullOrWhiteSpace(string?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentexception.throwifnullorwhitespace) <sup><sub>.NET 7.0</sub></sup>
 - `ArgumentNullException`
-  - [`void ThrowIfNull(object?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentnullexception.throwifnull#system-argumentnullexception-throwifnull(system-object-system-string)) <sup><sub>.NET 6.0</sub></sup>
+  - [`static void ThrowIfNull(object?, string?)`](https://learn.microsoft.com/dotnet/api/system.argumentnullexception.throwifnull#system-argumentnullexception-throwifnull(system-object-system-string)) <sup><sub>.NET 6.0</sub></sup>
 - `ArgumentOutOfRangeException`
-  - [`void ThrowIfEqual<T>(T, T, string?) where T : IEquatable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifequal) <sup><sub>.NET 8.0</sub></sup>
-  - [`void ThrowIfGreaterThan<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan) <sup><sub>.NET 8.0</sub></sup>
-  - [`void ThrowIfGreaterThanOrEqual<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal) <sup><sub>.NET 8.0</sub></sup>
-  - [`void ThrowIfLessThan<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthan) <sup><sub>.NET 8.0</sub></sup>
-  - [`void ThrowIfLessThanOrEqual<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal) <sup><sub>.NET 8.0</sub></sup>
-  - [`void ThrowIfNegative<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegative) <sup><sub>.NET 8.0</sub></sup>
-  - [`void ThrowIfNegativeOrZero<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero) <sup><sub>.NET 8.0</sub></sup>
-  - [`void ThrowIfNotEqual<T>(T, T, string?) where T : IEquatable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnotequal) <sup><sub>.NET 8.0</sub></sup>
-  - [`void ThrowIfZero<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifzero) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIfEqual<T>(T, T, string?) where T : IEquatable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifequal) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIfGreaterThan<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIfGreaterThanOrEqual<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIfLessThan<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthan) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIfLessThanOrEqual<T>(T, T, string?) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIfNegative<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegative) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIfNegativeOrZero<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIfNotEqual<T>(T, T, string?) where T : IEquatable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifnotequal) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIfZero<T>(T, string?) where T : struct, IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception.throwifzero) <sup><sub>.NET 8.0</sub></sup>
 - `ArrayPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.arraypool-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `ArraySegment<T>`
   - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `Assembly`
+  - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-assembly)) <sup><sub>.NET Core 1.0</sub></sup>
+- `AsyncIteratorMethodBuilder`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asynciteratormethodbuilder) <sup><sub>.NET Core 3.0</sub></sup>
+- `AsyncIteratorStateMachineAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asynciteratorstatemachineattribute) <sup><sub>.NET Core 3.0</sub></sup>
+- `AsyncMethodBuilderAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncmethodbuilderattribute) <sup><sub>.NET Core 2.1</sub></sup>
+- `AsyncValueTaskMethodBuilder`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder) <sup><sub>.NET Core 2.1</sub></sup>
+- `AsyncValueTaskMethodBuilder<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
 - `CallerArgumentExpressionAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `CallerFilePathAttribute`
@@ -47,26 +60,32 @@ ___
   - [`Task CancelAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.cancellationtokensource.cancelasync) <sup><sub>.NET 8.0</sub></sup>
 - `CompilerFeatureRequiredAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute) <sup><sub>.NET 7.0</sub></sup>
+- `ConfiguredCancelableAsyncEnumerable<T>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1) <sup><sub>.NET Core 3.0</sub></sup>
+- `ConfiguredValueTaskAwaitable`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredvaluetaskawaitable) <sup><sub>.NET Core 2.1</sub></sup>
+- `ConfiguredValueTaskAwaitable<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredvaluetaskawaitable-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `Convert`
-  - [`byte[] FromHexString(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))) <sup><sub>.NET 5.0</sub></sup>
-  - [`byte[] FromHexString(string)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-string)) <sup><sub>.NET 5.0</sub></sup>
-  - [`string ToHexString(byte[])`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte())) <sup><sub>.NET 5.0</sub></sup>
-  - [`string ToHexString(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte()-system-int32-system-int32)) <sup><sub>.NET 5.0</sub></sup>
-  - [`string ToHexString(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-readonlyspan((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
-  - [`string ToHexStringLower(byte[])`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte())) <sup><sub>.NET 9.0</sub></sup>
-  - [`string ToHexStringLower(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte()-system-int32-system-int32)) <sup><sub>.NET 9.0</sub></sup>
-  - [`string ToHexStringLower(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-readonlyspan((system-byte)))) <sup><sub>.NET 9.0</sub></sup>
+  - [`static byte[] FromHexString(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] FromHexString(string)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-string)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static string ToHexString(byte[])`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte())) <sup><sub>.NET 5.0</sub></sup>
+  - [`static string ToHexString(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte()-system-int32-system-int32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static string ToHexString(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-readonlyspan((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static string ToHexStringLower(byte[])`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte())) <sup><sub>.NET 9.0</sub></sup>
+  - [`static string ToHexStringLower(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte()-system-int32-system-int32)) <sup><sub>.NET 9.0</sub></sup>
+  - [`static string ToHexStringLower(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-readonlyspan((system-byte)))) <sup><sub>.NET 9.0</sub></sup>
 - `DateTime`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out DateTime)`](https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetime@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out DateTime)`](https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`DateTime UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetime.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out DateTime)`](https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetime@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out DateTime)`](https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static DateTime UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetime.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
 - `DateTimeOffset`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out DateTimeOffset)`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetimeoffset@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out DateTimeOffset)`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-string-system-iformatprovider-system-datetimeoffset@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`DateTimeOffset UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out DateTimeOffset)`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetimeoffset@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out DateTimeOffset)`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-string-system-iformatprovider-system-datetimeoffset@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static DateTimeOffset UnixEpoch`](https://learn.microsoft.com/dotnet/api/system.datetimeoffset.unixepoch) <sup><sub>.NET Core 2.1</sub></sup>
 - `decimal`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-string-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out decimal)`](https://learn.microsoft.com/dotnet/api/system.decimal.tryparse#system-decimal-tryparse(system-string-system-iformatprovider-system-decimal@)) <sup><sub>.NET 7.0</sub></sup>
 - `Dictionary<TKey, TValue>`
   - [`bool TryAdd(TKey, TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2.tryadd) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity) <sup><sub>.NET 5.0</sub></sup>
@@ -79,26 +98,28 @@ ___
 - `DoesNotReturnIfAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.doesnotreturnifattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `double`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out double)`](https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-double@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out double)`](https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-string-system-iformatprovider-system-double@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out double)`](https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-double@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out double)`](https://learn.microsoft.com/dotnet/api/system.double.tryparse#system-double-tryparse(system-string-system-iformatprovider-system-double@)) <sup><sub>.NET 7.0</sub></sup>
 - `DynamicallyAccessedMembersAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembersattribute) <sup><sub>.NET 5.0</sub></sup>
 - `DynamicallyAccessedMemberTypes`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembertypes) <sup><sub>.NET 5.0</sub></sup>
 - `Enum`
+  - [`static bool IsDefined<T>(T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.isdefined#system-enum-isdefined-1(-0)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static bool TryParse<T>(string?, bool, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-system-boolean-0@)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static bool TryParse<T>(string?, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-0@)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static string[] GetNames<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getnames#system-enum-getnames-1) <sup><sub>.NET 5.0</sub></sup>
+  - [`static T Parse<T>(string) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static T Parse<T>(string, bool) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static T[] GetValues<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getvalues#system-enum-getvalues-1) <sup><sub>.NET 5.0</sub></sup>
   - [`bool HasFlag(Enum)`](https://learn.microsoft.com/dotnet/api/system.enum.hasflag) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`bool IsDefined<T>(T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.isdefined#system-enum-isdefined-1(-0)) <sup><sub>.NET 5.0</sub></sup>
-  - [`bool TryParse<T>(string?, bool, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-system-boolean-0@)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`bool TryParse<T>(string?, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-0@)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`string[] GetNames<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getnames#system-enum-getnames-1) <sup><sub>.NET 5.0</sub></sup>
-  - [`T Parse<T>(string) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`T Parse<T>(string, bool) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`T[] GetValues<T>() where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.getvalues#system-enum-getvalues-1) <sup><sub>.NET 5.0</sub></sup>
+- `EnumeratorCancellationAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.enumeratorcancellationattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `Environment`
-  - [`int ProcessId`](https://learn.microsoft.com/dotnet/api/system.environment.processid) <sup><sub>.NET 5.0</sub></sup>
-  - [`string? ProcessPath`](https://learn.microsoft.com/dotnet/api/system.environment.processpath) <sup><sub>.NET 6.0</sub></sup>
+  - [`static int ProcessId`](https://learn.microsoft.com/dotnet/api/system.environment.processid) <sup><sub>.NET 5.0</sub></sup>
+  - [`static string? ProcessPath`](https://learn.microsoft.com/dotnet/api/system.environment.processpath) <sup><sub>.NET 6.0</sub></sup>
 - `EqualityComparer<T>`
-  - [`EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.equalitycomparer-1.create) <sup><sub>.NET 8.0</sub></sup>
+  - [`static EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.equalitycomparer-1.create) <sup><sub>.NET 8.0</sub></sup>
 - `ExcludeFromCodeCoverageAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.excludefromcodecoverageattribute) <sup><sub>.NET Core 2.0</sub></sup>
 - `ExtensionAttribute`
@@ -108,30 +129,33 @@ ___
 - `FeatureSwitchDefinitionAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute) <sup><sub>.NET 9.0</sub></sup>
 - `File`
-  - [`IAsyncEnumerable<string> ReadLinesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
-  - [`IAsyncEnumerable<string> ReadLinesAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
-  - [`Task AppendAllBytesAsync(string, byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)) <sup><sub>.NET 9.0</sub></sup>
-  - [`Task AppendAllBytesAsync(string, ReadOnlyMemory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 9.0</sub></sup>
-  - [`Task AppendAllLinesAsync(string, IEnumerable<string>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task AppendAllLinesAsync(string, IEnumerable<string>, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task AppendAllTextAsync(string, string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task AppendAllTextAsync(string, string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task WriteAllBytesAsync(string, byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writeallbytesasync#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task WriteAllLinesAsync(string, IEnumerable<string>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task WriteAllLinesAsync(string, IEnumerable<string>, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task WriteAllTextAsync(string, string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writealltextasync#system-io-file-writealltextasync(system-string-system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task WriteAllTextAsync(string, string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writealltextasync#system-io-file-writealltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task<byte[]> ReadAllBytesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readallbytesasync) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task<string> ReadAllTextAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task<string> ReadAllTextAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task<string[]> ReadAllLinesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalllinesasync#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`Task<string[]> ReadAllLinesAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalllinesasync#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`void AppendAllBytes(string, byte[])`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-byte())) <sup><sub>.NET 9.0</sub></sup>
-  - [`void AppendAllBytes(string, ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-readonlyspan((system-byte)))) <sup><sub>.NET 9.0</sub></sup>
-  - [`void Move(string, string, bool)`](https://learn.microsoft.com/dotnet/api/system.io.file.move#system-io-file-move(system-string-system-string-system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static IAsyncEnumerable<string> ReadLinesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static IAsyncEnumerable<string> ReadLinesAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static Task AppendAllBytesAsync(string, byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)) <sup><sub>.NET 9.0</sub></sup>
+  - [`static Task AppendAllBytesAsync(string, ReadOnlyMemory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 9.0</sub></sup>
+  - [`static Task AppendAllLinesAsync(string, IEnumerable<string>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task AppendAllLinesAsync(string, IEnumerable<string>, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task AppendAllTextAsync(string, string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task AppendAllTextAsync(string, string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task WriteAllBytesAsync(string, byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writeallbytesasync#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task WriteAllLinesAsync(string, IEnumerable<string>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task WriteAllLinesAsync(string, IEnumerable<string>, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task WriteAllTextAsync(string, string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writealltextasync#system-io-file-writealltextasync(system-string-system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task WriteAllTextAsync(string, string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.writealltextasync#system-io-file-writealltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task<byte[]> ReadAllBytesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readallbytesasync) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task<string> ReadAllTextAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task<string> ReadAllTextAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task<string[]> ReadAllLinesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalllinesasync#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static Task<string[]> ReadAllLinesAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalllinesasync#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static void AppendAllBytes(string, byte[])`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-byte())) <sup><sub>.NET 9.0</sub></sup>
+  - [`static void AppendAllBytes(string, ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-readonlyspan((system-byte)))) <sup><sub>.NET 9.0</sub></sup>
+  - [`static void Move(string, string, bool)`](https://learn.microsoft.com/dotnet/api/system.io.file.move#system-io-file-move(system-string-system-string-system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
 - `float`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
+- `Guid`
+  - [`static bool TryParse(string?, out Guid)`](https://learn.microsoft.com/dotnet/api/system.guid.tryparse) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Guid Parse(string)`](https://learn.microsoft.com/dotnet/api/system.guid.parse) <sup><sub>.NET Core 1.0</sub></sup>
 - `HashCode`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.hashcode) <sup><sub>.NET Core 2.1</sub></sup>
 - `HashSet<T>`
@@ -148,6 +172,14 @@ ___
   - [`Task<byte[]> ReadAsByteArrayAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<Stream> ReadAsStreamAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> ReadAsStringAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+- `IAsyncDisposable`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.iasyncdisposable) <sup><sub>.NET Core 3.0</sub></sup>
+- `IAsyncEnumerable<T>`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`ConfiguredCancelableAsyncEnumerable<T> ConfigureAwait(bool)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.configureawait) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`ConfiguredCancelableAsyncEnumerable<T> WithCancellation(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation) <sup><sub>.NET Core 3.0</sub></sup>
+- `IAsyncEnumerator<T>`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerator-1) <sup><sub>.NET Core 3.0</sub></sup>
 - `IEnumerable<T>`
   - [`HashSet<T> ToHashSet()`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
   - [`HashSet<T> ToHashSet(IEqualityComparer<T>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
@@ -195,25 +227,25 @@ ___
 - `Index`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.index) <sup><sub>.NET Core 3.0</sub></sup>
 - `int`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out int)`](https://learn.microsoft.com/dotnet/api/system.int32.tryparse#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)) <sup><sub>.NET 7.0</sub></sup>
 - `Interlocked`
-  - [`int And(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
-  - [`int Or(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
-  - [`long And(ref long, long)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int64@-system-int64)) <sup><sub>.NET 5.0</sub></sup>
-  - [`long Or(ref long, long)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int64@-system-int64)) <sup><sub>.NET 5.0</sub></sup>
-  - [`uint And(ref uint, uint)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)) <sup><sub>.NET 5.0</sub></sup>
-  - [`uint Or(ref uint, uint)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint32@-system-uint32)) <sup><sub>.NET 5.0</sub></sup>
-  - [`ulong And(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
-  - [`ulong Or(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static int And(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static int Or(ref int, int)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int32@-system-int32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static long And(ref long, long)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-int64@-system-int64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static long Or(ref long, long)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-int64@-system-int64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static uint And(ref uint, uint)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static uint Or(ref uint, uint)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint32@-system-uint32)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static ulong And(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static ulong Or(ref ulong, ulong)`](https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)) <sup><sub>.NET 5.0</sub></sup>
 - `IntPtr`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-intptr@)) <sup><sub>.NET 5.0</sub></sup>
-  - [`IntPtr Parse(string)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string)) <sup><sub>.NET 5.0</sub></sup>
-  - [`IntPtr Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
-  - [`IntPtr Parse(string, NumberStyles)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-globalization-numberstyles)) <sup><sub>.NET 5.0</sub></sup>
-  - [`IntPtr Parse(string, NumberStyles, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-globalization-numberstyles-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, out IntPtr)`](https://learn.microsoft.com/dotnet/api/system.intptr.tryparse#system-intptr-tryparse(system-string-system-intptr@)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static IntPtr Parse(string)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static IntPtr Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static IntPtr Parse(string, NumberStyles)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-globalization-numberstyles)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static IntPtr Parse(string, NumberStyles, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-globalization-numberstyles-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
 - `IReadOnlyDictionary<TKey, TValue>`
   - [`TValue? GetValueOrDefault(TKey)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`TValue? GetValueOrDefault(TKey, TValue?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1)) <sup><sub>.NET Core 2.0</sub></sup>
@@ -221,8 +253,10 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.isexternalinit) <sup><sub>.NET 5.0</sub></sup>
 - `ITimer`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.itimer) <sup><sub>.NET 8.0</sub></sup>
-- `IUnion`
-  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.iunion) <sup><sub>.NET 11.0</sub></sup>
+- `IValueTaskSource`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource) <sup><sub>.NET Core 2.1</sub></sup>
+- `IValueTaskSource<TResult>`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `KeyValuePair<TKey, TValue>`
   - [`void Deconstruct(out TKey, out TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `LibraryImportAttribute`
@@ -232,19 +266,24 @@ ___
 - `Lock`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.lock) <sup><sub>.NET 9.0</sub></sup>
 - `long`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out long)`](https://learn.microsoft.com/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)) <sup><sub>.NET 7.0</sub></sup>
+- `ManualResetValueTaskSourceCore<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.manualresetvaluetasksourcecore-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `MatchCollection`
   - [`IEnumerable<Match> AsEnumerable()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
   - [`IEnumerator<Match> GetEnumerator()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
   - [`Match[] ToArray()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
 - `Math`
-  - [`IntPtr Clamp(IntPtr, IntPtr, IntPtr)`](https://learn.microsoft.com/dotnet/api/system.math.clamp#system-math-clamp(system-intptr-system-intptr-system-intptr)) <sup><sub>.NET 6.0</sub></sup>
-  - [`T Clamp<T>(T, T, T) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.math.clamp) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static IntPtr Clamp(IntPtr, IntPtr, IntPtr)`](https://learn.microsoft.com/dotnet/api/system.math.clamp#system-math-clamp(system-intptr-system-intptr-system-intptr)) <sup><sub>.NET 6.0</sub></sup>
+  - [`static T Clamp<T>(T, T, T) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.math.clamp) <sup><sub>.NET Core 2.0</sub></sup>
 - `MaybeNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.maybenullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `MaybeNullWhenAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.maybenullwhenattribute) <sup><sub>.NET Core 3.0</sub></sup>
+- `MemberInfo`
+  - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`T? GetCustomAttribute<T>(bool) where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo-system-boolean)) <sup><sub>.NET Core 1.0</sub></sup>
 - `MemberNotNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.membernotnullattribute) <sup><sub>.NET 5.0</sub></sup>
 - `MemberNotNullWhenAttribute`
@@ -253,6 +292,8 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.memory-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `MemoryPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.memorypool-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `Module`
+  - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-module)) <sup><sub>.NET Core 1.0</sub></sup>
 - `ModuleInitializerAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute) <sup><sub>.NET 5.0</sub></sup>
 - `NotNullAttribute`
@@ -262,45 +303,48 @@ ___
 - `NotNullWhenAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.notnullwhenattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `ObjectDisposedException`
-  - [`void ThrowIf(bool, object)`](https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-object)) <sup><sub>.NET 8.0</sub></sup>
-  - [`void ThrowIf(bool, Type)`](https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-type)) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIf(bool, object)`](https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-object)) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void ThrowIf(bool, Type)`](https://learn.microsoft.com/dotnet/api/system.objectdisposedexception.throwif#system-objectdisposedexception-throwif(system-boolean-system-type)) <sup><sub>.NET 8.0</sub></sup>
 - `ObsoletedOSPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.obsoletedosplatformattribute) <sup><sub>.NET 7.0</sub></sup>
 - `OperatingSystem`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.operatingsystem) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`bool IsFreeBSD()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.isfreebsd) <sup><sub>.NET 5.0</sub></sup>
-  - [`bool IsLinux()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.islinux) <sup><sub>.NET 5.0</sub></sup>
-  - [`bool IsMacOS()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.ismacos) <sup><sub>.NET 5.0</sub></sup>
-  - [`bool IsWindows()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindows) <sup><sub>.NET 5.0</sub></sup>
-  - [`bool IsWindowsVersionAtLeast(int, int, int, int)`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindowsversionatleast) <sup><sub>.NET 5.0</sub></sup>
+  - [`static bool IsFreeBSD()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.isfreebsd) <sup><sub>.NET 5.0</sub></sup>
+  - [`static bool IsLinux()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.islinux) <sup><sub>.NET 5.0</sub></sup>
+  - [`static bool IsMacOS()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.ismacos) <sup><sub>.NET 5.0</sub></sup>
+  - [`static bool IsWindows()`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindows) <sup><sub>.NET 5.0</sub></sup>
+  - [`static bool IsWindowsVersionAtLeast(int, int, int, int)`](https://learn.microsoft.com/dotnet/api/system.operatingsystem.iswindowsversionatleast) <sup><sub>.NET 5.0</sub></sup>
 - `OSPlatform`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`OSPlatform FreeBSD`](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform.freebsd) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static OSPlatform FreeBSD`](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform.freebsd) <sup><sub>.NET Core 3.0</sub></sup>
 - `OSPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.osplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `OverloadResolutionPriorityAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute) <sup><sub>.NET 9.0</sub></sup>
 - `Parallel`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task ForAsync(int, int, CancellationToken, Func<int, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
-  - [`Task ForAsync(int, int, Func<int, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
-  - [`Task ForAsync(int, int, ParallelOptions, Func<int, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
-  - [`Task ForEachAsync<T>(IAsyncEnumerable<T>, CancellationToken, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
-  - [`Task ForEachAsync<T>(IAsyncEnumerable<T>, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
-  - [`Task ForEachAsync<T>(IAsyncEnumerable<T>, ParallelOptions, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
-  - [`Task ForEachAsync<T>(IEnumerable<T>, CancellationToken, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
-  - [`Task ForEachAsync<T>(IEnumerable<T>, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
-  - [`Task ForEachAsync<T>(IEnumerable<T>, ParallelOptions, Func<T, CancellationToken, Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`static Task ForAsync(int, int, CancellationToken, Func<int, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
+  - [`static Task ForAsync(int, int, Func<int, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
+  - [`static Task ForAsync(int, int, ParallelOptions, Func<int, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.forasync#system-threading-tasks-parallel-forasync-1(-0-0-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 8.0</sub></sup>
+  - [`static Task ForEachAsync<T>(IAsyncEnumerable<T>, CancellationToken, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`static Task ForEachAsync<T>(IAsyncEnumerable<T>, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`static Task ForEachAsync<T>(IAsyncEnumerable<T>, ParallelOptions, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`static Task ForEachAsync<T>(IEnumerable<T>, CancellationToken, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`static Task ForEachAsync<T>(IEnumerable<T>, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
+  - [`static Task ForEachAsync<T>(IEnumerable<T>, ParallelOptions, Func<T, CancellationToken, ValueTask>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel.foreachasync#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask)))) <sup><sub>.NET 6.0</sub></sup>
 - `ParallelOptions`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.paralleloptions) <sup><sub>.NET Core 1.0</sub></sup>
+- `ParameterInfo`
+  - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-parameterinfo)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`T? GetCustomAttribute<T>(bool) where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-parameterinfo-system-boolean)) <sup><sub>.NET Core 1.0</sub></sup>
 - `Path`
-  - [`bool EndsInDirectorySeparator(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.endsindirectoryseparator#system-io-path-endsindirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
-  - [`bool Exists(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.exists) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool IsPathFullyQualified(string)`](https://learn.microsoft.com/dotnet/api/system.io.path.ispathfullyqualified#system-io-path-ispathfullyqualified(system-string)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`string Combine(params string[])`](https://learn.microsoft.com/dotnet/api/system.io.path.combine#system-io-path-combine(system-string())) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`string GetRelativePath(string, string)`](https://learn.microsoft.com/dotnet/api/system.io.path.getrelativepath) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`string Join(params string?[])`](https://learn.microsoft.com/dotnet/api/system.io.path.join#system-io-path-join(system-string())) <sup><sub>.NET Core 3.0</sub></sup>
-  - [`string TrimEndingDirectorySeparator(string)`](https://learn.microsoft.com/dotnet/api/system.io.path.trimendingdirectoryseparator#system-io-path-trimendingdirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static bool EndsInDirectorySeparator(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.endsindirectoryseparator#system-io-path-endsindirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static bool Exists(string?)`](https://learn.microsoft.com/dotnet/api/system.io.path.exists) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsPathFullyQualified(string)`](https://learn.microsoft.com/dotnet/api/system.io.path.ispathfullyqualified#system-io-path-ispathfullyqualified(system-string)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`static string Combine(params string[])`](https://learn.microsoft.com/dotnet/api/system.io.path.combine#system-io-path-combine(system-string())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static string GetRelativePath(string, string)`](https://learn.microsoft.com/dotnet/api/system.io.path.getrelativepath) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static string Join(params string?[])`](https://learn.microsoft.com/dotnet/api/system.io.path.join#system-io-path-join(system-string())) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static string TrimEndingDirectorySeparator(string)`](https://learn.microsoft.com/dotnet/api/system.io.path.trimendingdirectoryseparator#system-io-path-trimendingdirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
 - `Process`
   - [`Task WaitForExitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitasync) <sup><sub>.NET 5.0</sub></sup>
   - [`void Kill(bool)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
@@ -309,11 +353,11 @@ ___
   - [`bool TryPeek(out T?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.queue-1.trypeek) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.queue-1.ensurecapacity) <sup><sub>.NET 6.0</sub></sup>
 - `Random`
+  - [`static Random Shared`](https://learn.microsoft.com/dotnet/api/system.random.shared) <sup><sub>.NET 6.0</sub></sup>
   - [`float NextSingle()`](https://learn.microsoft.com/dotnet/api/system.random.nextsingle) <sup><sub>.NET 6.0</sub></sup>
   - [`long NextInt64()`](https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64) <sup><sub>.NET 6.0</sub></sup>
   - [`long NextInt64(long)`](https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64)) <sup><sub>.NET 6.0</sub></sup>
   - [`long NextInt64(long, long)`](https://learn.microsoft.com/dotnet/api/system.random.nextint64#system-random-nextint64(system-int64-system-int64)) <sup><sub>.NET 6.0</sub></sup>
-  - [`Random Shared`](https://learn.microsoft.com/dotnet/api/system.random.shared) <sup><sub>.NET 6.0</sub></sup>
   - [`string GetHexString(int, bool)`](https://learn.microsoft.com/dotnet/api/system.random.gethexstring#system-random-gethexstring(system-int32-system-boolean)) <sup><sub>.NET 10.0</sub></sup>
   - [`string GetString(ReadOnlySpan<char>, int)`](https://learn.microsoft.com/dotnet/api/system.random.getstring) <sup><sub>.NET 10.0</sub></sup>
   - [`T[] GetItems<T>(ReadOnlySpan<T>, int)`](https://learn.microsoft.com/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-int32)) <sup><sub>.NET 8.0</sub></sup>
@@ -324,19 +368,19 @@ ___
   - [`void Shuffle<T>(T[])`](https://learn.microsoft.com/dotnet/api/system.random.shuffle#system-random-shuffle-1(-0())) <sup><sub>.NET 8.0</sub></sup>
 - `RandomNumberGenerator`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`byte[] GetBytes(int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-int32)) <sup><sub>.NET 6.0</sub></sup>
-  - [`int GetInt32(int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
-  - [`int GetInt32(int, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32-system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
-  - [`string GetHexString(int, bool)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.gethexstring#system-security-cryptography-randomnumbergenerator-gethexstring(system-int32-system-boolean)) <sup><sub>.NET 8.0</sub></sup>
-  - [`string GetString(ReadOnlySpan<char>, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring) <sup><sub>.NET 8.0</sub></sup>
-  - [`T[] GetItems<T>(ReadOnlySpan<T>, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-int32)) <sup><sub>.NET 8.0</sub></sup>
-  - [`void Fill(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.fill) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`static byte[] GetBytes(int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-int32)) <sup><sub>.NET 6.0</sub></sup>
+  - [`static int GetInt32(int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int GetInt32(int, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32#system-security-cryptography-randomnumbergenerator-getint32(system-int32-system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static string GetHexString(int, bool)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.gethexstring#system-security-cryptography-randomnumbergenerator-gethexstring(system-int32-system-boolean)) <sup><sub>.NET 8.0</sub></sup>
+  - [`static string GetString(ReadOnlySpan<char>, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring) <sup><sub>.NET 8.0</sub></sup>
+  - [`static T[] GetItems<T>(ReadOnlySpan<T>, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-int32)) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void Fill(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.fill) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`static void GetItems<T>(ReadOnlySpan<T>, Span<T>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
+  - [`static void Shuffle<T>(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle#system-security-cryptography-randomnumbergenerator-shuffle-1(system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
   - [`void GetBytes(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-byte()-system-int32-system-int32)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`void GetBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes#system-security-cryptography-randomnumbergenerator-getbytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`void GetItems<T>(ReadOnlySpan<T>, Span<T>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
   - [`void GetNonZeroBytes(byte[])`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-byte())) <sup><sub>.NET Core 2.0</sub></sup>
   - [`void GetNonZeroBytes(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.getnonzerobytes#system-security-cryptography-randomnumbergenerator-getnonzerobytes(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`void Shuffle<T>(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle#system-security-cryptography-randomnumbergenerator-shuffle-1(system-span((-0)))) <sup><sub>.NET 8.0</sub></sup>
 - `Range`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.range) <sup><sub>.NET Core 3.0</sub></sup>
 - `ReadOnlyMemory<T>`
@@ -347,10 +391,10 @@ ___
   - [`bool SequenceEqual(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int IndexOf(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-readonlyspan((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
 - `Regex`
+  - [`static int Count(string, string)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int Count(string, string, RegexOptions)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int Count(string, string, RegexOptions, TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions-system-timespan)) <sup><sub>.NET 7.0</sub></sup>
   - [`int Count(string)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string)) <sup><sub>.NET 7.0</sub></sup>
-  - [`int Count(string, string)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string)) <sup><sub>.NET 7.0</sub></sup>
-  - [`int Count(string, string, RegexOptions)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions)) <sup><sub>.NET 7.0</sub></sup>
-  - [`int Count(string, string, RegexOptions, TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex.count#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions-system-timespan)) <sup><sub>.NET 7.0</sub></sup>
 - `RequiredMemberAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.requiredmemberattribute) <sup><sub>.NET 7.0</sub></sup>
 - `RequiresAssemblyFilesAttribute`
@@ -364,13 +408,20 @@ ___
 - `RuntimeInformation`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.runtimeinformation) <sup><sub>.NET Core 1.0</sub></sup>
 - `sbyte`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out sbyte)`](https://learn.microsoft.com/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@)) <sup><sub>.NET 7.0</sub></sup>
+- `SemaphoreSlim`
+  - [`Task WaitAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<bool> WaitAsync(int)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-int32)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<bool> WaitAsync(int, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-int32-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<bool> WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-timespan)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Task<bool> WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
 - `SetsRequiredMembersAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute) <sup><sub>.NET 7.0</sub></sup>
 - `short`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-string-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-string-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
 - `SkipLocalsInitAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.skiplocalsinitattribute) <sup><sub>.NET 5.0</sub></sup>
 - `SortedSet<T>`
@@ -386,38 +437,39 @@ ___
   - [`bool TryPop(out T)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.stack-1.trypop) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.stack-1.ensurecapacity) <sup><sub>.NET 6.0</sub></sup>
 - `Stopwatch`
-  - [`TimeSpan GetElapsedTime(long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64)) <sup><sub>.NET 7.0</sub></sup>
-  - [`TimeSpan GetElapsedTime(long, long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64-system-int64)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static TimeSpan GetElapsedTime(long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static TimeSpan GetElapsedTime(long, long)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.stopwatch.getelapsedtime#system-diagnostics-stopwatch-getelapsedtime(system-int64-system-int64)) <sup><sub>.NET 7.0</sub></sup>
 - `Stream`
   - [`int Read(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.read#system-io-stream-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int ReadAtLeast(Span<byte>, int, bool)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleast) <sup><sub>.NET 7.0</sub></sup>
   - [`Task CopyToAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.copytoasync#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`Task DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.io.stream.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
   - [`Task ReadExactlyAsync(byte[], int, int, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
   - [`Task ReadExactlyAsync(Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
-  - [`Task WriteAsync(ReadOnlyMemory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`Task<int> ReadAsync(Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Task<int> ReadAtLeastAsync(Memory<byte>, int, bool, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readatleastasync) <sup><sub>.NET 7.0</sub></sup>
+  - [`ValueTask DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.io.stream.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`ValueTask WriteAsync(ReadOnlyMemory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`ValueTask<int> ReadAsync(Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void CopyTo(Stream)`](https://learn.microsoft.com/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`void CopyTo(Stream, int)`](https://learn.microsoft.com/dotnet/api/system.io.stream.copyto#system-io-stream-copyto(system-io-stream-system-int32)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`void ReadExactly(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-byte()-system-int32-system-int32)) <sup><sub>.NET 7.0</sub></sup>
   - [`void ReadExactly(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.readexactly#system-io-stream-readexactly(system-span((system-byte)))) <sup><sub>.NET 7.0</sub></sup>
   - [`void Write(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.stream.write#system-io-stream-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `string`
+  - [`static bool IsNullOrWhiteSpace(string?)`](https://learn.microsoft.com/dotnet/api/system.string.isnullorwhitespace) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static string Create<TState>(int, TState, SpanAction<char, TState>)`](https://learn.microsoft.com/dotnet/api/system.string.create#system-string-create-1(system-int32--0-system-buffers-spanaction(-system-char--0))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`static string Join(char, params object?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-object())) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static string Join(char, params string?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string())) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static string Join(char, string?[], int, int)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static string Join(string?, params object?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-string-system-object())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static string Join<T>(char, IEnumerable<T>)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static string Join<T>(string?, IEnumerable<T>)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join-1(system-string-system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool Contains(char)`](https://learn.microsoft.com/dotnet/api/system.string.contains#system-string-contains(system-char)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`bool Contains(char, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.contains#system-string-contains(system-char-system-stringcomparison)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`bool Contains(string, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.contains#system-string-contains(system-string-system-stringcomparison)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`bool EndsWith(char)`](https://learn.microsoft.com/dotnet/api/system.string.endswith#system-string-endswith(system-char)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`bool IsNullOrWhiteSpace(string?)`](https://learn.microsoft.com/dotnet/api/system.string.isnullorwhitespace) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool StartsWith(char)`](https://learn.microsoft.com/dotnet/api/system.string.startswith#system-string-startswith(system-char)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int GetHashCode(StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`int IndexOf(char, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.indexof#system-string-indexof(system-char-system-stringcomparison)) <sup><sub>.NET 5.0</sub></sup>
-  - [`string Join(char, params object?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-object())) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`string Join(char, params string?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string())) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`string Join(char, string?[], int, int)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32)) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`string Join(string?, params object?[])`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join(system-string-system-object())) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`string Join<T>(char, IEnumerable<T>)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`string Join<T>(string?, IEnumerable<T>)`](https://learn.microsoft.com/dotnet/api/system.string.join#system-string-join-1(system-string-system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 1.0</sub></sup>
   - [`string Replace(string, string?, bool, CultureInfo?)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-boolean-system-globalization-cultureinfo)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string Replace(string, string?, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.string.replace#system-string-replace(system-string-system-string-system-stringcomparison)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`string ReplaceLineEndings()`](https://learn.microsoft.com/dotnet/api/system.string.replacelineendings#system-string-replacelineendings) <sup><sub>.NET 6.0</sub></sup>
@@ -447,36 +499,36 @@ ___
 - `TargetPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.targetplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `Task`
+  - [`static IAsyncEnumerable<Task<T>> WhenEach<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET 9.0</sub></sup>
+  - [`static IAsyncEnumerable<Task<T>> WhenEach<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach-1(system-threading-tasks-task((-0))())) <sup><sub>.NET 9.0</sub></sup>
+  - [`static IAsyncEnumerable<Task> WhenEach(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET 9.0</sub></sup>
+  - [`static IAsyncEnumerable<Task> WhenEach(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-threading-tasks-task())) <sup><sub>.NET 9.0</sub></sup>
+  - [`static Task CompletedTask`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task Delay(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task Delay(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task FromCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task Run(Action)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task Run(Action, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task Run(Func<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task)))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task Run(Func<Task>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task WhenAll(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task WhenAll(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall(system-threading-tasks-task())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<T> FromCanceled<T>(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<T> FromResult<T>(T)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<T> Run<T>(Func<T>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0)))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<T> Run<T>(Func<T>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<T> Run<T>(Func<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<T> Run<T>(Func<Task<T>>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0))))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<Task<T>> WhenAny<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<Task<T>> WhenAny<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany-1(system-threading-tasks-task((-0))())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<Task> WhenAny(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<Task> WhenAny(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany(system-threading-tasks-task())) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<T[]> WhenAll<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Task<T[]> WhenAll<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-threading-tasks-task((-0))())) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool IsCompletedSuccessfully`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.iscompletedsuccessfully) <sup><sub>.NET Core 2.0</sub></sup>
-  - [`IAsyncEnumerable<Task<T>> WhenEach<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET 9.0</sub></sup>
-  - [`IAsyncEnumerable<Task<T>> WhenEach<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach-1(system-threading-tasks-task((-0))())) <sup><sub>.NET 9.0</sub></sup>
-  - [`IAsyncEnumerable<Task> WhenEach(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET 9.0</sub></sup>
-  - [`IAsyncEnumerable<Task> WhenEach(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.wheneach#system-threading-tasks-task-wheneach(system-threading-tasks-task())) <sup><sub>.NET 9.0</sub></sup>
-  - [`Task CompletedTask`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.completedtask) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task Delay(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task Delay(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.delay#system-threading-tasks-task-delay(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task FromCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task Run(Action)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task Run(Action, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-action-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task Run(Func<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task)))) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task Run(Func<Task>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run(system-func((system-threading-tasks-task))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
-  - [`Task WhenAll(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task WhenAll(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall(system-threading-tasks-task())) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<T> FromCanceled<T>(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromcanceled) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<T> Run<T>(Func<T>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0)))) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<T> Run<T>(Func<T>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((-0))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<T> Run<T>(Func<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<T> Run<T>(Func<Task<T>>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.run#system-threading-tasks-task-run-1(system-func((system-threading-tasks-task((-0))))-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<T?> FromResult<T>(T?)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.fromresult) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<Task<T>> WhenAny<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<Task<T>> WhenAny<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany-1(system-threading-tasks-task((-0))())) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<Task> WhenAny(IEnumerable<Task>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany(system-collections-generic-ienumerable((system-threading-tasks-task)))) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<Task> WhenAny(params Task[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenany#system-threading-tasks-task-whenany(system-threading-tasks-task())) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<T[]> WhenAll<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Task<T[]> WhenAll<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-threading-tasks-task((-0))())) <sup><sub>.NET Core 1.0</sub></sup>
 - `Task<T>`
   - [`Task<T> WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)) <sup><sub>.NET 6.0</sub></sup>
@@ -488,12 +540,12 @@ ___
   - [`void SetCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
 - `TextReader`
   - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.read#system-io-textreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`Task<int> ReadAsync(Memory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Task<string> ReadToEndAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readtoendasync(system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
   - [`Task<string?> ReadLineAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readlineasync#system-io-textreader-readlineasync(system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`ValueTask<int> ReadAsync(Memory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
 - `TextWriter`
-  - [`Task DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
-  - [`Task WriteAsync(ReadOnlyMemory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`ValueTask DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`ValueTask WriteAsync(ReadOnlyMemory<char>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `ThreadAbortException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.threadabortexception) <sup><sub>.NET Core 2.0</sub></sup>
@@ -503,13 +555,13 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.timer) <sup><sub>.NET Core 1.0</sub></sup>
   - [`ValueTask DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.timer.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
 - `TimeSpan`
-  - [`TimeSpan FromDays(int, int, long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromdays#system-timespan-fromdays(system-int64-system-int64-system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
-  - [`TimeSpan FromHours(int, long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromhours#system-timespan-fromhours(system-int64-system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
-  - [`TimeSpan FromMicroseconds(double)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommicroseconds) <sup><sub>.NET 7.0</sub></sup>
-  - [`TimeSpan FromMilliseconds(long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64)) <sup><sub>.NET 10.0</sub></sup>
-  - [`TimeSpan FromMilliseconds(long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
-  - [`TimeSpan FromMinutes(long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromminutes#system-timespan-fromminutes(system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
-  - [`TimeSpan FromSeconds(long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromseconds#system-timespan-fromseconds(system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
+  - [`static TimeSpan FromDays(int, int, long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromdays#system-timespan-fromdays(system-int64-system-int64-system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
+  - [`static TimeSpan FromHours(int, long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromhours#system-timespan-fromhours(system-int64-system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
+  - [`static TimeSpan FromMicroseconds(double)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommicroseconds) <sup><sub>.NET 7.0</sub></sup>
+  - [`static TimeSpan FromMilliseconds(long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64)) <sup><sub>.NET 10.0</sub></sup>
+  - [`static TimeSpan FromMilliseconds(long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.frommilliseconds#system-timespan-frommilliseconds(system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
+  - [`static TimeSpan FromMinutes(long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromminutes#system-timespan-fromminutes(system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
+  - [`static TimeSpan FromSeconds(long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromseconds#system-timespan-fromseconds(system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
 - `TupleElementNamesAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.tupleelementnamesattribute) <sup><sub>.NET Core 2.0</sub></sup>
 - `Type`
@@ -526,30 +578,40 @@ ___
   - [`void CopyTo(Memory<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.copyto#system-memoryextensions-copyto-1(-0()-system-memory((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void CopyTo(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.copyto#system-memoryextensions-copyto-1(-0()-system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `uint`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out uint)`](https://learn.microsoft.com/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint32@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out uint)`](https://learn.microsoft.com/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-string-system-iformatprovider-system-uint32@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out uint)`](https://learn.microsoft.com/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint32@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out uint)`](https://learn.microsoft.com/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-string-system-iformatprovider-system-uint32@)) <sup><sub>.NET 7.0</sub></sup>
 - `UIntPtr`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uintptr@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-iformatprovider-system-uintptr@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-uintptr@)) <sup><sub>.NET 5.0</sub></sup>
-  - [`UIntPtr Parse(string)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string)) <sup><sub>.NET 5.0</sub></sup>
-  - [`UIntPtr Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
-  - [`UIntPtr Parse(string, NumberStyles)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-globalization-numberstyles)) <sup><sub>.NET 5.0</sub></sup>
-  - [`UIntPtr Parse(string, NumberStyles, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-globalization-numberstyles-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uintptr@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-iformatprovider-system-uintptr@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, out UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.uintptr.tryparse#system-uintptr-tryparse(system-string-system-uintptr@)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static UIntPtr Parse(string)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static UIntPtr Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static UIntPtr Parse(string, NumberStyles)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-globalization-numberstyles)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static UIntPtr Parse(string, NumberStyles, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.uintptr.parse#system-uintptr-parse(system-string-system-globalization-numberstyles-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
 - `ulong`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
 - `UnconditionalSuppressMessageAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute) <sup><sub>.NET 5.0</sub></sup>
-- `UnionAttribute`
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.unionattribute) <sup><sub>.NET 11.0</sub></sup>
 - `UnsupportedOSPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `UnsupportedOSPlatformGuardAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformguardattribute) <sup><sub>.NET 6.0</sub></sup>
 - `ushort`
-  - [`bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
-  - [`bool TryParse(string?, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool TryParse(string?, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
+- `ValueTask`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTask<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTaskAwaiter`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.valuetaskawaiter) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTaskAwaiter<TResult>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.valuetaskawaiter-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTaskSourceOnCompletedFlags`
+  - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.valuetasksourceoncompletedflag) <sup><sub>.NET Core 2.1</sub></sup>
+- `ValueTaskSourceStatus`
+  - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.valuetasksourcestatus) <sup><sub>.NET Core 2.1</sub></sup>
 - `ValueTuple`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.valuetuple) <sup><sub>.NET Core 2.0</sub></sup>
 - `ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>`
@@ -569,5 +631,5 @@ ___
 - `ValueTuple<T1>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.valuetuple-1) <sup><sub>.NET Core 2.0</sub></sup>
 - `Version`
-  - [`bool TryParse(string?, out Version?)`](https://learn.microsoft.com/dotnet/api/system.version.tryparse) <sup><sub>.NET Core 1.0</sub></sup>
-  - [`Version Parse(string)`](https://learn.microsoft.com/dotnet/api/system.version.parse) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static bool TryParse(string?, out Version?)`](https://learn.microsoft.com/dotnet/api/system.version.tryparse) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`static Version Parse(string)`](https://learn.microsoft.com/dotnet/api/system.version.parse) <sup><sub>.NET Core 1.0</sub></sup>
