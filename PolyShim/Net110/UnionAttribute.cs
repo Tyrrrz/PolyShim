@@ -15,5 +15,5 @@ namespace System.Runtime.CompilerServices;
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal class UnionAttribute : Attribute { }
+internal class UnionAttribute : Attribute;
 #endif
