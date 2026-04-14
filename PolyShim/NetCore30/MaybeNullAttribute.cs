@@ -11,7 +11,7 @@ namespace System.Diagnostics.CodeAnalysis;
         | AttributeTargets.Property
         | AttributeTargets.ReturnValue
 )]
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class MaybeNullAttribute : Attribute;

@@ -6,7 +6,7 @@ namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.maybenullwhenattribute
 [AttributeUsage(AttributeTargets.Parameter)]
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class MaybeNullWhenAttribute(bool returnValue) : Attribute

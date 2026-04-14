@@ -12,7 +12,7 @@ file static class RandomEx
     public static Random? Shared { get; set; }
 }
 
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net60_Random

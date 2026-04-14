@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Runtime.InteropServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.osplatform
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly partial struct OSPlatform(string name) : IEquatable<OSPlatform>

@@ -12,7 +12,7 @@ namespace System.Diagnostics.CodeAnalysis;
         | AttributeTargets.Property,
     Inherited = false
 )]
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class RequiresAssemblyFilesAttribute(string? message) : Attribute

@@ -9,7 +9,7 @@ namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.enumeratorcancellationattribute
 [AttributeUsage(AttributeTargets.Parameter)]
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal sealed class EnumeratorCancellationAttribute : Attribute;

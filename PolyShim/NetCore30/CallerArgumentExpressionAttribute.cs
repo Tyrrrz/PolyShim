@@ -8,7 +8,7 @@ namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute
 [AttributeUsage(AttributeTargets.Parameter)]
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class CallerArgumentExpressionAttribute(string parameterName) : Attribute

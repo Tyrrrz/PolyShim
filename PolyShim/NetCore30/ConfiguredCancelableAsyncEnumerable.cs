@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly struct ConfiguredCancelableAsyncEnumerable<T>(
@@ -30,7 +30,7 @@ internal readonly struct ConfiguredCancelableAsyncEnumerable<T>(
     public Enumerator GetAsyncEnumerator() =>
         new(enumerable.GetAsyncEnumerator(cancellationToken), continueOnCapturedContext);
 
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
     [ExcludeFromCodeCoverage]
 #endif
     public readonly struct Enumerator(

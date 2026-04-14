@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.readonlymemory-1
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly struct ReadOnlyMemory<T> : IEquatable<ReadOnlyMemory<T>>

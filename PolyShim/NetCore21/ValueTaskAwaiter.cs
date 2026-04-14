@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.valuetaskawaiter
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly struct ValueTaskAwaiter(ValueTask value)
@@ -28,7 +28,7 @@ internal readonly struct ValueTaskAwaiter(ValueTask value)
 }
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.valuetaskawaiter-1
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly struct ValueTaskAwaiter<TResult>(ValueTask<TResult> value)

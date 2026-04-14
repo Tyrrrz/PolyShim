@@ -6,7 +6,7 @@ using System.Buffers;
 using System.IO;
 using System.Diagnostics.CodeAnalysis;
 
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_NetCore10_Stream

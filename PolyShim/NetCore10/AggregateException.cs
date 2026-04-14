@@ -12,7 +12,7 @@ using System.Runtime.Serialization;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.aggregateexception
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class AggregateException : Exception

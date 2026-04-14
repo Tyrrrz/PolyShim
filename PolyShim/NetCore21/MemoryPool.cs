@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Buffers;
 
 // https://learn.microsoft.com/dotnet/api/system.buffers.memorypool-1
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal partial class MemoryPool<T> : IDisposable
@@ -37,7 +37,7 @@ internal partial class MemoryPool<T> : IDisposable
 
 internal partial class MemoryPool<T>
 {
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
     [ExcludeFromCodeCoverage]
 #endif
     private class MemoryOwner(ArrayPool<T> pool, T[] buffer) : IMemoryOwner<T>

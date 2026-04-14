@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.span-1
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal readonly ref struct Span<T>

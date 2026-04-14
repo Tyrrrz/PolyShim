@@ -8,7 +8,7 @@ namespace System.Diagnostics.CodeAnalysis;
 [AttributeUsage(
     AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue
 )]
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class NotNullIfNotNullAttribute(string parameterName) : Attribute

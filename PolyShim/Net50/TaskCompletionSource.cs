@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Threading.Tasks;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class TaskCompletionSource(object? state, TaskCreationOptions creationOptions)

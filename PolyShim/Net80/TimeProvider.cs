@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.timeprovider
-#if !POLYSHIM_EXCLUDE_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal abstract class TimeProvider
