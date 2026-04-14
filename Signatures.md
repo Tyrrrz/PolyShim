@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 464
-- **Types:** 100
+- **Total:** 466
+- **Types:** 102
 - **Members:** 364
 
 ___
@@ -253,6 +253,8 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.isexternalinit) <sup><sub>.NET 5.0</sub></sup>
 - `ITimer`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.itimer) <sup><sub>.NET 8.0</sub></sup>
+- `IUnion`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.iunion) <sup><sub>.NET 11.0</sub></sup>
 - `IValueTaskSource`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource) <sup><sub>.NET Core 2.1</sub></sup>
 - `IValueTaskSource<TResult>`
@@ -593,6 +595,8 @@ ___
   - [`static bool TryParse(string?, IFormatProvider?, out ulong)`](https://learn.microsoft.com/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)) <sup><sub>.NET 7.0</sub></sup>
 - `UnconditionalSuppressMessageAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute) <sup><sub>.NET 5.0</sub></sup>
+- `UnionAttribute`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.unionattribute) <sup><sub>.NET 11.0</sub></sup>
 - `UnsupportedOSPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `UnsupportedOSPlatformGuardAttribute`
