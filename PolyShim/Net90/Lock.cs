@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.lock
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal partial class Lock
@@ -59,7 +59,7 @@ internal partial class Lock
 
 internal partial class Lock
 {
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
     [ExcludeFromCodeCoverage]
 #endif
     public readonly ref struct Scope(Lock owner)

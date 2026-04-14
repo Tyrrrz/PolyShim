@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net80_ArgumentOutOfRangeException

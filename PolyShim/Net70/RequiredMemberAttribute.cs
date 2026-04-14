@@ -14,7 +14,7 @@ namespace System.Runtime.CompilerServices;
         | AttributeTargets.Struct,
     Inherited = false
 )]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class RequiredMemberAttribute : Attribute;

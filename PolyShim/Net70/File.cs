@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Diagnostics.CodeAnalysis;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net70_File

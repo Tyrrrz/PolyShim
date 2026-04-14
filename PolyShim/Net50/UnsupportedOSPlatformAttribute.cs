@@ -22,7 +22,7 @@ namespace System.Runtime.Versioning;
     AllowMultiple = true,
     Inherited = false
 )]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class UnsupportedOSPlatformAttribute(string platformName, string? message = null)

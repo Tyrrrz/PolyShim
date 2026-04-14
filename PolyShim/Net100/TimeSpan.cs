@@ -5,7 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net100_TimeSpan

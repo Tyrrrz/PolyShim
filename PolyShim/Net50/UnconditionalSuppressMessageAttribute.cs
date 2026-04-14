@@ -6,7 +6,7 @@ namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class UnconditionalSuppressMessageAttribute(string category, string checkId) : Attribute

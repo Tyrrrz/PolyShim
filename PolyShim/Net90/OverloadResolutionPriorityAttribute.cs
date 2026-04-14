@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Runtime.CompilerServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 [AttributeUsage(

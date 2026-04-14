@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Linq;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net70_EnumerableExtensions

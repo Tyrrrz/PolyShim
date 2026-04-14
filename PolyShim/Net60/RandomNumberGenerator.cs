@@ -6,7 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net60_RandomNumberGenerator

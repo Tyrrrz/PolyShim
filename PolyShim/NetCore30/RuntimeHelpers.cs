@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 // https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.runtimehelpers

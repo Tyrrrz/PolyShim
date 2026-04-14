@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.threadabortexception
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class ThreadAbortException : SystemException

@@ -6,7 +6,7 @@ namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.membernotnullattribute
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, Inherited = false)]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class MemberNotNullAttribute(params string[] members) : Attribute

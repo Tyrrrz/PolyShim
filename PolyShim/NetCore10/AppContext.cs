@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Versioning;
 
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_NetCore10_AppContext
@@ -33,7 +33,7 @@ internal static class MemberPolyfills_NetCore10_AppContext
 namespace System
 {
     // https://learn.microsoft.com/dotnet/api/system.appcontext
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
     [ExcludeFromCodeCoverage]
 #endif
     internal static class AppContext;

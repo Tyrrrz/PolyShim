@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.timer
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal sealed class Timer(TimerCallback callback, object? state) : IDisposable

@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System;
 
 // https://learn.microsoft.com/dotnet/api/system.operatingsystem
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class OperatingSystem;

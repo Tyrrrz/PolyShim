@@ -6,7 +6,7 @@
 namespace System.Diagnostics.CodeAnalysis;
 
 // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.featureguardattribute
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]

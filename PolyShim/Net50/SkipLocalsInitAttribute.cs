@@ -18,7 +18,7 @@ namespace System.Runtime.CompilerServices;
         | AttributeTargets.Event,
     Inherited = false
 )]
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal class SkipLocalsInitAttribute : Attribute;

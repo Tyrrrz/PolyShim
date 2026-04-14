@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace System.Threading.Tasks;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.parallel
-#if !POLYFILL_COVERAGE
+#if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class Parallel;
