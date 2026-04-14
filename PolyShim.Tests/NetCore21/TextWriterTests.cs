@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Buffers;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -70,5 +71,29 @@ public class TextWriterTests
 
         // Assert
         stream.ToArray().Should().StartWith("Hello world"u8.ToArray());
+    }
+
+    [Fact]
+    public async Task WriteLineAsync_Test()
+    {
+        // Arrange
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        const int bufferSize = 5;
+        using var buffer = MemoryPool<char>.Shared.Rent(bufferSize);
+
+        buffer.Memory.Span[0] = 'H';
+        buffer.Memory.Span[1] = 'e';
+        buffer.Memory.Span[2] = 'l';
+        buffer.Memory.Span[3] = 'l';
+        buffer.Memory.Span[4] = 'o';
+
+        // Act
+        await writer.WriteLineAsync(buffer.Memory[..bufferSize]);
+        await writer.FlushAsync();
+
+        // Assert
+        var result = Encoding.UTF8.GetString(stream.ToArray());
+        result.Should().StartWith("Hello" + Environment.NewLine);
     }
 }
