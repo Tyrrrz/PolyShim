@@ -18,6 +18,7 @@ internal static class MemberPolyfills_NetCore10_TimeSpan
     {
         // https://learn.microsoft.com/dotnet/api/system.timespan.parse#system-timespan-parse(system-string-system-iformatprovider)
         public static TimeSpan Parse(string s, IFormatProvider? formatProvider) =>
+            // No way to use the format provider on .NET 3.5, short of re-implementing the whole thing ourselves
             TimeSpan.Parse(s);
 
         // https://learn.microsoft.com/dotnet/api/system.timespan.tryparse#system-timespan-tryparse(system-string-system-iformatprovider-system-timespan@)
