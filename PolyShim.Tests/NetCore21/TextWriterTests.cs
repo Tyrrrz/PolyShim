@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Buffers;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
@@ -92,7 +93,7 @@ public class TextWriterTests
         await writer.FlushAsync();
 
         // Assert
-        var result = System.Text.Encoding.UTF8.GetString(stream.ToArray());
+        var result = Encoding.UTF8.GetString(stream.ToArray());
         result.Should().StartWith("Hello" + Environment.NewLine);
     }
 }
