@@ -7,7 +7,7 @@
 
 namespace System.Runtime.CompilerServices;
 
-// https://devblogs.microsoft.com/dotnet/csharp-15-union-types/
+// https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.iunion
 internal interface IUnion
 {
     object? Value { get; }

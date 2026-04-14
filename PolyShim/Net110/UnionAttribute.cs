@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices;
 
-// https://devblogs.microsoft.com/dotnet/csharp-15-union-types/
+// https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.unionattribute
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false)]
 #if !POLYFILL_COVERAGE
 [ExcludeFromCodeCoverage]
