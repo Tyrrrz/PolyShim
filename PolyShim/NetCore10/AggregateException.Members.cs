@@ -22,10 +22,10 @@ internal static class MemberPolyfills_NetCore10_AggregateException
         {
             var unhandled = new List<Exception>();
 
-            foreach (var exception in exception.InnerExceptions)
+            foreach (var innerException in exception.InnerExceptions)
             {
-                if (!predicate(exception))
-                    unhandled.Add(exception);
+                if (!predicate(innerException))
+                    unhandled.Add(innerException);
             }
 
             if (unhandled.Count > 0)
