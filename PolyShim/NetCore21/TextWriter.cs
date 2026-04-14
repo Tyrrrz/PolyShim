@@ -38,6 +38,18 @@ internal static class MemberPolyfills_NetCore21_TextWriter
             cancellationToken.ThrowIfCancellationRequested();
             await writer.WriteAsync(bufferArray, 0, bufferArray.Length).ConfigureAwait(false);
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.io.textwriter.writelineasync#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
+        public async ValueTask WriteLineAsync(
+            ReadOnlyMemory<char> buffer,
+            CancellationToken cancellationToken = default
+        )
+        {
+            var bufferArray = buffer.ToArray();
+
+            cancellationToken.ThrowIfCancellationRequested();
+            await writer.WriteLineAsync(bufferArray, 0, bufferArray.Length).ConfigureAwait(false);
+        }
 #endif
     }
 }
