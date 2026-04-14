@@ -21,11 +21,7 @@ internal static class MemberPolyfills_NetCore10_TimeSpan
             TimeSpan.Parse(s);
 
         // https://learn.microsoft.com/dotnet/api/system.timespan.tryparse#system-timespan-tryparse(system-string-system-iformatprovider-system-timespan@)
-        public static bool TryParse(
-            string? s,
-            IFormatProvider? formatProvider,
-            out TimeSpan result
-        )
+        public static bool TryParse(string? s, IFormatProvider? formatProvider, out TimeSpan result)
         {
             if (s is null)
             {
