@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 470
-- **Types:** 102
-- **Members:** 368
+- **Total:** 473
+- **Types:** 104
+- **Members:** 369
 
 ___
 
@@ -129,6 +129,7 @@ ___
 - `FeatureSwitchDefinitionAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute) <sup><sub>.NET 9.0</sub></sup>
 - `File`
+  - [`static FileStream Open(string, FileStreamOptions)`](https://learn.microsoft.com/dotnet/api/system.io.file.open#system-io-file-open(system-string-system-io-filestreamoptions)) <sup><sub>.NET 6.0</sub></sup>
   - [`static IAsyncEnumerable<string> ReadLinesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
   - [`static IAsyncEnumerable<string> ReadLinesAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
   - [`static Task AppendAllBytesAsync(string, byte[], CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)) <sup><sub>.NET 9.0</sub></sup>
@@ -150,6 +151,8 @@ ___
   - [`static void AppendAllBytes(string, byte[])`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-byte())) <sup><sub>.NET 9.0</sub></sup>
   - [`static void AppendAllBytes(string, ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-readonlyspan((system-byte)))) <sup><sub>.NET 9.0</sub></sup>
   - [`static void Move(string, string, bool)`](https://learn.microsoft.com/dotnet/api/system.io.file.move#system-io-file-move(system-string-system-string-system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
+- `FileStreamOptions`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.io.filestreamoptions) <sup><sub>.NET 6.0</sub></sup>
 - `float`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
@@ -601,6 +604,8 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute) <sup><sub>.NET 5.0</sub></sup>
 - `UnionAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.unionattribute) <sup><sub>.NET 11.0</sub></sup>
+- `UnixFileMode`
+  - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.io.unixfilemode) <sup><sub>.NET 7.0</sub></sup>
 - `UnsupportedOSPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `UnsupportedOSPlatformGuardAttribute`

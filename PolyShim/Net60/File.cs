@@ -1,0 +1,30 @@
+#if (NETCOREAPP && !NET6_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
+#nullable enable
+#pragma warning disable CS0436
+
+using System.IO;
+using System.Diagnostics.CodeAnalysis;
+
+#if !POLYSHIM_INCLUDE_COVERAGE
+[ExcludeFromCodeCoverage]
+#endif
+internal static class MemberPolyfills_Net60_File
+{
+    // No file I/O on .NET Standard prior to 1.3
+#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
+    extension(File)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.io.file.open#system-io-file-open(system-string-system-io-filestreamoptions)
+        public static FileStream Open(string path, FileStreamOptions options) =>
+            new FileStream(
+                path,
+                options.Mode,
+                options.Access,
+                options.Share,
+                options.BufferSize,
+                options.Options
+            );
+    }
+#endif
+}
+#endif
