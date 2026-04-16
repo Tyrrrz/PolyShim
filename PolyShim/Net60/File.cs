@@ -44,10 +44,7 @@ internal static class MemberPolyfills_Net60_File
                             or FileMode.Append
                 )
                 {
-                    // Read the current mode (which reflects the umask) and AND it with the requested
-                    // mode so we only ever remove permission bits, never re-add ones the umask cleared.
-                    var currentMode = File.GetUnixFileMode(path);
-                    File.SetUnixFileMode(path, unixCreateMode & currentMode);
+                    File.SetUnixFileMode(path, unixCreateMode & File.GetUnixFileMode(path));
                 }
 #endif
             }
