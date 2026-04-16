@@ -1,4 +1,4 @@
-﻿#if FEATURE_TASK
+#if FEATURE_TASK
 #if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 #pragma warning disable CS0436

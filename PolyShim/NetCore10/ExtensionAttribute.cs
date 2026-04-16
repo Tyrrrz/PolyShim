@@ -1,4 +1,4 @@
-﻿#if (NETFRAMEWORK && !NET35_OR_GREATER)
+#if (NETFRAMEWORK && !NET35_OR_GREATER)
 #nullable enable
 #pragma warning disable CS0436
 

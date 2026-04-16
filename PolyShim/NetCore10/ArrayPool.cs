@@ -1,4 +1,4 @@
-﻿#if !FEATURE_ARRAYPOOL
+#if !FEATURE_ARRAYPOOL
 #nullable enable
 #pragma warning disable CS0436
 

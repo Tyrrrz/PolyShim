@@ -1,4 +1,4 @@
-﻿#if !FEATURE_VALUETUPLE
+#if !FEATURE_VALUETUPLE
 #nullable enable
 #pragma warning disable CS0436
 

@@ -1,4 +1,4 @@
-﻿#if FEATURE_TASK
+#if FEATURE_TASK
 #if NETFRAMEWORK && !NET45_OR_GREATER
 #nullable enable
 #pragma warning disable CS0436

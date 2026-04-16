@@ -1,4 +1,4 @@
-﻿#if !FEATURE_INDEXRANGE
+#if !FEATURE_INDEXRANGE
 #nullable enable
 #pragma warning disable CS0436
 

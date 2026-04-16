@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using FluentAssertions;
 using PolyShim.Tests.Utils.Extensions;
 using Xunit;

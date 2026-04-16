@@ -1,4 +1,4 @@
-﻿#if !FEATURE_HASHCODE
+#if !FEATURE_HASHCODE
 #nullable enable
 #pragma warning disable CS0436
 

@@ -1,4 +1,4 @@
-﻿#if !FEATURE_RUNTIMEINFORMATION
+#if !FEATURE_RUNTIMEINFORMATION
 #nullable enable
 #pragma warning disable CS0436
 
