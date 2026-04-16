@@ -28,25 +28,25 @@ internal static class MemberPolyfills_Net60_File
             );
 
             // Honor UnixCreateMode on file-creation modes (best-effort; not applicable on Windows)
-            if (
-                options.UnixCreateMode is { } unixCreateMode
-                && !OperatingSystem.IsWindows()
-                && options.Mode
-                    is FileMode.CreateNew
-                        or FileMode.Create
-                        or FileMode.OpenOrCreate
-                        or FileMode.Append
-            )
+            try
             {
-                try
+                if (
+                    options.UnixCreateMode is { } unixCreateMode
+                    && !OperatingSystem.IsWindows()
+                    && options.Mode
+                        is FileMode.CreateNew
+                            or FileMode.Create
+                            or FileMode.OpenOrCreate
+                            or FileMode.Append
+                )
                 {
                     File.SetUnixFileMode(path, unixCreateMode);
                 }
-                catch
-                {
-                    stream.Dispose();
-                    throw;
-                }
+            }
+            catch
+            {
+                stream.Dispose();
+                throw;
             }
 
             return stream;
