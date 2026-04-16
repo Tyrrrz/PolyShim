@@ -32,6 +32,7 @@ internal static class MemberPolyfills_Net60_File
 
             try
             {
+#if !NETFRAMEWORK || NET40_OR_GREATER
                 if (
                     !existed
                     && !OperatingSystem.IsWindows()
@@ -48,6 +49,7 @@ internal static class MemberPolyfills_Net60_File
                     var currentMode = File.GetUnixFileMode(path);
                     File.SetUnixFileMode(path, unixCreateMode & currentMode);
                 }
+#endif
             }
             catch
             {

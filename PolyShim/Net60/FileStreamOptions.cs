@@ -35,8 +35,6 @@ internal class FileStreamOptions
         get;
         set => field = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
     }
-
-    public UnixFileMode? UnixCreateMode { get; set; }
 }
 
 #endif
