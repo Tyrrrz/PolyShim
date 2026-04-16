@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using FluentAssertions;
 using PolyShim.Tests.Utils.Extensions;
@@ -26,6 +28,32 @@ public class FileTests
 
             // Assert
             readLines.Should().Equal(linesToWrite);
+        }
+        finally
+        {
+            File.TryDelete(tempFilePath);
+        }
+    }
+
+    [SkippableFact]
+    [UnsupportedOSPlatform("windows")]
+    public void SetUnixFileMode_Test()
+    {
+        Skip.If(OperatingSystem.IsWindows());
+
+        // Arrange
+        var tempFilePath = Path.GetTempFileName();
+
+        try
+        {
+            var expectedMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
+
+            // Act
+            File.SetUnixFileMode(tempFilePath, expectedMode);
+
+            // Assert
+            var actualMode = File.GetUnixFileMode(tempFilePath);
+            actualMode.Should().Be(expectedMode);
         }
         finally
         {
