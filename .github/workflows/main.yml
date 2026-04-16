@@ -25,6 +25,9 @@ jobs:
   main:
     uses: Tyrrrz/.github/.github/workflows/nuget.yml@prime
     with:
+      dotnet-version: |
+        6.0.x
+        10.0.x
       # We use .NET Framework as the base framework for testing polyfills and it
       # can only run on Windows.
       windows-only: true
