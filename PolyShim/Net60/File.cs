@@ -2,12 +2,13 @@
 #nullable enable
 #pragma warning disable CS0436
 
+// No file I/O on .NET Standard prior to 1.3
+#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
+
 using System;
 using System.IO;
 using System.Diagnostics.CodeAnalysis;
 
-// No file I/O on .NET Standard prior to 1.3
-#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
