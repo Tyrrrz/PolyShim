@@ -36,9 +36,7 @@ internal static class MemberPolyfills_Net70_Directory
 
             if (!existed)
             {
-                var currentMode = File.GetUnixFileMode(info.FullName);
-                var effectiveMode = unixCreateMode & currentMode;
-
+                var effectiveMode = unixCreateMode & File.GetUnixFileMode(info.FullName);
                 if (NativeMethods.Chmod(info.FullName, (uint)effectiveMode) != 0)
                 {
                     throw new IOException(
