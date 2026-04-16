@@ -2,7 +2,7 @@
 <RunSettings>
   <DataCollectionRunSettings>
     <DataCollectors>
-      <!-- Include the test assembly itself so coverlet collects coverage for injected polyfill sources -->
+      <!-- Include the test assembly itself so coverlet collects coverage for injected sources -->
       <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
           <IncludeTestAssembly>true</IncludeTestAssembly>
