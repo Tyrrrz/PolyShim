@@ -2,9 +2,6 @@
 #nullable enable
 #pragma warning disable CS0436
 
-// No file I/O on .NET Standard prior to 1.3
-#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
-
 using System;
 
 namespace System.IO;
@@ -28,5 +25,4 @@ internal enum UnixFileMode
     SetUser = 2048,
 }
 
-#endif
 #endif
