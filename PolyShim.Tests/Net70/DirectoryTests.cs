@@ -10,7 +10,7 @@ public class DirectoryTests
 {
     [SkippableFact]
     [UnsupportedOSPlatform("windows")]
-    public void CreateDirectory_WithUnixCreateMode_SetsDirectoryPermissions_Test()
+    public void CreateDirectory_UnixFileMode_Test()
     {
         Skip.If(OperatingSystem.IsWindows());
 
