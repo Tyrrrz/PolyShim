@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 473
+- **Total:** 476
 - **Types:** 104
-- **Members:** 369
+- **Members:** 372
 
 ___
 
@@ -91,6 +91,8 @@ ___
   - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity) <sup><sub>.NET 5.0</sub></sup>
 - `DictionaryEntry`
   - [`void Deconstruct(out object, out object?)`](https://learn.microsoft.com/dotnet/api/system.collections.dictionaryentry.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
+- `Directory`
+  - [`static DirectoryInfo CreateDirectory(string, UnixFileMode)`](https://learn.microsoft.com/dotnet/api/system.io.directory.createdirectory#system-io-directory-createdirectory(system-string-system-io-unixfilemode)) <sup><sub>.NET 7.0</sub></sup>
 - `DisallowNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.disallownullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `DoesNotReturnAttribute`
@@ -148,9 +150,11 @@ ___
   - [`static Task<string> ReadAllTextAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalltextasync#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`static Task<string[]> ReadAllLinesAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalllinesasync#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`static Task<string[]> ReadAllLinesAsync(string, Encoding, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.file.readalllinesasync#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static UnixFileMode GetUnixFileMode(string)`](https://learn.microsoft.com/dotnet/api/system.io.file.getunixfilemode) <sup><sub>.NET 7.0</sub></sup>
   - [`static void AppendAllBytes(string, byte[])`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-byte())) <sup><sub>.NET 9.0</sub></sup>
   - [`static void AppendAllBytes(string, ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytes#system-io-file-appendallbytes(system-string-system-readonlyspan((system-byte)))) <sup><sub>.NET 9.0</sub></sup>
   - [`static void Move(string, string, bool)`](https://learn.microsoft.com/dotnet/api/system.io.file.move#system-io-file-move(system-string-system-string-system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static void SetUnixFileMode(string, UnixFileMode)`](https://learn.microsoft.com/dotnet/api/system.io.file.setunixfilemode) <sup><sub>.NET 7.0</sub></sup>
 - `FileStreamOptions`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.io.filestreamoptions) <sup><sub>.NET 6.0</sub></sup>
 - `float`

@@ -2,6 +2,7 @@
 #nullable enable
 #pragma warning disable CS0436
 
+using System;
 using System.IO;
 using System.Diagnostics.CodeAnalysis;
 
@@ -15,8 +16,9 @@ internal static class MemberPolyfills_Net60_File
     extension(File)
     {
         // https://learn.microsoft.com/dotnet/api/system.io.file.open#system-io-file-open(system-string-system-io-filestreamoptions)
-        public static FileStream Open(string path, FileStreamOptions options) =>
-            new FileStream(
+        public static FileStream Open(string path, FileStreamOptions options)
+        {
+            var stream = new FileStream(
                 path,
                 options.Mode,
                 options.Access,
@@ -24,6 +26,23 @@ internal static class MemberPolyfills_Net60_File
                 options.BufferSize,
                 options.Options
             );
+
+            // Honor UnixCreateMode on file-creation modes (best-effort; not applicable on Windows)
+            if (
+                options.UnixCreateMode is { } unixCreateMode
+                && !OperatingSystem.IsWindows()
+                && options.Mode
+                    is FileMode.CreateNew
+                        or FileMode.Create
+                        or FileMode.OpenOrCreate
+                        or FileMode.Append
+            )
+            {
+                File.SetUnixFileMode(path, unixCreateMode);
+            }
+
+            return stream;
+        }
     }
 #endif
 }
