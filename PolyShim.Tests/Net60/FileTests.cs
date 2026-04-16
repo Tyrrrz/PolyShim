@@ -10,7 +10,7 @@ namespace PolyShim.Tests.Net60;
 public class FileTests
 {
     [Fact]
-    public void Open_WithDefaultOptions_ReturnsReadableStream_Test()
+    public void Open_Test()
     {
         // Arrange
         var tempFilePath = Path.GetTempFileName();
@@ -34,7 +34,7 @@ public class FileTests
     }
 
     [Fact]
-    public void Open_WithWriteOptions_ReturnsWritableStream_Test()
+    public void Open_Write_Test()
     {
         // Arrange
         var tempFilePath = Path.GetTempFileName();
@@ -63,7 +63,7 @@ public class FileTests
     }
 
     [Fact]
-    public void Open_WithReadWriteOptions_ReturnsReadWriteStream_Test()
+    public void Open_ReadWrite_Test()
     {
         // Arrange
         var tempFilePath = Path.GetTempFileName();
@@ -93,7 +93,7 @@ public class FileTests
 
     [SkippableFact]
     [UnsupportedOSPlatform("windows")]
-    public void Open_WithUnixCreateMode_SetsFilePermissions_Test()
+    public void Open_UnixFileMode_Test()
     {
         Skip.If(OperatingSystem.IsWindows());
 
