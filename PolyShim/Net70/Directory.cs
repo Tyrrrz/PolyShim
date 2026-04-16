@@ -34,11 +34,17 @@ internal static class MemberPolyfills_Net70_Directory
             var existed = Directory.Exists(path);
             var info = Directory.CreateDirectory(path);
 
-            if (!existed && NativeMethods.Chmod(info.FullName, (uint)unixCreateMode) != 0)
+            if (!existed)
             {
-                throw new IOException(
-                    $"Could not set Unix file mode for '{path}' (errno={Marshal.GetLastWin32Error()})."
-                );
+                var currentMode = File.GetUnixFileMode(info.FullName);
+                var effectiveMode = unixCreateMode & currentMode;
+
+                if (NativeMethods.Chmod(info.FullName, (uint)effectiveMode) != 0)
+                {
+                    throw new IOException(
+                        $"Could not set Unix file mode for '{path}' (errno={Marshal.GetLastWin32Error()})."
+                    );
+                }
             }
 
             return info;
