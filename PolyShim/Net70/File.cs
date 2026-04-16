@@ -58,6 +58,7 @@ file static class NativeMethods
 #else
         var offset = 24; // Old targets ran on x86/x64 only
 #endif
+
         return BitConverter.ToInt32(buf.Data, offset);
     }
 }
@@ -76,7 +77,7 @@ internal static class MemberPolyfills_Net70_File
             if (OperatingSystem.IsWindows())
                 throw new PlatformNotSupportedException();
 
-            // Initialize the array so the marshaler has a non-null source for the in-direction copy.
+            // Initialize the array so the marshaler has a non-null source for the in-direction copy
             var buf = new NativeMethods.StatBuf { Data = new byte[256] };
             if (NativeMethods.GetStat(path, ref buf) != 0)
             {
