@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.Versioning;
 using FluentAssertions;
@@ -7,11 +8,12 @@ namespace PolyShim.Tests.Net70;
 
 public class DirectoryTests
 {
-#if !PLATFORM_WINDOWS
-    [Fact]
+    [SkippableFact]
     [UnsupportedOSPlatform("windows")]
     public void CreateDirectory_WithUnixCreateMode_SetsDirectoryPermissions_Test()
     {
+        Skip.If(OperatingSystem.IsWindows());
+
         // Arrange
         var tempDirPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
@@ -34,5 +36,4 @@ public class DirectoryTests
                 Directory.Delete(tempDirPath);
         }
     }
-#endif
 }

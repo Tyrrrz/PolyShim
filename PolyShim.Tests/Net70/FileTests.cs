@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Versioning;
@@ -34,11 +35,12 @@ public class FileTests
         }
     }
 
-#if !PLATFORM_WINDOWS
-    [Fact]
+    [SkippableFact]
     [UnsupportedOSPlatform("windows")]
     public void SetUnixFileMode_Test()
     {
+        Skip.If(OperatingSystem.IsWindows());
+
         // Arrange
         var tempFilePath = Path.GetTempFileName();
 
@@ -59,10 +61,12 @@ public class FileTests
         }
     }
 
-    [Fact]
+    [SkippableFact]
     [UnsupportedOSPlatform("windows")]
     public void GetUnixFileMode_Test()
     {
+        Skip.If(OperatingSystem.IsWindows());
+
         // Arrange
         var tempFilePath = Path.GetTempFileName();
 
@@ -87,5 +91,4 @@ public class FileTests
             File.TryDelete(tempFilePath);
         }
     }
-#endif
 }

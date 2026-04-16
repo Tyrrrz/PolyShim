@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.Versioning;
 using FluentAssertions;
@@ -90,11 +91,12 @@ public class FileTests
         }
     }
 
-#if !PLATFORM_WINDOWS
-    [Fact]
+    [SkippableFact]
     [UnsupportedOSPlatform("windows")]
     public void Open_WithUnixCreateMode_SetsFilePermissions_Test()
     {
+        Skip.If(OperatingSystem.IsWindows());
+
         // Arrange
         var tempFilePath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
@@ -123,5 +125,4 @@ public class FileTests
             File.TryDelete(tempFilePath);
         }
     }
-#endif
 }
