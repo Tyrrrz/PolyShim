@@ -40,7 +40,8 @@ file static class NativeMethods
     public static int GetStat(string path, ref StatBuf buf) =>
         OperatingSystem.IsMacOS() ? StatMacOs(path, ref buf) : StatLinux(path, ref buf);
 
-    // Returns the lower 12 bits (permission bits) of the native stat st_mode field.
+    // Returns the raw native stat st_mode field. Callers should mask as needed
+    // (for example, with 0xFFF to extract Unix permission bits only).
     public static int ReadStatMode(StatBuf buf)
     {
         if (OperatingSystem.IsMacOS())
