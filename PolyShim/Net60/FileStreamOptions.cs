@@ -25,12 +25,7 @@ internal class FileStreamOptions
     public int BufferSize
     {
         get;
-        set
-        {
-            if (value < 0)
-                throw new ArgumentOutOfRangeException(nameof(value));
-            field = value;
-        }
+        set => field = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
     } = 4096;
 
     public FileOptions Options { get; set; } = FileOptions.None;
@@ -38,12 +33,7 @@ internal class FileStreamOptions
     public long PreallocationSize
     {
         get;
-        set
-        {
-            if (value < 0)
-                throw new ArgumentOutOfRangeException(nameof(value));
-            field = value;
-        }
+        set => field = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
     }
 
     public UnixFileMode? UnixCreateMode { get; set; }
