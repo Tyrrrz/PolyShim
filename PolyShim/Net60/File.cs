@@ -6,13 +6,13 @@ using System;
 using System.IO;
 using System.Diagnostics.CodeAnalysis;
 
+// No file I/O on .NET Standard prior to 1.3
+#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net60_File
 {
-    // No file I/O on .NET Standard prior to 1.3
-#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
     extension(File)
     {
         // https://learn.microsoft.com/dotnet/api/system.io.file.open#system-io-file-open(system-string-system-io-filestreamoptions)
@@ -54,6 +54,6 @@ internal static class MemberPolyfills_Net60_File
             return stream;
         }
     }
-#endif
 }
+#endif
 #endif
