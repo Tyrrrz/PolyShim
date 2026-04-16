@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Diagnostics.CodeAnalysis;
 
 // No file I/O on .NET Standard prior to 1.3
@@ -24,6 +25,7 @@ internal static class MemberPolyfills_Net70_Directory
     extension(Directory)
     {
         // https://learn.microsoft.com/dotnet/api/system.io.directory.createdirectory#system-io-directory-createdirectory(system-string-system-io-unixfilemode)
+        [UnsupportedOSPlatform("windows")]
         public static DirectoryInfo CreateDirectory(string path, UnixFileMode unixCreateMode)
         {
             if (OperatingSystem.IsWindows())
