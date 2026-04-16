@@ -38,7 +38,15 @@ internal static class MemberPolyfills_Net60_File
                         or FileMode.Append
             )
             {
-                File.SetUnixFileMode(path, unixCreateMode);
+                try
+                {
+                    File.SetUnixFileMode(path, unixCreateMode);
+                }
+                catch
+                {
+                    stream.Dispose();
+                    throw;
+                }
             }
 
             return stream;

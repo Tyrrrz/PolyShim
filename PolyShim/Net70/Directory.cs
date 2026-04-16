@@ -7,16 +7,20 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Diagnostics.CodeAnalysis;
 
+// No file I/O on .NET Standard prior to 1.3
+#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
+
+file static class NativeMethods
+{
+    [DllImport("libc", EntryPoint = "chmod", SetLastError = true)]
+    public static extern int Chmod(string path, uint mode);
+}
+
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
 internal static class MemberPolyfills_Net70_Directory
 {
-    // No file I/O on .NET Standard prior to 1.3
-#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
-    [DllImport("libc", EntryPoint = "chmod", SetLastError = true)]
-    private static extern int chmod(string path, uint mode);
-
     extension(Directory)
     {
         // https://learn.microsoft.com/dotnet/api/system.io.directory.createdirectory#system-io-directory-createdirectory(system-string-system-io-unixfilemode)
@@ -27,7 +31,7 @@ internal static class MemberPolyfills_Net70_Directory
 
             var info = Directory.CreateDirectory(path);
 
-            if (chmod(path, (uint)unixCreateMode) != 0)
+            if (NativeMethods.Chmod(path, (uint)unixCreateMode) != 0)
             {
                 throw new IOException(
                     $"Could not set Unix file mode for '{path}' (errno={Marshal.GetLastWin32Error()})."
@@ -37,6 +41,7 @@ internal static class MemberPolyfills_Net70_Directory
             return info;
         }
     }
-#endif
 }
+
+#endif
 #endif

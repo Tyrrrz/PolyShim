@@ -22,31 +22,27 @@ internal class FileStreamOptions
 
     public FileShare Share { get; set; } = FileShare.Read;
 
-    private int _bufferSize = 4096;
-
     public int BufferSize
     {
-        get => _bufferSize;
+        get;
         set
         {
             if (value < 0)
                 throw new ArgumentOutOfRangeException(nameof(value));
-            _bufferSize = value;
+            field = value;
         }
-    }
+    } = 4096;
 
     public FileOptions Options { get; set; } = FileOptions.None;
 
-    private long _preallocationSize;
-
     public long PreallocationSize
     {
-        get => _preallocationSize;
+        get;
         set
         {
             if (value < 0)
                 throw new ArgumentOutOfRangeException(nameof(value));
-            _preallocationSize = value;
+            field = value;
         }
     }
 
