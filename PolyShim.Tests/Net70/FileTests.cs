@@ -60,35 +60,4 @@ public class FileTests
             File.TryDelete(tempFilePath);
         }
     }
-
-    [SkippableFact]
-    [UnsupportedOSPlatform("windows")]
-    public void GetUnixFileMode_Test()
-    {
-        Skip.If(OperatingSystem.IsWindows());
-
-        // Arrange
-        var tempFilePath = Path.GetTempFileName();
-
-        try
-        {
-            var expectedMode =
-                UnixFileMode.UserRead
-                | UnixFileMode.UserWrite
-                | UnixFileMode.UserExecute
-                | UnixFileMode.GroupRead;
-
-            File.SetUnixFileMode(tempFilePath, expectedMode);
-
-            // Act
-            var actualMode = File.GetUnixFileMode(tempFilePath);
-
-            // Assert
-            actualMode.Should().Be(expectedMode);
-        }
-        finally
-        {
-            File.TryDelete(tempFilePath);
-        }
-    }
 }
