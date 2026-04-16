@@ -18,9 +18,6 @@ internal static class MemberPolyfills_Net60_File
         // https://learn.microsoft.com/dotnet/api/system.io.file.open#system-io-file-open(system-string-system-io-filestreamoptions)
         public static FileStream Open(string path, FileStreamOptions options)
         {
-            // Check existence before opening so we can skip chmod on pre-existing files
-            // (matching the documented .NET 7 semantics where UnixCreateMode is only applied
-            // when a new file is actually created).
             var existed = File.Exists(path);
 
             var stream = new FileStream(
@@ -32,13 +29,12 @@ internal static class MemberPolyfills_Net60_File
                 options.Options
             );
 
-            // Honor UnixCreateMode on file-creation modes (best-effort; not applicable on Windows)
             try
             {
                 if (
-                    options.UnixCreateMode is { } unixCreateMode
+                    !existed
                     && !OperatingSystem.IsWindows()
-                    && !existed
+                    && options.UnixCreateMode is { } unixCreateMode
                     && options.Mode
                         is FileMode.CreateNew
                             or FileMode.Create
