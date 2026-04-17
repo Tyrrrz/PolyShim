@@ -122,27 +122,57 @@ public partial class GenerateSignaturesCommand : ICommand
                     if (sig is null)
                         continue;
 
-                    signatures.Add(new Signature(typeName, sig, "Extension", framework, url, isStatic));
+                    signatures.Add(
+                        new Signature(typeName, sig, "Extension", framework, url, isStatic)
+                    );
                 }
             }
 
             // Internal type declarations (not MemberPolyfills_*)
-            foreach (var typeDecl in root.DescendantNodes().OfType<BaseTypeDeclarationSyntax>())
+            foreach (var memberDecl in root.DescendantNodes().OfType<MemberDeclarationSyntax>())
             {
-                if (!typeDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.InternalKeyword)))
-                    continue;
+                string? typeName = null;
+                string? typeKind = null;
+                string? url = null;
 
-                if (
-                    typeDecl.Identifier.Text.StartsWith(
-                        "MemberPolyfills_",
-                        StringComparison.Ordinal
+                if (memberDecl is BaseTypeDeclarationSyntax typeDecl)
+                {
+                    if (!typeDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.InternalKeyword)))
+                        continue;
+
+                    if (
+                        typeDecl.Identifier.Text.StartsWith(
+                            "MemberPolyfills_",
+                            StringComparison.Ordinal
+                        )
                     )
-                )
-                    continue;
+                        continue;
 
-                var typeName = FormatTypeDeclarationName(typeDecl);
-                var typeKind = GetTypeKind(typeDecl);
-                var url = ExtractDocUrl(typeDecl);
+                    typeName = FormatTypeDeclarationName(typeDecl);
+                    typeKind = GetTypeKind(typeDecl);
+                    url = ExtractDocUrl(typeDecl);
+                }
+                else if (memberDecl is DelegateDeclarationSyntax delegateDecl)
+                {
+                    if (!delegateDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.InternalKeyword)))
+                        continue;
+
+                    if (
+                        delegateDecl.Identifier.Text.StartsWith(
+                            "MemberPolyfills_",
+                            StringComparison.Ordinal
+                        )
+                    )
+                        continue;
+
+                    typeName = FormatDelegateDeclarationName(delegateDecl);
+                    typeKind = "delegate";
+                    url = ExtractDocUrl(delegateDecl);
+                }
+                else
+                {
+                    continue;
+                }
 
                 signatures.Add(new Signature(typeName, "", typeKind, framework, url, false));
             }
@@ -424,6 +454,19 @@ public partial class GenerateSignaturesCommand : ICommand
         }
 
         return typeDecl.Identifier.Text;
+    }
+
+    private static string FormatDelegateDeclarationName(DelegateDeclarationSyntax delegateDecl)
+    {
+        if (delegateDecl.TypeParameterList is { Parameters.Count: > 0 } tpl)
+        {
+            return delegateDecl.Identifier.Text
+                + "<"
+                + string.Join(", ", tpl.Parameters.Select(p => p.Identifier.Text))
+                + ">";
+        }
+
+        return delegateDecl.Identifier.Text;
     }
 
     private static string GetTypeKind(BaseTypeDeclarationSyntax typeDecl) =>

@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 491
-- **Types:** 109
+- **Total:** 493
+- **Types:** 111
 - **Members:** 382
 
 ___
@@ -122,7 +122,7 @@ ___
   - [`static string? ProcessPath`](https://learn.microsoft.com/dotnet/api/system.environment.processpath) <sup><sub>.NET 6.0</sub></sup>
 - `EqualityComparer<T>`
   - [`static EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.equalitycomparer-1.create) <sup><sub>.NET 8.0</sub></sup>
-- `EventHandler<T>`
+- `EventHandler<TEventArgs>`
   - [**[delegate]**](https://learn.microsoft.com/dotnet/api/system.eventhandler-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `ExcludeFromCodeCoverageAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.excludefromcodecoverageattribute) <sup><sub>.NET Core 2.0</sub></sup>
@@ -464,6 +464,8 @@ ___
   - [`bool SequenceEqual(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`int IndexOf(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.indexof#system-memoryextensions-indexof-1(system-span((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Reverse()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.reverse#system-memoryextensions-reverse-1(system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `SpanAction<T, TArg>`
+  - [**[delegate]**](https://learn.microsoft.com/dotnet/api/system.buffers.spanaction-2) <sup><sub>.NET Core 2.1</sub></sup>
 - `Stack<T>`
   - [`bool TryPeek(out T)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.stack-1.trypeek) <sup><sub>.NET Core 2.0</sub></sup>
   - [`bool TryPop(out T)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.stack-1.trypop) <sup><sub>.NET Core 2.0</sub></sup>
@@ -588,6 +590,8 @@ ___
 - `Timer`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.timer) <sup><sub>.NET Core 1.0</sub></sup>
   - [`ValueTask DisposeAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.timer.disposeasync) <sup><sub>.NET Core 3.0</sub></sup>
+- `TimerCallback`
+  - [**[delegate]**](https://learn.microsoft.com/dotnet/api/system.threading.timercallback) <sup><sub>.NET Core 1.0</sub></sup>
 - `TimeSpan`
   - [`static bool TryParse(string?, IFormatProvider?, out TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.timespan.tryparse#system-timespan-tryparse(system-string-system-iformatprovider-system-timespan@)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`static TimeSpan FromDays(int, int, long, long, long, long)`](https://learn.microsoft.com/dotnet/api/system.timespan.fromdays#system-timespan-fromdays(system-int64-system-int64-system-int64-system-int64-system-int64-system-int64)) <sup><sub>.NET 9.0</sub></sup>
