@@ -1,5 +1,6 @@
-#if FEATURE_HTTPCLIENT
 #if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
+// HttpClient is not available on all target frameworks within this TFM range without a NuGet package reference.
+#if FEATURE_HTTPCLIENT
 #nullable enable
 #pragma warning disable CS0436
 
@@ -14,6 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_Net50_HttpContent
 {
+    // Task infrastructure is required for async method support.
 #if FEATURE_TASK
     extension(HttpContent httpContent)
     {

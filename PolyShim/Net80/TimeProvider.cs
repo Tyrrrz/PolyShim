@@ -82,6 +82,7 @@ internal abstract class TimeProvider
             _timer.Dispose();
         }
 
+        // IAsyncDisposable is provided via the Microsoft.Bcl.AsyncInterfaces NuGet package.
 #if FEATURE_ASYNCINTERFACES
         public ValueTask DisposeAsync() => _timer.DisposeAsync();
 #endif

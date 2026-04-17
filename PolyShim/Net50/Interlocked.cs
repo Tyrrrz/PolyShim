@@ -27,6 +27,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             return original;
         }
 
+        // Unsafe code is required for operating on unsigned integer references.
 #if ALLOW_UNSAFE_BLOCKS
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint32@-system-uint32)
         public static uint And(ref uint location1, uint value)
@@ -57,6 +58,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             return original;
         }
 
+        // Unsafe code is required for operating on unsigned integer references.
 #if ALLOW_UNSAFE_BLOCKS
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.and#system-threading-interlocked-and(system-uint64@-system-uint64)
         public static ulong And(ref ulong location1, ulong value)
@@ -87,6 +89,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             return original;
         }
 
+        // Unsafe code is required for operating on unsigned integer references.
 #if ALLOW_UNSAFE_BLOCKS
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint32@-system-uint32)
         public static uint Or(ref uint location1, uint value)
@@ -117,6 +120,7 @@ internal static class MemberPolyfills_Net50_Interlocked
             return original;
         }
 
+        // Unsafe code is required for operating on unsigned integer references.
 #if ALLOW_UNSAFE_BLOCKS
         // https://learn.microsoft.com/dotnet/api/system.threading.interlocked.or#system-threading-interlocked-or(system-uint64@-system-uint64)
         public static ulong Or(ref ulong location1, ulong value)

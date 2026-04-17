@@ -1,4 +1,5 @@
 #if FEATURE_TASK
+// ValueTask is provided via the System.Threading.Tasks.Extensions NuGet package when available.
 #if !FEATURE_VALUETASK
 #nullable enable
 #pragma warning disable CS0436
@@ -17,7 +18,7 @@ internal readonly struct ConfiguredValueTaskAwaitable(
     bool continueOnCapturedContext
 )
 {
-    public Awaiter GetAwaiter() => new Awaiter(value, continueOnCapturedContext);
+    public Awaiter GetAwaiter() => new(value, continueOnCapturedContext);
 
 #if !POLYSHIM_INCLUDE_COVERAGE
     [ExcludeFromCodeCoverage]
@@ -55,7 +56,7 @@ internal readonly struct ConfiguredValueTaskAwaitable<TResult>(
     bool continueOnCapturedContext
 )
 {
-    public Awaiter GetAwaiter() => new Awaiter(value, continueOnCapturedContext);
+    public Awaiter GetAwaiter() => new(value, continueOnCapturedContext);
 
 #if !POLYSHIM_INCLUDE_COVERAGE
     [ExcludeFromCodeCoverage]

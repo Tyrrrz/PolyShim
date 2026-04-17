@@ -14,10 +14,12 @@ internal static class MemberPolyfills_NetCore30_TextWriter
 {
     extension(TextWriter writer)
     {
+        // Task infrastructure is required for async method support.
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync
         public async ValueTask DisposeAsync()
         {
+            // IAsyncDisposable is provided via the Microsoft.Bcl.AsyncInterfaces NuGet package.
 #if FEATURE_ASYNCINTERFACES
             if (writer is IAsyncDisposable asyncDisposable)
             {

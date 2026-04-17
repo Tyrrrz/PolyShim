@@ -13,6 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_NetCore30_Process
 {
+    // Both process and management features are required for process tree support.
 #if FEATURE_PROCESS && FEATURE_MANAGEMENT
     extension(Process process)
     {

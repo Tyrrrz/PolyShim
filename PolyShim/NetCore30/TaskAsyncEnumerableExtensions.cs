@@ -1,4 +1,5 @@
 #if !FEATURE_ASYNCINTERFACES
+// Task infrastructure is required for async method return types.
 #if FEATURE_TASK
 #nullable enable
 #pragma warning disable CS0436

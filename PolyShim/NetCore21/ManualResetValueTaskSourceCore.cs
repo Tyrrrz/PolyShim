@@ -1,4 +1,5 @@
 #if FEATURE_TASK
+// ManualResetValueTaskSourceCore is not provided by any NuGet package; it requires netcoreapp>=2.1 or netstandard>=2.1.
 #if !FEATURE_VALUETASK_SOURCES_MANUALRESET
 #nullable enable
 #pragma warning disable CS0436

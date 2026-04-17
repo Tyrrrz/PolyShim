@@ -1,5 +1,6 @@
-#if FEATURE_TASK
 #if (NETFRAMEWORK && !NET46_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_3_OR_GREATER)
+// Task is not available on all target frameworks within this TFM range without a NuGet package reference.
+#if FEATURE_TASK
 #nullable enable
 #pragma warning disable CS0436
 

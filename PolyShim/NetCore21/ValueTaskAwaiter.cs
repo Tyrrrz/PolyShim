@@ -1,4 +1,5 @@
 #if FEATURE_TASK
+// ValueTask is provided via the System.Threading.Tasks.Extensions NuGet package when available.
 #if !FEATURE_VALUETASK
 #nullable enable
 #pragma warning disable CS0436
