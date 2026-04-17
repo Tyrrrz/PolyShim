@@ -32,6 +32,7 @@ internal class Progress<T> : IProgress<T>
         var progressChanged = ProgressChanged;
 
         if (handler is not null || progressChanged is not null)
+        {
             _synchronizationContext.Post(
                 s =>
                 {
@@ -41,6 +42,7 @@ internal class Progress<T> : IProgress<T>
                 },
                 (value, handler, progressChanged)
             );
+        }
     }
 
     void IProgress<T>.Report(T value) => OnReport(value);
