@@ -24,7 +24,7 @@ internal static class MemberPolyfills_NetCore10_Version
 
             try
             {
-                result = new Version(input);
+                result = new(input);
                 return true;
             }
             catch

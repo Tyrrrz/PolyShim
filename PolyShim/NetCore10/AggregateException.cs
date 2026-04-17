@@ -62,7 +62,7 @@ internal class AggregateException : Exception
             }
         }
 
-        return new AggregateException(innerExceptions);
+        return new(innerExceptions);
     }
 
     public void Handle(Func<Exception, bool> predicate)

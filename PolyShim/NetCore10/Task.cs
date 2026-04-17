@@ -177,8 +177,8 @@ internal static class MemberPolyfills_NetCore10_Task
                 return tcs.Task;
             }
 
-            Timer? timer = null;
-            CancellationTokenRegistration registration = default;
+            var timer = (Timer?)null;
+            var registration = default(CancellationTokenRegistration);
 
             void CleanupAndSetResult()
             {
@@ -194,7 +194,7 @@ internal static class MemberPolyfills_NetCore10_Task
                 tcs.TrySetCanceled();
             }
 
-            timer = new Timer(
+            timer = new(
                 _ => CleanupAndSetResult(),
                 null,
                 delay,

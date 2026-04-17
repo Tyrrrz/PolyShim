@@ -10,7 +10,7 @@ public class ReadOnlyMemoryTests
     public void ImplicitConversion_Test()
     {
         // Act
-        ReadOnlyMemory<byte> memory = new byte[] { 1, 2, 3, 4, 5 };
+        var memory = (ReadOnlyMemory<byte>)new byte[] { 1, 2, 3, 4, 5 };
 
         // Assert
         memory.ToArray().Should().Equal(1, 2, 3, 4, 5);
@@ -20,7 +20,7 @@ public class ReadOnlyMemoryTests
     public void Slice_Test()
     {
         // Arrange
-        ReadOnlyMemory<byte> memory = new byte[] { 10, 20, 30, 40, 50 };
+        var memory = (ReadOnlyMemory<byte>)new byte[] { 10, 20, 30, 40, 50 };
 
         // Act & Assert
         memory.Slice(0, 2).ToArray().Should().Equal(10, 20);
@@ -32,8 +32,8 @@ public class ReadOnlyMemoryTests
     public void CopyTo_Test()
     {
         // Arrange
-        ReadOnlyMemory<byte> source = new byte[] { 1, 2, 3, 4, 5 };
-        Memory<byte> destination = new byte[5];
+        var source = (ReadOnlyMemory<byte>)new byte[] { 1, 2, 3, 4, 5 };
+        var destination = (Memory<byte>)new byte[5];
 
         // Act
         source.CopyTo(destination);
@@ -46,8 +46,8 @@ public class ReadOnlyMemoryTests
     public void TryCopyTo_Test()
     {
         // Arrange
-        ReadOnlyMemory<byte> source = new byte[] { 1, 2, 3, 4, 5 };
-        Memory<byte> destination = new byte[5];
+        var source = (ReadOnlyMemory<byte>)new byte[] { 1, 2, 3, 4, 5 };
+        var destination = (Memory<byte>)new byte[5];
 
         // Act
         var result = source.TryCopyTo(destination);
@@ -62,9 +62,9 @@ public class ReadOnlyMemoryTests
     {
         // Arrange
         var arr = new byte[] { 1, 2, 3 };
-        ReadOnlyMemory<byte> a = arr;
-        ReadOnlyMemory<byte> b = arr;
-        ReadOnlyMemory<byte> c = new byte[] { 1, 2, 3 };
+        var a = (ReadOnlyMemory<byte>)arr;
+        var b = (ReadOnlyMemory<byte>)arr;
+        var c = (ReadOnlyMemory<byte>)new byte[] { 1, 2, 3 };
 
         // Act & Assert
         a.Equals(b).Should().BeTrue();
@@ -79,9 +79,9 @@ public class ReadOnlyMemoryTests
     {
         // Arrange
         var arr = new byte[] { 1, 2, 3 };
-        ReadOnlyMemory<byte> a = arr;
-        ReadOnlyMemory<byte> b = arr;
-        ReadOnlyMemory<byte> c = new byte[] { 1, 2, 3 };
+        var a = (ReadOnlyMemory<byte>)arr;
+        var b = (ReadOnlyMemory<byte>)arr;
+        var c = (ReadOnlyMemory<byte>)new byte[] { 1, 2, 3 };
 
         // Act & Assert
         a.GetHashCode().Should().Be(b.GetHashCode());

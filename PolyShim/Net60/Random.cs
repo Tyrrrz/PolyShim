@@ -73,7 +73,7 @@ internal static class MemberPolyfills_Net60_Random
         }
 
         // https://learn.microsoft.com/dotnet/api/system.random.shared
-        public static Random Shared => RandomEx.Shared ??= new Random();
+        public static Random Shared => RandomEx.Shared ??= new();
     }
 }
 #endif
