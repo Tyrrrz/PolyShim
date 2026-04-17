@@ -260,26 +260,6 @@
         >$(DefineConstants);FEATURE_VALUETASK_SOURCES</DefineConstants
       >
 
-      <!--
-        FEATURE_VALUETASK_SOURCES_MANUALRESET: ManualResetValueTaskSourceCore<T> is available.
-        This type is only available natively on .NET Core >= 2.1 and .NET Standard >= 2.1.
-        The System.Threading.Tasks.Extensions compatibility package does NOT provide this type
-        for .NET Standard 2.0 or .NET Framework targets — only IValueTaskSource<T> and related
-        types are included there.
-      -->
-      <FeatureValueTaskSourcesManualReset>false</FeatureValueTaskSourcesManualReset>
-      <FeatureValueTaskSourcesManualReset
-        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))"
-        >true</FeatureValueTaskSourcesManualReset
-      >
-      <FeatureValueTaskSourcesManualReset
-        Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))"
-        >true</FeatureValueTaskSourcesManualReset
-      >
-      <DefineConstants Condition="$(FeatureValueTaskSourcesManualReset)"
-        >$(DefineConstants);FEATURE_VALUETASK_SOURCES_MANUALRESET</DefineConstants
-      >
-
       <FeatureValueTuple>false</FeatureValueTuple>
       <FeatureValueTuple
         Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.ValueTuple'))"

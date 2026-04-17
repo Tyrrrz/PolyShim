@@ -1,5 +1,8 @@
 #if FEATURE_TASK
-#if !FEATURE_VALUETASK_SOURCES_MANUALRESET
+// ManualResetValueTaskSourceCore<T> is only available natively on .NET Core >= 2.1 and .NET Standard >= 2.1.
+// The System.Threading.Tasks.Extensions compatibility package does NOT provide this type for
+// .NET Standard 2.0 or .NET Framework targets — only IValueTaskSource<T> and related types are included there.
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
 #nullable enable
 #pragma warning disable CS0436
 
