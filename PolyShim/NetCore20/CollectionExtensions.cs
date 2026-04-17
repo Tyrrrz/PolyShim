@@ -25,5 +25,32 @@ internal static class MemberPolyfills_NetCore20_CollectionExtensions
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0)
         public TValue? GetValueOrDefault(TKey key) => dictionary.GetValueOrDefault(key, default);
     }
+
+    extension<TKey, TValue>(IDictionary<TKey, TValue> dictionary)
+        where TKey : notnull
+    {
+        // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.tryadd
+        public bool TryAdd(TKey key, TValue value)
+        {
+            if (dictionary.ContainsKey(key))
+                return false;
+
+            dictionary.Add(key, value);
+            return true;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.remove
+        public bool Remove(TKey key, out TValue value)
+        {
+            if (dictionary.TryGetValue(key, out value!))
+            {
+                dictionary.Remove(key);
+                return true;
+            }
+
+            value = default!;
+            return false;
+        }
+    }
 }
 #endif

@@ -21,4 +21,78 @@ public class CollectionExtensionsTests
         dictionary.GetValueOrDefault("b").Should().Be("B");
         dictionary.GetValueOrDefault("d").Should().BeNull();
     }
+
+    [Fact]
+    public void TryAdd_IDictionary_Test()
+    {
+        // Arrange
+        IDictionary<string, int> dictionary = new Dictionary<string, int>
+        {
+            ["apple"] = 1,
+            ["banana"] = 2,
+        };
+
+        // Act
+        var result = dictionary.TryAdd("cherry", 3);
+
+        // Assert
+        result.Should().BeTrue();
+        dictionary.Should().ContainKey("cherry");
+        dictionary["cherry"].Should().Be(3);
+        dictionary.Should().HaveCount(3);
+    }
+
+    [Fact]
+    public void TryAdd_IDictionary_Exists_Test()
+    {
+        // Arrange
+        IDictionary<string, int> dictionary = new Dictionary<string, int>
+        {
+            ["apple"] = 1,
+            ["banana"] = 2,
+        };
+
+        // Act
+        var result = dictionary.TryAdd("apple", 99);
+
+        // Assert
+        result.Should().BeFalse();
+        dictionary["apple"].Should().Be(1);
+        dictionary.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public void Remove_IDictionary_Test()
+    {
+        // Arrange
+        IDictionary<string, int> dictionary = new Dictionary<string, int>
+        {
+            ["apple"] = 1,
+            ["banana"] = 2,
+        };
+
+        // Act
+        var result = dictionary.Remove("apple", out var value);
+
+        // Assert
+        result.Should().BeTrue();
+        value.Should().Be(1);
+        dictionary.Should().NotContainKey("apple");
+        dictionary.Should().HaveCount(1);
+    }
+
+    [Fact]
+    public void Remove_IDictionary_NotFound_Test()
+    {
+        // Arrange
+        IDictionary<string, int> dictionary = new Dictionary<string, int> { ["apple"] = 1 };
+
+        // Act
+        var result = dictionary.Remove("cherry", out var value);
+
+        // Assert
+        result.Should().BeFalse();
+        value.Should().Be(default);
+        dictionary.Should().HaveCount(1);
+    }
 }
