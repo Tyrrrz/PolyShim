@@ -8,7 +8,7 @@ namespace PolyShim.Tests.NetCore10;
 public class ProgressTests
 {
     [Fact]
-    public void Report_WithHandler_InvokesHandler()
+    public void Report_WithHandler_Test()
     {
         // Arrange
         var received = new ManualResetEventSlim();
@@ -31,7 +31,7 @@ public class ProgressTests
     // so this test is only compiled on platforms where the event is available.
 #if !NETFRAMEWORK || NET45_OR_GREATER
     [Fact]
-    public void Report_WithEvent_FiresEvent()
+    public void Report_WithEvent_Test()
     {
         // Arrange
         var received = new ManualResetEventSlim();
@@ -53,7 +53,7 @@ public class ProgressTests
 #endif
 
     [Fact]
-    public void Report_NoHandlerOrEvent_DoesNotThrow()
+    public void Report_NoHandler_Test()
     {
         // Arrange
         var progress = new Progress<int>();
