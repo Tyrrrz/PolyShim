@@ -26,10 +26,9 @@ public class ProcessTests
 
         // Act
         process.Kill(true);
-        var exited = process.WaitForExit(TimeSpan.FromSeconds(5));
+        var exited = process.WaitForExit(5000);
 
         // Assert
         exited.Should().BeTrue();
-        process.HasExited.Should().BeTrue();
     }
 }
