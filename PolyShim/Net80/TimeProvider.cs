@@ -28,7 +28,7 @@ internal abstract class TimeProvider
     {
         var utcDateTime = GetUtcNow();
         var offset = LocalTimeZone.GetUtcOffset(utcDateTime);
-        return new DateTimeOffset(utcDateTime.DateTime + offset, offset);
+        return new(utcDateTime.DateTime + offset, offset);
     }
 
     public virtual long GetTimestamp() => Stopwatch.GetTimestamp();
@@ -62,7 +62,7 @@ internal abstract class TimeProvider
             object? state
         )
         {
-            _timer = new Timer(callback, state, dueTime, period);
+            _timer = new(callback, state, dueTime, period);
         }
 
         public bool Change(TimeSpan dueTime, TimeSpan period)
@@ -82,7 +82,8 @@ internal abstract class TimeProvider
             _timer.Dispose();
         }
 
-#if FEATURE_ASYNCINTERFACES
+        // Task infrastructure is required for async method support
+#if FEATURE_TASK
         public ValueTask DisposeAsync() => _timer.DisposeAsync();
 #endif
     }

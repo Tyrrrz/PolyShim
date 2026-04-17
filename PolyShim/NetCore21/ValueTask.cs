@@ -1,4 +1,5 @@
 #if FEATURE_TASK
+// Can be provided natively or by a compatibility package
 #if !FEATURE_VALUETASK
 #nullable enable
 #pragma warning disable CS0436

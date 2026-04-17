@@ -18,13 +18,13 @@ internal static class MemberPolyfills_Net70_UIntPtr
             if (IntPtr.Size == 4)
             {
                 var success = uint.TryParse(s, provider, out var intResult);
-                result = new UIntPtr(intResult);
+                result = new(intResult);
                 return success;
             }
             else
             {
                 var success = ulong.TryParse(s, provider, out var longResult);
-                result = new UIntPtr(longResult);
+                result = new(longResult);
                 return success;
             }
         }

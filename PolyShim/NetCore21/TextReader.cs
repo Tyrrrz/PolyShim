@@ -25,6 +25,7 @@ internal static class MemberPolyfills_NetCore21_TextReader
             return result;
         }
 
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
         public async ValueTask<int> ReadAsync(

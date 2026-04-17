@@ -43,7 +43,7 @@ public class FileTests
             File.WriteAllBytes(tempFilePath, [0x00, 0x01, 0x02]);
 
             // Act
-            ReadOnlySpan<byte> bytes = [0x0A, 0x0B, 0x0C];
+            var bytes = (ReadOnlySpan<byte>)[0x0A, 0x0B, 0x0C];
             File.AppendAllBytes(tempFilePath, bytes);
 
             // Assert
@@ -90,7 +90,7 @@ public class FileTests
             await File.WriteAllBytesAsync(tempFilePath, [0x00, 0x01, 0x02]);
 
             // Act
-            ReadOnlyMemory<byte> bytes = new byte[] { 0x0A, 0x0B, 0x0C };
+            var bytes = (ReadOnlyMemory<byte>)new byte[] { 0x0A, 0x0B, 0x0C };
             await File.AppendAllBytesAsync(tempFilePath, bytes);
 
             // Assert

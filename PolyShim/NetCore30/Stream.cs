@@ -14,17 +14,16 @@ internal static class MemberPolyfills_NetCore30_Stream
 {
     extension(Stream stream)
     {
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.stream.disposeasync
         public async ValueTask DisposeAsync()
         {
-#if FEATURE_ASYNCINTERFACES
             if (stream is IAsyncDisposable asyncDisposable)
             {
                 await asyncDisposable.DisposeAsync();
                 return;
             }
-#endif
 
             try
             {

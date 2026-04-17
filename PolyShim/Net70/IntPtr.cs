@@ -19,13 +19,13 @@ internal static class MemberPolyfills_Net70_IntPtr
             if (IntPtr.Size == 4)
             {
                 var success = int.TryParse(s, provider, out var intResult);
-                result = new IntPtr(intResult);
+                result = new(intResult);
                 return success;
             }
             else
             {
                 var success = long.TryParse(s, provider, out var longResult);
-                result = new IntPtr(longResult);
+                result = new(longResult);
                 return success;
             }
         }

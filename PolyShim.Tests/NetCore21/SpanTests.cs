@@ -11,7 +11,7 @@ public class SpanTests
     public void ImplicitConversion_Test()
     {
         // Act
-        Span<byte> span = [1, 2, 3, 4, 5];
+        var span = (Span<byte>)[1, 2, 3, 4, 5];
 
         // Assert
         span.ToArray().Should().Equal(1, 2, 3, 4, 5);
@@ -21,7 +21,7 @@ public class SpanTests
     public void Indexer_Test()
     {
         // Arrange
-        Span<byte> span = [10, 20, 30, 40, 50];
+        var span = (Span<byte>)[10, 20, 30, 40, 50];
 
         // Act & Assert
         span[0].Should().Be(10);
@@ -35,7 +35,7 @@ public class SpanTests
     public void Slice_Test()
     {
         // Arrange
-        Span<byte> span = [1, 2, 3, 4, 5];
+        var span = (Span<byte>)[1, 2, 3, 4, 5];
 
         // Act
         var slice = span.Slice(1, 3);
@@ -48,7 +48,7 @@ public class SpanTests
     public void Fill_Test()
     {
         // Arrange
-        Span<byte> span = [1, 2, 3, 4, 5];
+        var span = (Span<byte>)[1, 2, 3, 4, 5];
 
         // Act
         span.Fill(42);
@@ -61,7 +61,7 @@ public class SpanTests
     public void Clear_Test()
     {
         // Arrange
-        Span<byte> span = [1, 2, 3, 4, 5];
+        var span = (Span<byte>)[1, 2, 3, 4, 5];
 
         // Act
         span.Clear();
@@ -74,8 +74,8 @@ public class SpanTests
     public void CopyTo_Test()
     {
         // Arrange
-        Span<byte> source = [1, 2, 3, 4, 5];
-        Span<byte> destination = stackalloc byte[5];
+        var source = (Span<byte>)[1, 2, 3, 4, 5];
+        var destination = (Span<byte>)stackalloc byte[5];
 
         // Act
         source.CopyTo(destination);
@@ -88,8 +88,8 @@ public class SpanTests
     public void TryCopyTo_Test()
     {
         // Arrange
-        Span<byte> source = [1, 2, 3, 4, 5];
-        Span<byte> destination = stackalloc byte[5];
+        var source = (Span<byte>)[1, 2, 3, 4, 5];
+        var destination = (Span<byte>)stackalloc byte[5];
 
         // Act
         var result = source.TryCopyTo(destination);
@@ -103,7 +103,7 @@ public class SpanTests
     public void Enumeration_Test()
     {
         // Arrange
-        Span<byte> span = [1, 2, 3, 4, 5];
+        var span = (Span<byte>)[1, 2, 3, 4, 5];
         var collected = new List<byte>();
 
         // Act
@@ -118,11 +118,11 @@ public class SpanTests
     public void Contains_Test()
     {
         // Act & Assert
-        Span<byte> span = [1, 2, 3, 4, 5];
+        var span = (Span<byte>)[1, 2, 3, 4, 5];
         span.Contains((byte)3).Should().BeTrue();
         span.Contains((byte)10).Should().BeFalse();
 
-        Span<byte> emptySpan = [];
+        var emptySpan = (Span<byte>)[];
         emptySpan.Contains((byte)1).Should().BeFalse();
     }
 }

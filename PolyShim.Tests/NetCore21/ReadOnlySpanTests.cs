@@ -11,7 +11,7 @@ public class ReadOnlySpanTests
     public void ImplicitConversion_Test()
     {
         // Act
-        ReadOnlySpan<byte> readOnlySpan = [1, 2, 3, 4, 5];
+        var readOnlySpan = (ReadOnlySpan<byte>)[1, 2, 3, 4, 5];
 
         // Assert
         readOnlySpan.ToArray().Should().Equal(1, 2, 3, 4, 5);
@@ -21,7 +21,7 @@ public class ReadOnlySpanTests
     public void Indexer_Test()
     {
         // Arrange
-        ReadOnlySpan<byte> readOnlySpan = [10, 20, 30, 40, 50];
+        var readOnlySpan = (ReadOnlySpan<byte>)[10, 20, 30, 40, 50];
 
         // Act & Assert
         readOnlySpan[0].Should().Be(10);
@@ -35,7 +35,7 @@ public class ReadOnlySpanTests
     public void Slice_Test()
     {
         // Arrange
-        ReadOnlySpan<byte> readOnlySpan = [10, 20, 30, 40, 50];
+        var readOnlySpan = (ReadOnlySpan<byte>)[10, 20, 30, 40, 50];
 
         // Act
         var slice = readOnlySpan.Slice(1, 3);
@@ -48,8 +48,8 @@ public class ReadOnlySpanTests
     public void CopyTo_Test()
     {
         // Arrange
-        ReadOnlySpan<byte> source = [1, 2, 3, 4, 5];
-        Span<byte> destination = new byte[5];
+        var source = (ReadOnlySpan<byte>)[1, 2, 3, 4, 5];
+        var destination = (Span<byte>)new byte[5];
 
         // Act
         source.CopyTo(destination);
@@ -62,8 +62,8 @@ public class ReadOnlySpanTests
     public void TryCopyTo_Test()
     {
         // Arrange
-        ReadOnlySpan<byte> source = [1, 2, 3, 4, 5];
-        Span<byte> destination = new byte[5];
+        var source = (ReadOnlySpan<byte>)[1, 2, 3, 4, 5];
+        var destination = (Span<byte>)new byte[5];
 
         // Act
         var result = source.TryCopyTo(destination);
@@ -77,7 +77,7 @@ public class ReadOnlySpanTests
     public void Enumeration_Test()
     {
         // Arrange
-        ReadOnlySpan<byte> readOnlySpan = [1, 2, 3, 4, 5];
+        var readOnlySpan = (ReadOnlySpan<byte>)[1, 2, 3, 4, 5];
         var result = new List<byte>();
 
         // Act
@@ -92,11 +92,11 @@ public class ReadOnlySpanTests
     public void Contains_Test()
     {
         // Act & Assert
-        ReadOnlySpan<byte> span = [1, 2, 3, 4, 5];
+        var span = (ReadOnlySpan<byte>)[1, 2, 3, 4, 5];
         span.Contains((byte)3).Should().BeTrue();
         span.Contains((byte)10).Should().BeFalse();
 
-        ReadOnlySpan<byte> emptySpan = [];
+        var emptySpan = (ReadOnlySpan<byte>)[];
         emptySpan.Contains((byte)1).Should().BeFalse();
     }
 }

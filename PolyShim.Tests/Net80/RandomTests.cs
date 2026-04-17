@@ -33,7 +33,7 @@ public class RandomTests
     {
         // Arrange
         var random = new Random(0);
-        ReadOnlySpan<int> choices = [1, 2, 3, 4, 5];
+        var choices = (ReadOnlySpan<int>)[1, 2, 3, 4, 5];
 
         for (var i = 0; i < 100; i++)
         {
@@ -55,8 +55,8 @@ public class RandomTests
     {
         // Arrange
         var random = new Random(0);
-        ReadOnlySpan<int> choices = [1, 2, 3, 4, 5];
-        Span<int> destination = new int[3];
+        var choices = (ReadOnlySpan<int>)[1, 2, 3, 4, 5];
+        var destination = (Span<int>)new int[3];
 
         for (var i = 0; i < 100; i++)
         {

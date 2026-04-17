@@ -17,6 +17,7 @@ internal static class MemberPolyfills_Net70_TextReader
 {
     extension(TextReader reader)
     {
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.textreader.readlineasync#system-io-textreader-readlineasync(system-threading-cancellationtoken)
         public Task<string?> ReadLineAsync(CancellationToken cancellationToken)

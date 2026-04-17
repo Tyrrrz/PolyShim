@@ -35,7 +35,7 @@ internal static class MemberPolyfills_Net60_Random
             var buffer = ArrayPool<byte>.Shared.Rent(8);
             try
             {
-                ulong ulongRand;
+                var ulongRand = 0UL;
                 do
                 {
                     random.NextBytes(buffer.AsSpan(0, 8));
@@ -73,7 +73,7 @@ internal static class MemberPolyfills_Net60_Random
         }
 
         // https://learn.microsoft.com/dotnet/api/system.random.shared
-        public static Random Shared => RandomEx.Shared ??= new Random();
+        public static Random Shared => RandomEx.Shared ??= new();
     }
 }
 #endif

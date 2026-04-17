@@ -1,4 +1,5 @@
 #if (NETCOREAPP && !NETCOREAPP3_0_OR_GREATER) || (NET35_OR_GREATER) || (NETSTANDARD)
+#if FEATURE_PROCESS
 #nullable enable
 #pragma warning disable CS0436
 
@@ -13,9 +14,9 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_NetCore30_Process
 {
-#if FEATURE_PROCESS && FEATURE_MANAGEMENT
     extension(Process process)
     {
+#if FEATURE_MANAGEMENT
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)
         public void Kill(bool entireProcessTree)
         {
@@ -62,7 +63,8 @@ internal static class MemberPolyfills_NetCore30_Process
 
             KillProcessTree(process.Id);
         }
-    }
 #endif
+    }
 }
+#endif
 #endif

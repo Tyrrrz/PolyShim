@@ -9,7 +9,8 @@ namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.itimer
 internal interface ITimer : IDisposable
-#if FEATURE_ASYNCINTERFACES
+        // Task infrastructure is required for async method support
+#if FEATURE_TASK
         , IAsyncDisposable
 #endif
 {

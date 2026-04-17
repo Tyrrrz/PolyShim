@@ -36,6 +36,7 @@ internal readonly ref struct Span<T>
     public Span(T[]? array)
         : this(array, 0, array?.Length ?? 0) { }
 
+    // Unsafe code is required for the pointer-accepting constructor
 #if ALLOW_UNSAFE_BLOCKS
     public unsafe Span(void* pointer, int length)
         : this(new T[length])

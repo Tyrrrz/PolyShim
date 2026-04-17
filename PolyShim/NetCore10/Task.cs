@@ -1,5 +1,6 @@
-#if FEATURE_TASK
 #if (NETFRAMEWORK && !NET46_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_3_OR_GREATER)
+// Task is not available on all target frameworks within this TFM range without a NuGet package reference
+#if FEATURE_TASK
 #nullable enable
 #pragma warning disable CS0436
 
@@ -176,8 +177,8 @@ internal static class MemberPolyfills_NetCore10_Task
                 return tcs.Task;
             }
 
-            Timer? timer = null;
-            CancellationTokenRegistration registration = default;
+            var timer = (Timer?)null;
+            var registration = default(CancellationTokenRegistration);
 
             void CleanupAndSetResult()
             {
@@ -193,12 +194,7 @@ internal static class MemberPolyfills_NetCore10_Task
                 tcs.TrySetCanceled();
             }
 
-            timer = new Timer(
-                _ => CleanupAndSetResult(),
-                null,
-                delay,
-                TimeSpan.FromMilliseconds(-1)
-            );
+            timer = new(_ => CleanupAndSetResult(), null, delay, TimeSpan.FromMilliseconds(-1));
 
             registration = cancellationToken.Register(() => CleanupAndSetCanceled());
 

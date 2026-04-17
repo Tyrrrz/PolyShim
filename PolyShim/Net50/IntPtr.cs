@@ -35,13 +35,13 @@ internal static class MemberPolyfills_Net50_IntPtr
             if (IntPtr.Size == 4)
             {
                 var success = int.TryParse(s, out var intResult);
-                result = new IntPtr(intResult);
+                result = new(intResult);
                 return success;
             }
             else
             {
                 var success = long.TryParse(s, out var longResult);
-                result = new IntPtr(longResult);
+                result = new(longResult);
                 return success;
             }
         }

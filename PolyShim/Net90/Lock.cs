@@ -33,13 +33,13 @@ internal partial class Lock
 #if NETFRAMEWORK && !NET40_OR_GREATER
         // Older versions of the framework don't have the overload of Monitor.Enter(...) that accepts a ref bool
         Monitor.Enter(this);
-        return new Scope(this);
+        return new(this);
 #else
         var acquiredLock = false;
         try
         {
             Monitor.Enter(this, ref acquiredLock);
-            return new Scope(this);
+            return new(this);
         }
         // Ensure that the lock is released if the owning thread is aborted.
         // Implementation reference:

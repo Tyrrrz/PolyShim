@@ -13,7 +13,8 @@ internal static class MemberPolyfills_NetCore30_Timer
 {
     extension(Timer timer)
     {
-#if FEATURE_ASYNCINTERFACES
+        // Task infrastructure is required for async method support
+#if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.threading.timer.disposeasync
         public ValueTask DisposeAsync()
         {

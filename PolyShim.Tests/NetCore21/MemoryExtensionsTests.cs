@@ -90,7 +90,7 @@ public class MemoryExtensionsTests
     {
         // Arrange
         var array = new[] { 1, 2, 3 };
-        Span<int> destination = new int[3];
+        var destination = (Span<int>)new int[3];
 
         // Act
         array.CopyTo(destination);
@@ -104,7 +104,7 @@ public class MemoryExtensionsTests
     {
         // Arrange
         var array = new[] { 1, 2, 3 };
-        Memory<int> destination = new int[3];
+        var destination = (Memory<int>)new int[3];
 
         // Act
         array.CopyTo(destination);
@@ -190,7 +190,7 @@ public class MemoryExtensionsTests
     public void Span_IndexOf_Found_Test()
     {
         // Arrange
-        Span<int> span = [10, 20, 30, 40, 50];
+        var span = (Span<int>)[10, 20, 30, 40, 50];
 
         // Act & Assert
         span.IndexOf(30).Should().Be(2);
@@ -200,7 +200,7 @@ public class MemoryExtensionsTests
     public void Span_IndexOf_NotFound_Test()
     {
         // Arrange
-        Span<int> span = [10, 20, 30];
+        var span = (Span<int>)[10, 20, 30];
 
         // Act & Assert
         span.IndexOf(99).Should().Be(-1);
@@ -210,8 +210,8 @@ public class MemoryExtensionsTests
     public void Span_SequenceEqual_Equal_Test()
     {
         // Arrange
-        Span<int> span = [1, 2, 3];
-        ReadOnlySpan<int> other = [1, 2, 3];
+        var span = (Span<int>)[1, 2, 3];
+        var other = (ReadOnlySpan<int>)[1, 2, 3];
 
         // Act & Assert
         span.SequenceEqual(other).Should().BeTrue();
@@ -221,8 +221,8 @@ public class MemoryExtensionsTests
     public void Span_SequenceEqual_NotEqual_Test()
     {
         // Arrange
-        Span<int> span = [1, 2, 3];
-        ReadOnlySpan<int> other = [1, 2, 4];
+        var span = (Span<int>)[1, 2, 3];
+        var other = (ReadOnlySpan<int>)[1, 2, 4];
 
         // Act & Assert
         span.SequenceEqual(other).Should().BeFalse();
@@ -232,8 +232,8 @@ public class MemoryExtensionsTests
     public void Span_SequenceEqual_DifferentLengths_Test()
     {
         // Arrange
-        Span<int> span = [1, 2, 3];
-        ReadOnlySpan<int> other = [1, 2];
+        var span = (Span<int>)[1, 2, 3];
+        var other = (ReadOnlySpan<int>)[1, 2];
 
         // Act & Assert
         span.SequenceEqual(other).Should().BeFalse();
@@ -243,7 +243,7 @@ public class MemoryExtensionsTests
     public void Span_Reverse_Test()
     {
         // Arrange
-        Span<int> span = [1, 2, 3, 4, 5];
+        var span = (Span<int>)[1, 2, 3, 4, 5];
 
         // Act
         span.Reverse();
@@ -256,7 +256,7 @@ public class MemoryExtensionsTests
     public void ReadOnlySpan_IndexOf_Found_Test()
     {
         // Arrange
-        ReadOnlySpan<int> span = [10, 20, 30, 40, 50];
+        var span = (ReadOnlySpan<int>)[10, 20, 30, 40, 50];
 
         // Act & Assert
         span.IndexOf(30).Should().Be(2);
@@ -266,7 +266,7 @@ public class MemoryExtensionsTests
     public void ReadOnlySpan_IndexOf_NotFound_Test()
     {
         // Arrange
-        ReadOnlySpan<int> span = [10, 20, 30];
+        var span = (ReadOnlySpan<int>)[10, 20, 30];
 
         // Act & Assert
         span.IndexOf(99).Should().Be(-1);
@@ -276,8 +276,8 @@ public class MemoryExtensionsTests
     public void ReadOnlySpan_SequenceEqual_Equal_Test()
     {
         // Arrange
-        ReadOnlySpan<int> span = [1, 2, 3];
-        ReadOnlySpan<int> other = [1, 2, 3];
+        var span = (ReadOnlySpan<int>)[1, 2, 3];
+        var other = (ReadOnlySpan<int>)[1, 2, 3];
 
         // Act & Assert
         span.SequenceEqual(other).Should().BeTrue();
@@ -287,8 +287,8 @@ public class MemoryExtensionsTests
     public void ReadOnlySpan_SequenceEqual_NotEqual_Test()
     {
         // Arrange
-        ReadOnlySpan<int> span = [1, 2, 3];
-        ReadOnlySpan<int> other = [1, 9, 3];
+        var span = (ReadOnlySpan<int>)[1, 2, 3];
+        var other = (ReadOnlySpan<int>)[1, 9, 3];
 
         // Act & Assert
         span.SequenceEqual(other).Should().BeFalse();

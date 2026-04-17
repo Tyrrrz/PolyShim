@@ -21,17 +21,17 @@ internal static class MemberPolyfills_Net70_Stopwatch
 
             if (tickFrequency == TimeSpan.TicksPerSecond)
             {
-                return new TimeSpan(ticks);
+                return new(ticks);
             }
             else if (tickFrequency > TimeSpan.TicksPerSecond)
             {
                 var ticksPerStopwatchTick = (double)tickFrequency / TimeSpan.TicksPerSecond;
-                return new TimeSpan((long)(ticks / ticksPerStopwatchTick));
+                return new((long)(ticks / ticksPerStopwatchTick));
             }
             else
             {
                 var ticksPerStopwatchTick = (double)TimeSpan.TicksPerSecond / tickFrequency;
-                return new TimeSpan((long)(ticks * ticksPerStopwatchTick));
+                return new((long)(ticks * ticksPerStopwatchTick));
             }
         }
 
