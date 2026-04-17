@@ -1,3 +1,4 @@
+// System.Threading.Tasks.Extensions compatibility package does NOT provide this type, so no FEATURE_VALUETASK* guards
 #if (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #if FEATURE_TASK
 #nullable enable
@@ -10,9 +11,6 @@ using System.Threading.Tasks;
 namespace System.Threading.Tasks.Sources;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.manualresetvaluetasksourcecore-1
-// ManualResetValueTaskSourceCore<T> is only available natively on .NET Core >= 2.1 and .NET Standard >= 2.1.
-// The System.Threading.Tasks.Extensions compatibility package does NOT provide this type for
-// .NET Standard 2.0 or .NET Framework targets — only IValueTaskSource<T> and related types are included there.
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
@@ -103,7 +101,13 @@ internal struct ManualResetValueTaskSourceCore<TResult>
                     }
                 },
                 CancellationToken.None,
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+                RunContinuationsAsynchronously
+                    ? TaskContinuationOptions.RunContinuationsAsynchronously
+                    : TaskContinuationOptions.ExecuteSynchronously,
+#else
                 TaskContinuationOptions.ExecuteSynchronously,
+#endif
                 TaskScheduler.Default
             );
     }
