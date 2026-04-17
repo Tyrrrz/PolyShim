@@ -11,16 +11,27 @@ namespace System;
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal class Progress<T>(Action<T>? handler = null) : IProgress<T>
+internal class Progress<T> : IProgress<T>
 {
-    private readonly SynchronizationContext _synchronizationContext =
-        SynchronizationContext.Current ?? new SynchronizationContext();
+    private readonly SynchronizationContext _synchronizationContext;
+    private readonly Action<T>? _handler;
 
     public event EventHandler<T>? ProgressChanged;
 
+    public Progress()
+    {
+        _synchronizationContext = SynchronizationContext.Current ?? new SynchronizationContext();
+    }
+
+    public Progress(Action<T> handler)
+        : this()
+    {
+        _handler = handler ?? throw new ArgumentNullException(nameof(handler));
+    }
+
     protected virtual void OnReport(T value)
     {
-        if (handler is not null || ProgressChanged is not null)
+        if (_handler is not null || ProgressChanged is not null)
         {
             _synchronizationContext.Post(InvokeHandlers, value);
         }
@@ -31,7 +42,7 @@ internal class Progress<T>(Action<T>? handler = null) : IProgress<T>
     private void InvokeHandlers(object? state)
     {
         var value = (T)state!;
-        handler?.Invoke(value);
+        _handler?.Invoke(value);
         ProgressChanged?.Invoke(this, value);
     }
 }
