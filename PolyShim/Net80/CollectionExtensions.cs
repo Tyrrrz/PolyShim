@@ -21,10 +21,8 @@ internal static class MemberPolyfills_Net80_CollectionExtensions
         }
 
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.insertrange
-        public void InsertRange(int index, ReadOnlySpan<T> source)
-        {
+        public void InsertRange(int index, ReadOnlySpan<T> source) =>
             list.InsertRange(index, source.ToArray());
-        }
 
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.copyto
         public void CopyTo(Span<T> destination)
