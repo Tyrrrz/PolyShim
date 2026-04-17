@@ -2,14 +2,9 @@
 #nullable enable
 #pragma warning disable CS0436
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace System.Collections.Generic;
 
 // https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlyset-1
-#if !POLYSHIM_INCLUDE_COVERAGE
-[ExcludeFromCodeCoverage]
-#endif
 internal interface IReadOnlySet<T> : IReadOnlyCollection<T>
 {
     bool Contains(T item);
