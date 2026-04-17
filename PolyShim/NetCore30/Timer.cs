@@ -13,15 +13,12 @@ internal static class MemberPolyfills_NetCore30_Timer
 {
     extension(Timer timer)
     {
-        // IAsyncDisposable is provided via the Microsoft.Bcl.AsyncInterfaces NuGet package.
-#if FEATURE_ASYNCINTERFACES
         // https://learn.microsoft.com/dotnet/api/system.threading.timer.disposeasync
         public ValueTask DisposeAsync()
         {
             timer.Dispose();
             return default;
         }
-#endif
     }
 }
 #endif
