@@ -14,6 +14,34 @@ internal static class MemberPolyfills_Net60_EnumerableExtensions
 {
     extension<T>(IEnumerable<T> source)
     {
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.chunk
+        public IEnumerable<T[]> Chunk(int size)
+        {
+            var chunk = new List<T>(size);
+            foreach (var item in source)
+            {
+                chunk.Add(item);
+                if (chunk.Count == size)
+                {
+                    yield return chunk.ToArray();
+                    chunk.Clear();
+                }
+            }
+
+            if (chunk.Count > 0)
+                yield return chunk.ToArray();
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.distinctby#system-linq-enumerable-distinctby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+        public IEnumerable<T> DistinctBy<TKey>(
+            Func<T, TKey> keySelector,
+            IEqualityComparer<TKey>? comparer
+        ) => source.GroupBy(keySelector, comparer).Select(x => x.First());
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.distinctby#system-linq-enumerable-distinctby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
+        public IEnumerable<T> DistinctBy<TKey>(Func<T, TKey> keySelector) =>
+            source.DistinctBy(keySelector, EqualityComparer<TKey>.Default);
+
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.elementat#system-linq-enumerable-elementat-1(system-collections-generic-ienumerable((-0))-system-index)
         public T ElementAt(Index index)
         {
@@ -56,6 +84,26 @@ internal static class MemberPolyfills_Net60_EnumerableExtensions
             }
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+        public IEnumerable<T> ExceptBy<TKey>(
+            IEnumerable<TKey> other,
+            Func<T, TKey> keySelector,
+            IEqualityComparer<TKey>? comparer
+        )
+        {
+            var set = new HashSet<TKey>(other, comparer);
+
+            foreach (var item in source)
+            {
+                if (!set.Contains(keySelector(item)))
+                    yield return item;
+            }
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))
+        public IEnumerable<T> ExceptBy<TKey>(IEnumerable<TKey> other, Func<T, TKey> keySelector) =>
+            source.ExceptBy(other, keySelector, EqualityComparer<TKey>.Default);
+
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.firstordefault#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-0)
         public T FirstOrDefault(T defaultValue)
         {
@@ -76,6 +124,28 @@ internal static class MemberPolyfills_Net60_EnumerableExtensions
 
             return defaultValue;
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.intersectby#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+        public IEnumerable<T> IntersectBy<TKey>(
+            IEnumerable<TKey> other,
+            Func<T, TKey> keySelector,
+            IEqualityComparer<TKey>? comparer
+        )
+        {
+            var set = new HashSet<TKey>(other, comparer);
+
+            foreach (var item in source)
+            {
+                if (set.Contains(keySelector(item)))
+                    yield return item;
+            }
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.intersectby#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))
+        public IEnumerable<T> IntersectBy<TKey>(
+            IEnumerable<TKey> other,
+            Func<T, TKey> keySelector
+        ) => source.IntersectBy(other, keySelector, EqualityComparer<TKey>.Default);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.lastordefault#system-linq-enumerable-lastordefault-1(system-collections-generic-ienumerable((-0))-0)
         public T LastOrDefault(T defaultValue)
@@ -101,6 +171,29 @@ internal static class MemberPolyfills_Net60_EnumerableExtensions
 
             return result;
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.max#system-linq-enumerable-max-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
+        public T? Max(IComparer<T>? comparer) =>
+            source.OrderByDescending(x => x, comparer).FirstOrDefault();
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
+        public T? MaxBy<TKey>(Func<T, TKey> keySelector, IComparer<TKey>? comparer) =>
+            source.OrderByDescending(keySelector, comparer).FirstOrDefault();
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
+        public T? MaxBy<TKey>(Func<T, TKey> keySelector) =>
+            source.MaxBy(keySelector, Comparer<TKey>.Default);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.min#system-linq-enumerable-min-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
+        public T? Min(IComparer<T>? comparer) => source.OrderBy(x => x, comparer).FirstOrDefault();
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
+        public T? MinBy<TKey>(Func<T, TKey> keySelector, IComparer<TKey>? comparer) =>
+            source.OrderBy(keySelector, comparer).FirstOrDefault();
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
+        public T? MinBy<TKey>(Func<T, TKey> keySelector) =>
+            source.MinBy(keySelector, Comparer<TKey>.Default);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.singleordefault#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-0)
         public T SingleOrDefault(T defaultValue)
@@ -161,81 +254,6 @@ internal static class MemberPolyfills_Net60_EnumerableExtensions
             return asCollection.Skip(offset).Take(length);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.min#system-linq-enumerable-min-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
-        public T? Min(IComparer<T>? comparer) => source.OrderBy(x => x, comparer).FirstOrDefault();
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
-        public T? MinBy<TKey>(Func<T, TKey> keySelector, IComparer<TKey>? comparer) =>
-            source.OrderBy(keySelector, comparer).FirstOrDefault();
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
-        public T? MinBy<TKey>(Func<T, TKey> keySelector) =>
-            source.MinBy(keySelector, Comparer<TKey>.Default);
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.max#system-linq-enumerable-max-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
-        public T? Max(IComparer<T>? comparer) =>
-            source.OrderByDescending(x => x, comparer).FirstOrDefault();
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
-        public T? MaxBy<TKey>(Func<T, TKey> keySelector, IComparer<TKey>? comparer) =>
-            source.OrderByDescending(keySelector, comparer).FirstOrDefault();
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
-        public T? MaxBy<TKey>(Func<T, TKey> keySelector) =>
-            source.MaxBy(keySelector, Comparer<TKey>.Default);
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.distinctby#system-linq-enumerable-distinctby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
-        public IEnumerable<T> DistinctBy<TKey>(
-            Func<T, TKey> keySelector,
-            IEqualityComparer<TKey>? comparer
-        ) => source.GroupBy(keySelector, comparer).Select(x => x.First());
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.distinctby#system-linq-enumerable-distinctby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
-        public IEnumerable<T> DistinctBy<TKey>(Func<T, TKey> keySelector) =>
-            source.DistinctBy(keySelector, EqualityComparer<TKey>.Default);
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
-        public IEnumerable<T> ExceptBy<TKey>(
-            IEnumerable<TKey> other,
-            Func<T, TKey> keySelector,
-            IEqualityComparer<TKey>? comparer
-        )
-        {
-            var set = new HashSet<TKey>(other, comparer);
-
-            foreach (var item in source)
-            {
-                if (!set.Contains(keySelector(item)))
-                    yield return item;
-            }
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))
-        public IEnumerable<T> ExceptBy<TKey>(IEnumerable<TKey> other, Func<T, TKey> keySelector) =>
-            source.ExceptBy(other, keySelector, EqualityComparer<TKey>.Default);
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.intersectby#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
-        public IEnumerable<T> IntersectBy<TKey>(
-            IEnumerable<TKey> other,
-            Func<T, TKey> keySelector,
-            IEqualityComparer<TKey>? comparer
-        )
-        {
-            var set = new HashSet<TKey>(other, comparer);
-
-            foreach (var item in source)
-            {
-                if (set.Contains(keySelector(item)))
-                    yield return item;
-            }
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.intersectby#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))
-        public IEnumerable<T> IntersectBy<TKey>(
-            IEnumerable<TKey> other,
-            Func<T, TKey> keySelector
-        ) => source.IntersectBy(other, keySelector, EqualityComparer<TKey>.Default);
-
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.unionby#system-linq-enumerable-unionby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
         public IEnumerable<T> UnionBy<TKey>(
             IEnumerable<T> other,
@@ -261,24 +279,6 @@ internal static class MemberPolyfills_Net60_EnumerableExtensions
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.unionby#system-linq-enumerable-unionby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-func((-0-1)))
         public IEnumerable<T> UnionBy<TKey>(IEnumerable<T> other, Func<T, TKey> keySelector) =>
             source.UnionBy(other, keySelector, EqualityComparer<TKey>.Default);
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.chunk
-        public IEnumerable<T[]> Chunk(int size)
-        {
-            var chunk = new List<T>(size);
-            foreach (var item in source)
-            {
-                chunk.Add(item);
-                if (chunk.Count == size)
-                {
-                    yield return chunk.ToArray();
-                    chunk.Clear();
-                }
-            }
-
-            if (chunk.Count > 0)
-                yield return chunk.ToArray();
-        }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2)))
         public IEnumerable<(T, TSecond, TThird)> Zip<TSecond, TThird>(

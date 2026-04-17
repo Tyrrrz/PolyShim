@@ -14,28 +14,6 @@ internal static class MemberPolyfills_Net90_EnumerableExtensions
 {
     extension<T>(IEnumerable<T> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.index
-        public IEnumerable<(int index, T value)> Index() =>
-            source.Select((value, index) => (index, value));
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.countby
-        public IEnumerable<KeyValuePair<TKey, int>> CountBy<TKey>(
-            Func<T, TKey> keySelector,
-            IEqualityComparer<TKey>? comparer = null
-        )
-            where TKey : notnull
-        {
-            var counts = new Dictionary<TKey, int>(comparer);
-
-            foreach (var item in source)
-            {
-                var key = keySelector(item);
-                counts[key] = counts.TryGetValue(key, out var count) ? count + 1 : 1;
-            }
-
-            return counts;
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.aggregateby#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-func((-1-2))-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
         public IEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<TKey, TAccumulate>(
             Func<T, TKey> keySelector,
@@ -69,6 +47,28 @@ internal static class MemberPolyfills_Net90_EnumerableExtensions
         )
             where TKey : notnull =>
             source.AggregateBy(keySelector, _ => seed, accumulator, keyComparer);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.countby
+        public IEnumerable<KeyValuePair<TKey, int>> CountBy<TKey>(
+            Func<T, TKey> keySelector,
+            IEqualityComparer<TKey>? comparer = null
+        )
+            where TKey : notnull
+        {
+            var counts = new Dictionary<TKey, int>(comparer);
+
+            foreach (var item in source)
+            {
+                var key = keySelector(item);
+                counts[key] = counts.TryGetValue(key, out var count) ? count + 1 : 1;
+            }
+
+            return counts;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.index
+        public IEnumerable<(int index, T value)> Index() =>
+            source.Select((value, index) => (index, value));
     }
 }
 #endif
