@@ -159,7 +159,6 @@ To do that, set the `<AllowUnsafeBlocks>` property to `true`:
 
 ```xml
 <Project>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 
@@ -168,9 +167,8 @@ To do that, set the `<AllowUnsafeBlocks>` property to `true`:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="..." />
+    <PackageReference Include="PolyShim" Version="..." PrivateAssets="all" />
   </ItemGroup>
-
 </Project>
 ```
 
@@ -205,38 +203,33 @@ Currently, **PolyShim** recognizes the following packages:
 > [!IMPORTANT]
 > Ensure your compatibility packages are referenced in their latest stable versions, so that their provided API surface matches what **PolyShim** expects.
 
-For example, adding a reference to the `Microsoft.Bcl.AsyncInterfaces` package will enable **PolyShim**'s polyfills that work with `IAsyncEnumerable<T>`, such as `Task.WhenEach(...)`:
+For example, adding a reference to the `Microsoft.Bcl.Async` package on .NET Framework 4.0 will enable **PolyShim**'s `ValueTask` and `IAsyncEnumerable<T>` polyfills:
 
 ```xml
 <Project>
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net40</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="..." />
-    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="..." />
+    <PackageReference Include="PolyShim" Version="..." PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Bcl.Async" Version="..." />
   </ItemGroup>
-
 </Project>
 ```
 
 ```csharp
-using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-var tasks = Enumerable.Range(1, 10).Select(async i =>
+// Microsoft.Bcl.Async is referenced, so these polyfills are enabled
+static async ValueTask<int> SumAsync(IAsyncEnumerable<int> source)
 {
-    await Task.Delay(Random.Shared.Next(1000));
-    return i * i;
-});
+    var sum = 0;
+    await foreach (var value in source)
+        sum += value;
 
-// Microsoft.Bcl.AsyncInterfaces is referenced, so this polyfill is enabled
-await foreach (var completedTask in Task.WhenEach(tasks))
-{
-    Console.WriteLine(await completedTask);
+    return sum;
 }
 ```
 
@@ -245,16 +238,14 @@ You can leverage this to prioritize the official implementation wherever possibl
 
 ```xml
 <Project>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="..." />
+    <PackageReference Include="PolyShim" Version="..." PrivateAssets="all" />
     <PackageReference Include="System.Memory" Version="..." />
   </ItemGroup>
-
 </Project>
 ```
 

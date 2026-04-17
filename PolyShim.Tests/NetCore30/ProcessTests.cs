@@ -15,8 +15,8 @@ public class ProcessTests
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = OperatingSystem.IsWindows() ? "cmd" : "sh",
-                Arguments = OperatingSystem.IsWindows() ? "/c timeout 1" : "-c 'sleep 1'",
+                FileName = OperatingSystem.IsWindows() ? "cmd" : "sleep",
+                Arguments = OperatingSystem.IsWindows() ? "/c timeout 1" : "1",
                 CreateNoWindow = true,
                 UseShellExecute = false,
             },
@@ -26,8 +26,9 @@ public class ProcessTests
 
         // Act
         process.Kill(true);
+        var exited = process.WaitForExit(TimeSpan.FromSeconds(5));
 
         // Assert
-        process.HasExited.Should().BeTrue();
+        exited.Should().BeTrue();
     }
 }
