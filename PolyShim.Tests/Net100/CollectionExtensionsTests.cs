@@ -21,6 +21,8 @@ public class CollectionExtensionsTests
         readOnly.Count.Should().Be(3);
         readOnly.Contains(1).Should().BeTrue();
         readOnly.Contains(4).Should().BeFalse();
+        readOnly.IsSubsetOf(new[] { 1, 2, 3 }).Should().BeTrue();
+        readOnly.IsSupersetOf(new[] { 1 }).Should().BeTrue();
     }
 
     [Fact]
@@ -37,17 +39,5 @@ public class CollectionExtensionsTests
         // Assert
         readOnly.Count.Should().Be(4);
         readOnly.Contains(4).Should().BeTrue();
-    }
-
-    [Fact]
-    public void AsReadOnly_ISet_IsSubsetOf_Test()
-    {
-        // Arrange
-        ISet<int> set = new HashSet<int> { 1, 2 };
-        var readOnly = set.AsReadOnly();
-
-        // Act & assert
-        readOnly.IsSubsetOf(new[] { 1, 2, 3 }).Should().BeTrue();
-        readOnly.IsSupersetOf(new[] { 1 }).Should().BeTrue();
     }
 }
