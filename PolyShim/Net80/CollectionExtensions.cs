@@ -23,8 +23,7 @@ internal static class MemberPolyfills_Net80_CollectionExtensions
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.insertrange
         public void InsertRange(int index, ReadOnlySpan<T> source)
         {
-            for (var i = 0; i < source.Length; i++)
-                list.Insert(index + i, source[i]);
+            list.InsertRange(index, source.ToArray());
         }
 
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.copyto
