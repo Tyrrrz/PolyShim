@@ -194,12 +194,7 @@ internal static class MemberPolyfills_NetCore10_Task
                 tcs.TrySetCanceled();
             }
 
-            timer = new(
-                _ => CleanupAndSetResult(),
-                null,
-                delay,
-                TimeSpan.FromMilliseconds(-1)
-            );
+            timer = new(_ => CleanupAndSetResult(), null, delay, TimeSpan.FromMilliseconds(-1));
 
             registration = cancellationToken.Register(() => CleanupAndSetCanceled());
 
