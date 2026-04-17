@@ -11,7 +11,7 @@ public class CollectionExtensionsTests
     public void AsReadOnly_ISet_Test()
     {
         // Arrange
-        ISet<int> set = new HashSet<int> { 1, 2, 3 };
+        var set = (ISet<int>)new HashSet<int> { 1, 2, 3 };
 
         // Act
         var readOnly = set.AsReadOnly();
@@ -30,7 +30,7 @@ public class CollectionExtensionsTests
     {
         // Arrange
         var inner = new HashSet<int> { 1, 2, 3 };
-        ISet<int> set = inner;
+        var set = (ISet<int>)inner;
 
         // Act
         var readOnly = set.AsReadOnly();

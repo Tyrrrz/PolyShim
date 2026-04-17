@@ -11,7 +11,7 @@ public class CollectionExtensionsTests
     public void AsReadOnly_IList_Test()
     {
         // Arrange
-        IList<string> list = new List<string> { "a", "b", "c" };
+        var list = (IList<string>)new List<string> { "a", "b", "c" };
 
         // Act
         var readOnly = list.AsReadOnly();
@@ -26,7 +26,7 @@ public class CollectionExtensionsTests
     {
         // Arrange
         var inner = new List<string> { "a", "b" };
-        IList<string> list = inner;
+        var list = (IList<string>)inner;
 
         // Act
         var readOnly = list.AsReadOnly();
