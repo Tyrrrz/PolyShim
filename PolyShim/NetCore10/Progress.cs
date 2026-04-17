@@ -28,17 +28,21 @@ internal class Progress<T> : IProgress<T>
 
     protected virtual void OnReport(T value)
     {
-        if (_handler is not null || ProgressChanged is not null)
-            _synchronizationContext.Post(InvokeHandlers, value);
+        var handler = _handler;
+        var progressChanged = ProgressChanged;
+
+        if (handler is not null || progressChanged is not null)
+            _synchronizationContext.Post(
+                s =>
+                {
+                    var (v, h, e) = ((T, Action<T>?, EventHandler<T>?))s!;
+                    h?.Invoke(v);
+                    e?.Invoke(this, v);
+                },
+                (value, handler, progressChanged)
+            );
     }
 
     void IProgress<T>.Report(T value) => OnReport(value);
-
-    private void InvokeHandlers(object? state)
-    {
-        var value = (T)state!;
-        _handler?.Invoke(value);
-        ProgressChanged?.Invoke(this, value);
-    }
 }
 #endif
