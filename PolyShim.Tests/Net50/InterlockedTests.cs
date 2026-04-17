@@ -42,17 +42,17 @@ public class InterlockedTests
         i.Should().Be(unchecked((int)0xFFFFFFFF));
 
         // uint
-        uint ui = 0x0000FFFF;
+        var ui = (uint)0x0000FFFF;
         Interlocked.Or(ref ui, 0xFFFF0000).Should().Be(0x0000FFFF);
         ui.Should().Be(0xFFFFFFFF);
 
         // long
-        long l = 0x00000000FFFFFFFF;
+        var l = (long)0x00000000FFFFFFFF;
         Interlocked.Or(ref l, unchecked((long)0xFFFFFFFF00000000)).Should().Be(0x00000000FFFFFFFF);
         l.Should().Be(unchecked((long)0xFFFFFFFFFFFFFFFF));
 
         // ulong
-        ulong ul = 0x00000000FFFFFFFF;
+        var ul = (ulong)0x00000000FFFFFFFF;
         Interlocked.Or(ref ul, 0xFFFFFFFF00000000).Should().Be(0x00000000FFFFFFFF);
         ul.Should().Be(0xFFFFFFFFFFFFFFFF);
     }

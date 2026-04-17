@@ -32,7 +32,7 @@ internal static class MemberPolyfills_NetCore30_RandomNumberGenerator
             var buffer = ArrayPool<byte>.Shared.Rent(4);
             try
             {
-                uint result;
+                var result = 0U;
                 do
                 {
                     RandomNumberGeneratorEx.Instance.GetBytes(buffer, 0, 4);
