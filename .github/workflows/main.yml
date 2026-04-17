@@ -28,9 +28,6 @@ jobs:
       dotnet-version: |
         6.0.x
         10.0.x
-      # We use .NET Framework as the base framework for testing polyfills and it
-      # can only run on Windows.
-      windows-only: true
       deploy: ${{ inputs.deploy || github.ref_type == 'tag' }}
       package-version: ${{ inputs.package-version || (github.ref_type == 'tag' && github.ref_name) || format('0.0.0-ci-{0}', github.sha) }}
     secrets:

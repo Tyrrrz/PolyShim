@@ -44,7 +44,7 @@ internal static class MemberPolyfills_Net60_File
                             or FileMode.Append
                 )
                 {
-                    File.SetUnixFileMode(path, unixCreateMode & File.GetUnixFileMode(path));
+                    File.SetUnixFileMode(path, unixCreateMode);
                 }
 #endif
             }
