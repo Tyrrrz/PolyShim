@@ -24,10 +24,7 @@ internal class Progress<T> : IProgress<T>
     }
 
     public Progress(Action<T> handler)
-        : this()
-    {
-        _handler = handler ?? throw new ArgumentNullException(nameof(handler));
-    }
+        : this() => _handler = handler;
 
     protected virtual void OnReport(T value)
     {
