@@ -26,6 +26,7 @@ public class ProcessTests
 
         // Act
         process.Kill(true);
+        process.WaitForExit();
 
         // Assert
         process.HasExited.Should().BeTrue();
