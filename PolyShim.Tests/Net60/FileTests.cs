@@ -95,7 +95,9 @@ public class FileTests
     [UnsupportedOSPlatform("windows")]
     public void Open_UnixFileMode_Test()
     {
-        Skip.If(OperatingSystem.IsWindows());
+        // On .NET 6, File.Open is a real method that doesn't apply the polyfill UnixCreateMode
+        // extension property (stored in a ConditionalWeakTable). Skip the test in that case.
+        Skip.If(OperatingSystem.IsWindows() || Environment.Version.Major < 7);
 
         // Arrange
         var tempFilePath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

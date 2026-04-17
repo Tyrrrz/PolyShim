@@ -30,8 +30,8 @@ file static class NativeMethods
     [DllImport("libc", EntryPoint = "stat", SetLastError = true)]
     public static extern int StatLinux(string path, ref StatBuf buf);
 
-    // macOS: the 64-bit inode variant is exported as stat$INODE64
-    [DllImport("libSystem.dylib", EntryPoint = "stat$INODE64", SetLastError = true)]
+    // macOS: use plain stat (always 64-bit for .NET processes; stat$INODE64 was removed in macOS Sonoma+)
+    [DllImport("libSystem.dylib", EntryPoint = "stat", SetLastError = true)]
     public static extern int StatMacOs(string path, ref StatBuf buf);
 
     [DllImport("libc", EntryPoint = "chmod", SetLastError = true)]

@@ -36,8 +36,7 @@ internal static class MemberPolyfills_Net70_Directory
 
             if (!existed)
             {
-                var effectiveMode = unixCreateMode & File.GetUnixFileMode(info.FullName);
-                if (NativeMethods.Chmod(info.FullName, (uint)effectiveMode) != 0)
+                if (NativeMethods.Chmod(info.FullName, (uint)unixCreateMode) != 0)
                 {
                     throw new IOException(
                         $"Could not set Unix file mode for '{path}' (errno={Marshal.GetLastWin32Error()})."
