@@ -29,16 +29,6 @@ internal static class MemberPolyfills_NetCore20_CollectionExtensions
     extension<TKey, TValue>(IDictionary<TKey, TValue> dictionary)
         where TKey : notnull
     {
-        // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.tryadd
-        public bool TryAdd(TKey key, TValue value)
-        {
-            if (dictionary.ContainsKey(key))
-                return false;
-
-            dictionary.Add(key, value);
-            return true;
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.remove
         public bool Remove(TKey key, out TValue value)
         {
@@ -50,6 +40,16 @@ internal static class MemberPolyfills_NetCore20_CollectionExtensions
 
             value = default!;
             return false;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.tryadd
+        public bool TryAdd(TKey key, TValue value)
+        {
+            if (dictionary.ContainsKey(key))
+                return false;
+
+            dictionary.Add(key, value);
+            return true;
         }
     }
 }

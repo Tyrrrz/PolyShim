@@ -14,15 +14,6 @@ internal static class MemberPolyfills_NetCore10_EnumerableExtensions
 {
     extension<T>(IEnumerable<T> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.prepend
-        public IEnumerable<T> Prepend(T element)
-        {
-            yield return element;
-
-            foreach (var item in source)
-                yield return item;
-        }
-
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.append
         public IEnumerable<T> Append(T element)
         {
@@ -30,6 +21,15 @@ internal static class MemberPolyfills_NetCore10_EnumerableExtensions
                 yield return item;
 
             yield return element;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.prepend
+        public IEnumerable<T> Prepend(T element)
+        {
+            yield return element;
+
+            foreach (var item in source)
+                yield return item;
         }
 
 #if (NETFRAMEWORK && !NET40_OR_GREATER)

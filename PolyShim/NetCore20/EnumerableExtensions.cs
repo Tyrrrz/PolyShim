@@ -14,11 +14,11 @@ internal static class MemberPolyfills_NetCore20_EnumerableExtensions
 {
     extension<T>(IEnumerable<T> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.takelast
-        public IEnumerable<T> TakeLast(int count) => source.Reverse().Take(count).Reverse();
-
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.skiplast
         public IEnumerable<T> SkipLast(int count) => source.Reverse().Skip(count).Reverse();
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.takelast
+        public IEnumerable<T> TakeLast(int count) => source.Reverse().Take(count).Reverse();
 
 #if !NET472_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))

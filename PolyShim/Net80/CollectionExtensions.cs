@@ -20,10 +20,6 @@ internal static class MemberPolyfills_Net80_CollectionExtensions
                 list.Add(item);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.insertrange
-        public void InsertRange(int index, ReadOnlySpan<T> source) =>
-            list.InsertRange(index, source.ToArray());
-
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.copyto
         public void CopyTo(Span<T> destination)
         {
@@ -33,6 +29,10 @@ internal static class MemberPolyfills_Net80_CollectionExtensions
             for (var i = 0; i < list.Count; i++)
                 destination[i] = list[i];
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.insertrange
+        public void InsertRange(int index, ReadOnlySpan<T> source) =>
+            list.InsertRange(index, source.ToArray());
     }
 }
 #endif

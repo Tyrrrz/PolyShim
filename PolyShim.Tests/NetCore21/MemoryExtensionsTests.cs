@@ -8,55 +8,16 @@ namespace PolyShim.Tests.NetCore21;
 public class MemoryExtensionsTests
 {
     [Fact]
-    public void Array_AsSpan_Test()
+    public void Array_AsMemory_Start_Length_Test()
     {
         // Arrange
         var array = new[] { 1, 2, 3, 4, 5 };
 
         // Act
-        var span = array.AsSpan();
+        var memory = array.AsMemory(1, 3);
 
         // Assert
-        span.ToArray().Should().Equal(1, 2, 3, 4, 5);
-    }
-
-    [Fact]
-    public void Array_AsSpan_Start_Test()
-    {
-        // Arrange
-        var array = new[] { 1, 2, 3, 4, 5 };
-
-        // Act
-        var span = array.AsSpan(2);
-
-        // Assert
-        span.ToArray().Should().Equal(3, 4, 5);
-    }
-
-    [Fact]
-    public void Array_AsSpan_Start_Length_Test()
-    {
-        // Arrange
-        var array = new[] { 1, 2, 3, 4, 5 };
-
-        // Act
-        var span = array.AsSpan(1, 3);
-
-        // Assert
-        span.ToArray().Should().Equal(2, 3, 4);
-    }
-
-    [Fact]
-    public void Array_AsMemory_Test()
-    {
-        // Arrange
-        var array = new[] { 1, 2, 3, 4, 5 };
-
-        // Act
-        var memory = array.AsMemory();
-
-        // Assert
-        memory.ToArray().Should().Equal(1, 2, 3, 4, 5);
+        memory.ToArray().Should().Equal(2, 3, 4);
     }
 
     [Fact]
@@ -73,24 +34,63 @@ public class MemoryExtensionsTests
     }
 
     [Fact]
-    public void Array_AsMemory_Start_Length_Test()
+    public void Array_AsMemory_Test()
     {
         // Arrange
         var array = new[] { 1, 2, 3, 4, 5 };
 
         // Act
-        var memory = array.AsMemory(1, 3);
+        var memory = array.AsMemory();
 
         // Assert
-        memory.ToArray().Should().Equal(2, 3, 4);
+        memory.ToArray().Should().Equal(1, 2, 3, 4, 5);
     }
 
     [Fact]
-    public void Array_CopyTo_Span_Test()
+    public void Array_AsSpan_Start_Length_Test()
+    {
+        // Arrange
+        var array = new[] { 1, 2, 3, 4, 5 };
+
+        // Act
+        var span = array.AsSpan(1, 3);
+
+        // Assert
+        span.ToArray().Should().Equal(2, 3, 4);
+    }
+
+    [Fact]
+    public void Array_AsSpan_Start_Test()
+    {
+        // Arrange
+        var array = new[] { 1, 2, 3, 4, 5 };
+
+        // Act
+        var span = array.AsSpan(2);
+
+        // Assert
+        span.ToArray().Should().Equal(3, 4, 5);
+    }
+
+    [Fact]
+    public void Array_AsSpan_Test()
+    {
+        // Arrange
+        var array = new[] { 1, 2, 3, 4, 5 };
+
+        // Act
+        var span = array.AsSpan();
+
+        // Assert
+        span.ToArray().Should().Equal(1, 2, 3, 4, 5);
+    }
+
+    [Fact]
+    public void Array_CopyTo_Memory_Test()
     {
         // Arrange
         var array = new[] { 1, 2, 3 };
-        var destination = (Span<int>)new int[3];
+        var destination = (Memory<int>)new int[3];
 
         // Act
         array.CopyTo(destination);
@@ -100,11 +100,11 @@ public class MemoryExtensionsTests
     }
 
     [Fact]
-    public void Array_CopyTo_Memory_Test()
+    public void Array_CopyTo_Span_Test()
     {
         // Arrange
         var array = new[] { 1, 2, 3 };
-        var destination = (Memory<int>)new int[3];
+        var destination = (Span<int>)new int[3];
 
         // Act
         array.CopyTo(destination);
@@ -127,43 +127,13 @@ public class MemoryExtensionsTests
     }
 
     [Fact]
-    public void String_AsSpan_Test()
+    public void String_AsMemory_Start_Length_Test()
     {
         // Act
-        var span = "hello".AsSpan();
+        var memory = "hello".AsMemory(1, 3);
 
         // Assert
-        span.ToArray().Should().Equal('h', 'e', 'l', 'l', 'o');
-    }
-
-    [Fact]
-    public void String_AsSpan_Start_Test()
-    {
-        // Act
-        var span = "hello".AsSpan(2);
-
-        // Assert
-        span.ToArray().Should().Equal('l', 'l', 'o');
-    }
-
-    [Fact]
-    public void String_AsSpan_Start_Length_Test()
-    {
-        // Act
-        var span = "hello".AsSpan(1, 3);
-
-        // Assert
-        span.ToArray().Should().Equal('e', 'l', 'l');
-    }
-
-    [Fact]
-    public void String_AsMemory_Test()
-    {
-        // Act
-        var memory = "hello".AsMemory();
-
-        // Assert
-        memory.ToArray().Should().Equal('h', 'e', 'l', 'l', 'o');
+        memory.ToArray().Should().Equal('e', 'l', 'l');
     }
 
     [Fact]
@@ -177,13 +147,43 @@ public class MemoryExtensionsTests
     }
 
     [Fact]
-    public void String_AsMemory_Start_Length_Test()
+    public void String_AsMemory_Test()
     {
         // Act
-        var memory = "hello".AsMemory(1, 3);
+        var memory = "hello".AsMemory();
 
         // Assert
-        memory.ToArray().Should().Equal('e', 'l', 'l');
+        memory.ToArray().Should().Equal('h', 'e', 'l', 'l', 'o');
+    }
+
+    [Fact]
+    public void String_AsSpan_Start_Length_Test()
+    {
+        // Act
+        var span = "hello".AsSpan(1, 3);
+
+        // Assert
+        span.ToArray().Should().Equal('e', 'l', 'l');
+    }
+
+    [Fact]
+    public void String_AsSpan_Start_Test()
+    {
+        // Act
+        var span = "hello".AsSpan(2);
+
+        // Assert
+        span.ToArray().Should().Equal('l', 'l', 'o');
+    }
+
+    [Fact]
+    public void String_AsSpan_Test()
+    {
+        // Act
+        var span = "hello".AsSpan();
+
+        // Assert
+        span.ToArray().Should().Equal('h', 'e', 'l', 'l', 'o');
     }
 
     [Fact]
@@ -204,6 +204,19 @@ public class MemoryExtensionsTests
 
         // Act & Assert
         span.IndexOf(99).Should().Be(-1);
+    }
+
+    [Fact]
+    public void Span_Reverse_Test()
+    {
+        // Arrange
+        var span = (Span<int>)[1, 2, 3, 4, 5];
+
+        // Act
+        span.Reverse();
+
+        // Assert
+        span.ToArray().Should().Equal(5, 4, 3, 2, 1);
     }
 
     [Fact]
@@ -237,19 +250,6 @@ public class MemoryExtensionsTests
 
         // Act & Assert
         span.SequenceEqual(other).Should().BeFalse();
-    }
-
-    [Fact]
-    public void Span_Reverse_Test()
-    {
-        // Arrange
-        var span = (Span<int>)[1, 2, 3, 4, 5];
-
-        // Act
-        span.Reverse();
-
-        // Assert
-        span.ToArray().Should().Equal(5, 4, 3, 2, 1);
     }
 
     [Fact]

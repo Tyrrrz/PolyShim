@@ -19,15 +19,15 @@ internal static class MemberPolyfills_NetCore30_TaskAsyncEnumerableExtensions
 {
     extension<T>(IAsyncEnumerable<T> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation
-        public ConfiguredCancelableAsyncEnumerable<T> WithCancellation(
-            CancellationToken cancellationToken
-        ) => new(source, continueOnCapturedContext: true, cancellationToken);
-
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.configureawait
         public ConfiguredCancelableAsyncEnumerable<T> ConfigureAwait(
             bool continueOnCapturedContext
         ) => new(source, continueOnCapturedContext, cancellationToken: default);
+
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation
+        public ConfiguredCancelableAsyncEnumerable<T> WithCancellation(
+            CancellationToken cancellationToken
+        ) => new(source, continueOnCapturedContext: true, cancellationToken);
     }
 }
 #endif
