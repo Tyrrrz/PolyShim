@@ -41,23 +41,11 @@ public class ProcessTests
             StartInfo = new ProcessStartInfo
             {
                 FileName = OperatingSystem.IsWindows() ? "cmd" : "sleep",
+                Arguments = OperatingSystem.IsWindows() ? "/c timeout 30 /nobreak" : "30",
                 CreateNoWindow = true,
                 UseShellExecute = false,
             },
         };
-
-        if (OperatingSystem.IsWindows())
-        {
-            process.StartInfo.ArgumentList.Add("/c");
-            process.StartInfo.ArgumentList.Add("timeout");
-            process.StartInfo.ArgumentList.Add("30");
-            process.StartInfo.ArgumentList.Add("/nobreak");
-        }
-        else
-        {
-            process.StartInfo.ArgumentList.Add("30");
-        }
-
         process.Start();
 
         try
