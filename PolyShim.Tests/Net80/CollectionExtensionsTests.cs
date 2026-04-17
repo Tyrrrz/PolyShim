@@ -12,7 +12,7 @@ public class CollectionExtensionsTests
     {
         // Arrange
         var list = new List<int> { 1, 2, 3 };
-        ReadOnlySpan<int> items = new[] { 4, 5, 6 };
+        var items = (ReadOnlySpan<int>)new[] { 4, 5, 6 };
 
         // Act
         list.AddRange(items);
@@ -26,7 +26,7 @@ public class CollectionExtensionsTests
     {
         // Arrange
         var list = new List<int> { 1, 2, 3 };
-        ReadOnlySpan<int> items = [];
+        var items = (ReadOnlySpan<int>)[];
 
         // Act
         list.AddRange(items);
@@ -40,7 +40,7 @@ public class CollectionExtensionsTests
     {
         // Arrange
         var list = new List<int> { 1, 2, 6 };
-        ReadOnlySpan<int> items = new[] { 3, 4, 5 };
+        var items = (ReadOnlySpan<int>)new[] { 3, 4, 5 };
 
         // Act
         list.InsertRange(2, items);
