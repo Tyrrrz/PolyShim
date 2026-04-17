@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 477
-- **Types:** 104
-- **Members:** 373
+- **Total:** 487
+- **Types:** 106
+- **Members:** 381
 
 ___
 
@@ -188,6 +188,10 @@ ___
   - [`ConfiguredCancelableAsyncEnumerable<T> WithCancellation(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation) <sup><sub>.NET Core 3.0</sub></sup>
 - `IAsyncEnumerator<T>`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerator-1) <sup><sub>.NET Core 3.0</sub></sup>
+- `IDictionary<TKey, TValue>`
+  - [`bool Remove(TKey, out TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.remove) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`bool TryAdd(TKey, TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.tryadd) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`ReadOnlyDictionary<TKey, TValue> AsReadOnly()`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-2(system-collections-generic-idictionary((-0-1)))) <sup><sub>.NET 7.0</sub></sup>
 - `IEnumerable<T>`
   - [`HashSet<T> ToHashSet()`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
   - [`HashSet<T> ToHashSet(IEqualityComparer<T>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
@@ -230,6 +234,8 @@ ___
   - [`T? Min(IComparer<T>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.min#system-linq-enumerable-min-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))) <sup><sub>.NET 6.0</sub></sup>
   - [`T? MinBy<TKey>(Func<T, TKey>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))) <sup><sub>.NET 6.0</sub></sup>
   - [`T? MinBy<TKey>(Func<T, TKey>, IComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))) <sup><sub>.NET 6.0</sub></sup>
+- `IList<T>`
+  - [`ReadOnlyCollection<T> AsReadOnly()`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-ilist((-0)))) <sup><sub>.NET 7.0</sub></sup>
 - `IMemoryOwner<T>`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.buffers.imemoryowner-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `Index`
@@ -257,6 +263,10 @@ ___
 - `IReadOnlyDictionary<TKey, TValue>`
   - [`TValue? GetValueOrDefault(TKey)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0)) <sup><sub>.NET Core 2.0</sub></sup>
   - [`TValue? GetValueOrDefault(TKey, TValue?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1)) <sup><sub>.NET Core 2.0</sub></sup>
+- `IReadOnlySet<T>`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlyset-1) <sup><sub>.NET 5.0</sub></sup>
+- `ISet<T>`
+  - [`ReadOnlySet<T> AsReadOnly()`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-iset((-0)))) <sup><sub>.NET 10.0</sub></sup>
 - `IsExternalInit`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.isexternalinit) <sup><sub>.NET 5.0</sub></sup>
 - `ITimer`
@@ -273,6 +283,9 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.libraryimportattribute) <sup><sub>.NET 7.0</sub></sup>
 - `List<T>`
   - [`int EnsureCapacity(int)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.ensurecapacity) <sup><sub>.NET 6.0</sub></sup>
+  - [`void AddRange(ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.addrange) <sup><sub>.NET 8.0</sub></sup>
+  - [`void CopyTo(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.copyto) <sup><sub>.NET 8.0</sub></sup>
+  - [`void InsertRange(int, ReadOnlySpan<T>)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.insertrange) <sup><sub>.NET 8.0</sub></sup>
 - `Lock`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.lock) <sup><sub>.NET 9.0</sub></sup>
 - `long`
@@ -395,6 +408,8 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.range) <sup><sub>.NET Core 3.0</sub></sup>
 - `ReadOnlyMemory<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.readonlymemory-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `ReadOnlySet<T>`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlyset-1) <sup><sub>.NET 9.0</sub></sup>
 - `ReadOnlySpan<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.readonlyspan-1) <sup><sub>.NET Core 2.1</sub></sup>
   - [`bool Contains(T)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
