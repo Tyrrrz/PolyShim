@@ -1,9 +1,11 @@
-#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETSTANDARD) || (NETFRAMEWORK && NET45_OR_GREATER)
+#if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETSTANDARD) || (NETFRAMEWORK)
 #nullable enable
 #pragma warning disable CS0436
 
 namespace System.Collections.Generic;
 
+#if !NETFRAMEWORK || NET45_OR_GREATER
+// IReadOnlyCollection<T> (base interface) is not available in .NET Framework below 4.5
 // https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlyset-1
 internal interface IReadOnlySet<T> : IReadOnlyCollection<T>
 {
@@ -21,4 +23,5 @@ internal interface IReadOnlySet<T> : IReadOnlyCollection<T>
 
     bool SetEquals(IEnumerable<T> other);
 }
+#endif
 #endif

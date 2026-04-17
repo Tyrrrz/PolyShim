@@ -1,4 +1,4 @@
-#if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETSTANDARD) || (NETFRAMEWORK && NET45_OR_GREATER)
+#if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETSTANDARD) || (NETFRAMEWORK)
 #nullable enable
 #pragma warning disable CS0436
 
@@ -8,6 +8,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Collections.ObjectModel;
 
+#if !NETFRAMEWORK || NET45_OR_GREATER
+// IReadOnlySet<T> is not available in .NET Framework below 4.5
 // https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlyset-1
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
@@ -38,4 +40,5 @@ internal sealed class ReadOnlySet<T> : IReadOnlySet<T>
 
     public bool SetEquals(IEnumerable<T> other) => _set.SetEquals(other);
 }
+#endif
 #endif
