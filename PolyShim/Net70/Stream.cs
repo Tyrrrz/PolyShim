@@ -34,7 +34,7 @@ internal static class MemberPolyfills_Net70_Stream
             }
         }
 
-        // Task infrastructure is required for async method support.
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken)
         public async Task ReadExactlyAsync(
@@ -91,7 +91,7 @@ internal static class MemberPolyfills_Net70_Stream
             bufferArray.CopyTo(buffer);
         }
 
-        // Task infrastructure is required for async method support.
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleastasync
         public async Task<int> ReadAtLeastAsync(

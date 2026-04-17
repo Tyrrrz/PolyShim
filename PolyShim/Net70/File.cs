@@ -105,7 +105,7 @@ internal static class MemberPolyfills_Net70_File
             }
         }
 
-        // Task infrastructure is required for async method support.
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.file.readlinesasync#system-io-file-readlinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)
         public static async IAsyncEnumerable<string> ReadLinesAsync(

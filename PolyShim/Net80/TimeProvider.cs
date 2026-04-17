@@ -82,7 +82,7 @@ internal abstract class TimeProvider
             _timer.Dispose();
         }
 
-        // Task infrastructure is required for async method support.
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         public ValueTask DisposeAsync() => _timer.DisposeAsync();
 #endif

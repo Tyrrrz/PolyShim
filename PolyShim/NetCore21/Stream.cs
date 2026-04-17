@@ -15,7 +15,7 @@ internal static class MemberPolyfills_NetCore21_Stream
 {
     extension(Stream stream)
     {
-        // Task infrastructure is required for async method support.
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.stream.copytoasync#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken)
         public async Task CopyToAsync(
@@ -41,7 +41,7 @@ internal static class MemberPolyfills_NetCore21_Stream
             stream.Write(bufferArray, 0, bufferArray.Length);
         }
 
-        // Task infrastructure is required for async method support.
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)
         public async ValueTask<int> ReadAsync(

@@ -1,4 +1,5 @@
 #if (NETCOREAPP && !NETCOREAPP3_0_OR_GREATER) || (NET35_OR_GREATER) || (NETSTANDARD)
+#if FEATURE_PROCESS && FEATURE_MANAGEMENT
 #nullable enable
 #pragma warning disable CS0436
 
@@ -13,8 +14,6 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_NetCore30_Process
 {
-    // Both process and management features are required for process tree support.
-#if FEATURE_PROCESS && FEATURE_MANAGEMENT
     extension(Process process)
     {
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)
@@ -64,6 +63,6 @@ internal static class MemberPolyfills_NetCore30_Process
             KillProcessTree(process.Id);
         }
     }
-#endif
 }
+#endif
 #endif

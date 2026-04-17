@@ -1,5 +1,5 @@
 #if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
-// Process is not available on all target frameworks within this TFM range without a NuGet package reference.
+// Process is not available on all target frameworks within this TFM range without a NuGet package reference
 #if FEATURE_PROCESS
 #nullable enable
 #pragma warning disable CS0436
@@ -15,7 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_Net50_Process
 {
-    // Task infrastructure is required for async method support.
+    // Task infrastructure is required for async method support
 #if FEATURE_TASK
     extension(Process process)
     {

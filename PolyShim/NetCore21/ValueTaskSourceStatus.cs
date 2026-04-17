@@ -1,5 +1,5 @@
 #if FEATURE_TASK
-// IValueTaskSource is provided via the System.Threading.Tasks.Extensions NuGet package when available.
+// Can be provided natively or by a compatibility package
 #if !FEATURE_VALUETASK_SOURCES
 #nullable enable
 #pragma warning disable CS0436

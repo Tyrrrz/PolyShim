@@ -19,7 +19,7 @@ internal static class MemberPolyfills_NetCore20_File
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
     extension(File)
     {
-        // Task infrastructure is required for async method support.
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)
         public static async Task AppendAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default)

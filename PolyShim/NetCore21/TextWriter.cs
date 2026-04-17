@@ -22,7 +22,7 @@ internal static class MemberPolyfills_NetCore21_TextWriter
             writer.Write(bufferArray, 0, bufferArray.Length);
         }
 
-        // Task infrastructure is required for async method support.
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
         public async ValueTask WriteAsync(

@@ -34,7 +34,7 @@ internal static class MemberPolyfills_Net90_File
         public static void AppendAllBytes(string path, ReadOnlySpan<byte> bytes) =>
             File.AppendAllBytes(path, bytes.ToArray());
 
-        // Task infrastructure is required for async method support.
+        // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
         public static async Task AppendAllBytesAsync(
