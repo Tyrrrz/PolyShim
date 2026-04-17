@@ -1,4 +1,5 @@
-#if (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK && NET40_OR_GREATER) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
+#if (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
+#if FEATURE_TASK
 #nullable enable
 #pragma warning disable CS0436
 
@@ -107,4 +108,5 @@ internal struct ManualResetValueTaskSourceCore<TResult>
             );
     }
 }
+#endif
 #endif
