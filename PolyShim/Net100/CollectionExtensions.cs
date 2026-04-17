@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_Net100_CollectionExtensions
 {
-#if NET5_0_OR_GREATER
+#if NET7_0_OR_GREATER
     // These extensions are re-declared here as new-style extension members to ensure they take
     // priority over classic extension methods from the BCL when both are in scope. Without this,
     // C# 14's extension member resolution incorrectly resolves IList<T>.AsReadOnly() and

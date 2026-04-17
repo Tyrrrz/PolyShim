@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using FluentAssertions;
 using Xunit;
 
-namespace PolyShim.Tests.Net50;
+namespace PolyShim.Tests.Net70;
 
 public class CollectionExtensionsTests
 {
