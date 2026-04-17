@@ -36,20 +36,6 @@ public class CollectionExtensionsTests
     }
 
     [Fact]
-    public void InsertRange_Test()
-    {
-        // Arrange
-        var list = new List<int> { 1, 2, 6 };
-        var items = (ReadOnlySpan<int>)new[] { 3, 4, 5 };
-
-        // Act
-        list.InsertRange(2, items);
-
-        // Assert
-        list.Should().Equal(1, 2, 3, 4, 5, 6);
-    }
-
-    [Fact]
     public void CopyTo_Test()
     {
         // Arrange
@@ -77,5 +63,19 @@ public class CollectionExtensionsTests
 
         // Assert
         act.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void InsertRange_Test()
+    {
+        // Arrange
+        var list = new List<int> { 1, 2, 6 };
+        var items = (ReadOnlySpan<int>)new[] { 3, 4, 5 };
+
+        // Act
+        list.InsertRange(2, items);
+
+        // Assert
+        list.Should().Equal(1, 2, 3, 4, 5, 6);
     }
 }
