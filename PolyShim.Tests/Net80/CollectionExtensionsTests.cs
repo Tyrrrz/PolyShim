@@ -71,19 +71,11 @@ public class CollectionExtensionsTests
         // Arrange
         var list = new List<int> { 1, 2, 3 };
         var destination = new int[2];
-        var threw = false;
 
         // Act
-        try
-        {
-            list.CopyTo(destination.AsSpan());
-        }
-        catch (ArgumentException)
-        {
-            threw = true;
-        }
+        var act = () => list.CopyTo(destination.AsSpan());
 
         // Assert
-        threw.Should().BeTrue();
+        act.Should().Throw<ArgumentException>();
     }
 }

@@ -40,11 +40,8 @@ public class CollectionExtensionsTests
     public void AsReadOnly_IDictionary_Test()
     {
         // Arrange
-        IDictionary<string, int> dictionary = new Dictionary<string, int>
-        {
-            ["one"] = 1,
-            ["two"] = 2,
-        };
+        var dictionary =
+            (IDictionary<string, int>)new Dictionary<string, int> { ["one"] = 1, ["two"] = 2 };
 
         // Act
         var readOnly = dictionary.AsReadOnly();

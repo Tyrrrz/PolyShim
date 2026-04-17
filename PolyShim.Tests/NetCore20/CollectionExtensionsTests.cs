@@ -26,11 +26,8 @@ public class CollectionExtensionsTests
     public void TryAdd_IDictionary_Test()
     {
         // Arrange
-        IDictionary<string, int> dictionary = new Dictionary<string, int>
-        {
-            ["apple"] = 1,
-            ["banana"] = 2,
-        };
+        var dictionary =
+            (IDictionary<string, int>)new Dictionary<string, int> { ["apple"] = 1, ["banana"] = 2 };
 
         // Act
         var result = dictionary.TryAdd("cherry", 3);
@@ -46,11 +43,8 @@ public class CollectionExtensionsTests
     public void TryAdd_IDictionary_Exists_Test()
     {
         // Arrange
-        IDictionary<string, int> dictionary = new Dictionary<string, int>
-        {
-            ["apple"] = 1,
-            ["banana"] = 2,
-        };
+        var dictionary =
+            (IDictionary<string, int>)new Dictionary<string, int> { ["apple"] = 1, ["banana"] = 2 };
 
         // Act
         var result = dictionary.TryAdd("apple", 99);
@@ -65,11 +59,8 @@ public class CollectionExtensionsTests
     public void Remove_IDictionary_Test()
     {
         // Arrange
-        IDictionary<string, int> dictionary = new Dictionary<string, int>
-        {
-            ["apple"] = 1,
-            ["banana"] = 2,
-        };
+        var dictionary =
+            (IDictionary<string, int>)new Dictionary<string, int> { ["apple"] = 1, ["banana"] = 2 };
 
         // Act
         var result = dictionary.Remove("apple", out var value);
@@ -85,7 +76,7 @@ public class CollectionExtensionsTests
     public void Remove_IDictionary_NonExistent_Test()
     {
         // Arrange
-        IDictionary<string, int> dictionary = new Dictionary<string, int> { ["apple"] = 1 };
+        var dictionary = (IDictionary<string, int>)new Dictionary<string, int> { ["apple"] = 1 };
 
         // Act
         var result = dictionary.Remove("cherry", out var value);
