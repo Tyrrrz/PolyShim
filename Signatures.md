@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 490
-- **Types:** 108
+- **Total:** 491
+- **Types:** 109
 - **Members:** 382
 
 ___
@@ -122,6 +122,8 @@ ___
   - [`static string? ProcessPath`](https://learn.microsoft.com/dotnet/api/system.environment.processpath) <sup><sub>.NET 6.0</sub></sup>
 - `EqualityComparer<T>`
   - [`static EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.equalitycomparer-1.create) <sup><sub>.NET 8.0</sub></sup>
+- `EventHandler<T>`
+  - [**[delegate]**](https://learn.microsoft.com/dotnet/api/system.eventhandler-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `ExcludeFromCodeCoverageAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.excludefromcodecoverageattribute) <sup><sub>.NET Core 2.0</sub></sup>
 - `ExtensionAttribute`

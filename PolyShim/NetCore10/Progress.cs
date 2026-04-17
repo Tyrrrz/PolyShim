@@ -11,37 +11,16 @@ namespace System;
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal class Progress<T> : IProgress<T>
+internal class Progress<T>(Action<T>? handler = null) : IProgress<T>
 {
-    private readonly SynchronizationContext _synchronizationContext;
-    private readonly Action<T>? _handler;
+    private readonly SynchronizationContext _synchronizationContext =
+        SynchronizationContext.Current ?? new SynchronizationContext();
 
-    // EventHandler<TEventArgs> on .NET Framework 3.5/4.0 requires TEventArgs : EventArgs,
-    // so the ProgressChanged event is only available on platforms where that constraint is absent.
-#if !NETFRAMEWORK || NET45_OR_GREATER
     public event EventHandler<T>? ProgressChanged;
-#endif
-
-    public Progress()
-    {
-        _synchronizationContext = SynchronizationContext.Current ?? new SynchronizationContext();
-    }
-
-    public Progress(Action<T> handler)
-        : this()
-    {
-        _handler = handler;
-    }
 
     protected virtual void OnReport(T value)
     {
-        var handler = _handler;
-#if !NETFRAMEWORK || NET45_OR_GREATER
-        var progressChanged = ProgressChanged;
-#else
-        Action<T>? progressChanged = null;
-#endif
-        if (handler != null || progressChanged != null)
+        if (handler is not null || ProgressChanged is not null)
         {
             _synchronizationContext.Post(InvokeHandlers, value);
         }
@@ -52,10 +31,8 @@ internal class Progress<T> : IProgress<T>
     private void InvokeHandlers(object? state)
     {
         var value = (T)state!;
-        _handler?.Invoke(value);
-#if !NETFRAMEWORK || NET45_OR_GREATER
+        handler?.Invoke(value);
         ProgressChanged?.Invoke(this, value);
-#endif
     }
 }
 #endif

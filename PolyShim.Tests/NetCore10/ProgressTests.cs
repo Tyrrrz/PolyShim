@@ -27,9 +27,6 @@ public class ProgressTests
         receivedValue.Should().Be(42);
     }
 
-    // ProgressChanged uses EventHandler<T> which requires T : EventArgs on .NET 3.5/4.0,
-    // so this test is only compiled on platforms where the event is available.
-#if !NETFRAMEWORK || NET45_OR_GREATER
     [Fact]
     public void Report_WithEvent_Test()
     {
@@ -50,7 +47,6 @@ public class ProgressTests
         received.Wait(TimeSpan.FromSeconds(5)).Should().BeTrue();
         receivedValue.Should().Be(99);
     }
-#endif
 
     [Fact]
     public void Report_NoHandler_Test()
