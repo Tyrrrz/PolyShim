@@ -82,7 +82,7 @@ public class CollectionExtensionsTests
     }
 
     [Fact]
-    public void Remove_IDictionary_NotFound_Test()
+    public void Remove_IDictionary_NonExistent_Test()
     {
         // Arrange
         IDictionary<string, int> dictionary = new Dictionary<string, int> { ["apple"] = 1 };
