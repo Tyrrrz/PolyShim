@@ -19,14 +19,11 @@ internal static class MemberPolyfills_NetCore30_TextWriter
         // https://learn.microsoft.com/dotnet/api/system.io.textwriter.disposeasync
         public async ValueTask DisposeAsync()
         {
-            // IAsyncDisposable is provided via the Microsoft.Bcl.AsyncInterfaces NuGet package.
-#if FEATURE_ASYNCINTERFACES
             if (writer is IAsyncDisposable asyncDisposable)
             {
                 await asyncDisposable.DisposeAsync();
                 return;
             }
-#endif
 
             try
             {
