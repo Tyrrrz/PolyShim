@@ -11,7 +11,7 @@ public class ProgressTests
     public void Report_WithHandler_Test()
     {
         // Arrange
-        var received = new ManualResetEventSlim();
+        using var received = new ManualResetEventSlim();
         var receivedValue = default(int);
         var progress = new Progress<int>(v =>
         {
@@ -34,7 +34,7 @@ public class ProgressTests
     public void Report_WithEvent_Test()
     {
         // Arrange
-        var received = new ManualResetEventSlim();
+        using var received = new ManualResetEventSlim();
         var receivedValue = default(int);
         var progress = new Progress<int>();
         progress.ProgressChanged += (_, v) =>
