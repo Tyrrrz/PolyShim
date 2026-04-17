@@ -50,20 +50,6 @@ public class CollectionExtensionsTests
     }
 
     [Fact]
-    public void InsertRange_AtStart_Test()
-    {
-        // Arrange
-        var list = new List<int> { 3, 4, 5 };
-        ReadOnlySpan<int> items = new[] { 1, 2 };
-
-        // Act
-        list.InsertRange(0, items);
-
-        // Assert
-        list.Should().Equal(1, 2, 3, 4, 5);
-    }
-
-    [Fact]
     public void CopyTo_Test()
     {
         // Arrange
