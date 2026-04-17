@@ -28,10 +28,8 @@ internal class Progress<T> : IProgress<T>
 
     protected virtual void OnReport(T value)
     {
-        if (_handler is null && ProgressChanged is null)
-            return;
-
-        _synchronizationContext.Post(InvokeHandlers, value);
+        if (_handler is not null || ProgressChanged is not null)
+            _synchronizationContext.Post(InvokeHandlers, value);
     }
 
     void IProgress<T>.Report(T value) => OnReport(value);
