@@ -159,7 +159,6 @@ To do that, set the `<AllowUnsafeBlocks>` property to `true`:
 
 ```xml
 <Project>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 
@@ -168,9 +167,8 @@ To do that, set the `<AllowUnsafeBlocks>` property to `true`:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="..." />
+    <PackageReference Include="PolyShim" Version="..." PrivateAssets="all" />
   </ItemGroup>
-
 </Project>
 ```
 
@@ -209,16 +207,14 @@ For example, adding a reference to the `Microsoft.Bcl.Async` package on .NET Fra
 
 ```xml
 <Project>
-
   <PropertyGroup>
     <TargetFramework>net40</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="..." />
+    <PackageReference Include="PolyShim" Version="..." PrivateAssets="all" />
     <PackageReference Include="Microsoft.Bcl.Async" Version="..." />
   </ItemGroup>
-
 </Project>
 ```
 
@@ -242,16 +238,14 @@ You can leverage this to prioritize the official implementation wherever possibl
 
 ```xml
 <Project>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="..." />
+    <PackageReference Include="PolyShim" Version="..." PrivateAssets="all" />
     <PackageReference Include="System.Memory" Version="..." />
   </ItemGroup>
-
 </Project>
 ```
 
