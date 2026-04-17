@@ -1,5 +1,6 @@
+// System.Threading.Tasks.Extensions compatibility package does NOT provide this type, so no FEATURE_VALUETASK* guards
+#if (NETCOREAPP && !NETCOREAPP2_1_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER)
 #if FEATURE_TASK
-#if !FEATURE_VALUETASK_SOURCES_MANUALRESET
 #nullable enable
 #pragma warning disable CS0436
 
