@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 493
+- **Total:** 492
 - **Types:** 111
-- **Members:** 382
+- **Members:** 381
 
 ___
 
@@ -159,7 +159,6 @@ ___
   - [`static void SetUnixFileMode(string, UnixFileMode)`](https://learn.microsoft.com/dotnet/api/system.io.file.setunixfilemode) <sup><sub>.NET 7.0</sub></sup>
 - `FileStreamOptions`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.io.filestreamoptions) <sup><sub>.NET 6.0</sub></sup>
-  - [`UnixFileMode? UnixCreateMode`](https://learn.microsoft.com/dotnet/api/system.io.filestreamoptions.unixcreatemode) <sup><sub>.NET 7.0</sub></sup>
 - `float`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out float)`](https://learn.microsoft.com/dotnet/api/system.single.tryparse#system-single-tryparse(system-string-system-iformatprovider-system-single@)) <sup><sub>.NET 7.0</sub></sup>
