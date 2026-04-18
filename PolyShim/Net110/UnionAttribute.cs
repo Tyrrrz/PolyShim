@@ -1,7 +1,6 @@
 #if (NETCOREAPP && !NET11_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 #nullable enable
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices;
