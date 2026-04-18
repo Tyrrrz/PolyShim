@@ -1,6 +1,4 @@
-using System;
 using System.IO;
-using System.Runtime.Versioning;
 using FluentAssertions;
 using PolyShim.Tests.Utils.Extensions;
 using Xunit;
@@ -84,43 +82,6 @@ public class FileTests
             // Assert
             stream.CanRead.Should().BeTrue();
             stream.CanWrite.Should().BeTrue();
-        }
-        finally
-        {
-            File.TryDelete(tempFilePath);
-        }
-    }
-
-    [SkippableFact]
-    [UnsupportedOSPlatform("windows")]
-    public void Open_UnixFileMode_Test()
-    {
-        // On .NET 6, File.Open is a real method that doesn't apply the polyfill UnixCreateMode
-        // extension property (stored in a ConditionalWeakTable). Skip the test in that case.
-        Skip.If(OperatingSystem.IsWindows() || Environment.Version.Major < 7);
-
-        // Arrange
-        var tempFilePath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-
-        try
-        {
-            var expectedMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
-
-            var options = new FileStreamOptions
-            {
-                Mode = FileMode.Create,
-                Access = FileAccess.Write,
-                Share = FileShare.None,
-                UnixCreateMode = expectedMode,
-            };
-
-            // Act
-            using (var stream = File.Open(tempFilePath, options))
-                stream.Write([0x0A, 0x0B], 0, 2);
-
-            // Assert
-            var actualMode = File.GetUnixFileMode(tempFilePath);
-            actualMode.Should().Be(expectedMode);
         }
         finally
         {

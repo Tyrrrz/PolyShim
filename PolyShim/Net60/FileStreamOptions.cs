@@ -35,6 +35,14 @@ internal class FileStreamOptions
         get;
         set => field = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
     }
+
+    // https://learn.microsoft.com/dotnet/api/system.io.filestreamoptions.unixcreatemode
+    // This property was added in .NET 7 (later than FileStreamOptions itself).
+    // On .NET 6, where FileStreamOptions exists natively but UnixCreateMode is missing,
+    // we could technically polyfill it via a ConditionalWeakTable extension member.
+    // However, the inherent BCL FileStream constructor won't start supporting this
+    // property until .NET 7+, so there is no practical benefit to doing so.
+    public UnixFileMode? UnixCreateMode { get; set; }
 }
 
 #endif
