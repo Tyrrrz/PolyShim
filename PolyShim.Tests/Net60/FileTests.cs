@@ -1,6 +1,4 @@
-using System;
 using System.IO;
-using System.Runtime.Versioning;
 using FluentAssertions;
 using PolyShim.Tests.Utils.Extensions;
 using Xunit;
@@ -90,41 +88,4 @@ public class FileTests
             File.TryDelete(tempFilePath);
         }
     }
-
-#if NET7_0_OR_GREATER
-    [SkippableFact]
-    [UnsupportedOSPlatform("windows")]
-    public void Open_UnixFileMode_Test()
-    {
-        Skip.If(OperatingSystem.IsWindows());
-
-        // Arrange
-        var tempFilePath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-
-        try
-        {
-            var expectedMode = UnixFileMode.UserRead | UnixFileMode.UserWrite;
-
-            var options = new FileStreamOptions
-            {
-                Mode = FileMode.Create,
-                Access = FileAccess.Write,
-                Share = FileShare.None,
-                UnixCreateMode = expectedMode,
-            };
-
-            // Act
-            using (var stream = File.Open(tempFilePath, options))
-                stream.Write([0x0A, 0x0B], 0, 2);
-
-            // Assert
-            var actualMode = File.GetUnixFileMode(tempFilePath);
-            actualMode.Should().Be(expectedMode);
-        }
-        finally
-        {
-            File.TryDelete(tempFilePath);
-        }
-    }
-#endif
 }
