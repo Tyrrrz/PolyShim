@@ -17,14 +17,14 @@ internal static class MemberPolyfills_NetCore30_ProcessStartInfo
 {
     private static readonly ConditionalWeakTable<
         ProcessStartInfo,
-        ArgumentList_
+        ArgumentListCollection
     > ArgumentListTable = new();
 
-    private sealed class ArgumentList_ : Collection<string>
+    private sealed class ArgumentListCollection : Collection<string>
     {
         private readonly WeakReference<ProcessStartInfo> _startInfo;
 
-        internal ArgumentList_(ProcessStartInfo startInfo) =>
+        internal ArgumentListCollection(ProcessStartInfo startInfo) =>
             _startInfo = new WeakReference<ProcessStartInfo>(startInfo);
 
         private void UpdateArguments()
@@ -150,7 +150,7 @@ internal static class MemberPolyfills_NetCore30_ProcessStartInfo
     {
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.argumentlist
         public Collection<string> ArgumentList =>
-            ArgumentListTable.GetValue(startInfo, key => new ArgumentList_(key));
+            ArgumentListTable.GetValue(startInfo, key => new ArgumentListCollection(key));
     }
 }
 #endif
