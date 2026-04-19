@@ -11,23 +11,23 @@ public class ProcessStartInfoTests
     public void ArgumentList_Add_Test()
     {
         // Arrange
-        var psi = new ProcessStartInfo { UseShellExecute = false, CreateNoWindow = true };
+        var startInfo = new ProcessStartInfo { UseShellExecute = false, CreateNoWindow = true };
 
         if (OperatingSystem.IsWindows())
         {
-            psi.FileName = "cmd";
-            psi.ArgumentList.Add("/c");
-            psi.ArgumentList.Add("exit");
-            psi.ArgumentList.Add("7");
+            startInfo.FileName = "cmd";
+            startInfo.ArgumentList.Add("/c");
+            startInfo.ArgumentList.Add("exit");
+            startInfo.ArgumentList.Add("7");
         }
         else
         {
-            psi.FileName = "sh";
-            psi.ArgumentList.Add("-c");
-            psi.ArgumentList.Add("exit 7");
+            startInfo.FileName = "sh";
+            startInfo.ArgumentList.Add("-c");
+            startInfo.ArgumentList.Add("exit 7");
         }
 
-        using var process = new Process { StartInfo = psi };
+        using var process = new Process { StartInfo = startInfo };
         process.Start();
 
         // Act
@@ -44,22 +44,22 @@ public class ProcessStartInfoTests
         // "exit 42" is a single argument containing a space.
         // Passing it correctly as one argument makes the shell run `exit 42` (exit code 42).
         // If it were split into two arguments the exit code would differ.
-        var psi = new ProcessStartInfo { UseShellExecute = false, CreateNoWindow = true };
+        var startInfo = new ProcessStartInfo { UseShellExecute = false, CreateNoWindow = true };
 
         if (OperatingSystem.IsWindows())
         {
-            psi.FileName = "cmd";
-            psi.ArgumentList.Add("/c");
-            psi.ArgumentList.Add("exit 42");
+            startInfo.FileName = "cmd";
+            startInfo.ArgumentList.Add("/c");
+            startInfo.ArgumentList.Add("exit 42");
         }
         else
         {
-            psi.FileName = "sh";
-            psi.ArgumentList.Add("-c");
-            psi.ArgumentList.Add("exit 42");
+            startInfo.FileName = "sh";
+            startInfo.ArgumentList.Add("-c");
+            startInfo.ArgumentList.Add("exit 42");
         }
 
-        using var process = new Process { StartInfo = psi };
+        using var process = new Process { StartInfo = startInfo };
         process.Start();
 
         // Act
