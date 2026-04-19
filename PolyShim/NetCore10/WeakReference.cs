@@ -13,7 +13,7 @@ namespace System;
 internal sealed class WeakReference<T>(T target, bool trackResurrection)
     where T : class
 {
-    private readonly WeakReference _reference = new(target, trackResurrection)
+    private readonly WeakReference _reference = new(target, trackResurrection);
 
     public WeakReference(T target)
         : this(target, false) { }
