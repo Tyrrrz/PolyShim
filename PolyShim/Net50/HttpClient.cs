@@ -49,7 +49,7 @@ internal static class MemberPolyfills_Net50_HttpClient
         // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-string-system-threading-cancellationtoken)
         public async Task<Stream> GetStreamAsync(string requestUri,
             CancellationToken cancellationToken = default) =>
-            await httpClient.GetStreamAsync(new Uri(requestUri), cancellationToken).ConfigureAwait(false);
+            await httpClient.GetStreamAsync(new Uri(requestUri, UriKind.RelativeOrAbsolute), cancellationToken).ConfigureAwait(false);
 
         // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-uri-system-threading-cancellationtoken)
         public async Task<byte[]> GetByteArrayAsync(Uri requestUri,
@@ -79,7 +79,7 @@ internal static class MemberPolyfills_Net50_HttpClient
         // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken)
         public async Task<byte[]> GetByteArrayAsync(string requestUri,
             CancellationToken cancellationToken = default) =>
-            await httpClient.GetByteArrayAsync(new Uri(requestUri), cancellationToken).ConfigureAwait(false);
+            await httpClient.GetByteArrayAsync(new Uri(requestUri, UriKind.RelativeOrAbsolute), cancellationToken).ConfigureAwait(false);
 
         // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken)
         public async Task<string> GetStringAsync(Uri requestUri,
@@ -109,7 +109,7 @@ internal static class MemberPolyfills_Net50_HttpClient
         // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken)
         public async Task<string> GetStringAsync(string requestUri,
             CancellationToken cancellationToken = default) =>
-            await httpClient.GetStringAsync(new Uri(requestUri), cancellationToken).ConfigureAwait(false);
+            await httpClient.GetStringAsync(new Uri(requestUri, UriKind.RelativeOrAbsolute), cancellationToken).ConfigureAwait(false);
     }
 #endif
 }
