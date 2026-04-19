@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 493
-- **Types:** 111
+- **Total:** 495
+- **Types:** 113
 - **Members:** 382
 
 ___
@@ -60,6 +60,8 @@ ___
   - [`Task CancelAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.cancellationtokensource.cancelasync) <sup><sub>.NET 8.0</sub></sup>
 - `CompilerFeatureRequiredAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute) <sup><sub>.NET 7.0</sub></sup>
+- `ConditionalWeakTable<TKey, TValue>`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2) <sup><sub>.NET Core 1.0</sub></sup>
 - `ConfiguredCancelableAsyncEnumerable<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1) <sup><sub>.NET Core 3.0</sub></sup>
 - `ConfiguredValueTaskAwaitable`
@@ -678,3 +680,5 @@ ___
 - `Version`
   - [`static bool TryParse(string?, out Version?)`](https://learn.microsoft.com/dotnet/api/system.version.tryparse) <sup><sub>.NET Core 1.0</sub></sup>
   - [`static Version Parse(string)`](https://learn.microsoft.com/dotnet/api/system.version.parse) <sup><sub>.NET Core 1.0</sub></sup>
+- `WeakReference<T>`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.weakreference-1) <sup><sub>.NET Core 1.0</sub></sup>
