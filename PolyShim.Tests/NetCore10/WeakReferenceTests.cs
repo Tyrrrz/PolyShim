@@ -7,13 +7,13 @@ namespace PolyShim.Tests.NetCore10;
 public class WeakReferenceTests
 {
     [Fact]
-    public void TryGetTarget_WhenAlive_Test()
+    public void TryGetTarget_Test()
     {
         // Arrange
         var obj = new object();
         var reference = new WeakReference<object>(obj);
 
-        // Act & Assert
+        // Act & assert
         reference.TryGetTarget(out var target).Should().BeTrue();
         target.Should().BeSameAs(obj);
     }
@@ -26,7 +26,7 @@ public class WeakReferenceTests
         var obj = new object();
         reference.SetTarget(obj);
 
-        // Act & Assert
+        // Act & assert
         reference.TryGetTarget(out var target).Should().BeTrue();
         target.Should().BeSameAs(obj);
     }

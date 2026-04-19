@@ -1,9 +1,10 @@
-#if NETFRAMEWORK && !NET40_OR_GREATER
+#if (NETFRAMEWORK && !NET40_OR_GREATER) || (NETSTANDARD && !NETSTANDARD1_3_OR_GREATER)
 #nullable enable
 #pragma warning disable CS0436
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 
 namespace System.Runtime.CompilerServices;
 
@@ -17,20 +18,14 @@ internal sealed class ConditionalWeakTable<TKey, TValue>
 {
     public delegate TValue CreateValueCallback(TKey key);
 
-    private sealed class Entry
+    private sealed class Entry(WeakReference key, TValue value)
     {
-        public readonly WeakReference Key;
-        public readonly TValue Value;
-
-        public Entry(WeakReference key, TValue value)
-        {
-            Key = key;
-            Value = value;
-        }
+        public readonly WeakReference Key = key;
+        public readonly TValue Value = value;
     }
 
-    private readonly List<Entry> _entries = new();
-    private readonly object _lock = new();
+    private readonly List<Entry> _entries = [];
+    private readonly Lock _lock = new();
 
     private void Purge()
     {
@@ -43,7 +38,7 @@ internal sealed class ConditionalWeakTable<TKey, TValue>
 
     public TValue GetValue(TKey key, CreateValueCallback createValueCallback)
     {
-        lock (_lock)
+        using (_lock.EnterScope())
         {
             Purge();
 
@@ -55,13 +50,14 @@ internal sealed class ConditionalWeakTable<TKey, TValue>
 
             var value = createValueCallback(key);
             _entries.Add(new Entry(new WeakReference(key), value));
+
             return value;
         }
     }
 
     public bool TryGetValue(TKey key, [NotNullWhen(true)] out TValue? value)
     {
-        lock (_lock)
+        using (_lock.EnterScope())
         {
             Purge();
 
@@ -81,7 +77,7 @@ internal sealed class ConditionalWeakTable<TKey, TValue>
 
     public void Add(TKey key, TValue value)
     {
-        lock (_lock)
+        using (_lock.EnterScope())
         {
             Purge();
             _entries.Add(new Entry(new WeakReference(key), value));
@@ -90,7 +86,7 @@ internal sealed class ConditionalWeakTable<TKey, TValue>
 
     public bool Remove(TKey key)
     {
-        lock (_lock)
+        using (_lock.EnterScope())
         {
             for (var i = 0; i < _entries.Count; i++)
             {

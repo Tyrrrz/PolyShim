@@ -7,79 +7,52 @@ namespace PolyShim.Tests.NetCore10;
 public class ConditionalWeakTableTests
 {
     [Fact]
-    public void GetValue_New_Test()
+    public void GetValue_Test()
     {
         // Arrange
         var table = new ConditionalWeakTable<object, string>();
-        var key = new object();
+        var missingKey = new object();
+        var existingKey = new object();
+        table.Add(existingKey, "hello");
 
         // Act
-        var value = table.GetValue(key, _ => "hello");
+        var createdValue = table.GetValue(missingKey, _ => "world");
+        var existingValue = table.GetValue(existingKey, _ => "ignored");
 
         // Assert
-        value.Should().Be("hello");
+        createdValue.Should().Be("world");
+        existingValue.Should().Be("hello");
     }
 
     [Fact]
-    public void GetValue_Existing_Test()
+    public void TryGetValue_Test()
     {
         // Arrange
         var table = new ConditionalWeakTable<object, string>();
-        var key = new object();
-        table.GetValue(key, _ => "hello");
-
-        // Act
-        var value = table.GetValue(key, _ => "world");
-
-        // Assert
-        value.Should().Be("hello");
-    }
-
-    [Fact]
-    public void TryGetValue_Existing_Test()
-    {
-        // Arrange
-        var table = new ConditionalWeakTable<object, string>();
-        var key = new object();
-        table.Add(key, "hello");
+        var existingKey = new object();
+        var missingKey = new object();
+        table.Add(existingKey, "hello");
 
         // Act & Assert
-        table.TryGetValue(key, out var value).Should().BeTrue();
-        value.Should().Be("hello");
+        table.TryGetValue(existingKey, out var existingValue).Should().BeTrue();
+        existingValue.Should().Be("hello");
+
+        table.TryGetValue(missingKey, out _).Should().BeFalse();
     }
 
     [Fact]
-    public void TryGetValue_Missing_Test()
+    public void Remove_Test()
     {
         // Arrange
         var table = new ConditionalWeakTable<object, string>();
-        var key = new object();
+        var existingKey = new object();
+        var missingKey = new object();
+        table.Add(existingKey, "hello");
 
         // Act & Assert
-        table.TryGetValue(key, out _).Should().BeFalse();
-    }
+        table.Remove(existingKey).Should().BeTrue();
+        table.TryGetValue(existingKey, out _).Should().BeFalse();
 
-    [Fact]
-    public void Remove_Existing_Test()
-    {
-        // Arrange
-        var table = new ConditionalWeakTable<object, string>();
-        var key = new object();
-        table.Add(key, "hello");
-
-        // Act & Assert
-        table.Remove(key).Should().BeTrue();
-        table.TryGetValue(key, out _).Should().BeFalse();
-    }
-
-    [Fact]
-    public void Remove_Missing_Test()
-    {
-        // Arrange
-        var table = new ConditionalWeakTable<object, string>();
-        var key = new object();
-
-        // Act & Assert
-        table.Remove(key).Should().BeFalse();
+        table.Remove(missingKey).Should().BeFalse();
     }
 }

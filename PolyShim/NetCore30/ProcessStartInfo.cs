@@ -13,15 +13,85 @@ using System.Diagnostics.CodeAnalysis;
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-file sealed class ArgumentListCollection : Collection<string>
+file sealed class ProcessStartInfoArgumentListCollection(ProcessStartInfo startInfo)
+    : Collection<string>
 {
-    private readonly WeakReference<ProcessStartInfo> _startInfo;
+    public static readonly ConditionalWeakTable<
+        ProcessStartInfo,
+        ProcessStartInfoArgumentListCollection
+    > BindingTable = new();
 
-    internal ArgumentListCollection(ProcessStartInfo startInfo) =>
-        _startInfo = new WeakReference<ProcessStartInfo>(startInfo);
+    private readonly WeakReference<ProcessStartInfo> _startInfo = new(startInfo);
 
     private void UpdateArguments()
     {
+        static void AppendArgument(StringBuilder buffer, string arg)
+        {
+            // Short-circuit if no escaping is needed
+            if (arg.Length > 0)
+            {
+                var needsEscaping = false;
+                foreach (var c in arg)
+                {
+                    if (char.IsWhiteSpace(c) || c == '"')
+                    {
+                        needsEscaping = true;
+                        break;
+                    }
+                }
+
+                if (!needsEscaping)
+                {
+                    buffer.Append(arg);
+                    return;
+                }
+            }
+
+            buffer.Append('"');
+
+            for (var i = 0; i < arg.Length; )
+            {
+                var c = arg[i++];
+
+                if (c == '\\')
+                {
+                    var backslashCount = 1;
+                    while (i < arg.Length && arg[i] == '\\')
+                    {
+                        backslashCount++;
+                        i++;
+                    }
+
+                    if (i == arg.Length)
+                    {
+                        // Backslashes at end of string: double them
+                        buffer.Append('\\', backslashCount * 2);
+                    }
+                    else if (arg[i] == '"')
+                    {
+                        // Backslashes before a quote: double them, then escape the quote
+                        buffer.Append('\\', backslashCount * 2 + 1).Append('"');
+                        i++;
+                    }
+                    else
+                    {
+                        // Backslashes not before a quote: leave them as-is
+                        buffer.Append('\\', backslashCount);
+                    }
+                }
+                else if (c == '"')
+                {
+                    buffer.Append('\\').Append('"');
+                }
+                else
+                {
+                    buffer.Append(c);
+                }
+            }
+
+            buffer.Append('"');
+        }
+
         if (!_startInfo.TryGetTarget(out var startInfo))
             return;
 
@@ -31,87 +101,16 @@ file sealed class ArgumentListCollection : Collection<string>
             return;
         }
 
-        var sb = new StringBuilder();
+        var buffer = new StringBuilder();
         foreach (var arg in this)
         {
-            if (sb.Length > 0)
-                sb.Append(' ');
+            if (buffer.Length > 0)
+                buffer.Append(' ');
 
-            AppendArgument(sb, arg);
+            AppendArgument(buffer, arg);
         }
 
-        startInfo.Arguments = sb.ToString();
-    }
-
-    private static void AppendArgument(StringBuilder sb, string arg)
-    {
-        // Implementation reference:
-        // https://github.com/Tyrrrz/CliWrap/blob/66323cb0cd636a9e0acc7822e99b6b44062fd9f6/CliWrap/Builders/ArgumentsBuilder.cs#L155-L207
-        // https://github.com/dotnet/runtime/blob/9a50493f9f1125fda5e2212b9d6718bc7cdbc5c0/src/libraries/System.Private.CoreLib/src/System/PasteArguments.cs#L10-L79
-
-        // Short-circuit if no escaping is needed
-        if (arg.Length > 0)
-        {
-            var needsEscaping = false;
-            foreach (var c in arg)
-            {
-                if (char.IsWhiteSpace(c) || c == '"')
-                {
-                    needsEscaping = true;
-                    break;
-                }
-            }
-
-            if (!needsEscaping)
-            {
-                sb.Append(arg);
-                return;
-            }
-        }
-
-        sb.Append('"');
-
-        for (var i = 0; i < arg.Length; )
-        {
-            var c = arg[i++];
-
-            if (c == '\\')
-            {
-                var backslashCount = 1;
-                while (i < arg.Length && arg[i] == '\\')
-                {
-                    backslashCount++;
-                    i++;
-                }
-
-                if (i == arg.Length)
-                {
-                    // Backslashes at end of string: double them
-                    sb.Append('\\', backslashCount * 2);
-                }
-                else if (arg[i] == '"')
-                {
-                    // Backslashes before a quote: double them, then escape the quote
-                    sb.Append('\\', backslashCount * 2 + 1).Append('"');
-                    i++;
-                }
-                else
-                {
-                    // Backslashes not before a quote: leave them as-is
-                    sb.Append('\\', backslashCount);
-                }
-            }
-            else if (c == '"')
-            {
-                sb.Append('\\').Append('"');
-            }
-            else
-            {
-                sb.Append(c);
-            }
-        }
-
-        sb.Append('"');
+        startInfo.Arguments = buffer.ToString();
     }
 
     protected override void InsertItem(int index, string item)
@@ -144,16 +143,14 @@ file sealed class ArgumentListCollection : Collection<string>
 #endif
 internal static class MemberPolyfills_NetCore30_ProcessStartInfo
 {
-    private static readonly ConditionalWeakTable<
-        ProcessStartInfo,
-        Collection<string>
-    > ArgumentListTable = new();
-
     extension(ProcessStartInfo startInfo)
     {
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.argumentlist
         public Collection<string> ArgumentList =>
-            ArgumentListTable.GetValue(startInfo, key => new ArgumentListCollection(key));
+            ProcessStartInfoArgumentListCollection.BindingTable.GetValue(
+                startInfo,
+                key => new ProcessStartInfoArgumentListCollection(key)
+            );
     }
 }
 #endif

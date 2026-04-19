@@ -10,16 +10,13 @@ namespace System;
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal sealed class WeakReference<T>
+internal sealed class WeakReference<T>(T target, bool trackResurrection)
     where T : class
 {
-    private readonly WeakReference _reference;
+    private readonly WeakReference _reference = new(target, trackResurrection)
 
     public WeakReference(T target)
         : this(target, false) { }
-
-    public WeakReference(T target, bool trackResurrection) =>
-        _reference = new WeakReference(target, trackResurrection);
 
     public void SetTarget(T target) => _reference.Target = target;
 
