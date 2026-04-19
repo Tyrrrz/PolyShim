@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 492
+- **Total:** 493
 - **Types:** 111
-- **Members:** 381
+- **Members:** 382
 
 ___
 
@@ -375,6 +375,8 @@ ___
   - [`bool WaitForExit(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexit#system-diagnostics-process-waitforexit(system-timespan)) <sup><sub>.NET 7.0</sub></sup>
   - [`Task WaitForExitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitasync) <sup><sub>.NET 5.0</sub></sup>
   - [`void Kill(bool)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
+- `ProcessStartInfo`
+  - [`Collection<string> ArgumentList`](https://learn.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.argumentlist) <sup><sub>.NET Core 3.0</sub></sup>
 - `Progress<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.progress-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `Queue<T>`
