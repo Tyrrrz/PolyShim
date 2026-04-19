@@ -42,14 +42,14 @@ public class ProcessStartInfoTests
     {
         // Arrange
         // "exit 42" is a single argument containing a space.
-        // Passing it correctly as one argument makes the shell run `exit 42` (exit code 42).
-        // If it were split into two arguments the exit code would differ.
+        // This test must use a command where that exact argument boundary matters,
+        // otherwise incorrect splitting/quoting can still produce the same exit code.
         var startInfo = new ProcessStartInfo { UseShellExecute = false, CreateNoWindow = true };
 
         if (OperatingSystem.IsWindows())
         {
-            startInfo.FileName = "cmd";
-            startInfo.ArgumentList.Add("/c");
+            startInfo.FileName = "powershell";
+            startInfo.ArgumentList.Add("-Command");
             startInfo.ArgumentList.Add("exit 42");
         }
         else
