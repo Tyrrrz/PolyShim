@@ -146,9 +146,9 @@ internal static class MemberPolyfills_NetCore30_ProcessStartInfo
     {
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.argumentlist
         public Collection<string> ArgumentList =>
-            ProcessStartInfoArgumentListCollection.BindingTable.GetValue(
+            ProcessStartInfoArgumentList.BindingTable.GetValue(
                 startInfo,
-                key => new ProcessStartInfoArgumentListCollection(key)
+                key => new ProcessStartInfoArgumentList(key)
             );
     }
 }
