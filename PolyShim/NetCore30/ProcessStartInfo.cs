@@ -13,12 +13,11 @@ using System.Diagnostics.CodeAnalysis;
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-file sealed class ProcessStartInfoArgumentListCollection(ProcessStartInfo startInfo)
-    : Collection<string>
+file sealed class ProcessStartInfoArgumentList(ProcessStartInfo startInfo) : Collection<string>
 {
     public static readonly ConditionalWeakTable<
         ProcessStartInfo,
-        ProcessStartInfoArgumentListCollection
+        ProcessStartInfoArgumentList
     > BindingTable = new();
 
     private readonly WeakReference<ProcessStartInfo> _startInfo = new(startInfo);
