@@ -18,13 +18,13 @@ public class ProcessStartInfoTests
             psi.FileName = "cmd";
             psi.ArgumentList.Add("/c");
             psi.ArgumentList.Add("exit");
-            psi.ArgumentList.Add("0");
+            psi.ArgumentList.Add("7");
         }
         else
         {
             psi.FileName = "sh";
             psi.ArgumentList.Add("-c");
-            psi.ArgumentList.Add("exit 0");
+            psi.ArgumentList.Add("exit 7");
         }
 
         using var process = new Process { StartInfo = psi };
@@ -34,7 +34,7 @@ public class ProcessStartInfoTests
         process.WaitForExit();
 
         // Assert
-        process.ExitCode.Should().Be(0);
+        process.ExitCode.Should().Be(7);
     }
 
     [Fact]
