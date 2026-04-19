@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 492
-- **Types:** 111
-- **Members:** 381
+- **Total:** 495
+- **Types:** 113
+- **Members:** 382
 
 ___
 
@@ -60,6 +60,8 @@ ___
   - [`Task CancelAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.cancellationtokensource.cancelasync) <sup><sub>.NET 8.0</sub></sup>
 - `CompilerFeatureRequiredAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute) <sup><sub>.NET 7.0</sub></sup>
+- `ConditionalWeakTable<TKey, TValue>`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2) <sup><sub>.NET Core 1.0</sub></sup>
 - `ConfiguredCancelableAsyncEnumerable<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1) <sup><sub>.NET Core 3.0</sub></sup>
 - `ConfiguredValueTaskAwaitable`
@@ -375,6 +377,8 @@ ___
   - [`bool WaitForExit(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexit#system-diagnostics-process-waitforexit(system-timespan)) <sup><sub>.NET 7.0</sub></sup>
   - [`Task WaitForExitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitasync) <sup><sub>.NET 5.0</sub></sup>
   - [`void Kill(bool)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
+- `ProcessStartInfo`
+  - [`Collection<string> ArgumentList`](https://learn.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.argumentlist) <sup><sub>.NET Core 3.0</sub></sup>
 - `Progress<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.progress-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `Queue<T>`
@@ -676,3 +680,5 @@ ___
 - `Version`
   - [`static bool TryParse(string?, out Version?)`](https://learn.microsoft.com/dotnet/api/system.version.tryparse) <sup><sub>.NET Core 1.0</sub></sup>
   - [`static Version Parse(string)`](https://learn.microsoft.com/dotnet/api/system.version.parse) <sup><sub>.NET Core 1.0</sub></sup>
+- `WeakReference<T>`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.weakreference-1) <sup><sub>.NET Core 1.0</sub></sup>
