@@ -8,7 +8,7 @@ namespace PolyShim.Tests.NetCore30;
 public class ProcessStartInfoTests
 {
     [Fact]
-    public void ArgumentList_Add_ArgumentWithSpaces_Test()
+    public void ArgumentList_Test()
     {
         // Arrange
         var startInfo = new ProcessStartInfo { UseShellExecute = false, CreateNoWindow = true };

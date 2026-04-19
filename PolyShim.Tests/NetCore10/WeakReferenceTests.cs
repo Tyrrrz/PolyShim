@@ -19,7 +19,7 @@ public class WeakReferenceTests
     }
 
     [Fact]
-    public void TryGetTarget_AfterSetTarget_Test()
+    public void TryGetTarget_AfterSet_Test()
     {
         // Arrange
         var reference = new WeakReference<object>(new object());
