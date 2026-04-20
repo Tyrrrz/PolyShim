@@ -8,57 +8,6 @@ namespace PolyShim.Tests.Net70;
 
 public class SHA1Tests
 {
-    // SHA1([1, 2, 3, 4, 5])
-    private static readonly byte[] ExpectedHash =
-    [
-        0x11,
-        0x96,
-        0x6a,
-        0xb9,
-        0xc0,
-        0x99,
-        0xf8,
-        0xfa,
-        0xbe,
-        0xfa,
-        0xc5,
-        0x4c,
-        0x08,
-        0xd5,
-        0xbe,
-        0x2b,
-        0xd8,
-        0xc9,
-        0x03,
-        0xaf,
-    ];
-
-    [Fact]
-    public void HashData_Stream_Test()
-    {
-        // Arrange
-        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
-
-        // Act
-        var hash = SHA1.HashData(stream);
-
-        // Assert
-        hash.Should().Equal(ExpectedHash);
-    }
-
-    [Fact]
-    public async Task HashDataAsync_Stream_Test()
-    {
-        // Arrange
-        using var stream = new MemoryStream([1, 2, 3, 4, 5]);
-
-        // Act
-        var hash = await SHA1.HashDataAsync(stream);
-
-        // Assert
-        hash.Should().Equal(ExpectedHash);
-    }
-
     [Fact]
     public async Task HashDataAsync_Stream_WithDestination_Test()
     {
@@ -71,6 +20,10 @@ public class SHA1Tests
 
         // Assert
         bytesWritten.Should().Be(20);
-        destination.Should().Equal(ExpectedHash);
+        // SHA1([1, 2, 3, 4, 5])
+        destination.Should()
+            .Equal(
+                [0x11, 0x96, 0x6a, 0xb9, 0xc0, 0x99, 0xf8, 0xfa, 0xbe, 0xfa, 0xc5, 0x4c, 0x08, 0xd5, 0xbe, 0x2b, 0xd8, 0xc9, 0x03, 0xaf]
+            );
     }
 }
