@@ -7,6 +7,27 @@ namespace PolyShim.Tests.Net50;
 
 public class MD5Tests
 {
+    // MD5([1, 2, 3, 4, 5])
+    private static readonly byte[] ExpectedHash =
+    [
+        0x7c,
+        0xfd,
+        0xd0,
+        0x78,
+        0x89,
+        0xb3,
+        0x29,
+        0x5d,
+        0x6a,
+        0x55,
+        0x09,
+        0x14,
+        0xab,
+        0x35,
+        0xe0,
+        0x68,
+    ];
+
     [Fact]
     public void HashData_Array_Test()
     {
@@ -17,8 +38,7 @@ public class MD5Tests
         var hash = MD5.HashData(data);
 
         // Assert
-        hash.Should().HaveCount(16);
-        hash.Should().Equal(MD5.HashData(data));
+        hash.Should().Equal(ExpectedHash);
     }
 
     [Fact]
@@ -31,8 +51,7 @@ public class MD5Tests
         var hash = MD5.HashData(data.AsSpan());
 
         // Assert
-        hash.Should().HaveCount(16);
-        hash.Should().Equal(MD5.HashData(data));
+        hash.Should().Equal(ExpectedHash);
     }
 
     [Fact]
@@ -47,7 +66,7 @@ public class MD5Tests
 
         // Assert
         bytesWritten.Should().Be(16);
-        destination.Should().Equal(MD5.HashData(data));
+        destination.Should().Equal(ExpectedHash);
     }
 
     [Fact]
@@ -74,7 +93,7 @@ public class MD5Tests
         // Assert
         result.Should().BeTrue();
         bytesWritten.Should().Be(16);
-        destination.Should().Equal(MD5.HashData(data));
+        destination.Should().Equal(ExpectedHash);
     }
 
     [Fact]

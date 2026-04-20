@@ -7,6 +7,31 @@ namespace PolyShim.Tests.Net50;
 
 public class SHA1Tests
 {
+    // SHA1([1, 2, 3, 4, 5])
+    private static readonly byte[] ExpectedHash =
+    [
+        0x11,
+        0x96,
+        0x6a,
+        0xb9,
+        0xc0,
+        0x99,
+        0xf8,
+        0xfa,
+        0xbe,
+        0xfa,
+        0xc5,
+        0x4c,
+        0x08,
+        0xd5,
+        0xbe,
+        0x2b,
+        0xd8,
+        0xc9,
+        0x03,
+        0xaf,
+    ];
+
     [Fact]
     public void HashData_Array_Test()
     {
@@ -17,8 +42,7 @@ public class SHA1Tests
         var hash = SHA1.HashData(data);
 
         // Assert
-        hash.Should().HaveCount(20);
-        hash.Should().Equal(SHA1.HashData(data));
+        hash.Should().Equal(ExpectedHash);
     }
 
     [Fact]
@@ -31,8 +55,7 @@ public class SHA1Tests
         var hash = SHA1.HashData(data.AsSpan());
 
         // Assert
-        hash.Should().HaveCount(20);
-        hash.Should().Equal(SHA1.HashData(data));
+        hash.Should().Equal(ExpectedHash);
     }
 
     [Fact]
@@ -47,7 +70,7 @@ public class SHA1Tests
 
         // Assert
         bytesWritten.Should().Be(20);
-        destination.Should().Equal(SHA1.HashData(data));
+        destination.Should().Equal(ExpectedHash);
     }
 
     [Fact]
@@ -74,7 +97,7 @@ public class SHA1Tests
         // Assert
         result.Should().BeTrue();
         bytesWritten.Should().Be(20);
-        destination.Should().Equal(SHA1.HashData(data));
+        destination.Should().Equal(ExpectedHash);
     }
 
     [Fact]
