@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 495
+- **Total:** 530
 - **Types:** 113
-- **Members:** 382
+- **Members:** 417
 
 ___
 
@@ -309,6 +309,14 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.maybenullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `MaybeNullWhenAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.maybenullwhenattribute) <sup><sub>.NET Core 3.0</sub></sup>
+- `MD5`
+  - [`static bool TryHashData(ReadOnlySpan<byte>, Span<byte>, out int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.tryhashdata) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(byte[])`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdata#system-security-cryptography-md5-hashdata(system-byte())) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdata#system-security-cryptography-md5-hashdata(system-readonlyspan((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(Stream)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdata#system-security-cryptography-md5-hashdata(system-io-stream)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int HashData(ReadOnlySpan<byte>, Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdata#system-security-cryptography-md5-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdataasync#system-security-cryptography-md5-hashdataasync(system-io-stream-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdataasync#system-security-cryptography-md5-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
 - `MemberInfo`
   - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`T? GetCustomAttribute<T>(bool) where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-memberinfo-system-boolean)) <sup><sub>.NET Core 1.0</sub></sup>
@@ -454,6 +462,38 @@ ___
   - [`Task<bool> WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
 - `SetsRequiredMembersAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute) <sup><sub>.NET 7.0</sub></sup>
+- `SHA1`
+  - [`static bool TryHashData(ReadOnlySpan<byte>, Span<byte>, out int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.tryhashdata) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(byte[])`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-byte())) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-readonlyspan((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(Stream)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-io-stream)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int HashData(ReadOnlySpan<byte>, Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdataasync#system-security-cryptography-sha1-hashdataasync(system-io-stream-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdataasync#system-security-cryptography-sha1-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+- `SHA256`
+  - [`static bool TryHashData(ReadOnlySpan<byte>, Span<byte>, out int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256.tryhashdata) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(byte[])`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256.hashdata#system-security-cryptography-sha256-hashdata(system-byte())) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256.hashdata#system-security-cryptography-sha256-hashdata(system-readonlyspan((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(Stream)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256.hashdata#system-security-cryptography-sha256-hashdata(system-io-stream)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int HashData(ReadOnlySpan<byte>, Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256.hashdata#system-security-cryptography-sha256-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256.hashdataasync#system-security-cryptography-sha256-hashdataasync(system-io-stream-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256.hashdataasync#system-security-cryptography-sha256-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+- `SHA384`
+  - [`static bool TryHashData(ReadOnlySpan<byte>, Span<byte>, out int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha384.tryhashdata) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(byte[])`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha384.hashdata#system-security-cryptography-sha384-hashdata(system-byte())) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha384.hashdata#system-security-cryptography-sha384-hashdata(system-readonlyspan((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(Stream)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha384.hashdata#system-security-cryptography-sha384-hashdata(system-io-stream)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int HashData(ReadOnlySpan<byte>, Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha384.hashdata#system-security-cryptography-sha384-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha384.hashdataasync#system-security-cryptography-sha384-hashdataasync(system-io-stream-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha384.hashdataasync#system-security-cryptography-sha384-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+- `SHA512`
+  - [`static bool TryHashData(ReadOnlySpan<byte>, Span<byte>, out int)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha512.tryhashdata) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(byte[])`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha512.hashdata#system-security-cryptography-sha512-hashdata(system-byte())) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha512.hashdata#system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static byte[] HashData(Stream)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha512.hashdata#system-security-cryptography-sha512-hashdata(system-io-stream)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int HashData(ReadOnlySpan<byte>, Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha512.hashdata#system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
+  - [`static ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha512.hashdataasync#system-security-cryptography-sha512-hashdataasync(system-io-stream-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha512.hashdataasync#system-security-cryptography-sha512-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
 - `short`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out short)`](https://learn.microsoft.com/dotnet/api/system.int16.tryparse#system-int16-tryparse(system-string-system-iformatprovider-system-int16@)) <sup><sub>.NET 7.0</sub></sup>
