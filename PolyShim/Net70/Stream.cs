@@ -37,7 +37,7 @@ internal static class MemberPolyfills_Net70_Stream
         // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken)
-        public async Task ReadExactlyAsync(
+        public async ValueTask ReadExactlyAsync(
             byte[] buffer,
             int offset,
             int count,
@@ -94,7 +94,7 @@ internal static class MemberPolyfills_Net70_Stream
         // Task infrastructure is required for async method support
 #if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readatleastasync
-        public async Task<int> ReadAtLeastAsync(
+        public async ValueTask<int> ReadAtLeastAsync(
             Memory<byte> buffer,
             int minimumBytes,
             bool throwOnEndOfStream = true,
@@ -121,7 +121,7 @@ internal static class MemberPolyfills_Net70_Stream
         }
 
         // https://learn.microsoft.com/dotnet/api/system.io.stream.readexactlyasync#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)
-        public async Task ReadExactlyAsync(
+        public async ValueTask ReadExactlyAsync(
             Memory<byte> buffer,
             CancellationToken cancellationToken = default
         )
