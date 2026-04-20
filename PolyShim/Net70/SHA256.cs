@@ -35,7 +35,8 @@ internal static class MemberPolyfills_Net70_SHA256
         {
             using var ms = new MemoryStream();
             await source.CopyToAsync(ms, cancellationToken).ConfigureAwait(false);
-            return SHA256.HashData(ms.ToArray());
+            ms.Position = 0;
+            return SHA256.HashData(ms);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha256.hashdataasync#system-security-cryptography-sha256-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)

@@ -35,7 +35,8 @@ internal static class MemberPolyfills_Net70_SHA1
         {
             using var ms = new MemoryStream();
             await source.CopyToAsync(ms, cancellationToken).ConfigureAwait(false);
-            return SHA1.HashData(ms.ToArray());
+            ms.Position = 0;
+            return SHA1.HashData(ms);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdataasync#system-security-cryptography-sha1-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)

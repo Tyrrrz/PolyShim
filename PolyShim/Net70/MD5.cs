@@ -35,7 +35,8 @@ internal static class MemberPolyfills_Net70_MD5
         {
             using var ms = new MemoryStream();
             await source.CopyToAsync(ms, cancellationToken).ConfigureAwait(false);
-            return MD5.HashData(ms.ToArray());
+            ms.Position = 0;
+            return MD5.HashData(ms);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdataasync#system-security-cryptography-md5-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)
