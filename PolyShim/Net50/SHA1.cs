@@ -16,14 +16,14 @@ internal static class MemberPolyfills_Net50_SHA1
     extension(SHA1)
     {
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-byte())
-        public static byte[] HashData(byte[] source)
-        {
-            using var sha = SHA1.Create();
-            return sha.ComputeHash(source);
-        }
+        public static byte[] HashData(byte[] source) => SHA1.HashData(source.AsSpan());
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-readonlyspan((system-byte)))
-        public static byte[] HashData(ReadOnlySpan<byte> source) => SHA1.HashData(source.ToArray());
+        public static byte[] HashData(ReadOnlySpan<byte> source)
+        {
+            using var sha = SHA1.Create();
+            return sha.ComputeHash(source.ToArray());
+        }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))
         public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
@@ -43,16 +43,16 @@ internal static class MemberPolyfills_Net50_SHA1
             out int bytesWritten
         )
         {
-            var hash = SHA1.HashData(source);
-            if (destination.Length < hash.Length)
+            try
+            {
+                bytesWritten = SHA1.HashData(source, destination);
+                return true;
+            }
+            catch (ArgumentException)
             {
                 bytesWritten = 0;
                 return false;
             }
-
-            hash.AsSpan().CopyTo(destination);
-            bytesWritten = hash.Length;
-            return true;
         }
     }
 }

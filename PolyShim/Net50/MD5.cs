@@ -16,14 +16,14 @@ internal static class MemberPolyfills_Net50_MD5
     extension(MD5)
     {
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdata#system-security-cryptography-md5-hashdata(system-byte())
-        public static byte[] HashData(byte[] source)
-        {
-            using var md5 = MD5.Create();
-            return md5.ComputeHash(source);
-        }
+        public static byte[] HashData(byte[] source) => MD5.HashData(source.AsSpan());
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdata#system-security-cryptography-md5-hashdata(system-readonlyspan((system-byte)))
-        public static byte[] HashData(ReadOnlySpan<byte> source) => MD5.HashData(source.ToArray());
+        public static byte[] HashData(ReadOnlySpan<byte> source)
+        {
+            using var md5 = MD5.Create();
+            return md5.ComputeHash(source.ToArray());
+        }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdata#system-security-cryptography-md5-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))
         public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
@@ -43,16 +43,16 @@ internal static class MemberPolyfills_Net50_MD5
             out int bytesWritten
         )
         {
-            var hash = MD5.HashData(source);
-            if (destination.Length < hash.Length)
+            try
+            {
+                bytesWritten = MD5.HashData(source, destination);
+                return true;
+            }
+            catch (ArgumentException)
             {
                 bytesWritten = 0;
                 return false;
             }
-
-            hash.AsSpan().CopyTo(destination);
-            bytesWritten = hash.Length;
-            return true;
         }
     }
 }
