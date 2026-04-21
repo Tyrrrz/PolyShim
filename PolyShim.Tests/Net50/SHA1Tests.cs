@@ -18,9 +18,28 @@ public class SHA1Tests
 
         // Assert
         hash.Should()
-            .Equal(
-                [0x11, 0x96, 0x6a, 0xb9, 0xc0, 0x99, 0xf8, 0xfa, 0xbe, 0xfa, 0xc5, 0x4c, 0x08, 0xd5, 0xbe, 0x2b, 0xd8, 0xc9, 0x03, 0xaf]
-            );
+            .Equal([
+                0x11,
+                0x96,
+                0x6a,
+                0xb9,
+                0xc0,
+                0x99,
+                0xf8,
+                0xfa,
+                0xbe,
+                0xfa,
+                0xc5,
+                0x4c,
+                0x08,
+                0xd5,
+                0xbe,
+                0x2b,
+                0xd8,
+                0xc9,
+                0x03,
+                0xaf,
+            ]);
     }
 
     [Fact]
@@ -36,9 +55,29 @@ public class SHA1Tests
         // Assert
         result.Should().BeTrue();
         bytesWritten.Should().Be(20);
-        destination.Should()
-            .Equal(
-                [0x11, 0x96, 0x6a, 0xb9, 0xc0, 0x99, 0xf8, 0xfa, 0xbe, 0xfa, 0xc5, 0x4c, 0x08, 0xd5, 0xbe, 0x2b, 0xd8, 0xc9, 0x03, 0xaf]
-            );
+        destination
+            .Should()
+            .Equal([
+                0x11,
+                0x96,
+                0x6a,
+                0xb9,
+                0xc0,
+                0x99,
+                0xf8,
+                0xfa,
+                0xbe,
+                0xfa,
+                0xc5,
+                0x4c,
+                0x08,
+                0xd5,
+                0xbe,
+                0x2b,
+                0xd8,
+                0xc9,
+                0x03,
+                0xaf,
+            ]);
     }
 }

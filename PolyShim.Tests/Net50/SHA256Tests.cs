@@ -18,14 +18,40 @@ public class SHA256Tests
 
         // Assert
         hash.Should()
-            .Equal(
-                [
-                    0x74, 0xf8, 0x1f, 0xe1, 0x67, 0xd9, 0x9b, 0x4c,
-                    0xb4, 0x1d, 0x6d, 0x0c, 0xcd, 0xa8, 0x22, 0x78,
-                    0xca, 0xee, 0x9f, 0x3e, 0x2f, 0x25, 0xd5, 0xe5,
-                    0xa3, 0x93, 0x6f, 0xf3, 0xdc, 0xec, 0x60, 0xd0,
-                ]
-            );
+            .Equal([
+                0x74,
+                0xf8,
+                0x1f,
+                0xe1,
+                0x67,
+                0xd9,
+                0x9b,
+                0x4c,
+                0xb4,
+                0x1d,
+                0x6d,
+                0x0c,
+                0xcd,
+                0xa8,
+                0x22,
+                0x78,
+                0xca,
+                0xee,
+                0x9f,
+                0x3e,
+                0x2f,
+                0x25,
+                0xd5,
+                0xe5,
+                0xa3,
+                0x93,
+                0x6f,
+                0xf3,
+                0xdc,
+                0xec,
+                0x60,
+                0xd0,
+            ]);
     }
 
     [Fact]
@@ -41,14 +67,41 @@ public class SHA256Tests
         // Assert
         result.Should().BeTrue();
         bytesWritten.Should().Be(32);
-        destination.Should()
-            .Equal(
-                [
-                    0x74, 0xf8, 0x1f, 0xe1, 0x67, 0xd9, 0x9b, 0x4c,
-                    0xb4, 0x1d, 0x6d, 0x0c, 0xcd, 0xa8, 0x22, 0x78,
-                    0xca, 0xee, 0x9f, 0x3e, 0x2f, 0x25, 0xd5, 0xe5,
-                    0xa3, 0x93, 0x6f, 0xf3, 0xdc, 0xec, 0x60, 0xd0,
-                ]
-            );
+        destination
+            .Should()
+            .Equal([
+                0x74,
+                0xf8,
+                0x1f,
+                0xe1,
+                0x67,
+                0xd9,
+                0x9b,
+                0x4c,
+                0xb4,
+                0x1d,
+                0x6d,
+                0x0c,
+                0xcd,
+                0xa8,
+                0x22,
+                0x78,
+                0xca,
+                0xee,
+                0x9f,
+                0x3e,
+                0x2f,
+                0x25,
+                0xd5,
+                0xe5,
+                0xa3,
+                0x93,
+                0x6f,
+                0xf3,
+                0xdc,
+                0xec,
+                0x60,
+                0xd0,
+            ]);
     }
 }

@@ -23,7 +23,8 @@ internal static class MemberPolyfills_Net50_SHA512
         }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha512.hashdata#system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte)))
-        public static byte[] HashData(ReadOnlySpan<byte> source) => SHA512.HashData(source.ToArray());
+        public static byte[] HashData(ReadOnlySpan<byte> source) =>
+            SHA512.HashData(source.ToArray());
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha512.hashdata#system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))
         public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)

@@ -20,9 +20,25 @@ public class MD5Tests
 
         // Assert
         bytesWritten.Should().Be(16);
-        destination.Should()
-            .Equal(
-                [0x7c, 0xfd, 0xd0, 0x78, 0x89, 0xb3, 0x29, 0x5d, 0x6a, 0x55, 0x09, 0x14, 0xab, 0x35, 0xe0, 0x68]
-            );
+        destination
+            .Should()
+            .Equal([
+                0x7c,
+                0xfd,
+                0xd0,
+                0x78,
+                0x89,
+                0xb3,
+                0x29,
+                0x5d,
+                0x6a,
+                0x55,
+                0x09,
+                0x14,
+                0xab,
+                0x35,
+                0xe0,
+                0x68,
+            ]);
     }
 }
