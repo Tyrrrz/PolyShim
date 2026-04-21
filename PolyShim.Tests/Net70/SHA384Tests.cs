@@ -20,7 +20,6 @@ public class SHA384Tests
 
         // Assert
         bytesWritten.Should().Be(48);
-        // SHA384([1, 2, 3, 4, 5])
         destination.Should()
             .Equal(
                 [

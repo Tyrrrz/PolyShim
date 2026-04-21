@@ -17,7 +17,6 @@ public class SHA256Tests
         var hash = SHA256.HashData(data);
 
         // Assert
-        // SHA256([1, 2, 3, 4, 5])
         hash.Should()
             .Equal(
                 [
@@ -42,7 +41,6 @@ public class SHA256Tests
         // Assert
         result.Should().BeTrue();
         bytesWritten.Should().Be(32);
-        // SHA256([1, 2, 3, 4, 5])
         destination.Should()
             .Equal(
                 [

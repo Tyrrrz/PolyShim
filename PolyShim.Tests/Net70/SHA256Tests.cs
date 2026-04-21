@@ -20,7 +20,6 @@ public class SHA256Tests
 
         // Assert
         bytesWritten.Should().Be(32);
-        // SHA256([1, 2, 3, 4, 5])
         destination.Should()
             .Equal(
                 [

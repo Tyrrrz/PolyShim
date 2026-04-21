@@ -17,7 +17,6 @@ public class SHA512Tests
         var hash = SHA512.HashData(data);
 
         // Assert
-        // SHA512([1, 2, 3, 4, 5])
         hash.Should()
             .Equal(
                 [
@@ -46,7 +45,6 @@ public class SHA512Tests
         // Assert
         result.Should().BeTrue();
         bytesWritten.Should().Be(64);
-        // SHA512([1, 2, 3, 4, 5])
         destination.Should()
             .Equal(
                 [

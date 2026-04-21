@@ -20,7 +20,6 @@ public class SHA512Tests
 
         // Assert
         bytesWritten.Should().Be(64);
-        // SHA512([1, 2, 3, 4, 5])
         destination.Should()
             .Equal(
                 [

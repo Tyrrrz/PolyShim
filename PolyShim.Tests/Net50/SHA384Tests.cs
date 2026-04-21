@@ -17,7 +17,6 @@ public class SHA384Tests
         var hash = SHA384.HashData(data);
 
         // Assert
-        // SHA384([1, 2, 3, 4, 5])
         hash.Should()
             .Equal(
                 [
@@ -44,7 +43,6 @@ public class SHA384Tests
         // Assert
         result.Should().BeTrue();
         bytesWritten.Should().Be(48);
-        // SHA384([1, 2, 3, 4, 5])
         destination.Should()
             .Equal(
                 [

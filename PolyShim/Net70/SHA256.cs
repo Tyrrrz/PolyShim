@@ -1,4 +1,5 @@
 #if (NETCOREAPP && !NET7_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
+#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
 #nullable enable
 #pragma warning disable CS0436
 
@@ -9,8 +10,6 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-// SHA256 is not available on .NET Standard < 1.3
-#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
