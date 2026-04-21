@@ -9,7 +9,7 @@ namespace PolyShim.Tests.Net70;
 public class SHA256Tests
 {
     [Fact]
-    public async Task HashDataAsync_Stream_WithDestination_Test()
+    public async Task HashDataAsync_Test()
     {
         // Arrange
         using var stream = new MemoryStream([1, 2, 3, 4, 5]);
