@@ -23,7 +23,7 @@ internal static class MemberPolyfills_Net50_HashAlgorithm
         public async Task<byte[]> ComputeHashAsync(
             Stream inputStream,
             CancellationToken cancellationToken = default
-        ) => await Task.Run(() => hashAlgorithm.ComputeHash(inputStream), cancellationToken);
+        ) => await Task.Run(() => hashAlgorithm.ComputeHash(inputStream), cancellationToken).ConfigureAwait(false);
 #endif
     }
 }
