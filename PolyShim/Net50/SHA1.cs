@@ -1,4 +1,5 @@
 #if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
+// SHA1 is not available on .NET Standard < 1.3
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
 #nullable enable
 #pragma warning disable CS0436
