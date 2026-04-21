@@ -15,17 +15,17 @@ using System.Threading.Tasks;
 #endif
 internal static class MemberPolyfills_Net50_HashAlgorithm
 {
-    // Task infrastructure is required for async method support
-#if FEATURE_TASK
     extension(HashAlgorithm hashAlgorithm)
     {
+        // Task infrastructure is required for async method support
+#if FEATURE_TASK
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.hashalgorithm.computehashasync
         public Task<byte[]> ComputeHashAsync(
             Stream inputStream,
             CancellationToken cancellationToken = default
         ) => Task.Run(() => hashAlgorithm.ComputeHash(inputStream), cancellationToken);
-    }
 #endif
+    }
 }
 #endif
 #endif
