@@ -33,10 +33,8 @@ internal static class MemberPolyfills_Net70_MD5
             CancellationToken cancellationToken = default
         )
         {
-            using var ms = new MemoryStream();
-            await source.CopyToAsync(ms, cancellationToken).ConfigureAwait(false);
-            ms.Position = 0;
-            return MD5.HashData(ms);
+            using var md5 = MD5.Create();
+            return await md5.ComputeHashAsync(source, cancellationToken).ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.md5.hashdataasync#system-security-cryptography-md5-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)
@@ -49,6 +47,7 @@ internal static class MemberPolyfills_Net70_MD5
             var hash = await MD5
                 .HashDataAsync(source, cancellationToken)
                 .ConfigureAwait(false);
+
             if (destination.Length < hash.Length)
                 throw new ArgumentException("Destination is too short.", nameof(destination));
 

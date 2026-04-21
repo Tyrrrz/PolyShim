@@ -33,10 +33,8 @@ internal static class MemberPolyfills_Net70_SHA384
             CancellationToken cancellationToken = default
         )
         {
-            using var ms = new MemoryStream();
-            await source.CopyToAsync(ms, cancellationToken).ConfigureAwait(false);
-            ms.Position = 0;
-            return SHA384.HashData(ms);
+            using var sha = SHA384.Create();
+            return await sha.ComputeHashAsync(source, cancellationToken).ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha384.hashdataasync#system-security-cryptography-sha384-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)
@@ -49,6 +47,7 @@ internal static class MemberPolyfills_Net70_SHA384
             var hash = await SHA384
                 .HashDataAsync(source, cancellationToken)
                 .ConfigureAwait(false);
+
             if (destination.Length < hash.Length)
                 throw new ArgumentException("Destination is too short.", nameof(destination));
 
