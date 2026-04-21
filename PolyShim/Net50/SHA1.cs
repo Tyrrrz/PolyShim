@@ -14,15 +14,15 @@ internal static class MemberPolyfills_Net50_SHA1
 {
     extension(SHA1)
     {
-        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-readonlyspan((system-byte)))
-        public static byte[] HashData(ReadOnlySpan<byte> source)
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-byte())
+        public static byte[] HashData(byte[] source)
         {
             using var sha = SHA1.Create();
-            return sha.ComputeHash(source.ToArray());
+            return sha.ComputeHash(source);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-byte())
-        public static byte[] HashData(byte[] source) => SHA1.HashData(source.AsSpan());
+        // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-readonlyspan((system-byte)))
+        public static byte[] HashData(ReadOnlySpan<byte> source) => SHA1.HashData(source.ToArray());
 
         // https://learn.microsoft.com/dotnet/api/system.security.cryptography.sha1.hashdata#system-security-cryptography-sha1-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))
         public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
