@@ -8,7 +8,7 @@ namespace PolyShim.Tests.Net50;
 public class SHA512Tests
 {
     [Fact]
-    public void HashData_Array_Test()
+    public void HashData_Test()
     {
         // Arrange
         var data = new byte[] { 1, 2, 3, 4, 5 };
