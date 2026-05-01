@@ -36,7 +36,7 @@ public class StreamTests
             var bytesRead = stream.Read(buffer.AsSpan());
 
             // Assert
-            bytesRead.Should().BeGreaterOrEqualTo(5);
+            bytesRead.Should().BeGreaterThanOrEqualTo(5);
             buffer.Should().StartWith([1, 2, 3, 4, 5]);
         }
         finally
@@ -83,7 +83,7 @@ public class StreamTests
         var bytesRead = await stream.ReadAsync(buffer.Memory);
 
         // Assert
-        bytesRead.Should().BeGreaterOrEqualTo(5);
+        bytesRead.Should().BeGreaterThanOrEqualTo(5);
         buffer.Memory.ToArray().Should().StartWith([1, 2, 3, 4, 5]);
     }
 

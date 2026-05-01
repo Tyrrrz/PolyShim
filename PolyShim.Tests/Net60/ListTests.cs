@@ -18,7 +18,7 @@ public class ListTests
 
         // Assert
         newCapacity.Should().Be(list.Capacity);
-        list.Capacity.Should().BeGreaterOrEqualTo(100);
+        list.Capacity.Should().BeGreaterThanOrEqualTo(100);
         list.Capacity.Should().Be(newCapacity);
         list.Should().Equal(1, 2, 3);
     }

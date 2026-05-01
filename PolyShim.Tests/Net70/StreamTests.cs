@@ -162,7 +162,7 @@ public class StreamTests
             var bytesRead = stream.ReadAtLeast(buffer.AsSpan(), 3);
 
             // Assert
-            bytesRead.Should().BeGreaterOrEqualTo(3);
+            bytesRead.Should().BeGreaterThanOrEqualTo(3);
             buffer.Should().StartWith([1, 2, 3]);
         }
         finally
@@ -202,7 +202,7 @@ public class StreamTests
             var bytesRead = stream.ReadAtLeast(buffer.AsSpan(), 10, false);
 
             // Assert
-            bytesRead.Should().BeGreaterOrEqualTo(5);
+            bytesRead.Should().BeGreaterThanOrEqualTo(5);
             buffer.Should().StartWith([1, 2, 3, 4, 5]);
         }
         finally
@@ -243,7 +243,7 @@ public class StreamTests
         var bytesRead = await stream.ReadAtLeastAsync(buffer.Memory, 3);
 
         // Assert
-        bytesRead.Should().BeGreaterOrEqualTo(3);
+        bytesRead.Should().BeGreaterThanOrEqualTo(3);
         buffer.Memory.ToArray().Should().StartWith([1, 2, 3]);
     }
 
@@ -271,7 +271,7 @@ public class StreamTests
         var bytesRead = await stream.ReadAtLeastAsync(buffer.Memory, 10, false);
 
         // Assert
-        bytesRead.Should().BeGreaterOrEqualTo(5);
+        bytesRead.Should().BeGreaterThanOrEqualTo(5);
         buffer.Memory.ToArray().Should().StartWith([1, 2, 3, 4]);
     }
 
