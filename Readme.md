@@ -38,17 +38,13 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
 - 📦 [NuGet](https://nuget.org/packages/PolyShim): `dotnet add package PolyShim`
 
 > [!IMPORTANT]
-> To reference this package, you must have the latest major version of the .NET SDK installed.
-> This is only required for the build process, and does not affect which version of the runtime you can target.
-
-> [!NOTE]
-> Installing this package automatically sets your project's target language version to latest.
-> This is required for many polyfills to work, but is also recommended, since **PolyShim** provides the facilities to use modern language features on older frameworks.
-> If you have `<LangVersion>` explicitly configured in your project file, make sure it's set to `latest` or newer (e.g. `preview`).
+> In order to make use of this package, your project needs to be built with the latest major version of the .NET SDK.
+> Note that this is unrelated to the target framework of your project, which can be set to any supported version.
 
 ## Features
 
-- Enables compiler support for:
+- Facilitates compiler support for:
+  - [Union types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/union)
   - [Nullable reference types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/nullable-reference-types)
   - [Record types](https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/record)
   - [Init-only properties](https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/init)
@@ -128,6 +124,9 @@ var array = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 var last = array[^1];
 var part = array[3..^1];
 ```
+
+> [!NOTE]
+> **PolyShim** automatically sets your project's language version to latest, so that you can use all modern compiler features without any additional configuration.
 
 > [!NOTE]
 > You can find the full list of type polyfills [here](Signatures.md).
