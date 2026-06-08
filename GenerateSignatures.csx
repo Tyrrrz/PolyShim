@@ -77,6 +77,11 @@ public partial class GenerateSignaturesCommand : ICommand
                 continue;
 
             var source = File.ReadAllText(file);
+
+            // Allow manual ignore
+            if (source.Contains("// #ignore-signatures"))
+                continue;
+
             var tree = CSharpSyntaxTree.ParseText(StripDirectives(source), parseOptions);
             var root = tree.GetRoot();
 
