@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 531
+- **Total:** 541
 - **Types:** 113
-- **Members:** 418
+- **Members:** 428
 
 ___
 
@@ -58,6 +58,17 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.callermembernameattribute) <sup><sub>.NET Core 1.0</sub></sup>
 - `CancellationTokenSource`
   - [`Task CancelAsync()`](https://learn.microsoft.com/dotnet/api/system.threading.cancellationtokensource.cancelasync) <sup><sub>.NET 8.0</sub></sup>
+- `char`
+  - [`static bool IsAscii(char)`](https://learn.microsoft.com/dotnet/api/system.char.isascii) <sup><sub>.NET 6.0</sub></sup>
+  - [`static bool IsAsciiDigit(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciidigit) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsAsciiHexDigit(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciihexdigit) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsAsciiHexDigitLower(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciihexdigitlower) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsAsciiHexDigitUpper(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciihexdigitupper) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsAsciiLetter(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciiletter) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsAsciiLetterLower(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciiletterlower) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsAsciiLetterOrDigit(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciiletterordigit) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsAsciiLetterUpper(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciiletterupper) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsBetween(char, char, char)`](https://learn.microsoft.com/dotnet/api/system.char.isbetween) <sup><sub>.NET 7.0</sub></sup>
 - `CompilerFeatureRequiredAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute) <sup><sub>.NET 7.0</sub></sup>
 - `ConditionalWeakTable<TKey, TValue>`
