@@ -16,9 +16,6 @@ internal static class MemberPolyfills_Net70_Char
         public static bool IsBetween(char c, char minInclusive, char maxInclusive) =>
             (uint)(c - minInclusive) <= (uint)(maxInclusive - minInclusive);
 
-        // https://learn.microsoft.com/dotnet/api/system.char.isascii
-        public static bool IsAscii(char c) => (uint)c <= '\x7f';
-
         // https://learn.microsoft.com/dotnet/api/system.char.isasciidigit
         public static bool IsAsciiDigit(char c) => char.IsBetween(c, '0', '9');
 

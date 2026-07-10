@@ -18,17 +18,6 @@ public class CharTests
     }
 
     [Fact]
-    public void IsAscii_Test()
-    {
-        // Act & assert
-        char.IsAscii('A').Should().BeTrue();
-        char.IsAscii('z').Should().BeTrue();
-        char.IsAscii('\x7f').Should().BeTrue();
-        char.IsAscii('\x80').Should().BeFalse();
-        char.IsAscii('é').Should().BeFalse();
-    }
-
-    [Fact]
     public void IsAsciiDigit_Test()
     {
         // Act & assert
