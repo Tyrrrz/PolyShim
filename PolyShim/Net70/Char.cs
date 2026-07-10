@@ -38,12 +38,12 @@ internal static class MemberPolyfills_Net70_Char
         // https://learn.microsoft.com/dotnet/api/system.char.isasciiletterlower
         public static bool IsAsciiLetterLower(char c) => char.IsBetween(c, 'a', 'z');
 
+        // https://learn.microsoft.com/dotnet/api/system.char.isasciiletterupper
+        public static bool IsAsciiLetterUpper(char c) => char.IsBetween(c, 'A', 'Z');
+
         // https://learn.microsoft.com/dotnet/api/system.char.isasciiletterordigit
         public static bool IsAsciiLetterOrDigit(char c) =>
             char.IsAsciiLetter(c) || char.IsAsciiDigit(c);
-
-        // https://learn.microsoft.com/dotnet/api/system.char.isasciiletterupper
-        public static bool IsAsciiLetterUpper(char c) => char.IsBetween(c, 'A', 'Z');
     }
 }
 #endif
