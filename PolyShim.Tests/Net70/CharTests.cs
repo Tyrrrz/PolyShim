@@ -95,17 +95,6 @@ public class CharTests
     }
 
     [Fact]
-    public void IsAsciiLetterOrDigit_Test()
-    {
-        // Act & assert
-        char.IsAsciiLetterOrDigit('a').Should().BeTrue();
-        char.IsAsciiLetterOrDigit('Z').Should().BeTrue();
-        char.IsAsciiLetterOrDigit('5').Should().BeTrue();
-        char.IsAsciiLetterOrDigit('!').Should().BeFalse();
-        char.IsAsciiLetterOrDigit(' ').Should().BeFalse();
-    }
-
-    [Fact]
     public void IsAsciiLetterUpper_Test()
     {
         // Act & assert
@@ -114,5 +103,16 @@ public class CharTests
         char.IsAsciiLetterUpper('a').Should().BeFalse();
         char.IsAsciiLetterUpper('z').Should().BeFalse();
         char.IsAsciiLetterUpper('0').Should().BeFalse();
+    }
+
+    [Fact]
+    public void IsAsciiLetterOrDigit_Test()
+    {
+        // Act & assert
+        char.IsAsciiLetterOrDigit('a').Should().BeTrue();
+        char.IsAsciiLetterOrDigit('Z').Should().BeTrue();
+        char.IsAsciiLetterOrDigit('5').Should().BeTrue();
+        char.IsAsciiLetterOrDigit('!').Should().BeFalse();
+        char.IsAsciiLetterOrDigit(' ').Should().BeFalse();
     }
 }
