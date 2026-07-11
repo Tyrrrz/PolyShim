@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 541
+- **Total:** 545
 - **Types:** 113
-- **Members:** 428
+- **Members:** 432
 
 ___
 
@@ -45,6 +45,12 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder) <sup><sub>.NET Core 2.1</sub></sup>
 - `AsyncValueTaskMethodBuilder<TResult>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `BinaryReader`
+  - [`int Read(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read#system-io-binaryreader-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read#system-io-binaryreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `BinaryWriter`
+  - [`void Write(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.binarywriter.write#system-io-binarywriter-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.binarywriter.write#system-io-binarywriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
