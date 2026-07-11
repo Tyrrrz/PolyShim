@@ -121,12 +121,32 @@ internal static class BinaryPrimitives
         | ((ulong)source[7] << 56);
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readsinglebigendian
-    public static float ReadSingleBigEndian(ReadOnlySpan<byte> source) =>
-        BitConverter.ToSingle(BitConverter.GetBytes(ReadInt32BigEndian(source)), 0);
+    public static float ReadSingleBigEndian(ReadOnlySpan<byte> source)
+    {
+        var bits = ReadInt32BigEndian(source);
+#if ALLOW_UNSAFE_BLOCKS
+        unsafe
+        {
+            return *(float*)&bits;
+        }
+#else
+        return BitConverter.ToSingle(BitConverter.GetBytes(bits), 0);
+#endif
+    }
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readsinglelittleendian
-    public static float ReadSingleLittleEndian(ReadOnlySpan<byte> source) =>
-        BitConverter.ToSingle(BitConverter.GetBytes(ReadInt32LittleEndian(source)), 0);
+    public static float ReadSingleLittleEndian(ReadOnlySpan<byte> source)
+    {
+        var bits = ReadInt32LittleEndian(source);
+#if ALLOW_UNSAFE_BLOCKS
+        unsafe
+        {
+            return *(float*)&bits;
+        }
+#else
+        return BitConverter.ToSingle(BitConverter.GetBytes(bits), 0);
+#endif
+    }
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readdoublebigendian
     public static double ReadDoubleBigEndian(ReadOnlySpan<byte> source) =>
@@ -461,12 +481,34 @@ internal static class BinaryPrimitives
     }
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writesinglebigendian
-    public static void WriteSingleBigEndian(Span<byte> destination, float value) =>
-        WriteInt32BigEndian(destination, BitConverter.ToInt32(BitConverter.GetBytes(value), 0));
+    public static void WriteSingleBigEndian(Span<byte> destination, float value)
+    {
+#if ALLOW_UNSAFE_BLOCKS
+        int bits;
+        unsafe
+        {
+            bits = *(int*)&value;
+        }
+#else
+        var bits = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
+#endif
+        WriteInt32BigEndian(destination, bits);
+    }
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writesinglelittleendian
-    public static void WriteSingleLittleEndian(Span<byte> destination, float value) =>
-        WriteInt32LittleEndian(destination, BitConverter.ToInt32(BitConverter.GetBytes(value), 0));
+    public static void WriteSingleLittleEndian(Span<byte> destination, float value)
+    {
+#if ALLOW_UNSAFE_BLOCKS
+        int bits;
+        unsafe
+        {
+            bits = *(int*)&value;
+        }
+#else
+        var bits = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
+#endif
+        WriteInt32LittleEndian(destination, bits);
+    }
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writedoublebigendian
     public static void WriteDoubleBigEndian(Span<byte> destination, double value) =>
