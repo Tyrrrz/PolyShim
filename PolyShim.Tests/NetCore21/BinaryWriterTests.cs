@@ -56,7 +56,7 @@ public class BinaryWriterTests
             writer.Write(buffer.AsSpan(0, 5));
 
             // Assert
-            stream.ToArray().Should().StartWith("Hello"u8.ToArray());
+            stream.ToArray().Should().Equal("Hello"u8.ToArray());
         }
         finally
         {
