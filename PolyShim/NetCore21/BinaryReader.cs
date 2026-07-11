@@ -18,7 +18,7 @@ internal static class MemberPolyfills_NetCore21_BinaryReader
         {
             var bufferArray = new byte[buffer.Length];
             var result = reader.Read(bufferArray, 0, bufferArray.Length);
-            bufferArray.CopyTo(buffer);
+            bufferArray.AsSpan(0, result).CopyTo(buffer);
 
             return result;
         }
@@ -28,7 +28,7 @@ internal static class MemberPolyfills_NetCore21_BinaryReader
         {
             var bufferArray = new char[buffer.Length];
             var result = reader.Read(bufferArray, 0, bufferArray.Length);
-            bufferArray.CopyTo(buffer);
+            bufferArray.AsSpan(0, result).CopyTo(buffer);
 
             return result;
         }
