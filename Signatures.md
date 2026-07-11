@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 616
-- **Types:** 114
-- **Members:** 502
+- **Total:** 545
+- **Types:** 113
+- **Members:** 432
 
 ___
 
@@ -45,80 +45,12 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder) <sup><sub>.NET Core 2.1</sub></sup>
 - `AsyncValueTaskMethodBuilder<TResult>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder-1) <sup><sub>.NET Core 2.1</sub></sup>
-- `BinaryPrimitives`
-  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadDoubleBigEndian(ReadOnlySpan<byte>, out double)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaddoublebigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadDoubleLittleEndian(ReadOnlySpan<byte>, out double)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaddoublelittleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadInt16BigEndian(ReadOnlySpan<byte>, out short)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadint16bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadInt16LittleEndian(ReadOnlySpan<byte>, out short)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadint16littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadInt32BigEndian(ReadOnlySpan<byte>, out int)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadint32bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadInt32LittleEndian(ReadOnlySpan<byte>, out int)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadint32littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadInt64BigEndian(ReadOnlySpan<byte>, out long)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadint64bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadInt64LittleEndian(ReadOnlySpan<byte>, out long)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadint64littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadSingleBigEndian(ReadOnlySpan<byte>, out float)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadsinglebigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadSingleLittleEndian(ReadOnlySpan<byte>, out float)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadsinglelittleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadUInt16BigEndian(ReadOnlySpan<byte>, out ushort)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaduint16bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadUInt16LittleEndian(ReadOnlySpan<byte>, out ushort)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaduint16littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadUInt32BigEndian(ReadOnlySpan<byte>, out uint)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaduint32bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadUInt32LittleEndian(ReadOnlySpan<byte>, out uint)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaduint32littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadUInt64BigEndian(ReadOnlySpan<byte>, out ulong)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaduint64bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryReadUInt64LittleEndian(ReadOnlySpan<byte>, out ulong)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaduint64littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteDoubleBigEndian(Span<byte>, double)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywritedoublebigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteDoubleLittleEndian(Span<byte>, double)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywritedoublelittleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteInt16BigEndian(Span<byte>, short)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteint16bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteInt16LittleEndian(Span<byte>, short)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteint16littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteInt32BigEndian(Span<byte>, int)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteint32bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteInt32LittleEndian(Span<byte>, int)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteint32littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteInt64BigEndian(Span<byte>, long)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteint64bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteInt64LittleEndian(Span<byte>, long)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteint64littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteSingleBigEndian(Span<byte>, float)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywritesinglebigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteSingleLittleEndian(Span<byte>, float)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywritesinglelittleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteUInt16BigEndian(Span<byte>, ushort)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteuint16bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteUInt16LittleEndian(Span<byte>, ushort)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteuint16littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteUInt32BigEndian(Span<byte>, uint)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteuint32bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteUInt32LittleEndian(Span<byte>, uint)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteuint32littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteUInt64BigEndian(Span<byte>, ulong)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteuint64bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static bool TryWriteUInt64LittleEndian(Span<byte>, ulong)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteuint64littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static byte ReverseEndianness(byte)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-byte)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static double ReadDoubleBigEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readdoublebigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static double ReadDoubleLittleEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readdoublelittleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static float ReadSingleBigEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readsinglebigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static float ReadSingleLittleEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readsinglelittleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static int ReadInt32BigEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readint32bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static int ReadInt32LittleEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readint32littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static int ReverseEndianness(int)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static long ReadInt64BigEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readint64bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static long ReadInt64LittleEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readint64littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static long ReverseEndianness(long)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-int64)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static sbyte ReverseEndianness(sbyte)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-sbyte)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static short ReadInt16BigEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readint16bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static short ReadInt16LittleEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readint16littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static short ReverseEndianness(short)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-int16)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static uint ReadUInt32BigEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readuint32bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static uint ReadUInt32LittleEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readuint32littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static uint ReverseEndianness(uint)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-uint32)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static ulong ReadUInt64BigEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readuint64bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static ulong ReadUInt64LittleEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readuint64littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static ulong ReverseEndianness(ulong)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-uint64)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static ushort ReadUInt16BigEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readuint16bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static ushort ReadUInt16LittleEndian(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readuint16littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static ushort ReverseEndianness(ushort)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-uint16)) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteDoubleBigEndian(Span<byte>, double)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writedoublebigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteDoubleLittleEndian(Span<byte>, double)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writedoublelittleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteInt16BigEndian(Span<byte>, short)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeint16bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteInt16LittleEndian(Span<byte>, short)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeint16littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteInt32BigEndian(Span<byte>, int)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeint32bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteInt32LittleEndian(Span<byte>, int)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeint32littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteInt64BigEndian(Span<byte>, long)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeint64bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteInt64LittleEndian(Span<byte>, long)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeint64littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteSingleBigEndian(Span<byte>, float)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writesinglebigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteSingleLittleEndian(Span<byte>, float)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writesinglelittleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteUInt16BigEndian(Span<byte>, ushort)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeuint16bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteUInt16LittleEndian(Span<byte>, ushort)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeuint16littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteUInt32BigEndian(Span<byte>, uint)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeuint32bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteUInt32LittleEndian(Span<byte>, uint)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeuint32littleendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteUInt64BigEndian(Span<byte>, ulong)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeuint64bigendian) <sup><sub>.NET Core 2.1</sub></sup>
-  - [`static void WriteUInt64LittleEndian(Span<byte>, ulong)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeuint64littleendian) <sup><sub>.NET Core 2.1</sub></sup>
+- `BinaryReader`
+  - [`int Read(Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read#system-io-binaryreader-read(system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.binaryreader.read#system-io-binaryreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `BinaryWriter`
+  - [`void Write(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.binarywriter.write#system-io-binarywriter-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.binarywriter.write#system-io-binarywriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `byte`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
