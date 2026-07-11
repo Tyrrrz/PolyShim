@@ -38,6 +38,12 @@ internal static class BinaryPrimitives
         ((ulong)ReverseEndianness((uint)(value & 0xFFFFFFFFUL)) << 32)
         | (ulong)ReverseEndianness((uint)(value >> 32));
 
+    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-byte)
+    public static byte ReverseEndianness(byte value) => value;
+
+    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-sbyte)
+    public static sbyte ReverseEndianness(sbyte value) => value;
+
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readint16bigendian
     public static short ReadInt16BigEndian(ReadOnlySpan<byte> source) =>
         (short)((source[0] << 8) | source[1]);
