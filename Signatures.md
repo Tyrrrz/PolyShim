@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 541
-- **Types:** 113
-- **Members:** 428
+- **Total:** 544
+- **Types:** 114
+- **Members:** 430
 
 ___
 
@@ -45,6 +45,10 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder) <sup><sub>.NET Core 2.1</sub></sup>
 - `AsyncValueTaskMethodBuilder<TResult>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `BinaryPrimitives`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`static byte ReverseEndianness(byte)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-byte)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static sbyte ReverseEndianness(sbyte)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-sbyte)) <sup><sub>.NET 5.0</sub></sup>
 - `byte`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
