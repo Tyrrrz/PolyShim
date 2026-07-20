@@ -126,42 +126,6 @@ internal static class BinaryPrimitives
         | ((ulong)source[6] << 48)
         | ((ulong)source[7] << 56);
 
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readsinglebigendian
-    public static float ReadSingleBigEndian(ReadOnlySpan<byte> source)
-    {
-        var bits = ReadInt32BigEndian(source);
-#if ALLOW_UNSAFE_BLOCKS
-        unsafe
-        {
-            return *(float*)&bits;
-        }
-#else
-        return BitConverter.ToSingle(BitConverter.GetBytes(bits), 0);
-#endif
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readsinglelittleendian
-    public static float ReadSingleLittleEndian(ReadOnlySpan<byte> source)
-    {
-        var bits = ReadInt32LittleEndian(source);
-#if ALLOW_UNSAFE_BLOCKS
-        unsafe
-        {
-            return *(float*)&bits;
-        }
-#else
-        return BitConverter.ToSingle(BitConverter.GetBytes(bits), 0);
-#endif
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readdoublebigendian
-    public static double ReadDoubleBigEndian(ReadOnlySpan<byte> source) =>
-        BitConverter.Int64BitsToDouble(ReadInt64BigEndian(source));
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readdoublelittleendian
-    public static double ReadDoubleLittleEndian(ReadOnlySpan<byte> source) =>
-        BitConverter.Int64BitsToDouble(ReadInt64LittleEndian(source));
-
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadint16bigendian
     public static bool TryReadInt16BigEndian(ReadOnlySpan<byte> source, out short value)
     {
@@ -318,58 +282,6 @@ internal static class BinaryPrimitives
         return true;
     }
 
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadsinglebigendian
-    public static bool TryReadSingleBigEndian(ReadOnlySpan<byte> source, out float value)
-    {
-        if (source.Length < sizeof(float))
-        {
-            value = default;
-            return false;
-        }
-
-        value = ReadSingleBigEndian(source);
-        return true;
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreadsinglelittleendian
-    public static bool TryReadSingleLittleEndian(ReadOnlySpan<byte> source, out float value)
-    {
-        if (source.Length < sizeof(float))
-        {
-            value = default;
-            return false;
-        }
-
-        value = ReadSingleLittleEndian(source);
-        return true;
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaddoublebigendian
-    public static bool TryReadDoubleBigEndian(ReadOnlySpan<byte> source, out double value)
-    {
-        if (source.Length < sizeof(double))
-        {
-            value = default;
-            return false;
-        }
-
-        value = ReadDoubleBigEndian(source);
-        return true;
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaddoublelittleendian
-    public static bool TryReadDoubleLittleEndian(ReadOnlySpan<byte> source, out double value)
-    {
-        if (source.Length < sizeof(double))
-        {
-            value = default;
-            return false;
-        }
-
-        value = ReadDoubleLittleEndian(source);
-        return true;
-    }
-
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writeint16bigendian
     public static void WriteInt16BigEndian(Span<byte> destination, short value)
     {
@@ -485,44 +397,6 @@ internal static class BinaryPrimitives
         destination[6] = (byte)(value >> 48);
         destination[7] = (byte)(value >> 56);
     }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writesinglebigendian
-    public static void WriteSingleBigEndian(Span<byte> destination, float value)
-    {
-#if ALLOW_UNSAFE_BLOCKS
-        int bits;
-        unsafe
-        {
-            bits = *(int*)&value;
-        }
-#else
-        var bits = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
-#endif
-        WriteInt32BigEndian(destination, bits);
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writesinglelittleendian
-    public static void WriteSingleLittleEndian(Span<byte> destination, float value)
-    {
-#if ALLOW_UNSAFE_BLOCKS
-        int bits;
-        unsafe
-        {
-            bits = *(int*)&value;
-        }
-#else
-        var bits = BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
-#endif
-        WriteInt32LittleEndian(destination, bits);
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writedoublebigendian
-    public static void WriteDoubleBigEndian(Span<byte> destination, double value) =>
-        WriteInt64BigEndian(destination, BitConverter.DoubleToInt64Bits(value));
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.writedoublelittleendian
-    public static void WriteDoubleLittleEndian(Span<byte> destination, double value) =>
-        WriteInt64LittleEndian(destination, BitConverter.DoubleToInt64Bits(value));
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywriteint16bigendian
     public static bool TryWriteInt16BigEndian(Span<byte> destination, short value)
@@ -641,46 +515,6 @@ internal static class BinaryPrimitives
             return false;
 
         WriteUInt64LittleEndian(destination, value);
-        return true;
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywritesinglebigendian
-    public static bool TryWriteSingleBigEndian(Span<byte> destination, float value)
-    {
-        if (destination.Length < sizeof(float))
-            return false;
-
-        WriteSingleBigEndian(destination, value);
-        return true;
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywritesinglelittleendian
-    public static bool TryWriteSingleLittleEndian(Span<byte> destination, float value)
-    {
-        if (destination.Length < sizeof(float))
-            return false;
-
-        WriteSingleLittleEndian(destination, value);
-        return true;
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywritedoublebigendian
-    public static bool TryWriteDoubleBigEndian(Span<byte> destination, double value)
-    {
-        if (destination.Length < sizeof(double))
-            return false;
-
-        WriteDoubleBigEndian(destination, value);
-        return true;
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.trywritedoublelittleendian
-    public static bool TryWriteDoubleLittleEndian(Span<byte> destination, double value)
-    {
-        if (destination.Length < sizeof(double))
-            return false;
-
-        WriteDoubleLittleEndian(destination, value);
         return true;
     }
 }
