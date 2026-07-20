@@ -1,4 +1,4 @@
-#if !FEATURE_MEMORY
+#if !NET5_0_OR_GREATER
 #nullable enable
 #pragma warning disable CS0436
 
