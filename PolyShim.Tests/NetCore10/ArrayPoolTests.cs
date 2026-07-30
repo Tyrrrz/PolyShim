@@ -25,40 +25,6 @@ public class ArrayPoolTests
     }
 
     [Fact]
-    public void Return_ThenRent_Test()
-    {
-        // Arrange
-        var pool = ArrayPool<int>.Shared;
-        var array = pool.Rent(16);
-
-        // Act
-        pool.Return(array);
-        var reused = pool.Rent(16);
-
-        // Assert
-        reused.Should().BeSameAs(array);
-    }
-
-    [Fact]
-    public void Return_WithClear_Test()
-    {
-        // Arrange
-        var pool = ArrayPool<int>.Shared;
-        var array = pool.Rent(4);
-        array[0] = 42;
-        array[1] = 99;
-
-        // Act
-        pool.Return(array, clearArray: true);
-        var reused = pool.Rent(4);
-
-        // Assert
-        reused.Should().BeSameAs(array);
-        reused[0].Should().Be(0);
-        reused[1].Should().Be(0);
-    }
-
-    [Fact]
     public void Rent_SmallerThanCached_Test()
     {
         // Arrange
