@@ -8,7 +8,7 @@ namespace PolyShim.Tests.NetCore10;
 public class ArrayPoolTests
 {
     [Fact]
-    public void Rent_ReturnsArray_WithAtLeastRequestedLength()
+    public void Rent_Test()
     {
         // Act
         var array = ArrayPool<int>.Shared.Rent(10);
@@ -18,14 +18,14 @@ public class ArrayPoolTests
     }
 
     [Fact]
-    public void Rent_NegativeLength_Throws()
+    public void Rent_NegativeLength_Test()
     {
-        // Act & Assert
+        // Act & assert
         Assert.Throws<ArgumentOutOfRangeException>(() => ArrayPool<int>.Shared.Rent(-1));
     }
 
     [Fact]
-    public void Return_ThenRent_ReusesSameArray()
+    public void Return_ThenRent_Test()
     {
         // Arrange
         var pool = ArrayPool<int>.Shared;
@@ -40,7 +40,7 @@ public class ArrayPoolTests
     }
 
     [Fact]
-    public void Return_ClearArray_ZeroesContents()
+    public void Return_WithClear_Test()
     {
         // Arrange
         var pool = ArrayPool<int>.Shared;
@@ -59,7 +59,7 @@ public class ArrayPoolTests
     }
 
     [Fact]
-    public void Rent_SmallerThanCached_ReturnsSuitableArray()
+    public void Rent_SmallerThanCached_Test()
     {
         // Arrange
         var pool = ArrayPool<byte>.Shared;
@@ -69,12 +69,12 @@ public class ArrayPoolTests
         pool.Return(large);
         var smaller = pool.Rent(8);
 
-        // Assert — the returned array must satisfy the minimum-length contract
+        // Assert
         smaller.Length.Should().BeGreaterThanOrEqualTo(8);
     }
 
     [Fact]
-    public void Rent_LargerThanCached_AllocatesNewArray()
+    public void Rent_LargerThanCached_Test()
     {
         // Arrange
         var pool = ArrayPool<byte>.Shared;
@@ -84,7 +84,7 @@ public class ArrayPoolTests
         pool.Return(small);
         var larger = pool.Rent(256);
 
-        // Assert — cached array is too small, so a fresh one is allocated
+        // Assert
         larger.Length.Should().BeGreaterThanOrEqualTo(256);
     }
 }
