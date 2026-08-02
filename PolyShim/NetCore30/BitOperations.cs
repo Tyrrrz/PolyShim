@@ -6,7 +6,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System.Numerics;
 
-// Polyfill for BitOperations class introduced in .NET Core 3.0.
 // https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
