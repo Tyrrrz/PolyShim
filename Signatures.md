@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 620
+- **Total:** 621
 - **Types:** 114
-- **Members:** 506
+- **Members:** 507
 
 ___
 
@@ -396,6 +396,7 @@ ___
   - [`IEnumerator<Match> GetEnumerator()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
   - [`Match[] ToArray()`](https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.matchcollection.system-collections-generic-ienumerable-system-text-regularexpressions-match--getenumerator) <sup><sub>.NET Core 2.0</sub></sup>
 - `Math`
+  - [`static double Log2(double)`](https://learn.microsoft.com/dotnet/api/system.math.log2) <sup><sub>.NET Core 3.0</sub></sup>
   - [`static IntPtr Clamp(IntPtr, IntPtr, IntPtr)`](https://learn.microsoft.com/dotnet/api/system.math.clamp#system-math-clamp(system-intptr-system-intptr-system-intptr)) <sup><sub>.NET 6.0</sub></sup>
   - [`static T Clamp<T>(T, T, T) where T : IComparable<T>`](https://learn.microsoft.com/dotnet/api/system.math.clamp) <sup><sub>.NET Core 2.0</sub></sup>
 - `MaybeNullAttribute`
