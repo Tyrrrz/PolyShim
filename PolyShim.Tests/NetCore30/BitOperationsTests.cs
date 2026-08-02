@@ -6,85 +6,105 @@ namespace PolyShim.Tests.NetCore30;
 
 public class BitOperationsTests
 {
-    [Theory]
-    [InlineData(0b_0000_0000u, 0)]
-    [InlineData(0b_0000_0001u, 1)]
-    [InlineData(0b_0000_0111u, 3)]
-    [InlineData(0b_1111_1111u, 8)]
-    [InlineData(uint.MaxValue, 32)]
-    public void PopCount_UInt32_Test(uint value, int expected) =>
-        BitOperations.PopCount(value).Should().Be(expected);
+    [Fact]
+    public void PopCount_UInt32_Test()
+    {
+        // Act & assert
+        BitOperations.PopCount(0b_0000_0000u).Should().Be(0);
+        BitOperations.PopCount(0b_0000_0001u).Should().Be(1);
+        BitOperations.PopCount(0b_0000_0111u).Should().Be(3);
+        BitOperations.PopCount(0b_1111_1111u).Should().Be(8);
+        BitOperations.PopCount(uint.MaxValue).Should().Be(32);
+    }
 
-    [Theory]
-    [InlineData(0ul, 0)]
-    [InlineData(1ul, 1)]
-    [InlineData(0b_0000_0111ul, 3)]
-    [InlineData(ulong.MaxValue, 64)]
-    public void PopCount_UInt64_Test(ulong value, int expected) =>
-        BitOperations.PopCount(value).Should().Be(expected);
+    [Fact]
+    public void PopCount_UInt64_Test()
+    {
+        // Act & assert
+        BitOperations.PopCount(0ul).Should().Be(0);
+        BitOperations.PopCount(1ul).Should().Be(1);
+        BitOperations.PopCount(0b_0000_0111ul).Should().Be(3);
+        BitOperations.PopCount(ulong.MaxValue).Should().Be(64);
+    }
 
-    [Theory]
-    [InlineData(0u, 32)]
-    [InlineData(1u, 31)]
-    [InlineData(uint.MaxValue, 0)]
-    [InlineData(0b_1000_0000_0000_0000_0000_0000_0000_0000u, 0)]
-    public void LeadingZeroCount_UInt32_Test(uint value, int expected) =>
-        BitOperations.LeadingZeroCount(value).Should().Be(expected);
+    [Fact]
+    public void LeadingZeroCount_UInt32_Test()
+    {
+        // Act & assert
+        BitOperations.LeadingZeroCount(0u).Should().Be(32);
+        BitOperations.LeadingZeroCount(1u).Should().Be(31);
+        BitOperations.LeadingZeroCount(uint.MaxValue).Should().Be(0);
+        BitOperations.LeadingZeroCount(0b_1000_0000_0000_0000_0000_0000_0000_0000u).Should().Be(0);
+    }
 
-    [Theory]
-    [InlineData(0ul, 64)]
-    [InlineData(1ul, 63)]
-    [InlineData(ulong.MaxValue, 0)]
-    public void LeadingZeroCount_UInt64_Test(ulong value, int expected) =>
-        BitOperations.LeadingZeroCount(value).Should().Be(expected);
+    [Fact]
+    public void LeadingZeroCount_UInt64_Test()
+    {
+        // Act & assert
+        BitOperations.LeadingZeroCount(0ul).Should().Be(64);
+        BitOperations.LeadingZeroCount(1ul).Should().Be(63);
+        BitOperations.LeadingZeroCount(ulong.MaxValue).Should().Be(0);
+    }
 
-    [Theory]
-    [InlineData(0u, 0)]
-    [InlineData(1u, 0)]
-    [InlineData(2u, 1)]
-    [InlineData(15u, 3)]
-    [InlineData(16u, 4)]
-    [InlineData(uint.MaxValue, 31)]
-    public void Log2_UInt32_Test(uint value, int expected) =>
-        BitOperations.Log2(value).Should().Be(expected);
+    [Fact]
+    public void Log2_UInt32_Test()
+    {
+        // Act & assert
+        BitOperations.Log2(0u).Should().Be(0);
+        BitOperations.Log2(1u).Should().Be(0);
+        BitOperations.Log2(2u).Should().Be(1);
+        BitOperations.Log2(15u).Should().Be(3);
+        BitOperations.Log2(16u).Should().Be(4);
+        BitOperations.Log2(uint.MaxValue).Should().Be(31);
+    }
 
-    [Theory]
-    [InlineData(0ul, 0)]
-    [InlineData(1ul, 0)]
-    [InlineData(1024ul, 10)]
-    [InlineData(ulong.MaxValue, 63)]
-    public void Log2_UInt64_Test(ulong value, int expected) =>
-        BitOperations.Log2(value).Should().Be(expected);
+    [Fact]
+    public void Log2_UInt64_Test()
+    {
+        // Act & assert
+        BitOperations.Log2(0ul).Should().Be(0);
+        BitOperations.Log2(1ul).Should().Be(0);
+        BitOperations.Log2(1024ul).Should().Be(10);
+        BitOperations.Log2(ulong.MaxValue).Should().Be(63);
+    }
 
-    [Theory]
-    [InlineData(0, 32)]
-    [InlineData(1, 0)]
-    [InlineData(8, 3)]
-    [InlineData(-1, 0)]
-    public void TrailingZeroCount_Int32_Test(int value, int expected) =>
-        BitOperations.TrailingZeroCount(value).Should().Be(expected);
+    [Fact]
+    public void TrailingZeroCount_Int32_Test()
+    {
+        // Act & assert
+        BitOperations.TrailingZeroCount(0).Should().Be(32);
+        BitOperations.TrailingZeroCount(1).Should().Be(0);
+        BitOperations.TrailingZeroCount(8).Should().Be(3);
+        BitOperations.TrailingZeroCount(-1).Should().Be(0);
+    }
 
-    [Theory]
-    [InlineData(0u, 32)]
-    [InlineData(1u, 0)]
-    [InlineData(8u, 3)]
-    [InlineData(uint.MaxValue, 0)]
-    public void TrailingZeroCount_UInt32_Test(uint value, int expected) =>
-        BitOperations.TrailingZeroCount(value).Should().Be(expected);
+    [Fact]
+    public void TrailingZeroCount_UInt32_Test()
+    {
+        // Act & assert
+        BitOperations.TrailingZeroCount(0u).Should().Be(32);
+        BitOperations.TrailingZeroCount(1u).Should().Be(0);
+        BitOperations.TrailingZeroCount(8u).Should().Be(3);
+        BitOperations.TrailingZeroCount(uint.MaxValue).Should().Be(0);
+    }
 
-    [Theory]
-    [InlineData(0L, 64)]
-    [InlineData(1L, 0)]
-    [InlineData(-1L, 0)]
-    public void TrailingZeroCount_Int64_Test(long value, int expected) =>
-        BitOperations.TrailingZeroCount(value).Should().Be(expected);
+    [Fact]
+    public void TrailingZeroCount_Int64_Test()
+    {
+        // Act & assert
+        BitOperations.TrailingZeroCount(0L).Should().Be(64);
+        BitOperations.TrailingZeroCount(1L).Should().Be(0);
+        BitOperations.TrailingZeroCount(-1L).Should().Be(0);
+    }
 
-    [Theory]
-    [InlineData(0ul, 64)]
-    [InlineData(1ul, 0)]
-    [InlineData(ulong.MaxValue, 0)]
-    public void TrailingZeroCount_UInt64_Test(ulong value, int expected) =>
-        BitOperations.TrailingZeroCount(value).Should().Be(expected);
+    [Fact]
+    public void TrailingZeroCount_UInt64_Test()
+    {
+        // Act & assert
+        BitOperations.TrailingZeroCount(0ul).Should().Be(64);
+        BitOperations.TrailingZeroCount(1ul).Should().Be(0);
+        BitOperations.TrailingZeroCount(ulong.MaxValue).Should().Be(0);
+    }
 
     [Fact]
     public void RotateLeft_UInt32_Test() =>

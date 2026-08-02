@@ -7,28 +7,34 @@ namespace PolyShim.Tests.Net70;
 
 public class BitOperationsTests
 {
-    [Theory]
-    [InlineData(0, false)]
-    [InlineData(1, true)]
-    [InlineData(2, true)]
-    [InlineData(3, false)]
-    public void IsPow2_IntPtr_Test(int value, bool expected) =>
-        BitOperations.IsPow2((IntPtr)value).Should().Be(expected);
+    [Fact]
+    public void IsPow2_IntPtr_Test()
+    {
+        // Act & assert
+        BitOperations.IsPow2((IntPtr)0).Should().BeFalse();
+        BitOperations.IsPow2((IntPtr)1).Should().BeTrue();
+        BitOperations.IsPow2((IntPtr)2).Should().BeTrue();
+        BitOperations.IsPow2((IntPtr)3).Should().BeFalse();
+    }
 
-    [Theory]
-    [InlineData(0u, false)]
-    [InlineData(1u, true)]
-    [InlineData(1024u, true)]
-    [InlineData(1023u, false)]
-    public void IsPow2_UIntPtr_Test(uint value, bool expected) =>
-        BitOperations.IsPow2((UIntPtr)value).Should().Be(expected);
+    [Fact]
+    public void IsPow2_UIntPtr_Test()
+    {
+        // Act & assert
+        BitOperations.IsPow2((UIntPtr)0u).Should().BeFalse();
+        BitOperations.IsPow2((UIntPtr)1u).Should().BeTrue();
+        BitOperations.IsPow2((UIntPtr)1024u).Should().BeTrue();
+        BitOperations.IsPow2((UIntPtr)1023u).Should().BeFalse();
+    }
 
-    [Theory]
-    [InlineData(0u, 0u)]
-    [InlineData(3u, 4u)]
-    [InlineData(1000u, 1024u)]
-    public void RoundUpToPowerOf2_UIntPtr_Test(uint value, uint expected) =>
-        BitOperations.RoundUpToPowerOf2((UIntPtr)value).Should().Be((UIntPtr)expected);
+    [Fact]
+    public void RoundUpToPowerOf2_UIntPtr_Test()
+    {
+        // Act & assert
+        BitOperations.RoundUpToPowerOf2((UIntPtr)0u).Should().Be((UIntPtr)0u);
+        BitOperations.RoundUpToPowerOf2((UIntPtr)3u).Should().Be((UIntPtr)4u);
+        BitOperations.RoundUpToPowerOf2((UIntPtr)1000u).Should().Be((UIntPtr)1024u);
+    }
 
     [Fact]
     public void LeadingZeroCount_UIntPtr_Test()
@@ -41,17 +47,21 @@ public class BitOperationsTests
         BitOperations.LeadingZeroCount((UIntPtr)1u).Should().Be(bitWidth - 1);
     }
 
-    [Theory]
-    [InlineData(1u, 0)]
-    [InlineData(16u, 4)]
-    public void Log2_UIntPtr_Test(uint value, int expected) =>
-        BitOperations.Log2((UIntPtr)value).Should().Be(expected);
+    [Fact]
+    public void Log2_UIntPtr_Test()
+    {
+        // Act & assert
+        BitOperations.Log2((UIntPtr)1u).Should().Be(0);
+        BitOperations.Log2((UIntPtr)16u).Should().Be(4);
+    }
 
-    [Theory]
-    [InlineData(0u, 0)]
-    [InlineData(7u, 3)]
-    public void PopCount_UIntPtr_Test(uint value, int expected) =>
-        BitOperations.PopCount((UIntPtr)value).Should().Be(expected);
+    [Fact]
+    public void PopCount_UIntPtr_Test()
+    {
+        // Act & assert
+        BitOperations.PopCount((UIntPtr)0u).Should().Be(0);
+        BitOperations.PopCount((UIntPtr)7u).Should().Be(3);
+    }
 
     [Fact]
     public void TrailingZeroCount_IntPtr_Test()
