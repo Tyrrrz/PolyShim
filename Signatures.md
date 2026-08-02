@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 620
-- **Types:** 114
-- **Members:** 506
+- **Total:** 655
+- **Types:** 115
+- **Members:** 540
 
 ___
 
@@ -125,6 +125,42 @@ ___
 - `BinaryWriter`
   - [`void Write(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.binarywriter.write#system-io-binarywriter-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.binarywriter.write#system-io-binarywriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `BitOperations`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static bool IsPow2(int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.ispow2#system-numerics-bitoperations-ispow2(system-int32)) <sup><sub>.NET 6.0</sub></sup>
+  - [`static bool IsPow2(IntPtr)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.ispow2#system-numerics-bitoperations-ispow2(system-intptr)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsPow2(long)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.ispow2#system-numerics-bitoperations-ispow2(system-int64)) <sup><sub>.NET 6.0</sub></sup>
+  - [`static bool IsPow2(uint)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.ispow2#system-numerics-bitoperations-ispow2(system-uint32)) <sup><sub>.NET 6.0</sub></sup>
+  - [`static bool IsPow2(UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.ispow2#system-numerics-bitoperations-ispow2(system-uintptr)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static bool IsPow2(ulong)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.ispow2#system-numerics-bitoperations-ispow2(system-uint64)) <sup><sub>.NET 6.0</sub></sup>
+  - [`static int LeadingZeroCount(uint)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.leadingzerocount#system-numerics-bitoperations-leadingzerocount(system-uint32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int LeadingZeroCount(UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.leadingzerocount#system-numerics-bitoperations-leadingzerocount(system-uintptr)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int LeadingZeroCount(ulong)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.leadingzerocount#system-numerics-bitoperations-leadingzerocount(system-uint64)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int Log2(uint)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.log2#system-numerics-bitoperations-log2(system-uint32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int Log2(UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.log2#system-numerics-bitoperations-log2(system-uintptr)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int Log2(ulong)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.log2#system-numerics-bitoperations-log2(system-uint64)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int PopCount(uint)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.popcount#system-numerics-bitoperations-popcount(system-uint32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int PopCount(UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.popcount#system-numerics-bitoperations-popcount(system-uintptr)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int PopCount(ulong)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.popcount#system-numerics-bitoperations-popcount(system-uint64)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int TrailingZeroCount(int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.trailingzerocount#system-numerics-bitoperations-trailingzerocount(system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int TrailingZeroCount(IntPtr)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.trailingzerocount#system-numerics-bitoperations-trailingzerocount(system-intptr)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int TrailingZeroCount(long)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.trailingzerocount#system-numerics-bitoperations-trailingzerocount(system-int64)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int TrailingZeroCount(uint)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.trailingzerocount#system-numerics-bitoperations-trailingzerocount(system-uint32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static int TrailingZeroCount(UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.trailingzerocount#system-numerics-bitoperations-trailingzerocount(system-uintptr)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static int TrailingZeroCount(ulong)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.trailingzerocount#system-numerics-bitoperations-trailingzerocount(system-uint64)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static uint Crc32C(uint, byte)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.crc32c#system-numerics-bitoperations-crc32c(system-uint32-system-byte)) <sup><sub>.NET 8.0</sub></sup>
+  - [`static uint Crc32C(uint, uint)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.crc32c#system-numerics-bitoperations-crc32c(system-uint32-system-uint32)) <sup><sub>.NET 8.0</sub></sup>
+  - [`static uint Crc32C(uint, ulong)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.crc32c#system-numerics-bitoperations-crc32c(system-uint32-system-uint64)) <sup><sub>.NET 8.0</sub></sup>
+  - [`static uint Crc32C(uint, ushort)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.crc32c#system-numerics-bitoperations-crc32c(system-uint32-system-uint16)) <sup><sub>.NET 8.0</sub></sup>
+  - [`static uint RotateLeft(uint, int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rotateleft#system-numerics-bitoperations-rotateleft(system-uint32-system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static uint RotateRight(uint, int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rotateright#system-numerics-bitoperations-rotateright(system-uint32-system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static uint RoundUpToPowerOf2(uint)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rounduptopowerof2#system-numerics-bitoperations-rounduptopowerof2(system-uint32)) <sup><sub>.NET 6.0</sub></sup>
+  - [`static UIntPtr RotateLeft(UIntPtr, int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rotateleft#system-numerics-bitoperations-rotateleft(system-uintptr-system-int32)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static UIntPtr RotateRight(UIntPtr, int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rotateright#system-numerics-bitoperations-rotateright(system-uintptr-system-int32)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static UIntPtr RoundUpToPowerOf2(UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rounduptopowerof2#system-numerics-bitoperations-rounduptopowerof2(system-uintptr)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static ulong RotateLeft(ulong, int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rotateleft#system-numerics-bitoperations-rotateleft(system-uint64-system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static ulong RotateRight(ulong, int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rotateright#system-numerics-bitoperations-rotateright(system-uint64-system-int32)) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`static ulong RoundUpToPowerOf2(ulong)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rounduptopowerof2#system-numerics-bitoperations-rounduptopowerof2(system-uint64)) <sup><sub>.NET 6.0</sub></sup>
 - `byte`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
