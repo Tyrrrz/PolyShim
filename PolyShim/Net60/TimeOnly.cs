@@ -90,10 +90,10 @@ internal readonly struct TimeOnly
     public TimeOnly AddHours(double value, out int wrappedDays) =>
         Add(TimeSpan.FromHours(value), out wrappedDays);
 
-    public TimeOnly AddMinutes(double value) => AddTicks((long)(value * TimeSpan.TicksPerMinute));
+    public TimeOnly AddMinutes(double value) => Add(TimeSpan.FromMinutes(value));
 
     public TimeOnly AddMinutes(double value, out int wrappedDays) =>
-        AddTicks((long)(value * TimeSpan.TicksPerMinute), out wrappedDays);
+        Add(TimeSpan.FromMinutes(value), out wrappedDays);
 
     public bool IsBetween(TimeOnly start, TimeOnly end)
     {
