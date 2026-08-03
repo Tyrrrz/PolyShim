@@ -8,6 +8,13 @@ namespace PolyShim.Tests.Net60;
 public class DateOnlyTests
 {
     [Fact]
+    public void Constants_Test()
+    {
+        DateOnly.MinValue.Should().Be(new DateOnly(1, 1, 1));
+        DateOnly.MaxValue.Should().Be(new DateOnly(9999, 12, 31));
+    }
+
+    [Fact]
     public void Constructor_Test()
     {
         // Act
@@ -17,98 +24,32 @@ public class DateOnlyTests
         date.Year.Should().Be(2023);
         date.Month.Should().Be(5);
         date.Day.Should().Be(17);
-    }
-
-    [Fact]
-    public void DayOfWeek_Test()
-    {
-        // Act
-        var date = new DateOnly(2023, 5, 17);
-
-        // Assert
         date.DayOfWeek.Should().Be(DayOfWeek.Wednesday);
+        new DateOnly(2023, 2, 1).DayOfYear.Should().Be(32);
+        new DateOnly(1, 1, 1).DayNumber.Should().Be(0);
     }
 
     [Fact]
-    public void DayOfYear_Test()
-    {
-        // Act
-        var date = new DateOnly(2023, 2, 1);
-
-        // Assert
-        date.DayOfYear.Should().Be(32);
-    }
-
-    [Fact]
-    public void DayNumber_Test()
-    {
-        // Act
-        var date = new DateOnly(1, 1, 1);
-
-        // Assert
-        date.DayNumber.Should().Be(0);
-    }
-
-    [Fact]
-    public void AddDays_Test()
+    public void Add_Test()
     {
         // Arrange
         var date = new DateOnly(2023, 5, 17);
 
-        // Act
-        var result = date.AddDays(10);
-
-        // Assert
-        result.Should().Be(new DateOnly(2023, 5, 27));
+        // Act & assert
+        date.AddDays(10).Should().Be(new DateOnly(2023, 5, 27));
+        date.AddMonths(2).Should().Be(new DateOnly(2023, 7, 17));
+        date.AddYears(1).Should().Be(new DateOnly(2024, 5, 17));
     }
 
     [Fact]
-    public void AddMonths_Test()
+    public void From_Test()
     {
-        // Arrange
-        var date = new DateOnly(2023, 5, 17);
-
-        // Act
-        var result = date.AddMonths(2);
-
-        // Assert
-        result.Should().Be(new DateOnly(2023, 7, 17));
-    }
-
-    [Fact]
-    public void AddYears_Test()
-    {
-        // Arrange
-        var date = new DateOnly(2023, 5, 17);
-
-        // Act
-        var result = date.AddYears(1);
-
-        // Assert
-        result.Should().Be(new DateOnly(2024, 5, 17));
-    }
-
-    [Fact]
-    public void FromDateTime_Test()
-    {
-        // Arrange
-        var dateTime = new DateTime(2023, 5, 17, 13, 45, 0);
-
-        // Act
-        var date = DateOnly.FromDateTime(dateTime);
-
-        // Assert
-        date.Should().Be(new DateOnly(2023, 5, 17));
-    }
-
-    [Fact]
-    public void FromDayNumber_Test()
-    {
-        // Act
-        var date = DateOnly.FromDayNumber(0);
-
-        // Assert
-        date.Should().Be(new DateOnly(1, 1, 1));
+        // Act & assert
+        DateOnly
+            .FromDateTime(new DateTime(2023, 5, 17, 13, 45, 0))
+            .Should()
+            .Be(new DateOnly(2023, 5, 17));
+        DateOnly.FromDayNumber(0).Should().Be(new DateOnly(1, 1, 1));
     }
 
     [Fact]
@@ -152,6 +93,12 @@ public class DateOnlyTests
         a.Equals((object)b).Should().BeTrue();
         a.Equals((object)c).Should().BeFalse();
         a.Equals(null).Should().BeFalse();
+        (a == b).Should().BeTrue();
+        (a != c).Should().BeTrue();
+        (a < c).Should().BeTrue();
+        (a <= c).Should().BeTrue();
+        (c > a).Should().BeTrue();
+        (c >= a).Should().BeTrue();
     }
 
     [Fact]
@@ -165,24 +112,6 @@ public class DateOnlyTests
         // Act & assert
         a.GetHashCode().Should().Be(b.GetHashCode());
         a.GetHashCode().Should().NotBe(c.GetHashCode());
-    }
-
-    [Fact]
-    public void Operators_Test()
-    {
-        // Arrange
-        var a = new DateOnly(2023, 5, 17);
-        var b = new DateOnly(2023, 5, 18);
-
-        // Act & assert
-        (a == new DateOnly(2023, 5, 17))
-            .Should()
-            .BeTrue();
-        (a != b).Should().BeTrue();
-        (a < b).Should().BeTrue();
-        (a <= b).Should().BeTrue();
-        (b > a).Should().BeTrue();
-        (b >= a).Should().BeTrue();
     }
 
     [Fact]
@@ -260,19 +189,5 @@ public class DateOnlyTests
         // Assert
         success.Should().BeTrue();
         date.Should().Be(new DateOnly(2023, 5, 17));
-    }
-
-    [Fact]
-    public void MinValue_Test()
-    {
-        // Assert
-        DateOnly.MinValue.Should().Be(new DateOnly(1, 1, 1));
-    }
-
-    [Fact]
-    public void MaxValue_Test()
-    {
-        // Assert
-        DateOnly.MaxValue.Should().Be(new DateOnly(9999, 12, 31));
     }
 }
