@@ -85,10 +85,10 @@ internal readonly struct TimeOnly
     public TimeOnly Add(TimeSpan value, out int wrappedDays) =>
         AddTicks(value.Ticks, out wrappedDays);
 
-    public TimeOnly AddHours(double value) => AddTicks((long)(value * TimeSpan.TicksPerHour));
+    public TimeOnly AddHours(double value) => Add(TimeSpan.FromHours(value));
 
     public TimeOnly AddHours(double value, out int wrappedDays) =>
-        AddTicks((long)(value * TimeSpan.TicksPerHour), out wrappedDays);
+        Add(TimeSpan.FromHours(value), out wrappedDays);
 
     public TimeOnly AddMinutes(double value) => AddTicks((long)(value * TimeSpan.TicksPerMinute));
 
