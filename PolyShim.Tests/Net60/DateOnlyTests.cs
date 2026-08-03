@@ -14,9 +14,7 @@ public class DateOnlyTests
         var date = new DateOnly(2023, 5, 17);
 
         // Assert
-        date.Year.Should().Be(2023);
-        date.Month.Should().Be(5);
-        date.Day.Should().Be(17);
+        date.Should().Be(new DateOnly(2023, 5, 17));
     }
 
     [Fact]
