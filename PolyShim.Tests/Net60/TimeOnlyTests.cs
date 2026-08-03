@@ -269,6 +269,16 @@ public class TimeOnlyTests
     }
 
     [Fact]
+    public void TryParse_WithDateComponent_Failure_Test()
+    {
+        // Arrange & Act
+        var success = TimeOnly.TryParse("2023-05-17 13:45:30", out _);
+
+        // Assert
+        success.Should().BeFalse();
+    }
+
+    [Fact]
     public void TryParseExact_Test()
     {
         // Act

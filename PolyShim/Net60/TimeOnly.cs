@@ -173,7 +173,12 @@ internal readonly struct TimeOnly
         string s,
         IFormatProvider? provider,
         DateTimeStyles style = DateTimeStyles.None
-    ) => FromDateTime(DateTime.Parse(s, provider, style | DateTimeStyles.NoCurrentDateDefault));
+    )
+    {
+        if (!TryParse(s, provider, style, out var result))
+            throw new FormatException($"String '{s}' was not recognized as a valid TimeOnly.");
+        return result;
+    }
 
     public static TimeOnly Parse(
         ReadOnlySpan<char> s,
@@ -189,10 +194,12 @@ internal readonly struct TimeOnly
         string format,
         IFormatProvider? provider,
         DateTimeStyles style = DateTimeStyles.None
-    ) =>
-        FromDateTime(
-            DateTime.ParseExact(s, format, provider, style | DateTimeStyles.NoCurrentDateDefault)
-        );
+    )
+    {
+        if (!TryParseExact(s, format, provider, style, out var result))
+            throw new FormatException($"String '{s}' was not recognized as a valid TimeOnly.");
+        return result;
+    }
 
     public static TimeOnly ParseExact(string s, string[] formats) =>
         ParseExact(s, formats, null, DateTimeStyles.None);
@@ -202,10 +209,12 @@ internal readonly struct TimeOnly
         string[] formats,
         IFormatProvider? provider,
         DateTimeStyles style = DateTimeStyles.None
-    ) =>
-        FromDateTime(
-            DateTime.ParseExact(s, formats, provider, style | DateTimeStyles.NoCurrentDateDefault)
-        );
+    )
+    {
+        if (!TryParseExact(s, formats, provider, style, out var result))
+            throw new FormatException($"String '{s}' was not recognized as a valid TimeOnly.");
+        return result;
+    }
 
     public static TimeOnly ParseExact(
         ReadOnlySpan<char> s,
@@ -239,6 +248,7 @@ internal readonly struct TimeOnly
                 style | DateTimeStyles.NoCurrentDateDefault,
                 out var dateTime
             )
+            && dateTime.Date == DateTime.MinValue.Date
         )
         {
             result = FromDateTime(dateTime);
@@ -283,6 +293,7 @@ internal readonly struct TimeOnly
                 style | DateTimeStyles.NoCurrentDateDefault,
                 out var dateTime
             )
+            && dateTime.Date == DateTime.MinValue.Date
         )
         {
             result = FromDateTime(dateTime);
@@ -317,6 +328,7 @@ internal readonly struct TimeOnly
                 style | DateTimeStyles.NoCurrentDateDefault,
                 out var dateTime
             )
+            && dateTime.Date == DateTime.MinValue.Date
         )
         {
             result = FromDateTime(dateTime);

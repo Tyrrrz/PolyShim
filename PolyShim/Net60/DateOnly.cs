@@ -17,6 +17,8 @@ internal readonly struct DateOnly
         IEquatable<DateOnly>,
         IFormattable
 {
+    private readonly DateTime _dateTime;
+
     private DateOnly(DateTime dateTime) =>
         _dateTime = DateTime.SpecifyKind(dateTime.Date, DateTimeKind.Unspecified);
 
@@ -119,13 +121,18 @@ internal readonly struct DateOnly
         string s,
         IFormatProvider? provider,
         DateTimeStyles style = DateTimeStyles.None
-    ) => FromDateTime(DateTime.Parse(s, provider, style));
+    )
+    {
+        if (!TryParse(s, provider, style, out var result))
+            throw new FormatException($"String '{s}' was not recognized as a valid DateOnly.");
+        return result;
+    }
 
     public static DateOnly Parse(
         ReadOnlySpan<char> s,
         IFormatProvider? provider = null,
         DateTimeStyles style = DateTimeStyles.None
-    ) => FromDateTime(DateTime.Parse(new string(s.ToArray()), provider, style));
+    ) => Parse(new string(s.ToArray()), provider, style);
 
     public static DateOnly ParseExact(string s, string format) =>
         ParseExact(s, format, null, DateTimeStyles.None);
@@ -135,7 +142,12 @@ internal readonly struct DateOnly
         string format,
         IFormatProvider? provider,
         DateTimeStyles style = DateTimeStyles.None
-    ) => FromDateTime(DateTime.ParseExact(s, format, provider, style));
+    )
+    {
+        if (!TryParseExact(s, format, provider, style, out var result))
+            throw new FormatException($"String '{s}' was not recognized as a valid DateOnly.");
+        return result;
+    }
 
     public static DateOnly ParseExact(string s, string[] formats) =>
         ParseExact(s, formats, null, DateTimeStyles.None);
@@ -145,29 +157,26 @@ internal readonly struct DateOnly
         string[] formats,
         IFormatProvider? provider,
         DateTimeStyles style = DateTimeStyles.None
-    ) => FromDateTime(DateTime.ParseExact(s, formats, provider, style));
+    )
+    {
+        if (!TryParseExact(s, formats, provider, style, out var result))
+            throw new FormatException($"String '{s}' was not recognized as a valid DateOnly.");
+        return result;
+    }
 
     public static DateOnly ParseExact(
         ReadOnlySpan<char> s,
         ReadOnlySpan<char> format,
         IFormatProvider? provider = null,
         DateTimeStyles style = DateTimeStyles.None
-    ) =>
-        FromDateTime(
-            DateTime.ParseExact(
-                new string(s.ToArray()),
-                new string(format.ToArray()),
-                provider,
-                style
-            )
-        );
+    ) => ParseExact(new string(s.ToArray()), new string(format.ToArray()), provider, style);
 
     public static DateOnly ParseExact(
         ReadOnlySpan<char> s,
         string[] formats,
         IFormatProvider? provider = null,
         DateTimeStyles style = DateTimeStyles.None
-    ) => FromDateTime(DateTime.ParseExact(new string(s.ToArray()), formats, provider, style));
+    ) => ParseExact(new string(s.ToArray()), formats, provider, style);
 
     public static bool TryParse([NotNullWhen(true)] string? s, out DateOnly result) =>
         TryParse(s, null, DateTimeStyles.None, out result);
@@ -179,7 +188,11 @@ internal readonly struct DateOnly
         out DateOnly result
     )
     {
-        if (s is not null && DateTime.TryParse(s, provider, style, out var dateTime))
+        if (
+            s is not null
+            && DateTime.TryParse(s, provider, style, out var dateTime)
+            && dateTime.TimeOfDay == TimeSpan.Zero
+        )
         {
             result = FromDateTime(dateTime);
             return true;
@@ -217,6 +230,7 @@ internal readonly struct DateOnly
             s is not null
             && format is not null
             && DateTime.TryParseExact(s, format, provider, style, out var dateTime)
+            && dateTime.TimeOfDay == TimeSpan.Zero
         )
         {
             result = FromDateTime(dateTime);
@@ -245,6 +259,7 @@ internal readonly struct DateOnly
             s is not null
             && formats is not null
             && DateTime.TryParseExact(s, formats, provider, style, out var dateTime)
+            && dateTime.TimeOfDay == TimeSpan.Zero
         )
         {
             result = FromDateTime(dateTime);
