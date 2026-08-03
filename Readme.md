@@ -58,6 +58,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `ValueTuple<...>`
   - `Index` and `Range`
   - `Span<T>` and `Memory<T>`
+  - `DateOnly` and `TimeOnly`
   - `Lock`
   - `HashCode`
   - `ArrayPool<T>`
