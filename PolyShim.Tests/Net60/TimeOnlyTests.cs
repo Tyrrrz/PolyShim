@@ -139,20 +139,6 @@ public class TimeOnlyTests
     }
 
     [Fact]
-    public void Deconstruct_Test()
-    {
-        // Arrange
-        var time = new TimeOnly(13, 45, 30);
-
-        // Act
-        var (hour, minute) = time;
-
-        // Assert
-        hour.Should().Be(13);
-        minute.Should().Be(45);
-    }
-
-    [Fact]
     public void CompareTo_Test()
     {
         // Arrange

@@ -112,28 +112,7 @@ internal readonly struct TimeOnly
 
     public TimeSpan ToTimeSpan() => new(_ticks);
 
-    public DateTime ToDateTime() => new(_ticks);
-
-    public void Deconstruct(out int hour, out int minute)
-    {
-        hour = Hour;
-        minute = Minute;
-    }
-
-    public void Deconstruct(out int hour, out int minute, out int second)
-    {
-        hour = Hour;
-        minute = Minute;
-        second = Second;
-    }
-
-    public void Deconstruct(out int hour, out int minute, out int second, out int millisecond)
-    {
-        hour = Hour;
-        minute = Minute;
-        second = Second;
-        millisecond = Millisecond;
-    }
+    private DateTime ToDateTime() => new(_ticks);
 
     public int CompareTo(TimeOnly value) => _ticks.CompareTo(value._ticks);
 

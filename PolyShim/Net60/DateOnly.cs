@@ -61,13 +61,6 @@ internal readonly struct DateOnly
     public DateTime ToDateTime(TimeOnly time, DateTimeKind kind) =>
         DateTime.SpecifyKind(ToDateTime(time), kind);
 
-    public void Deconstruct(out int year, out int month, out int day)
-    {
-        year = Year;
-        month = Month;
-        day = Day;
-    }
-
     public int CompareTo(DateOnly value) => _dateTime.CompareTo(value._dateTime);
 
     public int CompareTo(object? value)
