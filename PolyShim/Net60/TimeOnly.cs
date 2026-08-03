@@ -11,21 +11,20 @@ namespace System;
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal readonly struct TimeOnly
+internal readonly struct TimeOnly(DateTime dateTime)
     : IComparable,
         IComparable<TimeOnly>,
         IEquatable<TimeOnly>,
         IFormattable
 {
-    private readonly long _ticks;
+    private readonly DateTime _dateTime = dateTime;
 
     public TimeOnly(long ticks)
-    {
-        if (ticks < 0 || ticks > TimeSpan.TicksPerDay - 1)
-            throw new ArgumentOutOfRangeException(nameof(ticks));
-
-        _ticks = ticks;
-    }
+        : this(
+            ticks >= 0 && ticks <= TimeSpan.TicksPerDay - 1
+                ? new DateTime(ticks)
+                : throw new ArgumentOutOfRangeException(nameof(ticks))
+        ) { }
 
     public TimeOnly(int hour, int minute)
         : this(new TimeSpan(0, hour, minute, 0, 0).Ticks) { }
@@ -40,19 +39,19 @@ internal readonly struct TimeOnly
 
     public static TimeOnly MaxValue { get; } = new(TimeSpan.TicksPerDay - 1);
 
-    public int Hour => (int)(_ticks / TimeSpan.TicksPerHour);
+    public int Hour => _dateTime.Hour;
 
-    public int Minute => (int)(_ticks / TimeSpan.TicksPerMinute % 60);
+    public int Minute => _dateTime.Minute;
 
-    public int Second => (int)(_ticks / TimeSpan.TicksPerSecond % 60);
+    public int Second => _dateTime.Second;
 
-    public int Millisecond => (int)(_ticks / TimeSpan.TicksPerMillisecond % 1000);
+    public int Millisecond => _dateTime.Millisecond;
 
-    public long Ticks => _ticks;
+    public long Ticks => _dateTime.Ticks;
 
     private TimeOnly AddTicks(long ticks)
     {
-        var newTicks = (_ticks + ticks) % TimeSpan.TicksPerDay;
+        var newTicks = (_dateTime.Ticks + ticks) % TimeSpan.TicksPerDay;
         if (newTicks < 0)
             newTicks += TimeSpan.TicksPerDay;
 
@@ -63,7 +62,7 @@ internal readonly struct TimeOnly
     {
         var days = ticks / TimeSpan.TicksPerDay;
         var newTicks = ticks % TimeSpan.TicksPerDay;
-        newTicks += _ticks;
+        newTicks += _dateTime.Ticks;
 
         if (newTicks < 0)
         {
@@ -97,24 +96,23 @@ internal readonly struct TimeOnly
 
     public bool IsBetween(TimeOnly start, TimeOnly end)
     {
-        var time = _ticks;
-        var startTicks = start._ticks;
-        var endTicks = end._ticks;
+        var ticks = _dateTime.Ticks;
+        var startTicks = start._dateTime.Ticks;
+        var endTicks = end._dateTime.Ticks;
 
         return startTicks <= endTicks
-            ? time >= startTicks && time < endTicks
-            : time >= startTicks || time < endTicks;
+            ? ticks >= startTicks && ticks < endTicks
+            : ticks >= startTicks || ticks < endTicks;
     }
 
-    public static TimeOnly FromDateTime(DateTime dateTime) => new(dateTime.TimeOfDay.Ticks);
+    public static TimeOnly FromDateTime(DateTime dateTime) =>
+        new(new DateTime(dateTime.TimeOfDay.Ticks));
 
-    public static TimeOnly FromTimeSpan(TimeSpan timeSpan) => new(timeSpan.Ticks);
+    public static TimeOnly FromTimeSpan(TimeSpan timeSpan) => new(new DateTime(timeSpan.Ticks));
 
-    public TimeSpan ToTimeSpan() => new(_ticks);
+    public TimeSpan ToTimeSpan() => new(_dateTime.Ticks);
 
-    private DateTime ToDateTime() => new(_ticks);
-
-    public int CompareTo(TimeOnly value) => _ticks.CompareTo(value._ticks);
+    public int CompareTo(TimeOnly value) => _dateTime.Ticks.CompareTo(value._dateTime.Ticks);
 
     public int CompareTo(object? value)
     {
@@ -127,25 +125,25 @@ internal readonly struct TimeOnly
         return CompareTo(timeOnly);
     }
 
-    public bool Equals(TimeOnly other) => _ticks == other._ticks;
+    public bool Equals(TimeOnly other) => _dateTime.Ticks == other._dateTime.Ticks;
 
     public override bool Equals([NotNullWhen(true)] object? obj) =>
         obj is TimeOnly other && Equals(other);
 
-    public override int GetHashCode() => _ticks.GetHashCode();
+    public override int GetHashCode() => _dateTime.Ticks.GetHashCode();
 
-    public override string ToString() => ToDateTime().ToString("t", CultureInfo.CurrentCulture);
+    public override string ToString() => _dateTime.ToString("t", CultureInfo.CurrentCulture);
 
     public string ToString(string? format) => ToString(format, CultureInfo.CurrentCulture);
 
-    public string ToString(IFormatProvider? provider) => ToDateTime().ToString("t", provider);
+    public string ToString(IFormatProvider? provider) => _dateTime.ToString("t", provider);
 
     public string ToString(string? format, IFormatProvider? provider)
     {
         if (string.IsNullOrEmpty(format))
             format = "t";
 
-        return ToDateTime().ToString(format, provider);
+        return _dateTime.ToString(format, provider);
     }
 
     public bool TryFormat(
@@ -366,17 +364,21 @@ internal readonly struct TimeOnly
 
     public static bool operator !=(TimeOnly left, TimeOnly right) => !left.Equals(right);
 
-    public static bool operator <(TimeOnly left, TimeOnly right) => left._ticks < right._ticks;
+    public static bool operator <(TimeOnly left, TimeOnly right) =>
+        left._dateTime.Ticks < right._dateTime.Ticks;
 
-    public static bool operator <=(TimeOnly left, TimeOnly right) => left._ticks <= right._ticks;
+    public static bool operator <=(TimeOnly left, TimeOnly right) =>
+        left._dateTime.Ticks <= right._dateTime.Ticks;
 
-    public static bool operator >(TimeOnly left, TimeOnly right) => left._ticks > right._ticks;
+    public static bool operator >(TimeOnly left, TimeOnly right) =>
+        left._dateTime.Ticks > right._dateTime.Ticks;
 
-    public static bool operator >=(TimeOnly left, TimeOnly right) => left._ticks >= right._ticks;
+    public static bool operator >=(TimeOnly left, TimeOnly right) =>
+        left._dateTime.Ticks >= right._dateTime.Ticks;
 
     public static TimeSpan operator -(TimeOnly t1, TimeOnly t2)
     {
-        var diff = t1._ticks - t2._ticks;
+        var diff = t1._dateTime.Ticks - t2._dateTime.Ticks;
         if (diff < 0)
             diff += TimeSpan.TicksPerDay;
 
