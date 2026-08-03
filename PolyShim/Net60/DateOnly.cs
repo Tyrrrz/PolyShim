@@ -19,6 +19,7 @@ internal readonly struct DateOnly
 {
     private DateOnly(DateTime dateTime) =>
         _dateTime = DateTime.SpecifyKind(dateTime.Date, DateTimeKind.Unspecified);
+
     public DateOnly(int year, int month, int day)
         : this(new DateTime(year, month, day)) { }
 
