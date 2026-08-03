@@ -11,13 +11,15 @@ namespace System;
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal readonly struct TimeOnly(DateTime dateTime)
+internal readonly struct TimeOnly
     : IComparable,
         IComparable<TimeOnly>,
         IEquatable<TimeOnly>,
         IFormattable
 {
-    private readonly DateTime _dateTime = dateTime;
+    private readonly DateTime _dateTime;
+
+    private TimeOnly(DateTime dateTime) => _dateTime = dateTime;
 
     public TimeOnly(long ticks)
         : this(
