@@ -17,10 +17,8 @@ internal readonly struct DateOnly
         IEquatable<DateOnly>,
         IFormattable
 {
-    private readonly DateTime _dateTime;
-
-    private DateOnly(DateTime dateTime) => _dateTime = dateTime.Date;
-
+    private DateOnly(DateTime dateTime) =>
+        _dateTime = DateTime.SpecifyKind(dateTime.Date, DateTimeKind.Unspecified);
     public DateOnly(int year, int month, int day)
         : this(new DateTime(year, month, day)) { }
 
