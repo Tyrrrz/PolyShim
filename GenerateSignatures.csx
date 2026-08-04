@@ -180,48 +180,6 @@ public partial class GenerateSignaturesCommand : ICommand
                 }
 
                 signatures.Add(new Signature(typeName, "", typeKind, framework, url, false));
-
-                // For static classes, also extract public static methods and properties
-                if (
-                    memberDecl is ClassDeclarationSyntax classDecl
-                    && classDecl.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword))
-                )
-                {
-                    foreach (var classMember in classDecl.Members)
-                    {
-                        string? sig = null;
-                        string? memberUrl = null;
-                        bool isStatic = false;
-
-                        if (
-                            classMember is MethodDeclarationSyntax method
-                            && method.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword))
-                        )
-                        {
-                            sig = FormatMethodSignature(method);
-                            memberUrl = ExtractDocUrl(classMember);
-                            isStatic = method.Modifiers.Any(m =>
-                                m.IsKind(SyntaxKind.StaticKeyword)
-                            );
-                        }
-                        else if (
-                            classMember is PropertyDeclarationSyntax prop
-                            && prop.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword))
-                        )
-                        {
-                            sig = FormatPropertySignature(prop);
-                            memberUrl = ExtractDocUrl(classMember);
-                            isStatic = prop.Modifiers.Any(m => m.IsKind(SyntaxKind.StaticKeyword));
-                        }
-
-                        if (sig is null)
-                            continue;
-
-                        signatures.Add(
-                            new Signature(typeName!, sig, "Extension", framework, memberUrl, isStatic)
-                        );
-                    }
-                }
             }
         }
 
