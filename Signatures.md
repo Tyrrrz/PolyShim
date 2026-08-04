@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 656
-- **Types:** 115
-- **Members:** 541
+- **Total:** 662
+- **Types:** 117
+- **Members:** 545
 
 ___
 
@@ -204,6 +204,9 @@ ___
   - [`static string ToHexStringLower(byte[])`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte())) <sup><sub>.NET 9.0</sub></sup>
   - [`static string ToHexStringLower(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte()-system-int32-system-int32)) <sup><sub>.NET 9.0</sub></sup>
   - [`static string ToHexStringLower(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-readonlyspan((system-byte)))) <sup><sub>.NET 9.0</sub></sup>
+- `DateOnly`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.dateonly) <sup><sub>.NET 6.0</sub></sup>
+  - [`void Deconstruct(out int, out int, out int)`](https://learn.microsoft.com/dotnet/api/system.dateonly.deconstruct) <sup><sub>.NET 8.0</sub></sup>
 - `DateTime`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out DateTime)`](https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetime@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out DateTime)`](https://learn.microsoft.com/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@)) <sup><sub>.NET 7.0</sub></sup>
@@ -760,6 +763,11 @@ ___
   - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `ThreadAbortException`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.threadabortexception) <sup><sub>.NET Core 2.0</sub></sup>
+- `TimeOnly`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.timeonly) <sup><sub>.NET 6.0</sub></sup>
+  - [`void Deconstruct(out int, out int)`](https://learn.microsoft.com/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@)) <sup><sub>.NET 8.0</sub></sup>
+  - [`void Deconstruct(out int, out int, out int)`](https://learn.microsoft.com/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@)) <sup><sub>.NET 8.0</sub></sup>
+  - [`void Deconstruct(out int, out int, out int, out int)`](https://learn.microsoft.com/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@-system-int32@)) <sup><sub>.NET 8.0</sub></sup>
 - `TimeProvider`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.timeprovider) <sup><sub>.NET 8.0</sub></sup>
 - `Timer`
