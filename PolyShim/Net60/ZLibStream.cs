@@ -22,8 +22,11 @@ internal sealed class ZLibStream : Stream
     private readonly DeflateStream _deflateStream;
     private readonly CompressionMode _mode;
     private readonly byte _headerFlg;
+    private readonly TrailerHoldbackStream? _trailerStream;
 
     private bool _headerProcessed;
+    private bool _emptySource;
+    private bool _trailerValidated;
     private bool _disposed;
 
     // Adler-32 checksum of the uncompressed data, maintained as data flows through the stream.
@@ -42,7 +45,16 @@ internal sealed class ZLibStream : Stream
         _leaveOpen = leaveOpen;
         _mode = mode;
         _headerFlg = GetHeaderFlg(CompressionLevel.Optimal);
-        _deflateStream = new DeflateStream(stream, mode, leaveOpen: true);
+
+        if (mode == CompressionMode.Decompress)
+        {
+            _trailerStream = new TrailerHoldbackStream(stream);
+            _deflateStream = new DeflateStream(_trailerStream, mode, leaveOpen: true);
+        }
+        else
+        {
+            _deflateStream = new DeflateStream(stream, mode, leaveOpen: true);
+        }
     }
 
     public ZLibStream(Stream stream, CompressionLevel compressionLevel)
@@ -87,25 +99,38 @@ internal sealed class ZLibStream : Stream
     public override int Read(byte[] buffer, int offset, int count)
     {
         ThrowIfDisposed();
+        ValidateArguments(buffer, offset, count);
 
-        if (_mode == CompressionMode.Decompress)
-            EnsureHeaderRead();
+        if (_mode != CompressionMode.Decompress)
+            return _deflateStream.Read(buffer, offset, count);
+
+        if (count == 0)
+            return 0;
+
+        EnsureHeaderRead();
+        if (_emptySource)
+            return 0;
 
         var bytesRead = _deflateStream.Read(buffer, offset, count);
 
-        // The trailing Adler-32 checksum is not validated against the decompressed
-        // data. This is a best-effort, API-compatible implementation, since the
-        // public DeflateStream API does not expose a way to reliably determine
-        // where the compressed payload ends within the underlying stream.
+        if (bytesRead > 0)
+            UpdateAdler32(buffer, offset, bytesRead);
+        else
+            ValidateTrailer();
+
         return bytesRead;
     }
 
     public override void Write(byte[] buffer, int offset, int count)
     {
         ThrowIfDisposed();
+        ValidateArguments(buffer, offset, count);
 
         if (_mode == CompressionMode.Compress)
         {
+            if (count == 0)
+                return;
+
             EnsureHeaderWritten();
             UpdateAdler32(buffer, offset, count);
         }
@@ -119,13 +144,18 @@ internal sealed class ZLibStream : Stream
         {
             if (!_disposed && disposing)
             {
-                _deflateStream.Dispose();
+                try
+                {
+                    _deflateStream.Dispose();
 
-                if (_mode == CompressionMode.Compress && _headerProcessed)
-                    WriteTrailer();
-
-                if (!_leaveOpen)
-                    _baseStream.Dispose();
+                    if (_mode == CompressionMode.Compress && _headerProcessed)
+                        WriteTrailer();
+                }
+                finally
+                {
+                    if (!_leaveOpen)
+                        _baseStream.Dispose();
+                }
             }
         }
         finally
@@ -133,6 +163,18 @@ internal sealed class ZLibStream : Stream
             _disposed = true;
             base.Dispose(disposing);
         }
+    }
+
+    private static void ValidateArguments(byte[] buffer, int offset, int count)
+    {
+        if (buffer is null)
+            throw new ArgumentNullException(nameof(buffer));
+        if (offset < 0)
+            throw new ArgumentOutOfRangeException(nameof(offset));
+        if (count < 0)
+            throw new ArgumentOutOfRangeException(nameof(count));
+        if (buffer.Length - offset < count)
+            throw new ArgumentException("Offset and length were out of bounds for the array.");
     }
 
     private void ThrowIfDisposed()
@@ -157,14 +199,50 @@ internal sealed class ZLibStream : Stream
         if (_headerProcessed)
             return;
 
-        _headerProcessed = true;
-
         var cmf = _baseStream.ReadByte();
+        if (cmf < 0)
+        {
+            _headerProcessed = true;
+            _emptySource = true;
+            return;
+        }
+
         var flg = _baseStream.ReadByte();
 
-        if (cmf < 0 || flg < 0 || (cmf & 0x0F) != 8 || ((cmf << 8) | flg) % 31 != 0)
+        // Method must be deflate, window size must be valid, and preset dictionaries are unsupported
+        if (
+            flg < 0
+            || (cmf & 0x0F) != 8
+            || (cmf >> 4) > 7
+            || (flg & 0x20) != 0
+            || ((cmf << 8) | flg) % 31 != 0
+        )
         {
             throw new InvalidDataException("The input stream is not a valid ZLib stream.");
+        }
+
+        _headerProcessed = true;
+    }
+
+    private void ValidateTrailer()
+    {
+        if (_trailerValidated)
+            return;
+
+        _trailerValidated = true;
+
+        var trailer = _trailerStream!.ReadTrailer();
+        var checksum = (_adlerB << 16) | _adlerA;
+
+        if (
+            trailer is null
+            || trailer[0] != (byte)(checksum >> 24)
+            || trailer[1] != (byte)(checksum >> 16)
+            || trailer[2] != (byte)(checksum >> 8)
+            || trailer[3] != (byte)checksum
+        )
+        {
+            throw new InvalidDataException("The ZLib stream checksum is missing or invalid.");
         }
     }
 
@@ -212,6 +290,83 @@ internal sealed class ZLibStream : Stream
             check = 0;
 
         return (byte)((flevel << 6) | check);
+    }
+
+    // Exposes the underlying stream minus its last 4 bytes, which are retained as the zlib trailer
+    private sealed class TrailerHoldbackStream : Stream
+    {
+        private const int TrailerLength = 4;
+
+        private readonly Stream _source;
+
+        private readonly byte[] _held = new byte[TrailerLength];
+        private int _heldCount;
+        private bool _eof;
+
+        public TrailerHoldbackStream(Stream source) => _source = source;
+
+        public override bool CanRead => true;
+        public override bool CanSeek => false;
+        public override bool CanWrite => false;
+        public override long Length => throw new NotSupportedException();
+
+        public override long Position
+        {
+            get => throw new NotSupportedException();
+            set => throw new NotSupportedException();
+        }
+
+        public override void Flush() { }
+
+        public override long Seek(long offset, SeekOrigin origin) =>
+            throw new NotSupportedException();
+
+        public override void SetLength(long value) => throw new NotSupportedException();
+
+        public override void Write(byte[] buffer, int offset, int count) =>
+            throw new NotSupportedException();
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            if (count == 0 || _eof)
+                return 0;
+
+            var temp = new byte[count + TrailerLength];
+
+            while (true)
+            {
+                Array.Copy(_held, temp, _heldCount);
+
+                var read = _source.Read(temp, _heldCount, count);
+                if (read <= 0)
+                {
+                    _eof = true;
+                    return 0;
+                }
+
+                var total = _heldCount + read;
+                if (total > TrailerLength)
+                {
+                    var returned = total - TrailerLength;
+                    Array.Copy(temp, 0, buffer, offset, returned);
+                    Array.Copy(temp, returned, _held, 0, TrailerLength);
+                    _heldCount = TrailerLength;
+                    return returned;
+                }
+
+                Array.Copy(temp, _held, total);
+                _heldCount = total;
+            }
+        }
+
+        public byte[]? ReadTrailer()
+        {
+            var scratch = new byte[256];
+            while (!_eof)
+                Read(scratch, 0, scratch.Length);
+
+            return _heldCount == TrailerLength ? _held : null;
+        }
     }
 }
 #endif
