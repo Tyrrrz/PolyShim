@@ -1,6 +1,4 @@
 #if (NETCOREAPP && !NET5_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
-// HashAlgorithm is not available on .NET Standard < 1.3
-#if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
 #nullable enable
 #pragma warning disable CS0436
 
@@ -23,9 +21,10 @@ internal static class MemberPolyfills_Net50_HashAlgorithm
         public async Task<byte[]> ComputeHashAsync(
             Stream inputStream,
             CancellationToken cancellationToken = default
-        ) => await Task.Run(() => hashAlgorithm.ComputeHash(inputStream), cancellationToken).ConfigureAwait(false);
+        ) =>
+            await Task.Run(() => hashAlgorithm.ComputeHash(inputStream), cancellationToken)
+                .ConfigureAwait(false);
 #endif
     }
 }
-#endif
 #endif
