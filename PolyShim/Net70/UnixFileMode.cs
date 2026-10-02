@@ -2,8 +2,6 @@
 #nullable enable
 #pragma warning disable CS0436
 
-using System;
-
 namespace System.IO;
 
 // https://learn.microsoft.com/dotnet/api/system.io.unixfilemode

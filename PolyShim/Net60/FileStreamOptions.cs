@@ -5,7 +5,6 @@
 // No file I/O on .NET Standard prior to 1.3
 #if !NETSTANDARD || NETSTANDARD1_3_OR_GREATER
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace System.IO;

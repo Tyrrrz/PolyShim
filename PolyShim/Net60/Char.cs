@@ -2,7 +2,6 @@
 #nullable enable
 #pragma warning disable CS0436
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 #if !POLYSHIM_INCLUDE_COVERAGE

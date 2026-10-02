@@ -2,8 +2,6 @@
 #nullable enable
 #pragma warning disable CS0436
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace System.Runtime.InteropServices;
 
 // https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.stringmarshalling

@@ -4,8 +4,6 @@
 #nullable enable
 #pragma warning disable CS0436
 
-using System;
-
 namespace System.Threading.Tasks.Sources;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource

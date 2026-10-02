@@ -4,9 +4,7 @@
 #nullable enable
 #pragma warning disable CS0436
 
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
 namespace System.IO.Compression;
 
