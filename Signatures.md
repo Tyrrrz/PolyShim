@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 590
-- **Types:** 117
-- **Members:** 473
+- **Total:** 592
+- **Types:** 118
+- **Members:** 474
 
 ___
 
@@ -228,7 +228,9 @@ ___
   - [`static bool TryParse(string?, out Guid)`](https://learn.microsoft.com/dotnet/api/system.guid.tryparse) <sup><sub>.NET Core 1.0</sub></sup>
   - [`static Guid Parse(string)`](https://learn.microsoft.com/dotnet/api/system.guid.parse) <sup><sub>.NET Core 1.0</sub></sup>
 - `HashAlgorithm`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.security.cryptography.hashalgorithm) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<byte[]> ComputeHashAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.hashalgorithm.computehashasync) <sup><sub>.NET 5.0</sub></sup>
+  - [`void Clear()`](https://learn.microsoft.com/dotnet/api/system.security.cryptography.hashalgorithm.clear) <sup><sub>.NET Core 2.0</sub></sup>
 - `HashCode`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.hashcode) <sup><sub>.NET Core 2.1</sub></sup>
 - `HashSet<T>`
