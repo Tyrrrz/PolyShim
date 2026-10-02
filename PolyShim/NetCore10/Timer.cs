@@ -14,7 +14,7 @@ namespace System.Threading;
 internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
 {
     private CancellationTokenSource? _cts;
-    private volatile bool _disposed;
+    private volatile bool _isDisposed;
 
     public Timer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
         : this(callback ?? throw new ArgumentNullException(nameof(callback)), state)
@@ -93,8 +93,7 @@ internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
 
     private void Schedule(TimeSpan dueTime, TimeSpan period)
     {
-        if (_disposed)
-            throw new ObjectDisposedException(nameof(Timer));
+        ObjectDisposedException.ThrowIf(_isDisposed, nameof(Timer));
 
         if (dueTime != Timeout.InfiniteTimeSpan && dueTime < TimeSpan.Zero)
             throw new ArgumentOutOfRangeException(nameof(dueTime));
@@ -115,10 +114,10 @@ internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
 
         Start(callback, state, dueTime, period, token);
 
-        // Handle race where Dispose completes after the initial _disposed check
+        // Handle race where Dispose completes after the initial _isDisposed check
         // but before/just after the exchange: ensure the newly created CTS
         // is also cancelled and disposed so it doesn't leak or keep firing.
-        if (_disposed)
+        if (_isDisposed)
         {
             try
             {
@@ -144,10 +143,10 @@ internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
 
     public void Dispose()
     {
-        if (_disposed)
+        if (_isDisposed)
             return;
 
-        _disposed = true;
+        _isDisposed = true;
         _cts?.Cancel();
         _cts?.Dispose();
     }
