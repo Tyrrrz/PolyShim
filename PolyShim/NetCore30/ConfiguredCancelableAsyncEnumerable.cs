@@ -1,5 +1,4 @@
 #if !FEATURE_ASYNCINTERFACES
-// Task infrastructure is required for async method return types
 #if FEATURE_TASK
 #nullable enable
 #pragma warning disable CS0436
@@ -29,9 +28,6 @@ internal readonly struct ConfiguredCancelableAsyncEnumerable<T>(
     public Enumerator GetAsyncEnumerator() =>
         new(enumerable.GetAsyncEnumerator(cancellationToken), continueOnCapturedContext);
 
-#if !POLYSHIM_INCLUDE_COVERAGE
-    [ExcludeFromCodeCoverage]
-#endif
     public readonly struct Enumerator(
         IAsyncEnumerator<T> enumerator,
         bool continueOnCapturedContext

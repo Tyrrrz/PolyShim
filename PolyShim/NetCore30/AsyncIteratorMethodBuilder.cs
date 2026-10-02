@@ -1,5 +1,4 @@
 #if !FEATURE_ASYNCINTERFACES
-// Task infrastructure is required for async method return types
 #if FEATURE_TASK
 #nullable enable
 #pragma warning disable CS0436
@@ -54,10 +53,5 @@ internal struct AsyncIteratorMethodBuilder
 
     public void Complete() { }
 }
-
-// https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asynciteratorstatemachineattribute
-[AttributeUsage(AttributeTargets.Method, Inherited = false)]
-internal sealed class AsyncIteratorStateMachineAttribute(Type stateMachineType)
-    : StateMachineAttribute(stateMachineType);
 #endif
 #endif
