@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 593
+- **Total:** 594
 - **Types:** 119
-- **Members:** 474
+- **Members:** 475
 
 ___
 
@@ -155,6 +155,7 @@ ___
   - [`void Deconstruct(out object, out object?)`](https://learn.microsoft.com/dotnet/api/system.collections.dictionaryentry.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `Directory`
   - [`static DirectoryInfo CreateDirectory(string, UnixFileMode)`](https://learn.microsoft.com/dotnet/api/system.io.directory.createdirectory#system-io-directory-createdirectory(system-string-system-io-unixfilemode)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static DirectoryInfo CreateTempSubdirectory(string?)`](https://learn.microsoft.com/dotnet/api/system.io.directory.createtempsubdirectory#system-io-directory-createtempsubdirectory(system-string)) <sup><sub>.NET 7.0</sub></sup>
 - `DisallowNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.disallownullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `DoesNotReturnAttribute`

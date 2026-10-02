@@ -36,4 +36,60 @@ public class DirectoryTests
                 Directory.Delete(tempDirPath);
         }
     }
+
+    [Fact]
+    public void CreateTempSubdirectory_Test()
+    {
+        // Act
+        var info = Directory.CreateTempSubdirectory();
+
+        try
+        {
+            // Assert
+            info.Should().NotBeNull();
+            info.Exists.Should().BeTrue();
+            info.FullName.Should()
+                .StartWith(Path.GetTempPath().TrimEnd(Path.DirectorySeparatorChar));
+        }
+        finally
+        {
+            if (Directory.Exists(info.FullName))
+                Directory.Delete(info.FullName);
+        }
+    }
+
+    [Fact]
+    public void CreateTempSubdirectory_Prefix_Test()
+    {
+        // Arrange
+        const string prefix = "polyshim-";
+
+        // Act
+        var info = Directory.CreateTempSubdirectory(prefix);
+
+        try
+        {
+            // Assert
+            info.Should().NotBeNull();
+            info.Exists.Should().BeTrue();
+            info.Name.Should().StartWith(prefix);
+        }
+        finally
+        {
+            if (Directory.Exists(info.FullName))
+                Directory.Delete(info.FullName);
+        }
+    }
+
+    [Fact]
+    public void CreateTempSubdirectory_PrefixWithDirectorySeparator_Test()
+    {
+        // Act & assert
+        Assert
+            .Throws<ArgumentException>(() =>
+                Directory.CreateTempSubdirectory("foo" + Path.DirectorySeparatorChar + "bar")
+            )
+            .ParamName.Should()
+            .Be("prefix");
+    }
 }
