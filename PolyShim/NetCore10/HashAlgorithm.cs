@@ -15,7 +15,7 @@ namespace System.Security.Cryptography;
 #endif
 internal abstract class HashAlgorithm : IDisposable
 {
-    protected int HashSizeValue;
+    protected int HashSizeValue = 0;
     public virtual int HashSize => HashSizeValue;
 
     public abstract void Initialize();
