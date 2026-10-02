@@ -125,9 +125,13 @@ public class ZLibStreamTests
     {
         using var destination = new MemoryStream();
         using (
-            var zLibStream = new ZLibStream(destination, CompressionLevel.Optimal, leaveOpen: true)
+            var compressionStream = new ZLibStream(
+                destination,
+                CompressionLevel.Optimal,
+                leaveOpen: true
+            )
         )
-            zLibStream.Write(new byte[] { 1, 2, 3 }, 0, 3);
+            compressionStream.Write(new byte[] { 1, 2, 3 }, 0, 3);
 
         var compressed = destination.ToArray();
         compressed[^1] ^= 0xFF;
@@ -145,9 +149,13 @@ public class ZLibStreamTests
     {
         using var destination = new MemoryStream();
         using (
-            var zLibStream = new ZLibStream(destination, CompressionLevel.Optimal, leaveOpen: true)
+            var compressionStream = new ZLibStream(
+                destination,
+                CompressionLevel.Optimal,
+                leaveOpen: true
+            )
         )
-            zLibStream.Write(new byte[] { 1, 2, 3 }, 0, 3);
+            compressionStream.Write(new byte[] { 1, 2, 3 }, 0, 3);
 
         var compressed = destination.ToArray();
         Array.Resize(ref compressed, compressed.Length - 1);
