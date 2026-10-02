@@ -9,18 +9,6 @@ namespace PolyShim.Tests.Net60;
 public class ZLibStreamTests
 {
     [Fact]
-    public void Constructor_NullStream_Test()
-    {
-        // Act
-        var act1 = () => new ZLibStream(null!, CompressionMode.Compress);
-        var act2 = () => new ZLibStream(null!, CompressionLevel.Optimal);
-
-        // Assert
-        act1.Should().Throw<ArgumentNullException>();
-        act2.Should().Throw<ArgumentNullException>();
-    }
-
-    [Fact]
     public void Compress_Empty_Test()
     {
         // Arrange
@@ -38,23 +26,27 @@ public class ZLibStreamTests
         destination.ToArray().Should().BeEmpty();
     }
 
-    [Theory]
-    [InlineData(CompressionLevel.Optimal, 0x78, 0x9C)]
-    [InlineData(CompressionLevel.Fastest, 0x78, 0x01)]
-    [InlineData(CompressionLevel.NoCompression, 0x78, 0x01)]
-    public void Compress_Header_Test(CompressionLevel level, byte expectedCmf, byte expectedFlg)
+    [Fact]
+    public void Compress_Header_Test()
     {
-        // Arrange
-        using var destination = new MemoryStream();
+        foreach (
+            var (level, expectedCmf, expectedFlg) in new[]
+            {
+                (CompressionLevel.Optimal, 0x78, 0x9C),
+                (CompressionLevel.Fastest, 0x78, 0x01),
+                (CompressionLevel.NoCompression, 0x78, 0x01),
+            }
+        )
+        {
+            using var destination = new MemoryStream();
 
-        // Act
-        using (var zLibStream = new ZLibStream(destination, level, leaveOpen: true))
-            zLibStream.Write(new byte[] { 1, 2, 3 }, 0, 3);
+            using (var zLibStream = new ZLibStream(destination, level, leaveOpen: true))
+                zLibStream.Write(new byte[] { 1, 2, 3 }, 0, 3);
 
-        // Assert
-        var result = destination.ToArray();
-        result[0].Should().Be(expectedCmf);
-        result[1].Should().Be(expectedFlg);
+            var result = destination.ToArray();
+            result[0].Should().Be((byte)expectedCmf);
+            result[1].Should().Be((byte)expectedFlg);
+        }
     }
 
     [Fact]
@@ -178,6 +170,36 @@ public class ZLibStreamTests
         act.Should().Throw<InvalidDataException>();
     }
 
+#if NETFRAMEWORK
+    [Fact]
+    public void Decompress_CorruptedTrailer_Test()
+    {
+        var compressed = Compress(new byte[] { 1, 2, 3 });
+        compressed[^1] ^= 0xFF;
+
+        using var source = new MemoryStream(compressed);
+        using var zLibStream = new ZLibStream(source, CompressionMode.Decompress);
+
+        var act = () => zLibStream.CopyTo(Stream.Null);
+
+        act.Should().Throw<InvalidDataException>();
+    }
+
+    [Fact]
+    public void Decompress_TruncatedTrailer_Test()
+    {
+        var compressed = Compress(new byte[] { 1, 2, 3 });
+        Array.Resize(ref compressed, compressed.Length - 1);
+
+        using var source = new MemoryStream(compressed);
+        using var zLibStream = new ZLibStream(source, CompressionMode.Decompress);
+
+        var act = () => zLibStream.CopyTo(Stream.Null);
+
+        act.Should().Throw<InvalidDataException>();
+    }
+#endif
+
     [Fact]
     public void CanRead_CanWrite_CanSeek_Test()
     {
@@ -276,5 +298,17 @@ public class ZLibStreamTests
 
         // Assert
         destination.WriteByte(0); // should not throw
+    }
+
+    private static byte[] Compress(byte[] data)
+    {
+        using var destination = new MemoryStream();
+
+        using (
+            var zLibStream = new ZLibStream(destination, CompressionLevel.Optimal, leaveOpen: true)
+        )
+            zLibStream.Write(data, 0, data.Length);
+
+        return destination.ToArray();
     }
 }

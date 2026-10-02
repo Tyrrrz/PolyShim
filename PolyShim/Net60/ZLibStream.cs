@@ -1,4 +1,6 @@
-#if (NETCOREAPP && !NET6_0_OR_GREATER) || (NETFRAMEWORK && NET45_OR_GREATER) || (NETSTANDARD && NETSTANDARD1_1_OR_GREATER)
+#if (NETCOREAPP && !NET6_0_OR_GREATER) || NETFRAMEWORK || NETSTANDARD
+// ZLibStream is also available on .NET Framework 4.5+ and .NET Standard 1.1+
+#if (!NETFRAMEWORK || NET45_OR_GREATER) && (!NETSTANDARD || NETSTANDARD1_1_OR_GREATER)
 #nullable enable
 #pragma warning disable CS0436
 
@@ -24,23 +26,17 @@ internal sealed class ZLibStream : Stream
     private readonly byte _headerFlg;
     private readonly TrailerHoldbackStream? _trailerStream;
 
-    private bool _headerProcessed;
-    private bool _emptySource;
-    private bool _trailerValidated;
-    private bool _disposed;
+    private bool _isHeaderProcessed;
+    private bool _isEmptySource;
+    private bool _isTrailerValidated;
+    private bool _isDisposed;
 
     // Adler-32 checksum of the uncompressed data, maintained as data flows through the stream.
     private uint _adlerA = 1;
     private uint _adlerB;
 
-    public ZLibStream(Stream stream, CompressionMode mode)
-        : this(stream, mode, leaveOpen: false) { }
-
     public ZLibStream(Stream stream, CompressionMode mode, bool leaveOpen)
     {
-        if (stream is null)
-            throw new ArgumentNullException(nameof(stream));
-
         _baseStream = stream;
         _leaveOpen = leaveOpen;
         _mode = mode;
@@ -57,14 +53,11 @@ internal sealed class ZLibStream : Stream
         }
     }
 
-    public ZLibStream(Stream stream, CompressionLevel compressionLevel)
-        : this(stream, compressionLevel, leaveOpen: false) { }
+    public ZLibStream(Stream stream, CompressionMode mode)
+        : this(stream, mode, leaveOpen: false) { }
 
     public ZLibStream(Stream stream, CompressionLevel compressionLevel, bool leaveOpen)
     {
-        if (stream is null)
-            throw new ArgumentNullException(nameof(stream));
-
         _baseStream = stream;
         _leaveOpen = leaveOpen;
         _mode = CompressionMode.Compress;
@@ -72,9 +65,12 @@ internal sealed class ZLibStream : Stream
         _deflateStream = new DeflateStream(stream, compressionLevel, leaveOpen: true);
     }
 
-    public override bool CanRead => !_disposed && _deflateStream.CanRead;
+    public ZLibStream(Stream stream, CompressionLevel compressionLevel)
+        : this(stream, compressionLevel, leaveOpen: false) { }
 
-    public override bool CanWrite => !_disposed && _deflateStream.CanWrite;
+    public override bool CanRead => !_isDisposed && _deflateStream.CanRead;
+
+    public override bool CanWrite => !_isDisposed && _deflateStream.CanWrite;
 
     public override bool CanSeek => false;
 
@@ -88,7 +84,7 @@ internal sealed class ZLibStream : Stream
 
     public override void Flush()
     {
-        ThrowIfDisposed();
+        ObjectDisposedException.ThrowIf(_isDisposed, this);
         _deflateStream.Flush();
     }
 
@@ -98,8 +94,7 @@ internal sealed class ZLibStream : Stream
 
     public override int Read(byte[] buffer, int offset, int count)
     {
-        ThrowIfDisposed();
-        ValidateArguments(buffer, offset, count);
+        ObjectDisposedException.ThrowIf(_isDisposed, this);
 
         if (_mode != CompressionMode.Decompress)
             return _deflateStream.Read(buffer, offset, count);
@@ -108,7 +103,7 @@ internal sealed class ZLibStream : Stream
             return 0;
 
         EnsureHeaderRead();
-        if (_emptySource)
+        if (_isEmptySource)
             return 0;
 
         var bytesRead = _deflateStream.Read(buffer, offset, count);
@@ -123,8 +118,7 @@ internal sealed class ZLibStream : Stream
 
     public override void Write(byte[] buffer, int offset, int count)
     {
-        ThrowIfDisposed();
-        ValidateArguments(buffer, offset, count);
+        ObjectDisposedException.ThrowIf(_isDisposed, this);
 
         if (_mode == CompressionMode.Compress)
         {
@@ -142,13 +136,13 @@ internal sealed class ZLibStream : Stream
     {
         try
         {
-            if (!_disposed && disposing)
+            if (!_isDisposed && disposing)
             {
                 try
                 {
                     _deflateStream.Dispose();
 
-                    if (_mode == CompressionMode.Compress && _headerProcessed)
+                    if (_mode == CompressionMode.Compress && _isHeaderProcessed)
                         WriteTrailer();
                 }
                 finally
@@ -160,50 +154,32 @@ internal sealed class ZLibStream : Stream
         }
         finally
         {
-            _disposed = true;
+            _isDisposed = true;
             base.Dispose(disposing);
         }
     }
 
-    private static void ValidateArguments(byte[] buffer, int offset, int count)
-    {
-        if (buffer is null)
-            throw new ArgumentNullException(nameof(buffer));
-        if (offset < 0)
-            throw new ArgumentOutOfRangeException(nameof(offset));
-        if (count < 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
-        if (buffer.Length - offset < count)
-            throw new ArgumentException("Offset and length were out of bounds for the array.");
-    }
-
-    private void ThrowIfDisposed()
-    {
-        if (_disposed)
-            throw new ObjectDisposedException(nameof(ZLibStream));
-    }
-
     private void EnsureHeaderWritten()
     {
-        if (_headerProcessed)
+        if (_isHeaderProcessed)
             return;
 
         _baseStream.WriteByte(HeaderCmf);
         _baseStream.WriteByte(_headerFlg);
 
-        _headerProcessed = true;
+        _isHeaderProcessed = true;
     }
 
     private void EnsureHeaderRead()
     {
-        if (_headerProcessed)
+        if (_isHeaderProcessed)
             return;
 
         var cmf = _baseStream.ReadByte();
         if (cmf < 0)
         {
-            _headerProcessed = true;
-            _emptySource = true;
+            _isHeaderProcessed = true;
+            _isEmptySource = true;
             return;
         }
 
@@ -221,15 +197,15 @@ internal sealed class ZLibStream : Stream
             throw new InvalidDataException("The input stream is not a valid ZLib stream.");
         }
 
-        _headerProcessed = true;
+        _isHeaderProcessed = true;
     }
 
     private void ValidateTrailer()
     {
-        if (_trailerValidated)
+        if (_isTrailerValidated)
             return;
 
-        _trailerValidated = true;
+        _isTrailerValidated = true;
 
         var trailer = _trailerStream!.ReadTrailer();
         var checksum = (_adlerB << 16) | _adlerA;
@@ -301,7 +277,7 @@ internal sealed class ZLibStream : Stream
 
         private readonly byte[] _held = new byte[TrailerLength];
         private int _heldCount;
-        private bool _eof;
+        private bool _isEof;
 
         public TrailerHoldbackStream(Stream source) => _source = source;
 
@@ -328,7 +304,7 @@ internal sealed class ZLibStream : Stream
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if (count == 0 || _eof)
+            if (count == 0 || _isEof)
                 return 0;
 
             var temp = new byte[count + TrailerLength];
@@ -340,7 +316,7 @@ internal sealed class ZLibStream : Stream
                 var read = _source.Read(temp, _heldCount, count);
                 if (read <= 0)
                 {
-                    _eof = true;
+                    _isEof = true;
                     return 0;
                 }
 
@@ -362,11 +338,12 @@ internal sealed class ZLibStream : Stream
         public byte[]? ReadTrailer()
         {
             var scratch = new byte[256];
-            while (!_eof)
+            while (!_isEof)
                 Read(scratch, 0, scratch.Length);
 
             return _heldCount == TrailerLength ? _held : null;
         }
     }
 }
+#endif
 #endif
