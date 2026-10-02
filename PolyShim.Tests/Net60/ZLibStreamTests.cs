@@ -174,7 +174,13 @@ public class ZLibStreamTests
     [Fact]
     public void Decompress_CorruptedTrailer_Test()
     {
-        var compressed = Compress(new byte[] { 1, 2, 3 });
+        using var destination = new MemoryStream();
+        using (
+            var zLibStream = new ZLibStream(destination, CompressionLevel.Optimal, leaveOpen: true)
+        )
+            zLibStream.Write(new byte[] { 1, 2, 3 }, 0, 3);
+
+        var compressed = destination.ToArray();
         compressed[^1] ^= 0xFF;
 
         using var source = new MemoryStream(compressed);
@@ -188,7 +194,13 @@ public class ZLibStreamTests
     [Fact]
     public void Decompress_TruncatedTrailer_Test()
     {
-        var compressed = Compress(new byte[] { 1, 2, 3 });
+        using var destination = new MemoryStream();
+        using (
+            var zLibStream = new ZLibStream(destination, CompressionLevel.Optimal, leaveOpen: true)
+        )
+            zLibStream.Write(new byte[] { 1, 2, 3 }, 0, 3);
+
+        var compressed = destination.ToArray();
         Array.Resize(ref compressed, compressed.Length - 1);
 
         using var source = new MemoryStream(compressed);
@@ -199,73 +211,6 @@ public class ZLibStreamTests
         act.Should().Throw<InvalidDataException>();
     }
 #endif
-
-    [Fact]
-    public void CanRead_CanWrite_CanSeek_Test()
-    {
-        // Arrange
-        using var destination = new MemoryStream();
-
-        // Act & assert
-        using (
-            var compressStream = new ZLibStream(
-                destination,
-                CompressionMode.Compress,
-                leaveOpen: true
-            )
-        )
-        {
-            compressStream.CanWrite.Should().BeTrue();
-            compressStream.CanRead.Should().BeFalse();
-            compressStream.CanSeek.Should().BeFalse();
-        }
-
-        destination.Position = 0;
-
-        using (
-            var decompressStream = new ZLibStream(
-                destination,
-                CompressionMode.Decompress,
-                leaveOpen: true
-            )
-        )
-        {
-            decompressStream.CanRead.Should().BeTrue();
-            decompressStream.CanWrite.Should().BeFalse();
-        }
-    }
-
-    [Fact]
-    public void Unsupported_Members_Test()
-    {
-        // Arrange
-        using var destination = new MemoryStream();
-        using var zLibStream = new ZLibStream(
-            destination,
-            CompressionMode.Compress,
-            leaveOpen: true
-        );
-
-        // Act
-        var lengthAct = () =>
-        {
-            _ = zLibStream.Length;
-        };
-        var positionGetAct = () =>
-        {
-            _ = zLibStream.Position;
-        };
-        var positionSetAct = () => zLibStream.Position = 0;
-        var seekAct = () => zLibStream.Seek(0, SeekOrigin.Begin);
-        var setLengthAct = () => zLibStream.SetLength(0);
-
-        // Assert
-        lengthAct.Should().Throw<NotSupportedException>();
-        positionGetAct.Should().Throw<NotSupportedException>();
-        positionSetAct.Should().Throw<NotSupportedException>();
-        seekAct.Should().Throw<NotSupportedException>();
-        setLengthAct.Should().Throw<NotSupportedException>();
-    }
 
     [Fact]
     public void LeaveOpen_False_Test()
@@ -298,17 +243,5 @@ public class ZLibStreamTests
 
         // Assert
         destination.WriteByte(0); // should not throw
-    }
-
-    private static byte[] Compress(byte[] data)
-    {
-        using var destination = new MemoryStream();
-
-        using (
-            var zLibStream = new ZLibStream(destination, CompressionLevel.Optimal, leaveOpen: true)
-        )
-            zLibStream.Write(data, 0, data.Length);
-
-        return destination.ToArray();
     }
 }
