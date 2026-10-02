@@ -110,6 +110,21 @@ internal static class MemberPolyfills_Net50_HttpClient
         public async Task<string> GetStringAsync(string requestUri,
             CancellationToken cancellationToken = default) =>
             await httpClient.GetStringAsync(new Uri(requestUri, UriKind.RelativeOrAbsolute), cancellationToken).ConfigureAwait(false);
+
+        // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.patchasync#system-net-http-httpclient-patchasync(system-uri-system-net-http-httpcontent-system-threading-cancellationtoken)
+        public async Task<HttpResponseMessage> PatchAsync(Uri requestUri,
+            HttpContent? content,
+            CancellationToken cancellationToken = default)
+        {
+            using var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri) { Content = content };
+            return await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.patchasync#system-net-http-httpclient-patchasync(system-string-system-net-http-httpcontent-system-threading-cancellationtoken)
+        public async Task<HttpResponseMessage> PatchAsync(string requestUri,
+            HttpContent? content,
+            CancellationToken cancellationToken = default) =>
+            await httpClient.PatchAsync(new Uri(requestUri, UriKind.RelativeOrAbsolute), content, cancellationToken).ConfigureAwait(false);
     }
 #endif
 }

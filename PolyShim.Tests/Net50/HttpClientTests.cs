@@ -105,4 +105,70 @@ public class HttpClientTests
 
         ex.CancellationToken.Should().Be(cancellationToken);
     }
+
+    [Fact]
+    public async Task PatchAsync_Uri_Test()
+    {
+        // Arrange
+        using var httpClient = new HttpClient();
+        using var content = new StringContent(
+            "{\"title\":\"foo\"}",
+            Encoding.UTF8,
+            "application/json"
+        );
+
+        // Act
+        using var response = await httpClient.PatchAsync(
+            new Uri("https://jsonplaceholder.typicode.com/posts/1"),
+            content
+        );
+
+        // Assert
+        response.IsSuccessStatusCode.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task PatchAsync_String_Test()
+    {
+        // Arrange
+        using var httpClient = new HttpClient();
+        using var content = new StringContent(
+            "{\"title\":\"foo\"}",
+            Encoding.UTF8,
+            "application/json"
+        );
+
+        // Act
+        using var response = await httpClient.PatchAsync(
+            "https://jsonplaceholder.typicode.com/posts/1",
+            content
+        );
+
+        // Assert
+        response.IsSuccessStatusCode.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task PatchAsync_Cancellation_Test()
+    {
+        // Arrange
+        var cancellationToken = new CancellationToken(true);
+        using var httpClient = new HttpClient();
+        using var content = new StringContent(
+            "{\"title\":\"foo\"}",
+            Encoding.UTF8,
+            "application/json"
+        );
+
+        // Act & assert
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+            await httpClient.PatchAsync(
+                "https://jsonplaceholder.typicode.com/posts/1",
+                content,
+                cancellationToken
+            )
+        );
+
+        ex.CancellationToken.Should().Be(cancellationToken);
+    }
 }
