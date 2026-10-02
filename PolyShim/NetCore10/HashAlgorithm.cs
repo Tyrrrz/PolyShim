@@ -15,7 +15,8 @@ namespace System.Security.Cryptography;
 #endif
 internal abstract class HashAlgorithm : IDisposable
 {
-    public virtual int HashSize { get; }
+    protected int HashSizeValue;
+    public virtual int HashSize => HashSizeValue;
 
     public abstract void Initialize();
 
@@ -35,7 +36,7 @@ internal abstract class HashAlgorithm : IDisposable
         }
         finally
         {
-            ArrayPool<byte>.Shared.Return(buffer);
+            ArrayPool<byte>.Shared.Return(buffer, true);
         }
 
         var hash = HashFinal();
