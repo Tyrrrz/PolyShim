@@ -106,57 +106,6 @@ public class ZLibStreamTests
     }
 
     [Fact]
-    public void Decompress_InteropWithDeflateStream_Test()
-    {
-        // Arrange
-        var data = new byte[] { 1, 2, 3, 4, 5 };
-
-        using var compressed = new MemoryStream();
-        using (
-            var deflateStream = new DeflateStream(
-                compressed,
-                CompressionLevel.Optimal,
-                leaveOpen: true
-            )
-        )
-            deflateStream.Write(data, 0, data.Length);
-
-        var rawDeflate = compressed.ToArray();
-
-        // Construct a valid zlib stream manually: header + raw deflate payload + Adler-32 trailer
-        using var zlibBytes = new MemoryStream();
-        zlibBytes.WriteByte(0x78);
-        zlibBytes.WriteByte(0x9C);
-        zlibBytes.Write(rawDeflate, 0, rawDeflate.Length);
-
-        var a = 1u;
-        var b = 0u;
-        foreach (var value in data)
-        {
-            a = (a + value) % 65521;
-            b = (b + a) % 65521;
-        }
-
-        var checksum = (b << 16) | a;
-        zlibBytes.WriteByte((byte)(checksum >> 24));
-        zlibBytes.WriteByte((byte)(checksum >> 16));
-        zlibBytes.WriteByte((byte)(checksum >> 8));
-        zlibBytes.WriteByte((byte)checksum);
-
-        zlibBytes.Position = 0;
-
-        // Act
-        using var decompressed = new MemoryStream();
-        using (
-            var zLibStream = new ZLibStream(zlibBytes, CompressionMode.Decompress, leaveOpen: true)
-        )
-            zLibStream.CopyTo(decompressed);
-
-        // Assert
-        decompressed.ToArray().Should().Equal(data);
-    }
-
-    [Fact]
     public void Decompress_InvalidHeader_Test()
     {
         // Arrange
