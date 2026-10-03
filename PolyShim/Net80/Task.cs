@@ -1,15 +1,16 @@
 #if (NETCOREAPP && !NET8_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 // Task is not available on all target frameworks within this TFM range without a NuGet package reference
 #if FEATURE_TASK
-// Excluded on net40, because the Microsoft.Bcl.Async compatibility package exposes
-// ConfiguredTaskAwaitable under a different namespace there, which makes it impossible
-// to compile this polyfill's explicit return type.
-#if !NET40
 #nullable enable
 #pragma warning disable CS0436
 
 using System;
+#if NET40
+// Microsoft.Bcl.Async exposes ConfiguredTaskAwaitable in a different namespace on net40.
+using Microsoft.Runtime.CompilerServices;
+#else
 using System.Runtime.CompilerServices;
+#endif
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
@@ -19,6 +20,14 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_Net80_Task
 {
+#if NET40
+    // DenyChildAttach was introduced in .NET Framework 4.5.
+    private const TaskContinuationOptions DefaultContinuationOptions = TaskContinuationOptions.None;
+#else
+    private const TaskContinuationOptions DefaultContinuationOptions =
+        TaskContinuationOptions.DenyChildAttach;
+#endif
+
     extension(Task task)
     {
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.configureawait#system-threading-tasks-task-configureawait(system-threading-tasks-configureawaitoptions)
@@ -61,9 +70,9 @@ internal static class MemberPolyfills_Net80_Task
                         },
                         CancellationToken.None,
                         forceYielding
-                            ? TaskContinuationOptions.DenyChildAttach
+                            ? DefaultContinuationOptions
                             : TaskContinuationOptions.ExecuteSynchronously
-                                | TaskContinuationOptions.DenyChildAttach,
+                                | DefaultContinuationOptions,
                         TaskScheduler.Default
                     )
                     : task;
@@ -109,7 +118,7 @@ internal static class MemberPolyfills_Net80_Task
                 ? task.ContinueWith(
                     t => t.GetAwaiter().GetResult(),
                     CancellationToken.None,
-                    TaskContinuationOptions.DenyChildAttach,
+                    DefaultContinuationOptions,
                     TaskScheduler.Default
                 )
                 : task;
@@ -120,6 +129,5 @@ internal static class MemberPolyfills_Net80_Task
         }
     }
 }
-#endif
 #endif
 #endif
