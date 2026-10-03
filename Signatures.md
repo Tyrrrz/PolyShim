@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 593
+- **Total:** 597
 - **Types:** 119
-- **Members:** 474
+- **Members:** 478
 
 ___
 
@@ -393,6 +393,11 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.memory-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `MemoryPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.memorypool-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `MethodInfo`
+  - [`Delegate CreateDelegate(Type)`](https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate(system-type)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Delegate CreateDelegate(Type, object?)`](https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate(system-type-system-object)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`TDelegate CreateDelegate<TDelegate>() where TDelegate : Delegate`](https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate-1) <sup><sub>.NET 5.0</sub></sup>
+  - [`TDelegate CreateDelegate<TDelegate>(object?) where TDelegate : Delegate`](https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate-1(system-object)) <sup><sub>.NET 5.0</sub></sup>
 - `Module`
   - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-module)) <sup><sub>.NET Core 1.0</sub></sup>
 - `ModuleInitializerAttribute`
