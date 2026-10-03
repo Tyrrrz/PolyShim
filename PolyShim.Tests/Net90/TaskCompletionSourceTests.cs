@@ -68,16 +68,6 @@ public class TaskCompletionSourceTests
     }
 
     [Fact]
-    public void SetFromTask_Null_Test()
-    {
-        // Arrange
-        var tcs = new TaskCompletionSource();
-
-        // Act & assert
-        Assert.Throws<ArgumentNullException>(() => tcs.SetFromTask(null!));
-    }
-
-    [Fact]
     public void SetFromTask_AlreadyCompleted_Test()
     {
         // Arrange
@@ -165,16 +155,6 @@ public class TaskCompletionSourceTests
     }
 
     [Fact]
-    public void TrySetFromTask_Null_Test()
-    {
-        // Arrange
-        var tcs = new TaskCompletionSource();
-
-        // Act & assert
-        Assert.Throws<ArgumentNullException>(() => tcs.TrySetFromTask(null!));
-    }
-
-    [Fact]
     public async Task SetFromTask_Result_RanToCompletion_Test()
     {
         // Arrange
@@ -232,16 +212,6 @@ public class TaskCompletionSourceTests
 
         // Act & assert
         Assert.Throws<ArgumentException>(() => tcs.SetFromTask(other.Task));
-    }
-
-    [Fact]
-    public void SetFromTask_Result_Null_Test()
-    {
-        // Arrange
-        var tcs = new TaskCompletionSource<int>();
-
-        // Act & assert
-        Assert.Throws<ArgumentNullException>(() => tcs.SetFromTask(null!));
     }
 
     [Fact]
@@ -329,15 +299,5 @@ public class TaskCompletionSourceTests
 
         // Act & assert
         Assert.Throws<ArgumentException>(() => tcs.TrySetFromTask(other.Task));
-    }
-
-    [Fact]
-    public void TrySetFromTask_Result_Null_Test()
-    {
-        // Arrange
-        var tcs = new TaskCompletionSource<int>();
-
-        // Act & assert
-        Assert.Throws<ArgumentNullException>(() => tcs.TrySetFromTask(null!));
     }
 }

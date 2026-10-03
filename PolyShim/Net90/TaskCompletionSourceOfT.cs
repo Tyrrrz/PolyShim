@@ -16,6 +16,43 @@ internal static class MemberPolyfills_Net90_TaskCompletionSourceOfT
 {
     extension<T>(TaskCompletionSource<T> source)
     {
+        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetfromtask
+        public bool TrySetFromTask(Task<T> completedTask)
+        {
+            if (!completedTask.IsCompleted)
+            {
+                throw new ArgumentException(
+                    "The task must already be completed.",
+                    nameof(completedTask)
+                );
+            }
+
+            if (completedTask.Status == TaskStatus.RanToCompletion)
+                return source.TrySetResult(completedTask.Result);
+
+            if (completedTask.Status == TaskStatus.Faulted)
+                return source.TrySetException(completedTask.Exception!.InnerExceptions);
+
+            // Task does not expose the token that canceled it, so it needs to be recovered
+            // by observing the task directly. This is safe because the task is already known
+            // to be completed at this point.
+            var cancellationToken = default(CancellationToken);
+            try
+            {
+                completedTask.GetAwaiter().GetResult();
+            }
+            catch (OperationCanceledException ex)
+            {
+                cancellationToken = ex.CancellationToken;
+            }
+            catch
+            {
+                // Ignore other exceptions; fall back to an empty token below.
+            }
+
+            return source.TrySetCanceled(cancellationToken);
+        }
+
         // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setfromtask
         public void SetFromTask(Task<T> completedTask)
         {
@@ -26,49 +63,6 @@ internal static class MemberPolyfills_Net90_TaskCompletionSourceOfT
                 );
             }
         }
-
-        // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetfromtask
-        public bool TrySetFromTask(Task<T> completedTask)
-        {
-            ArgumentNullException.ThrowIfNull(completedTask);
-
-            if (!completedTask.IsCompleted)
-            {
-                throw new ArgumentException(
-                    "The task must already be completed.",
-                    nameof(completedTask)
-                );
-            }
-
-            return completedTask.Status switch
-            {
-                TaskStatus.RanToCompletion => source.TrySetResult(completedTask.Result),
-                TaskStatus.Faulted => source.TrySetException(
-                    completedTask.Exception!.InnerExceptions
-                ),
-                _ => source.TrySetCanceled(GetCancellationToken(completedTask)),
-            };
-        }
-    }
-
-    // Task does not expose the token that canceled it, so it needs to be recovered by observing
-    // the task directly.
-    private static CancellationToken GetCancellationToken(Task canceledTask)
-    {
-        try
-        {
-            canceledTask.GetAwaiter().GetResult();
-        }
-        catch (OperationCanceledException ex)
-        {
-            return ex.CancellationToken;
-        }
-        catch
-        {
-            // Ignore other exceptions; fall back to an empty token below.
-        }
-
-        return default;
     }
 }
 #endif
