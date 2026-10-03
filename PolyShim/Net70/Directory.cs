@@ -46,6 +46,28 @@ internal static class MemberPolyfills_Net70_Directory
 
             return info;
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.io.directory.createtempsubdirectory#system-io-directory-createtempsubdirectory(system-string)
+        public static DirectoryInfo CreateTempSubdirectory(string? prefix = null)
+        {
+            var tempPath = Path.GetTempPath();
+
+            for (var attempt = 0; attempt < 10; attempt++)
+            {
+                var path = Path.Combine(tempPath, prefix + Path.GetRandomFileName());
+
+                try
+                {
+                    return Directory.CreateDirectory(path);
+                }
+                catch (IOException) when (Directory.Exists(path))
+                {
+                    // Collision with an existing directory, try again with a different name
+                }
+            }
+
+            throw new IOException("Failed to create a unique temporary subdirectory.");
+        }
     }
 }
 
