@@ -1,6 +1,4 @@
 #if (NETCOREAPP && !NET8_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
-// Task is not available on all target frameworks within this TFM range without a NuGet package reference
-#if FEATURE_TASK
 #nullable enable
 #pragma warning disable CS0436
 
@@ -15,5 +13,4 @@ internal enum ConfigureAwaitOptions
     SuppressThrowing = 2,
     ForceYielding = 4,
 }
-#endif
 #endif
