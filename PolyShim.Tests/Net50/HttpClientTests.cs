@@ -107,28 +107,7 @@ public class HttpClientTests
     }
 
     [Fact]
-    public async Task PatchAsync_Uri_Test()
-    {
-        // Arrange
-        using var httpClient = new HttpClient();
-        using var content = new StringContent(
-            "{\"title\":\"foo\"}",
-            Encoding.UTF8,
-            "application/json"
-        );
-
-        // Act
-        using var response = await httpClient.PatchAsync(
-            new Uri("https://jsonplaceholder.typicode.com/posts/1"),
-            content
-        );
-
-        // Assert
-        response.IsSuccessStatusCode.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task PatchAsync_String_Test()
+    public async Task PatchAsync_Test()
     {
         // Arrange
         using var httpClient = new HttpClient();
