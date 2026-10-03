@@ -71,7 +71,7 @@ public class TaskTests
             .GetAwaiter();
 
         awaiter.IsCompleted.Should().BeFalse();
-        await awaiter
+        await awaiter;
     }
 
     [Fact]
@@ -138,7 +138,7 @@ public class TaskTests
             .GetAwaiter();
 
         awaiter.IsCompleted.Should().BeFalse();
-        var result = await awaiter
+        var result = await awaiter;
 
         // Assert
         result.Should().Be(42);
