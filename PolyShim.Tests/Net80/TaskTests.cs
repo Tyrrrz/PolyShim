@@ -131,9 +131,14 @@ public class TaskTests
         var task = Task.FromResult(42);
 
         // Act
-        var result = await task.ConfigureAwait(
-            ConfigureAwaitOptions.ContinueOnCapturedContext | ConfigureAwaitOptions.ForceYielding
-        );
+        var awaiter = task
+            .ConfigureAwait(
+                ConfigureAwaitOptions.ContinueOnCapturedContext | ConfigureAwaitOptions.ForceYielding
+            )
+            .GetAwaiter();
+
+        awaiter.IsCompleted.Should().BeFalse();
+        var result = await awaiter
 
         // Assert
         result.Should().Be(42);
