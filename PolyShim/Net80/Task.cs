@@ -1,6 +1,10 @@
-#if (NETCOREAPP && !NET8_0_OR_GREATER) || (NET45_OR_GREATER) || (NETSTANDARD)
+#if (NETCOREAPP && !NET8_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
 // Task is not available on all target frameworks within this TFM range without a NuGet package reference
 #if FEATURE_TASK
+// Excluded on net40, because the Microsoft.Bcl.Async compatibility package exposes
+// ConfiguredTaskAwaitable under a different namespace there, which makes it impossible
+// to compile this polyfill's explicit return type.
+#if !NET40
 #nullable enable
 #pragma warning disable CS0436
 
@@ -116,5 +120,6 @@ internal static class MemberPolyfills_Net80_Task
         }
     }
 }
+#endif
 #endif
 #endif
