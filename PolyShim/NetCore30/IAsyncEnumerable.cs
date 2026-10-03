@@ -4,7 +4,6 @@
 #pragma warning disable CS0436
 
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace System.Collections.Generic;
 
@@ -12,14 +11,6 @@ namespace System.Collections.Generic;
 internal interface IAsyncEnumerable<out T>
 {
     IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default);
-}
-
-// https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerator-1
-internal interface IAsyncEnumerator<out T> : IAsyncDisposable
-{
-    T Current { get; }
-
-    ValueTask<bool> MoveNextAsync();
 }
 #endif
 #endif

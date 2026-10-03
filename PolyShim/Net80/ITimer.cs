@@ -2,8 +2,6 @@
 #nullable enable
 #pragma warning disable CS0436
 
-using System.Threading.Tasks;
-
 namespace System.Threading;
 
 // https://learn.microsoft.com/dotnet/api/system.threading.itimer
