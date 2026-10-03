@@ -167,7 +167,7 @@ To do that, set the `<AllowUnsafeBlocks>` property to `true`:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="..." PrivateAssets="all" />
+    <PackageReference Include="PolyShim" PrivateAssets="all" />
   </ItemGroup>
 </Project>
 ```
@@ -212,8 +212,8 @@ For example, adding a reference to the `Microsoft.Bcl.Async` package on .NET Fra
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="..." PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Bcl.Async" Version="..." />
+    <PackageReference Include="PolyShim" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Bcl.Async" />
   </ItemGroup>
 </Project>
 ```
@@ -243,8 +243,8 @@ You can leverage this to prioritize the official implementation wherever possibl
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PolyShim" Version="..." PrivateAssets="all" />
-    <PackageReference Include="System.Memory" Version="..." />
+    <PackageReference Include="PolyShim" PrivateAssets="all" />
+    <PackageReference Include="System.Memory" />
   </ItemGroup>
 </Project>
 ```
