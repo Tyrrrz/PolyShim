@@ -4,6 +4,7 @@
 #nullable enable
 #pragma warning disable CS0436
 
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace System.Threading.Tasks;
@@ -31,6 +32,8 @@ internal class TaskCompletionSource(object? state, TaskCreationOptions creationO
 
     public void SetException(Exception exception) => _source.SetException(exception);
 
+    public void SetException(IEnumerable<Exception> exceptions) => _source.SetException(exceptions);
+
     public void SetCanceled() => _source.SetCanceled();
 
     public void SetCanceled(CancellationToken cancellationToken) =>
@@ -39,6 +42,9 @@ internal class TaskCompletionSource(object? state, TaskCreationOptions creationO
     public bool TrySetResult() => _source.TrySetResult(null);
 
     public bool TrySetException(Exception exception) => _source.TrySetException(exception);
+
+    public bool TrySetException(IEnumerable<Exception> exceptions) =>
+        _source.TrySetException(exceptions);
 
     public bool TrySetCanceled() => _source.TrySetCanceled();
 
