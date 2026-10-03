@@ -4,6 +4,7 @@
 #nullable enable
 #pragma warning disable CS0436
 
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace System.Threading.Tasks;
@@ -31,6 +32,8 @@ internal class TaskCompletionSource(object? state, TaskCreationOptions creationO
 
     public void SetException(Exception exception) => _source.SetException(exception);
 
+    public void SetException(IEnumerable<Exception> exceptions) => _source.SetException(exceptions);
+
     public void SetCanceled() => _source.SetCanceled();
 
     public void SetCanceled(CancellationToken cancellationToken) =>
@@ -40,62 +43,13 @@ internal class TaskCompletionSource(object? state, TaskCreationOptions creationO
 
     public bool TrySetException(Exception exception) => _source.TrySetException(exception);
 
+    public bool TrySetException(IEnumerable<Exception> exceptions) =>
+        _source.TrySetException(exceptions);
+
     public bool TrySetCanceled() => _source.TrySetCanceled();
 
     public bool TrySetCanceled(CancellationToken cancellationToken) =>
         _source.TrySetCanceled(cancellationToken);
-
-    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource.setfromtask
-    public void SetFromTask(Task completedTask)
-    {
-        if (!TrySetFromTask(completedTask))
-        {
-            throw new InvalidOperationException(
-                "The task is already completed, canceled, or failed."
-            );
-        }
-    }
-
-    // https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource.trysetfromtask
-    public bool TrySetFromTask(Task completedTask)
-    {
-        ArgumentNullException.ThrowIfNull(completedTask);
-
-        if (!completedTask.IsCompleted)
-        {
-            throw new ArgumentException(
-                "The task must already be completed.",
-                nameof(completedTask)
-            );
-        }
-
-        return completedTask.Status switch
-        {
-            TaskStatus.RanToCompletion => _source.TrySetResult(null),
-            TaskStatus.Faulted => _source.TrySetException(completedTask.Exception!.InnerExceptions),
-            _ => _source.TrySetCanceled(GetCancellationToken(completedTask)),
-        };
-    }
-
-    // Task does not expose the token that canceled it, so it needs to be recovered by observing
-    // the task directly.
-    private static CancellationToken GetCancellationToken(Task canceledTask)
-    {
-        try
-        {
-            canceledTask.GetAwaiter().GetResult();
-        }
-        catch (OperationCanceledException ex)
-        {
-            return ex.CancellationToken;
-        }
-        catch
-        {
-            // Ignore other exceptions; fall back to an empty token below.
-        }
-
-        return default;
-    }
 }
 #endif
 #endif

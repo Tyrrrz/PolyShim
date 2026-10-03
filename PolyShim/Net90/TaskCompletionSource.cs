@@ -1,4 +1,6 @@
-#if (NETCOREAPP && NET5_0_OR_GREATER && !NET9_0_OR_GREATER)
+#if (NETCOREAPP && !NET9_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
+// Task is not available on all target frameworks within this TFM range without a NuGet package reference
+#if FEATURE_TASK
 #nullable enable
 #pragma warning disable CS0436
 
@@ -69,4 +71,5 @@ internal static class MemberPolyfills_Net90_TaskCompletionSource
         return default;
     }
 }
+#endif
 #endif
