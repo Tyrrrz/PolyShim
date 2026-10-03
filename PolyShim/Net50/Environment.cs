@@ -6,6 +6,11 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
+file static class EnvironmentEx
+{
+    public static int? ProcessId { get; set; }
+}
+
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
@@ -20,8 +25,11 @@ internal static class MemberPolyfills_Net50_Environment
         {
             get
             {
+                if (EnvironmentEx.ProcessId is { } processId)
+                    return processId;
+
                 using var process = Process.GetCurrentProcess();
-                return process.Id;
+                return (EnvironmentEx.ProcessId = process.Id).Value;
             }
         }
 #endif
