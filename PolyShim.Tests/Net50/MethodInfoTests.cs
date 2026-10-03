@@ -8,6 +8,11 @@ public class MethodInfoTests
 {
     private static int Add(int a, int b) => a + b;
 
+    private class Multiplier(int factor)
+    {
+        public int Multiply(int value) => value * factor;
+    }
+
     [Fact]
     public void CreateDelegate_Test()
     {
@@ -36,10 +41,5 @@ public class MethodInfoTests
 
         // Assert
         del(3).Should().Be(6);
-    }
-
-    private class Multiplier(int factor)
-    {
-        public int Multiply(int value) => value * factor;
     }
 }
