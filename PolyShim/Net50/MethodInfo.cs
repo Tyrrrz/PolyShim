@@ -14,16 +14,6 @@ internal static class MemberPolyfills_Net50_MethodInfo
 {
     extension(MethodInfo method)
     {
-#if NETFRAMEWORK && !NET45_OR_GREATER
-        // https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate(system-type)
-        public Delegate CreateDelegate(Type delegateType) =>
-            Delegate.CreateDelegate(delegateType, method);
-
-        // https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate(system-type-system-object)
-        public Delegate CreateDelegate(Type delegateType, object? target) =>
-            Delegate.CreateDelegate(delegateType, target, method);
-#endif
-
         // https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate-1
         public TDelegate CreateDelegate<TDelegate>()
             where TDelegate : Delegate =>
