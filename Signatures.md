@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 601
+- **Total:** 603
 - **Types:** 119
-- **Members:** 482
+- **Members:** 484
 
 ___
 
@@ -247,6 +247,8 @@ ___
   - [`Task<string> GetStringAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> GetStringAsync(Uri, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
 - `HttpContent`
+  - [`Task CopyToAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.copytoasync#system-net-http-httpcontent-copytoasync(system-io-stream-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+  - [`Task CopyToAsync(Stream, TransportContext?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.copytoasync#system-net-http-httpcontent-copytoasync(system-io-stream-system-net-transportcontext-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<byte[]> ReadAsByteArrayAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<Stream> ReadAsStreamAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> ReadAsStringAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
