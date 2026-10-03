@@ -3,8 +3,7 @@
 #pragma warning disable CS0436
 
 using System;
-
-namespace System.Reflection;
+using System.Reflection;
 
 internal static class MemberPolyfills_NetCore10_MethodInfo
 {

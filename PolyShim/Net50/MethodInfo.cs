@@ -4,8 +4,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-
-namespace System.Reflection;
+using System.Reflection;
 
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
