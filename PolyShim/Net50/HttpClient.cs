@@ -116,8 +116,17 @@ internal static class MemberPolyfills_Net50_HttpClient
             HttpContent? content,
             CancellationToken cancellationToken = default)
         {
-            using var request = new HttpRequestMessage(HttpMethod.Patch, requestUri) { Content = content };
-            return await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+try
+{
+    using var request = new HttpRequestMessage(HttpMethod.Patch, requestUri) { Content = content };
+    return await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+}
+catch (OperationCanceledException ex) when (
+    ex.CancellationToken != cancellationToken &&
+    cancellationToken.IsCancellationRequested)
+{
+    throw new OperationCanceledException(ex.Message, ex.InnerException, cancellationToken);
+}
         }
 
         // https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.patchasync#system-net-http-httpclient-patchasync(system-string-system-net-http-httpcontent-system-threading-cancellationtoken)
