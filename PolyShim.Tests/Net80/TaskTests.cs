@@ -64,14 +64,12 @@ public class TaskTests
         var task = Task.CompletedTask;
 
         // Act & assert
-        var awaiter = task
-            .ConfigureAwait(
-                ConfigureAwaitOptions.ContinueOnCapturedContext | ConfigureAwaitOptions.ForceYielding
-            )
-            .GetAwaiter();
+        var awaitable = task.ConfigureAwait(
+            ConfigureAwaitOptions.ContinueOnCapturedContext | ConfigureAwaitOptions.ForceYielding
+        );
 
-        awaiter.IsCompleted.Should().BeFalse();
-        await awaiter;
+        awaitable.GetAwaiter().IsCompleted.Should().BeFalse();
+        await awaitable;
     }
 
     [Fact]
@@ -131,14 +129,12 @@ public class TaskTests
         var task = Task.FromResult(42);
 
         // Act
-        var awaiter = task
-            .ConfigureAwait(
-                ConfigureAwaitOptions.ContinueOnCapturedContext | ConfigureAwaitOptions.ForceYielding
-            )
-            .GetAwaiter();
+        var awaitable = task.ConfigureAwait(
+            ConfigureAwaitOptions.ContinueOnCapturedContext | ConfigureAwaitOptions.ForceYielding
+        );
 
-        awaiter.IsCompleted.Should().BeFalse();
-        var result = await awaiter;
+        awaitable.GetAwaiter().IsCompleted.Should().BeFalse();
+        var result = await awaitable;
 
         // Assert
         result.Should().Be(42);
