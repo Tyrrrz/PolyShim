@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 595
+- **Total:** 596
 - **Types:** 119
-- **Members:** 476
+- **Members:** 477
 
 ___
 
@@ -249,6 +249,8 @@ ___
   - [`Task<byte[]> ReadAsByteArrayAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<Stream> ReadAsStreamAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> ReadAsStringAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+- `HttpMethod`
+  - [`static HttpMethod Patch`](https://learn.microsoft.com/dotnet/api/system.net.http.httpmethod.patch) <sup><sub>.NET Core 2.1</sub></sup>
 - `IAsyncDisposable`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.iasyncdisposable) <sup><sub>.NET Core 3.0</sub></sup>
 - `IAsyncEnumerable<T>`

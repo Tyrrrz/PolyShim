@@ -116,7 +116,7 @@ internal static class MemberPolyfills_Net50_HttpClient
             HttpContent? content,
             CancellationToken cancellationToken = default)
         {
-            using var request = new HttpRequestMessage(new HttpMethod("PATCH"), requestUri) { Content = content };
+            using var request = new HttpRequestMessage(HttpMethod.Patch, requestUri) { Content = content };
             return await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
