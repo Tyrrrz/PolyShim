@@ -64,9 +64,14 @@ public class TaskTests
         var task = Task.CompletedTask;
 
         // Act & assert
-        await task.ConfigureAwait(
-            ConfigureAwaitOptions.ContinueOnCapturedContext | ConfigureAwaitOptions.ForceYielding
-        );
+        var awaiter = task
+            .ConfigureAwait(
+                ConfigureAwaitOptions.ContinueOnCapturedContext | ConfigureAwaitOptions.ForceYielding
+            )
+            .GetAwaiter();
+
+        awaiter.IsCompleted.Should().BeFalse();
+        await awaiter
     }
 
     [Fact]
