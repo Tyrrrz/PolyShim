@@ -93,7 +93,7 @@ internal sealed class Timer(TimerCallback callback, object? state) : IDisposable
 
     private void Schedule(TimeSpan dueTime, TimeSpan period)
     {
-        ObjectDisposedException.ThrowIf(_isDisposed, nameof(Timer));
+        ObjectDisposedException.ThrowIf(_isDisposed, this);
 
         if (dueTime != Timeout.InfiniteTimeSpan && dueTime < TimeSpan.Zero)
             throw new ArgumentOutOfRangeException(nameof(dueTime));
