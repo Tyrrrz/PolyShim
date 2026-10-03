@@ -50,20 +50,6 @@ internal static class MemberPolyfills_Net70_Directory
         // https://learn.microsoft.com/dotnet/api/system.io.directory.createtempsubdirectory#system-io-directory-createtempsubdirectory(system-string)
         public static DirectoryInfo CreateTempSubdirectory(string? prefix = null)
         {
-            if (
-                prefix is not null
-                && (
-                    prefix.IndexOf(Path.DirectorySeparatorChar) >= 0
-                    || prefix.IndexOf(Path.AltDirectorySeparatorChar) >= 0
-                )
-            )
-            {
-                throw new ArgumentException(
-                    "Prefix cannot contain directory separator characters.",
-                    nameof(prefix)
-                );
-            }
-
             var tempPath = Path.GetTempPath();
 
             for (var attempt = 0; attempt < 10; attempt++)

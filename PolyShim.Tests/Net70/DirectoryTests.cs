@@ -80,16 +80,4 @@ public class DirectoryTests
                 Directory.Delete(info.FullName);
         }
     }
-
-    [Fact]
-    public void CreateTempSubdirectory_PrefixWithDirectorySeparator_Test()
-    {
-        // Act & assert
-        Assert
-            .Throws<ArgumentException>(() =>
-                Directory.CreateTempSubdirectory("foo" + Path.DirectorySeparatorChar + "bar")
-            )
-            .ParamName.Should()
-            .Be("prefix");
-    }
 }
