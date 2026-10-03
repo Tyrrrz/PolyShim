@@ -150,4 +150,72 @@ public class HttpClientTests
 
         ex.CancellationToken.Should().Be(cancellationToken);
     }
+
+    [Fact]
+    public async Task CopyToAsync_Test()
+    {
+        // Arrange
+        using var content = new StringContent("Hello world!");
+        using var stream = new MemoryStream();
+
+        // Act
+        await content.CopyToAsync(stream, CancellationToken.None);
+        stream.Position = 0;
+
+        using var reader = new StreamReader(stream);
+        var result = await reader.ReadToEndAsync();
+
+        // Assert
+        result.Should().Be("Hello world!");
+    }
+
+    [Fact]
+    public async Task CopyToAsync_Cancellation_Test()
+    {
+        // Arrange
+        var cancellationToken = new CancellationToken(true);
+        using var content = new StringContent("Hello world!");
+        using var stream = new MemoryStream();
+
+        // Act & assert
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+            await content.CopyToAsync(stream, cancellationToken)
+        );
+
+        ex.CancellationToken.Should().Be(cancellationToken);
+    }
+
+    [Fact]
+    public async Task CopyToAsync_WithTransportContext_Test()
+    {
+        // Arrange
+        using var content = new StringContent("Hello world!");
+        using var stream = new MemoryStream();
+
+        // Act
+        await content.CopyToAsync(stream, context: null);
+        stream.Position = 0;
+
+        using var reader = new StreamReader(stream);
+        var result = await reader.ReadToEndAsync();
+
+        // Assert
+        result.Should().Be("Hello world!");
+    }
+
+    [Fact]
+    public async Task CopyToAsync_WithTransportContext_Cancellation_Test()
+    {
+        // Arrange
+        var cancellationToken = new CancellationToken(true);
+        using var content = new StringContent("Hello world!");
+        using var stream = new MemoryStream();
+
+        // Act & assert
+        var ex = await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+            await content.CopyToAsync(stream, context: null, cancellationToken)
+        );
+
+        ex.CancellationToken.Should().Be(cancellationToken);
+    }
 }
