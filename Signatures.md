@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 596
+- **Total:** 604
 - **Types:** 120
-- **Members:** 476
+- **Members:** 484
 
 ___
 
@@ -157,6 +157,7 @@ ___
   - [`void Deconstruct(out object, out object?)`](https://learn.microsoft.com/dotnet/api/system.collections.dictionaryentry.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `Directory`
   - [`static DirectoryInfo CreateDirectory(string, UnixFileMode)`](https://learn.microsoft.com/dotnet/api/system.io.directory.createdirectory#system-io-directory-createdirectory(system-string-system-io-unixfilemode)) <sup><sub>.NET 7.0</sub></sup>
+  - [`static DirectoryInfo CreateTempSubdirectory(string?)`](https://learn.microsoft.com/dotnet/api/system.io.directory.createtempsubdirectory#system-io-directory-createtempsubdirectory(system-string)) <sup><sub>.NET 7.0</sub></sup>
 - `DisallowNullAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.disallownullattribute) <sup><sub>.NET Core 3.0</sub></sup>
 - `DoesNotReturnAttribute`
@@ -241,6 +242,8 @@ ___
 - `HttpClient`
   - [`Task<byte[]> GetByteArrayAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<byte[]> GetByteArrayAsync(Uri, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-uri-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+  - [`Task<HttpResponseMessage> PatchAsync(string, HttpContent?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.patchasync#system-net-http-httpclient-patchasync(system-string-system-net-http-httpcontent-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+  - [`Task<HttpResponseMessage> PatchAsync(Uri, HttpContent?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.patchasync#system-net-http-httpclient-patchasync(system-uri-system-net-http-httpcontent-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<Stream> GetStreamAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<Stream> GetStreamAsync(Uri, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-uri-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> GetStringAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
@@ -249,6 +252,8 @@ ___
   - [`Task<byte[]> ReadAsByteArrayAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<Stream> ReadAsStreamAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> ReadAsStringAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+- `HttpMethod`
+  - [`static HttpMethod Patch`](https://learn.microsoft.com/dotnet/api/system.net.http.httpmethod.patch) <sup><sub>.NET Core 2.1</sub></sup>
 - `IAsyncDisposable`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.iasyncdisposable) <sup><sub>.NET Core 3.0</sub></sup>
 - `IAsyncEnumerable<T>`
@@ -395,6 +400,11 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.memory-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `MemoryPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.memorypool-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `MethodInfo`
+  - [`Delegate CreateDelegate(Type)`](https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate(system-type)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`Delegate CreateDelegate(Type, object?)`](https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate(system-type-system-object)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`TDelegate CreateDelegate<TDelegate>() where TDelegate : Delegate`](https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate-1) <sup><sub>.NET 5.0</sub></sup>
+  - [`TDelegate CreateDelegate<TDelegate>(object?) where TDelegate : Delegate`](https://learn.microsoft.com/dotnet/api/system.reflection.methodinfo.createdelegate#system-reflection-methodinfo-createdelegate-1(system-object)) <sup><sub>.NET 5.0</sub></sup>
 - `Module`
   - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-module)) <sup><sub>.NET Core 1.0</sub></sup>
 - `ModuleInitializerAttribute`
