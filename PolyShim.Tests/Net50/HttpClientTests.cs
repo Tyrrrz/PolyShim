@@ -155,12 +155,11 @@ public class HttpClientTests
     public async Task CopyToAsync_Test()
     {
         // Arrange
-        var cancellationToken = new CancellationToken();
         using var content = new StringContent("Hello world!");
         using var stream = new MemoryStream();
 
         // Act
-        await content.CopyToAsync(stream, cancellationToken);
+        await content.CopyToAsync(stream);
         stream.Position = 0;
 
         using var reader = new StreamReader(stream);
@@ -190,12 +189,11 @@ public class HttpClientTests
     public async Task CopyToAsync_WithTransportContext_Test()
     {
         // Arrange
-        var cancellationToken = new CancellationToken();
         using var content = new StringContent("Hello world!");
         using var stream = new MemoryStream();
 
         // Act
-        await content.CopyToAsync(stream, context: null, cancellationToken);
+        await content.CopyToAsync(stream, context: null);
         stream.Position = 0;
 
         using var reader = new StreamReader(stream);
