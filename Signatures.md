@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 611
+- **Total:** 614
 - **Types:** 120
-- **Members:** 491
+- **Members:** 494
 
 ___
 
@@ -45,6 +45,10 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder) <sup><sub>.NET Core 2.1</sub></sup>
 - `AsyncValueTaskMethodBuilder<TResult>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `BigInteger`
+  - [`bool TryWriteBytes(Span<byte>, out int, bool, bool)`](https://learn.microsoft.com/dotnet/api/system.numerics.biginteger.trywritebytes) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`byte[] ToByteArray(bool, bool)`](https://learn.microsoft.com/dotnet/api/system.numerics.biginteger.tobytearray#system-numerics-biginteger-tobytearray(system-boolean-system-boolean)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`int GetByteCount(bool)`](https://learn.microsoft.com/dotnet/api/system.numerics.biginteger.getbytecount) <sup><sub>.NET Core 2.1</sub></sup>
 - `BinaryPrimitives`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives) <sup><sub>.NET Core 2.1</sub></sup>
   - [`static bool TryReadDoubleBigEndian(ReadOnlySpan<byte>, out double)`](https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.tryreaddoublebigendian) <sup><sub>.NET 5.0</sub></sup>
