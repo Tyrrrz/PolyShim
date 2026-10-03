@@ -5,6 +5,7 @@
 #pragma warning disable CS0436
 
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,6 +39,24 @@ internal static class MemberPolyfills_Net50_HttpContent
         {
             cancellationToken.ThrowIfCancellationRequested();
             return await httpContent.ReadAsStringAsync().ConfigureAwait(false);
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.copytoasync#system-net-http-httpcontent-copytoasync(system-io-stream-system-threading-cancellationtoken)
+        public async Task CopyToAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await httpContent.CopyToAsync(stream).ConfigureAwait(false);
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.copytoasync#system-net-http-httpcontent-copytoasync(system-io-stream-system-net-transportcontext-system-threading-cancellationtoken)
+        public async Task CopyToAsync(
+            Stream stream,
+            TransportContext? context,
+            CancellationToken cancellationToken = default
+        )
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await httpContent.CopyToAsync(stream, context).ConfigureAwait(false);
         }
     }
 #endif

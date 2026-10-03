@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 602
-- **Types:** 119
-- **Members:** 483
+- **Total:** 611
+- **Types:** 120
+- **Members:** 491
 
 ___
 
@@ -119,6 +119,8 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute) <sup><sub>.NET 7.0</sub></sup>
 - `ConditionalWeakTable<TKey, TValue>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2) <sup><sub>.NET Core 1.0</sub></sup>
+- `ConfigureAwaitOptions`
+  - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.configureawaitoptions) <sup><sub>.NET 8.0</sub></sup>
 - `ConfiguredCancelableAsyncEnumerable<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.configuredcancelableasyncenumerable-1) <sup><sub>.NET Core 3.0</sub></sup>
 - `ConfiguredValueTaskAwaitable`
@@ -249,6 +251,8 @@ ___
   - [`Task<string> GetStringAsync(string, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> GetStringAsync(Uri, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
 - `HttpContent`
+  - [`Task CopyToAsync(Stream, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.copytoasync#system-net-http-httpcontent-copytoasync(system-io-stream-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+  - [`Task CopyToAsync(Stream, TransportContext?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.copytoasync#system-net-http-httpcontent-copytoasync(system-io-stream-system-net-transportcontext-system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<byte[]> ReadAsByteArrayAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<Stream> ReadAsStreamAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<string> ReadAsStringAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
@@ -680,6 +684,7 @@ ___
   - [`static Task<T[]> WhenAll<T>(IEnumerable<Task<T>>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))) <sup><sub>.NET Core 1.0</sub></sup>
   - [`static Task<T[]> WhenAll<T>(params Task<T>[])`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.whenall#system-threading-tasks-task-whenall-1(system-threading-tasks-task((-0))())) <sup><sub>.NET Core 1.0</sub></sup>
   - [`bool IsCompletedSuccessfully`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.iscompletedsuccessfully) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`ConfiguredTaskAwaitable ConfigureAwait(ConfigureAwaitOptions)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.configureawait#system-threading-tasks-task-configureawait(system-threading-tasks-configureawaitoptions)) <sup><sub>.NET 8.0</sub></sup>
   - [`Task WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
@@ -687,11 +692,17 @@ ___
   - [`Task<T> WaitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)) <sup><sub>.NET 6.0</sub></sup>
   - [`Task<T> WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET 6.0</sub></sup>
+- `Task<TResult>`
+  - [`ConfiguredTaskAwaitable<TResult> ConfigureAwait(ConfigureAwaitOptions)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.configureawait#system-threading-tasks-task-1-configureawait(system-threading-tasks-configureawaitoptions)) <sup><sub>.NET 8.0</sub></sup>
 - `TaskCompletionSource`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource) <sup><sub>.NET 5.0</sub></sup>
+  - [`bool TrySetFromTask(Task)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource.trysetfromtask) <sup><sub>.NET 9.0</sub></sup>
+  - [`void SetFromTask(Task)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource.setfromtask) <sup><sub>.NET 9.0</sub></sup>
 - `TaskCompletionSource<T>`
   - [`bool TrySetCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetcanceled#system-threading-tasks-taskcompletionsource-1-trysetcanceled(system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`bool TrySetFromTask(Task<T>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetfromtask) <sup><sub>.NET 9.0</sub></sup>
   - [`void SetCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+  - [`void SetFromTask(Task<T>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setfromtask) <sup><sub>.NET 9.0</sub></sup>
 - `TextReader`
   - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.read#system-io-textreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Task<string> ReadToEndAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readtoendasync(system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
