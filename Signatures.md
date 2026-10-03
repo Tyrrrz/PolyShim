@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 604
+- **Total:** 608
 - **Types:** 120
-- **Members:** 484
+- **Members:** 488
 
 ___
 
@@ -692,9 +692,13 @@ ___
   - [`ConfiguredTaskAwaitable<TResult> ConfigureAwait(ConfigureAwaitOptions)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1.configureawait#system-threading-tasks-task-1-configureawait(system-threading-tasks-configureawaitoptions)) <sup><sub>.NET 8.0</sub></sup>
 - `TaskCompletionSource`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource) <sup><sub>.NET 5.0</sub></sup>
+  - [`bool TrySetFromTask(Task)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource.trysetfromtask) <sup><sub>.NET 9.0</sub></sup>
+  - [`void SetFromTask(Task)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource.setfromtask) <sup><sub>.NET 9.0</sub></sup>
 - `TaskCompletionSource<T>`
   - [`bool TrySetCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetcanceled#system-threading-tasks-taskcompletionsource-1-trysetcanceled(system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`bool TrySetFromTask(Task<T>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetfromtask) <sup><sub>.NET 9.0</sub></sup>
   - [`void SetCanceled(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)) <sup><sub>.NET 5.0</sub></sup>
+  - [`void SetFromTask(Task<T>)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskcompletionsource-1.setfromtask) <sup><sub>.NET 9.0</sub></sup>
 - `TextReader`
   - [`int Read(Span<char>)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.read#system-io-textreader-read(system-span((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Task<string> ReadToEndAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readtoendasync(system-threading-cancellationtoken)) <sup><sub>.NET 7.0</sub></sup>
