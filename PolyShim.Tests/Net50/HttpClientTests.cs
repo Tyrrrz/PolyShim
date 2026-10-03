@@ -159,7 +159,7 @@ public class HttpClientTests
         using var stream = new MemoryStream();
 
         // Act
-        await content.CopyToAsync(stream);
+        await content.CopyToAsync(stream, CancellationToken.None);
         stream.Position = 0;
 
         using var reader = new StreamReader(stream);
