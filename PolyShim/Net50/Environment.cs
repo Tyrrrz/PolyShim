@@ -6,13 +6,10 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-// No Process class in .NET Standard 1.x
-#if !NETSTANDARD || NETSTANDARD2_0_OR_GREATER
 file static class EnvironmentEx
 {
     public static int? ProcessId { get; set; }
 }
-#endif
 
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
