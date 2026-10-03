@@ -36,7 +36,7 @@ internal static class MemberPolyfills_Net90_TaskCompletionSource
             // Task does not expose the token that canceled it, so it needs to be recovered
             // by observing the task directly. This is safe because the task is already known
             // to be completed at this point.
-            var cancellationToken = default(CancellationToken);
+            var cancellationToken = new CancellationToken(true);
             try
             {
                 completedTask.GetAwaiter().GetResult();
@@ -47,7 +47,7 @@ internal static class MemberPolyfills_Net90_TaskCompletionSource
             }
             catch
             {
-                // Ignore other exceptions; fall back to an empty token below.
+                // Ignore other exceptions; fall back to a plain canceled token above.
             }
 
             return source.TrySetCanceled(cancellationToken);
