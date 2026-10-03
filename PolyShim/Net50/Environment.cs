@@ -6,6 +6,20 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
+// No Process class in .NET Standard 1.x
+#if !NETSTANDARD || NETSTANDARD2_0_OR_GREATER
+file static class CachedProcessId
+{
+    public static readonly int Value = GetProcessId();
+
+    private static int GetProcessId()
+    {
+        using var process = Process.GetCurrentProcess();
+        return process.Id;
+    }
+}
+#endif
+
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
@@ -16,14 +30,7 @@ internal static class MemberPolyfills_Net50_Environment
         // No Process class in .NET Standard 1.x
 #if !NETSTANDARD || NETSTANDARD2_0_OR_GREATER
         // https://learn.microsoft.com/dotnet/api/system.environment.processid
-        public static int ProcessId
-        {
-            get
-            {
-                using var process = Process.GetCurrentProcess();
-                return process.Id;
-            }
-        }
+        public static int ProcessId => CachedProcessId.Value;
 #endif
     }
 }
