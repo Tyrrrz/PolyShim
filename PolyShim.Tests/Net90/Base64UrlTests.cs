@@ -52,7 +52,7 @@ public class Base64UrlTests
     public void DecodeFromChars_Test()
     {
         // Act & assert
-        Base64Url.DecodeFromChars("").Should().BeEmpty();
+        Base64Url.DecodeFromChars("".AsSpan()).Should().BeEmpty();
         Base64Url
             .DecodeFromChars("SGVsbG8gd29ybGQh".AsSpan())
             .Should()
