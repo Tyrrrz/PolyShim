@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 using System.Runtime.Versioning;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.NetCore10;

@@ -1,5 +1,5 @@
 using System.Numerics;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.NetCore30;

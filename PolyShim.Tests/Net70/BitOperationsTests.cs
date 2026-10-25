@@ -1,6 +1,6 @@
 using System;
 using System.Numerics;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.Net70;

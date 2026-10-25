@@ -1,6 +1,6 @@
 using System;
 using System.Buffers.Text;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.Net90;
@@ -85,6 +85,7 @@ public class Base64UrlTests
         bytesWritten.Should().Be(12);
         destination
             .AsSpan(0, bytesWritten)
+            .ToArray()
             .Should()
             .Equal([
                 (byte)'H',
@@ -152,6 +153,7 @@ public class Base64UrlTests
         bytesWritten.Should().Be(12);
         destination
             .AsSpan(0, bytesWritten)
+            .ToArray()
             .Should()
             .Equal([
                 (byte)'H',
@@ -195,6 +197,7 @@ public class Base64UrlTests
         decodedLength.Should().Be(12);
         buffer
             .AsSpan(0, decodedLength)
+            .ToArray()
             .Should()
             .Equal([
                 (byte)'H',
@@ -241,7 +244,11 @@ public class Base64UrlTests
 
         // Assert
         encodedLength.Should().Be(16);
-        destination.AsSpan(0, encodedLength).Should().Equal("SGVsbG8gd29ybGQh".ToCharArray());
+        destination
+            .AsSpan(0, encodedLength)
+            .ToArray()
+            .Should()
+            .Equal("SGVsbG8gd29ybGQh".ToCharArray());
     }
 
     [Fact]
@@ -290,7 +297,11 @@ public class Base64UrlTests
 
         // Assert
         encodedLength.Should().Be(16);
-        destination.AsSpan(0, encodedLength).Should().Equal("SGVsbG8gd29ybGQh"u8.ToArray());
+        destination
+            .AsSpan(0, encodedLength)
+            .ToArray()
+            .Should()
+            .Equal("SGVsbG8gd29ybGQh"u8.ToArray());
     }
 
     [Fact]
