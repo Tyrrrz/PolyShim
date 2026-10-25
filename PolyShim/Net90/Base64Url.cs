@@ -50,7 +50,7 @@ internal static class Base64Url
     public static bool IsValid(ReadOnlySpan<char> base64UrlText) => IsValid(base64UrlText, out _);
 
     public static bool IsValid(ReadOnlySpan<byte> utf8Base64UrlText, out int decodedLength) =>
-        IsValid(Encoding.UTF8.GetString(utf8Base64UrlText), out decodedLength);
+        IsValid(Encoding.UTF8.GetString(utf8Base64UrlText).AsSpan(), out decodedLength);
 
     public static bool IsValid(ReadOnlySpan<byte> utf8Base64UrlText) =>
         IsValid(utf8Base64UrlText, out _);
@@ -74,7 +74,7 @@ internal static class Base64Url
         }
 
         var data = Convert.FromBase64String(
-            source.ToString().Replace('-', '+').Replace('_', '/')
+            new string(source.ToArray()).Replace('-', '+').Replace('_', '/')
                 + new string('=', (4 - source.Length % 4) % 4)
         );
 
@@ -88,7 +88,8 @@ internal static class Base64Url
         ReadOnlySpan<byte> source,
         Span<byte> destination,
         out int bytesWritten
-    ) => TryDecodeFromChars(Encoding.UTF8.GetString(source), destination, out bytesWritten);
+    ) =>
+        TryDecodeFromChars(Encoding.UTF8.GetString(source).AsSpan(), destination, out bytesWritten);
 
     public static byte[] DecodeFromChars(ReadOnlySpan<char> source)
     {
@@ -117,7 +118,7 @@ internal static class Base64Url
             : throw new ArgumentException("Destination buffer is too small.");
 
     public static byte[] DecodeFromUtf8(ReadOnlySpan<byte> source) =>
-        DecodeFromChars(Encoding.UTF8.GetString(source));
+        DecodeFromChars(Encoding.UTF8.GetString(source).AsSpan());
 
     public static int DecodeFromUtf8(ReadOnlySpan<byte> source, Span<byte> destination) =>
         TryDecodeFromUtf8(source, destination, out var bytesWritten)

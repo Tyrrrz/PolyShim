@@ -15,9 +15,9 @@ public class Base64UrlTests
         Base64Url.GetEncodedLength(1).Should().Be(2);
         Base64Url.GetEncodedLength(2).Should().Be(3);
         Base64Url.GetEncodedLength(12).Should().Be(16);
-        Base64Url.GetEncodedLength(32).Should().Be(44);
-        Base64Url.GetEncodedLength(41).Should().Be(56);
-        Base64Url.GetEncodedLength(77).Should().Be(104);
+        Base64Url.GetEncodedLength(32).Should().Be(43);
+        Base64Url.GetEncodedLength(41).Should().Be(55);
+        Base64Url.GetEncodedLength(77).Should().Be(103);
     }
 
     [Fact]
@@ -29,9 +29,9 @@ public class Base64UrlTests
         Base64Url.GetMaxDecodedLength(3).Should().Be(2);
         Base64Url.GetMaxDecodedLength(4).Should().Be(3);
         Base64Url.GetMaxDecodedLength(16).Should().Be(12);
-        Base64Url.GetMaxDecodedLength(44).Should().Be(32);
-        Base64Url.GetMaxDecodedLength(56).Should().Be(41);
-        Base64Url.GetMaxDecodedLength(104).Should().Be(77);
+        Base64Url.GetMaxDecodedLength(43).Should().Be(32);
+        Base64Url.GetMaxDecodedLength(55).Should().Be(41);
+        Base64Url.GetMaxDecodedLength(103).Should().Be(77);
     }
 
     [Fact]
