@@ -16,6 +16,7 @@
         >true</IsNetFramework
       >
     </PropertyGroup>
+
     <!-- Identify feature compatibility -->
     <PropertyGroup>
       <DefineConstants Condition="'$(AllowUnsafeBlocks)' == 'true'"
@@ -54,6 +55,19 @@
       >
       <DefineConstants Condition="$(FeatureAsyncInterfaces)"
         >$(DefineConstants);FEATURE_ASYNCINTERFACES</DefineConstants
+      >
+
+      <FeatureBase64Url>false</FeatureBase64Url>
+      <FeatureBase64Url
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'Microsoft.Bcl.Memory'))"
+        >true</FeatureBase64Url
+      >
+      <FeatureBase64Url
+        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '9.0'))"
+        >true</FeatureBase64Url
+      >
+      <DefineConstants Condition="$(FeatureBase64Url)"
+        >$(DefineConstants);FEATURE_BASE64URL</DefineConstants
       >
 
       <FeatureHashCode>false</FeatureHashCode>
@@ -207,9 +221,9 @@
       <DefineConstants Condition="$(FeatureTask)">$(DefineConstants);FEATURE_TASK</DefineConstants>
 
       <!--
-        FEATURE_VALUETASK: non-generic ValueTask + ValueTask<T> + awaiters + async method builders are all available.
+        FEATURE_VALUETASK: ValueTask + ValueTask<T> + awaiters + async method builders.
         The compatibility package provides the complete set on .NET Framework (any) and .NET Standard >= 2.0;
-        on older .NET Core it only shipped ValueTask<T>, so those TFMs are excluded here.
+        on older .NET Core it only ships ValueTask<T>, so those TFMs are excluded here.
         On .NET Standard >= 2.1, these types are available natively without the package.
       -->
       <FeatureValueTask>false</FeatureValueTask>
@@ -234,9 +248,9 @@
       >
 
       <!--
-        FEATURE_VALUETASK_SOURCES: IValueTaskSource<T>, ValueTaskSourceStatus, and ValueTaskSourceOnCompletedFlags
-        are available. The compatibility package provides these on .NET Framework >= 4.6.1 and .NET Standard >= 2.0
-        (not older .NET Standard), but not on older .NET Core.
+        FEATURE_VALUETASK_SOURCES: IValueTaskSource<T>, ValueTaskSourceStatus, and ValueTaskSourceOnCompletedFlags.
+        The compatibility package provides these on .NET Framework >= 4.6.1 and .NET Standard >= 2.0;
+        on older .NET Core these types are not included.
         On .NET Standard >= 2.1, these types are available natively without the package.
       -->
       <FeatureValueTaskSources>false</FeatureValueTaskSources>

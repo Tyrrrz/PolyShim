@@ -1,6 +1,6 @@
 using System;
 using System.Buffers.Binary;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.NetCore21;

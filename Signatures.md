@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 615
-- **Types:** 121
-- **Members:** 494
+- **Total:** 622
+- **Types:** 123
+- **Members:** 499
 
 ___
 
@@ -45,6 +45,10 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder) <sup><sub>.NET Core 2.1</sub></sup>
 - `AsyncValueTaskMethodBuilder<TResult>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asyncvaluetaskmethodbuilder-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `Base64FormattingOptions`
+  - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.base64formattingoptions) <sup><sub>.NET Core 2.0</sub></sup>
+- `Base64Url`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.text.base64url) <sup><sub>.NET 9.0</sub></sup>
 - `BigInteger`
   - [`bool TryWriteBytes(Span<byte>, out int, bool, bool)`](https://learn.microsoft.com/dotnet/api/system.numerics.biginteger.trywritebytes) <sup><sub>.NET Core 2.1</sub></sup>
   - [`byte[] ToByteArray(bool, bool)`](https://learn.microsoft.com/dotnet/api/system.numerics.biginteger.tobytearray#system-numerics-biginteger-tobytearray(system-boolean-system-boolean)) <sup><sub>.NET Core 2.1</sub></sup>
@@ -134,6 +138,9 @@ ___
 - `Convert`
   - [`static byte[] FromHexString(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))) <sup><sub>.NET 5.0</sub></sup>
   - [`static byte[] FromHexString(string)`](https://learn.microsoft.com/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-string)) <sup><sub>.NET 5.0</sub></sup>
+  - [`static int ToBase64CharArray(byte[], int, int, char[], int, Base64FormattingOptions)`](https://learn.microsoft.com/dotnet/api/system.convert.tobase64chararray?system-convert-tobase64chararray(system-byte()-system-int32-system-int32-system-char()-system-int32-system-base64formattingoptions)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static string ToBase64String(byte[], int, int, Base64FormattingOptions)`](https://learn.microsoft.com/dotnet/api/system.convert.tobase64string?system-convert-tobase64string(system-byte()-system-int32-system-int32-system-base64formattingoptions)) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`static string ToBase64String(ReadOnlySpan<byte>, Base64FormattingOptions)`](https://learn.microsoft.com/dotnet/api/system.convert.tobase64string?system-convert-tobase64string(system-readonlyspan((system-byte))-system-base64formattingoptions)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`static string ToHexString(byte[])`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte())) <sup><sub>.NET 5.0</sub></sup>
   - [`static string ToHexString(byte[], int, int)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte()-system-int32-system-int32)) <sup><sub>.NET 5.0</sub></sup>
   - [`static string ToHexString(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-readonlyspan((system-byte)))) <sup><sub>.NET 5.0</sub></sup>
@@ -175,6 +182,9 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembersattribute) <sup><sub>.NET 5.0</sub></sup>
 - `DynamicallyAccessedMemberTypes`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembertypes) <sup><sub>.NET 5.0</sub></sup>
+- `Encoding`
+  - [`int GetBytes(ReadOnlySpan<char>, Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.text.encoding.getbytes?system-text-encoding-getbytes(system-readonlyspan((system-char))-system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`string GetString(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.text.encoding.getstring?system-text-encoding-getstring(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `Enum`
   - [`static bool IsDefined<T>(T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.isdefined#system-enum-isdefined-1(-0)) <sup><sub>.NET 5.0</sub></sup>
   - [`static bool TryParse<T>(string?, bool, out T) where T : struct, Enum`](https://learn.microsoft.com/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-string-system-boolean-0@)) <sup><sub>.NET Core 1.0</sub></sup>

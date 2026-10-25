@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.IO.Compression;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.Net60;

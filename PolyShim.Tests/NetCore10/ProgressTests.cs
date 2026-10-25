@@ -1,6 +1,6 @@
 using System;
 using System.Threading;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.NetCore10;

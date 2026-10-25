@@ -1,6 +1,6 @@
 using System;
 using System.Security.Cryptography;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.Net80;

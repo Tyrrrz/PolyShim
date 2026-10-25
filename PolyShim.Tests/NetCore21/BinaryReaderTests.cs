@@ -1,7 +1,7 @@
 using System;
 using System.Buffers;
 using System.IO;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace PolyShim.Tests.NetCore21;
