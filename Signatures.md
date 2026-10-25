@@ -416,6 +416,8 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.membernotnullwhenattribute) <sup><sub>.NET 5.0</sub></sup>
 - `Memory<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.memory-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `MemoryExtensions`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.memoryextensions) <sup><sub>.NET Core 2.1</sub></sup>
 - `MemoryPool<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.memorypool-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `MethodInfo`

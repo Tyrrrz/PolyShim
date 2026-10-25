@@ -5,10 +5,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace System;
 
+// https://learn.microsoft.com/dotnet/api/system.memoryextensions
 #if !POLYSHIM_INCLUDE_COVERAGE
 [ExcludeFromCodeCoverage]
 #endif
-internal static class MemberPolyfills_NetCore21_MemoryExtensions
+// This class needs to be called System.MemoryExtensions because the compiler relies on it by name
+internal static class MemoryExtensions
 {
     extension<T>(T[]? array)
     {
