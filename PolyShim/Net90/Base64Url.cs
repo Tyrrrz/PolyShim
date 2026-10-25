@@ -86,23 +86,17 @@ internal static class Base64Url
 
     public static byte[] DecodeFromChars(ReadOnlySpan<char> source)
     {
-        var buffer = ArrayPool<byte>.Shared.Rent(source.Length);
-        try
-        {
-            if (!TryDecodeFromChars(source, buffer, out var bytesWritten))
-            {
-                throw new ArgumentException("Destination buffer is too small.");
-            }
+        var buffer = new byte[GetMaxDecodedLength(source.Length)];
 
-            var result = new byte[bytesWritten];
-            Array.Copy(buffer, result, bytesWritten);
-
-            return result;
-        }
-        finally
+        if (!TryDecodeFromChars(source, buffer, out var bytesWritten))
         {
-            ArrayPool<byte>.Shared.Return(buffer);
+            throw new ArgumentException("Destination buffer is too small.");
         }
+
+        var result = new byte[bytesWritten];
+        Array.Copy(buffer, result, bytesWritten);
+
+        return result;
     }
 
     public static int DecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination) =>
@@ -157,23 +151,17 @@ internal static class Base64Url
 
     public static char[] EncodeToChars(ReadOnlySpan<byte> source)
     {
-        var buffer = ArrayPool<char>.Shared.Rent(source.Length * 4);
-        try
-        {
-            if (!TryEncodeToChars(source, buffer, out var charsWritten))
-            {
-                throw new ArgumentException("Destination buffer is too small.");
-            }
+        var buffer = new char[GetEncodedLength(source.Length)];
 
-            var result = new char[charsWritten];
-            Array.Copy(buffer, result, charsWritten);
-
-            return result;
-        }
-        finally
+        if (!TryEncodeToChars(source, buffer, out var charsWritten))
         {
-            ArrayPool<char>.Shared.Return(buffer);
+            throw new ArgumentException("Destination buffer is too small.");
         }
+
+        var result = new char[charsWritten];
+        Array.Copy(buffer, result, charsWritten);
+
+        return result;
     }
 
     public static int EncodeToChars(ReadOnlySpan<byte> source, Span<char> destination) =>
@@ -187,28 +175,32 @@ internal static class Base64Url
         out int bytesWritten
     )
     {
-        var buffer = ArrayPool<char>.Shared.Rent(source.Length * 4);
-        try
-        {
-            if (!TryEncodeToChars(source, buffer, out bytesWritten))
-            {
-                return false;
-            }
+        var buffer = new char[GetEncodedLength(source.Length)];
 
-            Encoding.UTF8.GetBytes(buffer.AsSpan(0, bytesWritten), destination);
-
-            return true;
-        }
-        finally
+        if (!TryEncodeToChars(source, buffer, out bytesWritten))
         {
-            ArrayPool<char>.Shared.Return(buffer);
+            return false;
         }
+
+        Encoding.UTF8.GetBytes(buffer.AsSpan(0, bytesWritten), destination);
+
+        return true;
     }
 
-    public static byte[] EncodeToUtf8(ReadOnlySpan<byte> source) =>
-        TryEncodeToUtf8(source, new byte[GetEncodedLength(source.Length)], out var bytesWritten)
-            ? new byte[bytesWritten]
-            : throw new ArgumentException("Destination buffer is too small.");
+    public static byte[] EncodeToUtf8(ReadOnlySpan<byte> source)
+    {
+        var buffer = new byte[GetEncodedLength(source.Length)];
+
+        if (!TryEncodeToUtf8(source, buffer, out var bytesWritten))
+        {
+            throw new ArgumentException("Destination buffer is too small.");
+        }
+
+        var result = new byte[bytesWritten];
+        Array.Copy(buffer, result, bytesWritten);
+
+        return result;
+    }
 
     public static int EncodeToUtf8(ReadOnlySpan<byte> source, Span<byte> destination) =>
         TryEncodeToUtf8(source, destination, out var bytesWritten)
