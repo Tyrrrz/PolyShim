@@ -11,10 +11,10 @@ public class Base64UrlTests
     public void IsValid_Test()
     {
         // Act & assert
-        Base64Url.IsValid("").Should().BeTrue();
-        Base64Url.IsValid("SGVsbG8gd29ybGQh").Should().BeTrue();
-        Base64Url.IsValid("SGVsbG8gd29ybGQh").Should().BeTrue();
-        Base64Url.IsValid("SGVsbG8gd29ybGQh!").Should().BeFalse();
+        Base64Url.IsValid("".AsSpan()).Should().BeTrue();
+        Base64Url.IsValid("SGVsbG8gd29ybGQh".AsSpan()).Should().BeTrue();
+        Base64Url.IsValid("SGVsbG8gd29ybGQh".AsSpan()).Should().BeTrue();
+        Base64Url.IsValid("SGVsbG8gd29ybGQh!".AsSpan()).Should().BeFalse();
         Base64Url.IsValid(""u8).Should().BeTrue();
         Base64Url.IsValid("SGVsbG8gd29ybGQh"u8).Should().BeTrue();
         Base64Url.IsValid("SGVsbG8gd29ybGQh"u8).Should().BeTrue();
@@ -54,7 +54,7 @@ public class Base64UrlTests
         // Act & assert
         Base64Url.DecodeFromChars("").Should().BeEmpty();
         Base64Url
-            .DecodeFromChars("SGVsbG8gd29ybGQh")
+            .DecodeFromChars("SGVsbG8gd29ybGQh".AsSpan())
             .Should()
             .Equal([
                 (byte)'H',
@@ -79,7 +79,7 @@ public class Base64UrlTests
         var destination = new byte[256];
 
         // Act
-        var bytesWritten = Base64Url.DecodeFromChars("SGVsbG8gd29ybGQh", destination);
+        var bytesWritten = Base64Url.DecodeFromChars("SGVsbG8gd29ybGQh".AsSpan(), destination);
 
         // Assert
         bytesWritten.Should().Be(12);
@@ -109,7 +109,7 @@ public class Base64UrlTests
         var destination = new byte[1];
 
         // Act
-        var act = () => Base64Url.DecodeFromChars("SGVsbG8gd29ybGQh", destination);
+        var act = () => Base64Url.DecodeFromChars("SGVsbG8gd29ybGQh".AsSpan(), destination);
 
         // Assert
         act.Should().Throw<ArgumentException>();
