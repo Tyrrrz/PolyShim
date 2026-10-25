@@ -1,5 +1,11 @@
 {
   "image": "mcr.microsoft.com/devcontainers/dotnet",
+  "features": {
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "latest",
+      "additionalVersions": "6.0"
+    }
+  },
   "updateRemoteUserUID": false,
   "updateContentCommand": "sh .devcontainer/updateContentCommand.sh",
   "postCreateCommand": "sh .devcontainer/postCreateCommand.sh",
