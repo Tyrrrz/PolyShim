@@ -84,13 +84,6 @@ internal static class Base64Url
         return true;
     }
 
-    public static bool TryDecodeFromUtf8(
-        ReadOnlySpan<byte> source,
-        Span<byte> destination,
-        out int bytesWritten
-    ) =>
-        TryDecodeFromChars(Encoding.UTF8.GetString(source).AsSpan(), destination, out bytesWritten);
-
     public static byte[] DecodeFromChars(ReadOnlySpan<char> source)
     {
         var buffer = ArrayPool<byte>.Shared.Rent(source.Length);
@@ -116,6 +109,13 @@ internal static class Base64Url
         TryDecodeFromChars(source, destination, out var bytesWritten)
             ? bytesWritten
             : throw new ArgumentException("Destination buffer is too small.");
+
+    public static bool TryDecodeFromUtf8(
+        ReadOnlySpan<byte> source,
+        Span<byte> destination,
+        out int bytesWritten
+    ) =>
+        TryDecodeFromChars(Encoding.UTF8.GetString(source).AsSpan(), destination, out bytesWritten);
 
     public static byte[] DecodeFromUtf8(ReadOnlySpan<byte> source) =>
         DecodeFromChars(Encoding.UTF8.GetString(source).AsSpan());
@@ -155,30 +155,6 @@ internal static class Base64Url
         return true;
     }
 
-    public static bool TryEncodeToUtf8(
-        ReadOnlySpan<byte> source,
-        Span<byte> destination,
-        out int bytesWritten
-    )
-    {
-        var buffer = ArrayPool<char>.Shared.Rent(source.Length * 4);
-        try
-        {
-            if (!TryEncodeToChars(source, buffer, out bytesWritten))
-            {
-                return false;
-            }
-
-            Encoding.UTF8.GetBytes(buffer.AsSpan(0, bytesWritten), destination);
-
-            return true;
-        }
-        finally
-        {
-            ArrayPool<char>.Shared.Return(buffer);
-        }
-    }
-
     public static char[] EncodeToChars(ReadOnlySpan<byte> source)
     {
         var buffer = ArrayPool<char>.Shared.Rent(source.Length * 4);
@@ -205,15 +181,41 @@ internal static class Base64Url
             ? charsWritten
             : throw new ArgumentException("Destination buffer is too small.");
 
-    public static string EncodeToString(ReadOnlySpan<byte> source) => new(EncodeToChars(source));
+    public static bool TryEncodeToUtf8(
+        ReadOnlySpan<byte> source,
+        Span<byte> destination,
+        out int bytesWritten
+    )
+    {
+        var buffer = ArrayPool<char>.Shared.Rent(source.Length * 4);
+        try
+        {
+            if (!TryEncodeToChars(source, buffer, out bytesWritten))
+            {
+                return false;
+            }
+
+            Encoding.UTF8.GetBytes(buffer.AsSpan(0, bytesWritten), destination);
+
+            return true;
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(buffer);
+        }
+    }
 
     public static byte[] EncodeToUtf8(ReadOnlySpan<byte> source) =>
-        Encoding.UTF8.GetBytes(EncodeToString(source));
+        TryEncodeToUtf8(source, new byte[GetEncodedLength(source.Length)], out var bytesWritten)
+            ? new byte[bytesWritten]
+            : throw new ArgumentException("Destination buffer is too small.");
 
     public static int EncodeToUtf8(ReadOnlySpan<byte> source, Span<byte> destination) =>
         TryEncodeToUtf8(source, destination, out var bytesWritten)
             ? bytesWritten
             : throw new ArgumentException("Destination buffer is too small.");
+
+    public static string EncodeToString(ReadOnlySpan<byte> source) => new(EncodeToChars(source));
 }
 #endif
 #endif

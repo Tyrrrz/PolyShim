@@ -8,6 +8,20 @@ namespace PolyShim.Tests.Net90;
 public class Base64UrlTests
 {
     [Fact]
+    public void IsValid_Test()
+    {
+        // Act & assert
+        Base64Url.IsValid("").Should().BeTrue();
+        Base64Url.IsValid("SGVsbG8gd29ybGQh").Should().BeTrue();
+        Base64Url.IsValid("SGVsbG8gd29ybGQh").Should().BeTrue();
+        Base64Url.IsValid("SGVsbG8gd29ybGQh!").Should().BeFalse();
+        Base64Url.IsValid(""u8).Should().BeTrue();
+        Base64Url.IsValid("SGVsbG8gd29ybGQh"u8).Should().BeTrue();
+        Base64Url.IsValid("SGVsbG8gd29ybGQh"u8).Should().BeTrue();
+        Base64Url.IsValid("SGVsbG8gd29ybGQh!"u8).Should().BeFalse();
+    }
+
+    [Fact]
     public void GetEncodedLength_Test()
     {
         // Act & assert
@@ -59,6 +73,49 @@ public class Base64UrlTests
     }
 
     [Fact]
+    public void DecodeFromChars_WithDestination_Test()
+    {
+        // Arrange
+        var destination = new byte[256];
+
+        // Act
+        var bytesWritten = Base64Url.DecodeFromChars("SGVsbG8gd29ybGQh", destination);
+
+        // Assert
+        bytesWritten.Should().Be(12);
+        destination
+            .AsSpan(0, bytesWritten)
+            .Should()
+            .Equal([
+                (byte)'H',
+                (byte)'e',
+                (byte)'l',
+                (byte)'l',
+                (byte)'o',
+                (byte)' ',
+                (byte)'w',
+                (byte)'o',
+                (byte)'r',
+                (byte)'l',
+                (byte)'d',
+                (byte)'!',
+            ]);
+    }
+
+    [Fact]
+    public void DecodeFromChars_WithDestination_Overflow_Test()
+    {
+        // Arrange
+        var destination = new byte[1];
+
+        // Act
+        var act = () => Base64Url.DecodeFromChars("SGVsbG8gd29ybGQh", destination);
+
+        // Assert
+        act.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
     public void DecodeFromUtf8_Test()
     {
         // Act & assert
@@ -80,6 +137,49 @@ public class Base64UrlTests
                 (byte)'d',
                 (byte)'!',
             ]);
+    }
+
+    [Fact]
+    public void DecodeFromUtf8_WithDestination_Test()
+    {
+        // Arrange
+        var destination = new byte[256];
+
+        // Act
+        var bytesWritten = Base64Url.DecodeFromUtf8("SGVsbG8gd29ybGQh"u8, destination);
+
+        // Assert
+        bytesWritten.Should().Be(12);
+        destination
+            .AsSpan(0, bytesWritten)
+            .Should()
+            .Equal([
+                (byte)'H',
+                (byte)'e',
+                (byte)'l',
+                (byte)'l',
+                (byte)'o',
+                (byte)' ',
+                (byte)'w',
+                (byte)'o',
+                (byte)'r',
+                (byte)'l',
+                (byte)'d',
+                (byte)'!',
+            ]);
+    }
+
+    [Fact]
+    public void DecodeFromUtf8_WithDestination_Overflow_Test()
+    {
+        // Arrange
+        var destination = new byte[1];
+
+        // Act
+        var act = () => Base64Url.DecodeFromUtf8("SGVsbG8gd29ybGQh"u8, destination);
+
+        // Assert
+        act.Should().Throw<ArgumentException>();
     }
 
     [Fact]
@@ -113,15 +213,52 @@ public class Base64UrlTests
     }
 
     [Fact]
-    public void EncodeToString_Test()
+    public void EncodeToChars_Test()
     {
         // Act & assert
-        Base64Url.EncodeToString([]).Should().Be("");
-        Base64Url.EncodeToString([1, 2, 3, 4, 5, 6, 7, 8, 9]).Should().Be("AQIDBAUGBwgJ");
+        Base64Url.EncodeToChars([]).Should().Equal([]);
         Base64Url
-            .EncodeToString([72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33])
+            .EncodeToChars([1, 2, 3, 4, 5, 6, 7, 8, 9])
             .Should()
-            .Be("SGVsbG8gd29ybGQh");
+            .Equal("AQIDBAUGBwgJ".ToCharArray());
+        Base64Url
+            .EncodeToChars([72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33])
+            .Should()
+            .Equal("SGVsbG8gd29ybGQh".ToCharArray());
+    }
+
+    [Fact]
+    public void EncodeToChars_WithDestination_Test()
+    {
+        // Arrange
+        var destination = new char[256];
+
+        // Act
+        var encodedLength = Base64Url.EncodeToChars(
+            [72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33],
+            destination
+        );
+
+        // Assert
+        encodedLength.Should().Be(16);
+        destination.AsSpan(0, encodedLength).Should().Equal("SGVsbG8gd29ybGQh".ToCharArray());
+    }
+
+    [Fact]
+    public void EncodeToChars_WithDestination_Overflow_Test()
+    {
+        // Arrange
+        var destination = new char[1];
+
+        // Act
+        var act = () =>
+            Base64Url.EncodeToChars(
+                [72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33],
+                destination
+            );
+
+        // Assert
+        act.Should().Throw<ArgumentException>();
     }
 
     [Fact]
@@ -137,5 +274,51 @@ public class Base64UrlTests
             .EncodeToUtf8([72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33])
             .Should()
             .Equal("SGVsbG8gd29ybGQh"u8.ToArray());
+    }
+
+    [Fact]
+    public void EncodeToUtf8_WithDestination_Test()
+    {
+        // Arrange
+        var destination = new byte[256];
+
+        // Act
+        var encodedLength = Base64Url.EncodeToUtf8(
+            [72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33],
+            destination
+        );
+
+        // Assert
+        encodedLength.Should().Be(16);
+        destination.AsSpan(0, encodedLength).Should().Equal("SGVsbG8gd29ybGQh"u8.ToArray());
+    }
+
+    [Fact]
+    public void EncodeToUtf8_WithDestination_Overflow_Test()
+    {
+        // Arrange
+        var destination = new byte[1];
+
+        // Act
+        var act = () =>
+            Base64Url.EncodeToUtf8(
+                [72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33],
+                destination
+            );
+
+        // Assert
+        act.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void EncodeToString_Test()
+    {
+        // Act & assert
+        Base64Url.EncodeToString([]).Should().Be("");
+        Base64Url.EncodeToString([1, 2, 3, 4, 5, 6, 7, 8, 9]).Should().Be("AQIDBAUGBwgJ");
+        Base64Url
+            .EncodeToString([72, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100, 33])
+            .Should()
+            .Be("SGVsbG8gd29ybGQh");
     }
 }
