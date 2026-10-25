@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 621
-- **Types:** 122
+- **Total:** 622
+- **Types:** 123
 - **Members:** 499
 
 ___
