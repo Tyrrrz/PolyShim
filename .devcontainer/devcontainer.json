@@ -6,7 +6,11 @@
       "additionalVersions": "6.0"
     }
   },
-  "updateRemoteUserUID": false,
+  "runArgs": [
+    "--userns=keep-id:uid=1000,gid=1000"
+  ],
+  "containerUser": "vscode",
+  "updateRemoteUserUID": true,
   "updateContentCommand": "sh .devcontainer/updateContentCommand.sh",
   "postCreateCommand": "sh .devcontainer/postCreateCommand.sh",
   "customizations": {
