@@ -1,26 +1,15 @@
 {
   "image": "mcr.microsoft.com/devcontainers/dotnet",
   "features": {
-    "ghcr.io/devcontainers/features/dotnet:2": {
-      "version": "latest",
-      "additionalVersions": "6.0"
-    }
+    "ghcr.io/nikiforovall/devcontainer-features/dotnet-csharpier:1": {}
   },
-  "runArgs": [
-    "--userns=keep-id:uid=1000,gid=1000"
-  ],
-  "containerUser": "vscode",
-  "updateRemoteUserUID": true,
-  "updateContentCommand": "sh .devcontainer/updateContentCommand.sh",
-  "postCreateCommand": "sh .devcontainer/postCreateCommand.sh",
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-dotnettools.csharp",
         "ms-dotnettools.csdevkit",
         "csharpier.csharpier-vscode",
-        "icsharpcode.ilspy-vscode",
-        "streetsidesoftware.code-spell-checker"
+        "icsharpcode.ilspy-vscode"
       ],
       "settings": {
         "[csharp][xml]": {
