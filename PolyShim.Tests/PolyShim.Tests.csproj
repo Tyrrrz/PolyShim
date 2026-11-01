@@ -55,7 +55,6 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
-    <PackageReference Include="System.Text.Json" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>

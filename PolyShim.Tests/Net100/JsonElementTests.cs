@@ -1,3 +1,4 @@
+#if !NETFRAMEWORK
 using System;
 using System.Text.Json;
 using AwesomeAssertions;
@@ -37,3 +38,4 @@ public class JsonElementTests
         element.GetString().Should().Be("hello");
     }
 }
+#endif
