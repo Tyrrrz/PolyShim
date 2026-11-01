@@ -1,7 +1,7 @@
 #if !FEATURE_JSON
 #if (NETCOREAPP && !NET10_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
-#if NETCOREAPP3_0_OR_GREATER
 // System.Text.Json is only available in .NET Core 3.0+
+#if NETCOREAPP3_0_OR_GREATER
 #nullable enable
 #pragma warning disable CS0436
 
