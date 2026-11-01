@@ -155,6 +155,15 @@
         >$(DefineConstants);FEATURE_MEMORY</DefineConstants
       >
 
+      <FeatureJsonElementParse>false</FeatureJsonElementParse>
+      <FeatureJsonElementParse
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('NuGetPackageId', 'System.Text.Json'))"
+        >true</FeatureJsonElementParse
+      >
+      <DefineConstants Condition="$(FeatureJsonElementParse)"
+        >$(DefineConstants);FEATURE_JSONELEMENTPARSE</DefineConstants
+      >
+
       <FeatureProcess>false</FeatureProcess>
       <FeatureProcess
         Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Diagnostics.Process'))"
