@@ -190,6 +190,7 @@ Currently, **PolyShim** recognizes the following packages:
 - [`System.Memory`](https://nuget.org/packages/System.Memory) — `Memory<T>`, `Span<T>`, etc.
 - [`System.Net.Http`](https://nuget.org/packages/System.Net.Http) — `HttpClient`, `HttpContent`, etc.
 - [`System.Runtime.InteropServices.RuntimeInformation`](https://nuget.org/packages/System.Runtime.InteropServices.RuntimeInformation) — `RuntimeInformation`, `OSPlatform`, etc.
+- [`System.Text.Json`](https://nuget.org/packages/System.Text.Json) — `JsonElement`, `JsonDocument`, etc.
 - [`System.Threading.Tasks`](https://nuget.org/packages/System.Threading.Tasks) — `Task`, `Task<T>`, etc.
 - [`System.Threading.Tasks.Extensions`](https://nuget.org/packages/System.Threading.Tasks.Extensions) — `ValueTask`, `ValueTask<T>`, etc.
 - [`System.ValueTuple`](https://nuget.org/packages/System.ValueTuple) — `ValueTuple<...>`, etc.
@@ -197,7 +198,6 @@ Currently, **PolyShim** recognizes the following packages:
 - [`Microsoft.Bcl.AsyncInterfaces`](https://nuget.org/packages/Microsoft.Bcl.AsyncInterfaces) — `IAsyncEnumerable<T>`, `IAsyncDisposable`, etc.
 - [`Microsoft.Bcl.HashCode`](https://nuget.org/packages/Microsoft.Bcl.HashCode) — `HashCode`, etc.
 - [`Microsoft.Bcl.Memory`](https://nuget.org/packages/Microsoft.Bcl.Memory) — `Index`, `Range`, etc.
-- [`System.Text.Json`](https://nuget.org/packages/System.Text.Json) — `JsonElement`, `JsonDocument`, etc.
 - [`Microsoft.Bcl.TimeProvider`](https://nuget.org/packages/Microsoft.Bcl.TimeProvider) — `TimeProvider`, `ITimer`, etc.
 - [`Microsoft.Net.Http`](https://nuget.org/packages/Microsoft.Net.Http) — `HttpClient`, `HttpContent`, etc. (wider support than the `System.*` variant).
 

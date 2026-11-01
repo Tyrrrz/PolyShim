@@ -129,6 +129,15 @@
         >$(DefineConstants);FEATURE_INDEXRANGE</DefineConstants
       >
 
+      <FeatureJson>false</FeatureJson>
+      <FeatureJson
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('NuGetPackageId', 'System.Text.Json'))"
+        >true</FeatureJson
+      >
+      <DefineConstants Condition="$(FeatureJson)"
+        >$(DefineConstants);FEATURE_JSON</DefineConstants
+      >
+
       <FeatureManagement>false</FeatureManagement>
       <FeatureManagement
         Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Management'))"
@@ -153,15 +162,6 @@
       >
       <DefineConstants Condition="$(FeatureMemory)"
         >$(DefineConstants);FEATURE_MEMORY</DefineConstants
-      >
-
-      <FeatureJsonElementParse>false</FeatureJsonElementParse>
-      <FeatureJsonElementParse
-        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('NuGetPackageId', 'System.Text.Json'))"
-        >true</FeatureJsonElementParse
-      >
-      <DefineConstants Condition="$(FeatureJsonElementParse)"
-        >$(DefineConstants);FEATURE_JSONELEMENTPARSE</DefineConstants
       >
 
       <FeatureProcess>false</FeatureProcess>
