@@ -134,6 +134,14 @@
         Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('NuGetPackageId', 'System.Text.Json'))"
         >true</FeatureJson
       >
+      <FeatureJson
+        Condition="$(IsNetStandard) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '2.1'))"
+        >true</FeatureJson
+      >
+      <FeatureJson
+        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '3.0'))"
+        >true</FeatureJson
+      >
       <DefineConstants Condition="$(FeatureJson)"
         >$(DefineConstants);FEATURE_JSON</DefineConstants
       >
