@@ -190,6 +190,7 @@ Currently, **PolyShim** recognizes the following packages:
 - [`System.Memory`](https://nuget.org/packages/System.Memory) — `Memory<T>`, `Span<T>`, etc.
 - [`System.Net.Http`](https://nuget.org/packages/System.Net.Http) — `HttpClient`, `HttpContent`, etc.
 - [`System.Runtime.InteropServices.RuntimeInformation`](https://nuget.org/packages/System.Runtime.InteropServices.RuntimeInformation) — `RuntimeInformation`, `OSPlatform`, etc.
+- [`System.Text.Json`](https://nuget.org/packages/System.Text.Json) — `JsonElement`, `JsonDocument`, etc.
 - [`System.Threading.Tasks`](https://nuget.org/packages/System.Threading.Tasks) — `Task`, `Task<T>`, etc.
 - [`System.Threading.Tasks.Extensions`](https://nuget.org/packages/System.Threading.Tasks.Extensions) — `ValueTask`, `ValueTask<T>`, etc.
 - [`System.ValueTuple`](https://nuget.org/packages/System.ValueTuple) — `ValueTuple<...>`, etc.

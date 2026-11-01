@@ -129,6 +129,17 @@
         >$(DefineConstants);FEATURE_INDEXRANGE</DefineConstants
       >
 
+      <FeatureJson>false</FeatureJson>
+      <FeatureJson
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('NuGetPackageId', 'System.Text.Json'))"
+        >true</FeatureJson
+      >
+      <FeatureJson
+        Condition="$(IsNetCoreApp) AND $([MSBuild]::VersionGreaterThanOrEquals($(TargetFrameworkVersion), '3.0'))"
+        >true</FeatureJson
+      >
+      <DefineConstants Condition="$(FeatureJson)">$(DefineConstants);FEATURE_JSON</DefineConstants>
+
       <FeatureManagement>false</FeatureManagement>
       <FeatureManagement
         Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'System.Management'))"
