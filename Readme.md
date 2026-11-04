@@ -1,13 +1,11 @@
 # PolyShim
 
 [![Status](https://img.shields.io/badge/status-active-47c219.svg)](https://github.com/Tyrrrz/.github/blob/prime/docs/project-status.md)
-[![Made in Ukraine](https://img.shields.io/badge/made_in-ukraine-ffd700.svg?labelColor=0057b7)](https://tyrrrz.me/ukraine)
 [![Build](https://img.shields.io/github/actions/workflow/status/Tyrrrz/PolyShim/main.yml?branch=prime)](https://github.com/Tyrrrz/PolyShim/actions)
 [![Coverage](https://img.shields.io/codecov/c/github/Tyrrrz/PolyShim/prime)](https://codecov.io/gh/Tyrrrz/PolyShim)
 [![Version](https://img.shields.io/nuget/v/PolyShim.svg)](https://nuget.org/packages/PolyShim)
 [![Downloads](https://img.shields.io/nuget/dt/PolyShim.svg)](https://nuget.org/packages/PolyShim)
 [![Discord](https://img.shields.io/discord/869237470565392384?label=discord)](https://discord.gg/2SUWKFnHSm)
-[![Fuck Russia](https://img.shields.io/badge/fuck-russia-e4181c.svg?labelColor=000000)](https://twitter.com/tyrrrz/status/1495972128977571848)
 
 <table>
     <tr>
@@ -19,19 +17,11 @@
     <img src="favicon.png" alt="Icon" />
 </p>
 
+> **Made in 🇺🇦 Ukraine — [despite Russia's best efforts](https://tyrrrz.me/ukraine)**.
+> Using this project or its source code comes with the implicit agreement that you condemn Russia's war of aggression against Ukraine, recognize Russia as a terrorist state, and support Ukraine's territorial integrity.
+
 **PolyShim** is a collection of polyfills that enable many modern framework APIs and compiler features for projects targeting older versions of .NET.
 It's distributed as a source-only package that can be referenced without imposing any run-time dependencies.
-
-## Terms of use<sup>[[?]](https://github.com/Tyrrrz/.github/blob/prime/docs/why-so-political.md)</sup>
-
-By using this project or its source code, for any purpose and in any shape or form, you grant your **implicit agreement** to all the following statements:
-
-- You **condemn Russia and its military aggression against Ukraine**
-- You **recognize that Russia is an occupant that unlawfully invaded a sovereign state**
-- You **support Ukraine's territorial integrity, including its claims over temporarily occupied territories of Crimea and Donbas**
-- You **reject false narratives perpetuated by Russian state propaganda**
-
-To learn more about the war and how you can help, [click here](https://tyrrrz.me/ukraine). Glory to Ukraine! 🇺🇦
 
 ## Install
 
@@ -65,7 +55,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `ValueTask` and `ValueTask<T>`
   - `TaskCompletionSource`, `IValueTaskSource<T>`
   - `IAsyncEnumerable<T>` and `IAsyncDisposable`
-  - [...and 100+ more](Signatures.md)
+  - [...and 150+ more](Signatures.md)
 - Provides member polyfills for:
   - `string.Create(...)`, `string.ReplaceLineEndings(...)`, etc.
   - `Stream.ReadExactly(...)`, `Stream.ReadAtLeast(...)`, etc.
@@ -75,7 +65,7 @@ To learn more about the war and how you can help, [click here](https://tyrrrz.me
   - `File.WriteAllTextAsync(...)`, `File.ReadAllTextAsync(...)`, etc.
   - `Environment.ProcessPath`, `Environment.ProcessId`, etc.
   - `OperatingSystem.IsWindows()`, `OperatingSystem.IsLinux()`, etc.
-  - [...and 400+ more](Signatures.md)
+  - [...and 500+ more](Signatures.md)
 - Adjusts polyfills based on available capabilities
 - Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
 - Imposes no run-time dependencies
