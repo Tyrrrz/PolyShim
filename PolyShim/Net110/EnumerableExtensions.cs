@@ -63,7 +63,7 @@ internal static class MemberPolyfills_Net110_EnumerableExtensions
 
                     if (key is null)
                         hasNullKey = true;
-                    else
+                    else if (secondLookup.Contains(key))
                         matchedKeys.Add(key);
 
                     var matches = secondLookup[key];
