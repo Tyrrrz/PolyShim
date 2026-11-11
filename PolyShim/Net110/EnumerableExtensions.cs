@@ -81,7 +81,7 @@ internal static class MemberPolyfills_Net110_EnumerableExtensions
 
                 foreach (var group in secondLookup)
                 {
-                    if (group.Key is null ? hasNullKey : matchedKeys.Contains(group.Key))
+                    if (matchedKeys.Contains(group.Key) || (group.Key is null && hasNullKey))
                         continue;
 
                     foreach (var secondItem in group)
