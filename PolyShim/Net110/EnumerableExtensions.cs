@@ -15,6 +15,21 @@ internal static class MemberPolyfills_Net110_EnumerableExtensions
     extension<TFirst>(IEnumerable<TFirst> first)
     {
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.fulljoin
+        public IEnumerable<(TFirst? Outer, TInner? Inner)> FullJoin<TInner, TKey>(
+            IEnumerable<TInner> inner,
+            Func<TFirst, TKey> outerKeySelector,
+            Func<TInner, TKey> innerKeySelector,
+            IEqualityComparer<TKey>? comparer = null
+        ) =>
+            first.FullJoin(
+                inner,
+                outerKeySelector,
+                innerKeySelector,
+                (outerItem, innerItem) => (outerItem, innerItem),
+                comparer
+            );
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.fulljoin
         public IEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(
             IEnumerable<TSecond> second,
             Func<TFirst, TKey> firstKeySelector,
