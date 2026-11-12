@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 622
+- **Total:** 627
 - **Types:** 123
-- **Members:** 499
+- **Members:** 504
 
 ___
 
@@ -326,6 +326,9 @@ ___
   - [`T? Min(IComparer<T>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.min#system-linq-enumerable-min-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))) <sup><sub>.NET 6.0</sub></sup>
   - [`T? MinBy<TKey>(Func<T, TKey>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))) <sup><sub>.NET 6.0</sub></sup>
   - [`T? MinBy<TKey>(Func<T, TKey>, IComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))) <sup><sub>.NET 6.0</sub></sup>
+- `IEnumerable<TFirst>`
+  - [`IEnumerable<(TFirst?, TInner?)> FullJoin<TInner, TKey>(IEnumerable<TInner>, Func<TFirst, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.fulljoin) <sup><sub>.NET 11.0</sub></sup>
+  - [`IEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(IEnumerable<TSecond>, Func<TFirst, TKey>, Func<TSecond, TKey>, Func<TFirst?, TSecond?, TResult>, IEqualityComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.fulljoin) <sup><sub>.NET 11.0</sub></sup>
 - `IList<T>`
   - [`ReadOnlyCollection<T> AsReadOnly()`](https://learn.microsoft.com/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-ilist((-0)))) <sup><sub>.NET 7.0</sub></sup>
 - `IMemoryOwner<T>`
@@ -371,6 +374,10 @@ ___
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource) <sup><sub>.NET Core 2.1</sub></sup>
 - `IValueTaskSource<TResult>`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.threading.tasks.sources.ivaluetasksource-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `JsonElement`
+  - [`static JsonElement Parse(ReadOnlySpan<byte>, JsonDocumentOptions)`](https://learn.microsoft.com/dotnet/api/system.text.json.jsonelement.parse#system-text-json-jsonelement-parse(system-readonlyspan((system-byte))-system-text-json-jsondocumentoptions)) <sup><sub>.NET 10.0</sub></sup>
+  - [`static JsonElement Parse(ReadOnlySpan<char>, JsonDocumentOptions)`](https://learn.microsoft.com/dotnet/api/system.text.json.jsonelement.parse#system-text-json-jsonelement-parse(system-readonlyspan((system-char))-system-text-json-jsondocumentoptions)) <sup><sub>.NET 10.0</sub></sup>
+  - [`static JsonElement Parse(string, JsonDocumentOptions)`](https://learn.microsoft.com/dotnet/api/system.text.json.jsonelement.parse#system-text-json-jsonelement-parse(system-string-system-text-json-jsondocumentoptions)) <sup><sub>.NET 10.0</sub></sup>
 - `KeyValuePair<TKey, TValue>`
   - [`void Deconstruct(out TKey, out TValue)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct) <sup><sub>.NET Core 2.0</sub></sup>
 - `LibraryImportAttribute`
