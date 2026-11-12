@@ -40,8 +40,8 @@ public class ProcessTests
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = OperatingSystem.IsWindows() ? "cmd" : "sleep",
-                Arguments = OperatingSystem.IsWindows() ? "/c timeout 30 /nobreak" : "30",
+                FileName = OperatingSystem.IsWindows() ? "ping" : "sleep",
+                Arguments = OperatingSystem.IsWindows() ? "-n 30 127.0.0.1" : "30",
                 CreateNoWindow = true,
                 UseShellExecute = false,
             },
