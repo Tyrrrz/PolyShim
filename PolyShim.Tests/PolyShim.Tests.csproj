@@ -4,7 +4,7 @@
   <Import Project="../PolyShim/PolyShim.targets" />
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net8.0;net10.0;net11.0</TargetFrameworks>
     <TargetFrameworks Condition="$([MSBuild]::IsOsPlatform('Windows'))"
       >$(TargetFrameworks);net472</TargetFrameworks
     >

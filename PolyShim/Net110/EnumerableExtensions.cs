@@ -15,21 +15,6 @@ internal static class MemberPolyfills_Net110_EnumerableExtensions
     extension<TFirst>(IEnumerable<TFirst> first)
     {
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.fulljoin
-        public IEnumerable<(TFirst? Outer, TInner? Inner)> FullJoin<TInner, TKey>(
-            IEnumerable<TInner> inner,
-            Func<TFirst, TKey> outerKeySelector,
-            Func<TInner, TKey> innerKeySelector,
-            IEqualityComparer<TKey>? comparer = null
-        ) =>
-            first.FullJoin(
-                inner,
-                outerKeySelector,
-                innerKeySelector,
-                (outerItem, innerItem) => (outerItem, innerItem),
-                comparer
-            );
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.fulljoin
         public IEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(
             IEnumerable<TSecond> second,
             Func<TFirst, TKey> firstKeySelector,
@@ -49,46 +34,69 @@ internal static class MemberPolyfills_Net110_EnumerableExtensions
             if (resultSelector is null)
                 throw new ArgumentNullException(nameof(resultSelector));
 
-            return Iterate();
-
             IEnumerable<TResult> Iterate()
             {
+                // Same as native: an empty first array streams the second sequence as-is,
+                // without grouping it (which would reorder it) or invoking its key selector
+                if (first is TFirst[] { Length: 0 })
+                {
+                    foreach (var secondItem in second)
+                        yield return resultSelector(default, secondItem);
+
+                    yield break;
+                }
+
                 var secondLookup = second.ToLookup(secondKeySelector, comparer);
-                var matchedKeys = new HashSet<TKey>(comparer!);
-                var hasNullKey = false;
+
+                // Track matched groups (not keys), so memory is bounded by the number of
+                // second-sequence groups regardless of how many distinct first keys there are.
+                var matchedGroups = new HashSet<IGrouping<TKey, TSecond>>();
 
                 foreach (var firstItem in first)
                 {
                     var key = firstKeySelector(firstItem);
 
-                    if (key is null)
-                        hasNullKey = true;
-                    else if (secondLookup.Contains(key))
-                        matchedKeys.Add(key);
-
-                    var matches = secondLookup[key];
-                    var any = false;
-
-                    foreach (var secondItem in matches)
+                    // Null keys never participate in matches
+                    var group = key is null ? null : secondLookup[key] as IGrouping<TKey, TSecond>;
+                    if (group is null)
                     {
-                        any = true;
-                        yield return resultSelector(firstItem, secondItem);
+                        yield return resultSelector(firstItem, default);
+                        continue;
                     }
 
-                    if (!any)
-                        yield return resultSelector(firstItem, default);
+                    matchedGroups.Add(group);
+
+                    foreach (var secondItem in group)
+                        yield return resultSelector(firstItem, secondItem);
                 }
 
                 foreach (var group in secondLookup)
                 {
-                    if (matchedKeys.Contains(group.Key) || (group.Key is null && hasNullKey))
+                    if (matchedGroups.Contains(group))
                         continue;
 
                     foreach (var secondItem in group)
                         yield return resultSelector(default, secondItem);
                 }
             }
+
+            return Iterate();
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.fulljoin
+        public IEnumerable<(TFirst? Outer, TInner? Inner)> FullJoin<TInner, TKey>(
+            IEnumerable<TInner> inner,
+            Func<TFirst, TKey> outerKeySelector,
+            Func<TInner, TKey> innerKeySelector,
+            IEqualityComparer<TKey>? comparer = null
+        ) =>
+            first.FullJoin(
+                inner,
+                outerKeySelector,
+                innerKeySelector,
+                (outerItem, innerItem) => (outerItem, innerItem),
+                comparer
+            );
     }
 }
 #endif

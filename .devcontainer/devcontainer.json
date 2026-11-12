@@ -1,6 +1,10 @@
 {
   "image": "mcr.microsoft.com/devcontainers/dotnet",
   "features": {
+    "ghcr.io/devcontainers/features/dotnet:2": {
+      "version": "latest",
+      "additionalVersions": "6.0,8.0,10.0,11.0"
+    },
     "ghcr.io/nikiforovall/devcontainer-features/dotnet-csharpier:2": {}
   },
   "customizations": {
