@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 627
-- **Types:** 123
-- **Members:** 504
+- **Total:** 629
+- **Types:** 124
+- **Members:** 505
 
 ___
 
@@ -182,6 +182,8 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembersattribute) <sup><sub>.NET 5.0</sub></sup>
 - `DynamicallyAccessedMemberTypes`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembertypes) <sup><sub>.NET 5.0</sub></sup>
+- `Encoder`
+  - [`void Convert(ReadOnlySpan<char>, Span<byte>, bool, out int, out int, out bool)`](https://learn.microsoft.com/dotnet/api/system.text.encoder.convert#system-text-encoder-convert(system-readonlyspan((system-char))-system-span((system-byte))-system-boolean-system-int32@-system-int32@-system-boolean@)) <sup><sub>.NET Core 2.1</sub></sup>
 - `Encoding`
   - [`int GetBytes(ReadOnlySpan<char>, Span<byte>)`](https://learn.microsoft.com/dotnet/api/system.text.encoding.getbytes?system-text-encoding-getbytes(system-readonlyspan((system-char))-system-span((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`string GetString(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.text.encoding.getstring?system-text-encoding-getstring(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
@@ -667,6 +669,8 @@ ___
   - [`ReadOnlySpan<char> AsSpan(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
 - `StringMarshalling`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.stringmarshalling) <sup><sub>.NET 7.0</sub></sup>
+- `StringStream`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.io.stringstream) <sup><sub>.NET 11.0</sub></sup>
 - `StringSyntaxAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute) <sup><sub>.NET 7.0</sub></sup>
 - `SupportedOSPlatformAttribute`

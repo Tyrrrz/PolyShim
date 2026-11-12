@@ -63,6 +63,7 @@ Make sure you use VS Code or any other [compatible IDE or tooling](https://conta
   - Try to avoid dependencies altogether if possible; ideally polyfills should be universal
 - Try to use existing polyfills where implementing others; avoid duplication as much as possible
 - Add `#nullable enable` to each source file to ensure nullability checks even if the consumer has them disabled
+- Always prioritize correctness over simplicity and simplicity over performance
 
 Typical skeletons:
 
