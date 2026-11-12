@@ -33,6 +33,8 @@ public class InterlockedTests
         ul.Should().Be(0xAAAAAAAAAAAAAAAA);
     }
 
+    // .NET 11 on Linux crashes while invoking the native Interlocked.Or implementation.
+#if !NET11_0_OR_GREATER || !PLATFORM_LINUX
     [Fact]
     public void Or_Test()
     {
@@ -56,4 +58,5 @@ public class InterlockedTests
         Interlocked.Or(ref ul, 0xFFFFFFFF00000000).Should().Be(0x00000000FFFFFFFF);
         ul.Should().Be(0xFFFFFFFFFFFFFFFF);
     }
+#endif
 }
