@@ -44,7 +44,16 @@ public class ZLibStreamTests
         }
 
         // Assert
-        destination.ToArray().Should().BeEmpty();
+        // The exact bytes differ between implementations: .NET 10 and earlier (and the polyfill)
+        // write nothing, while .NET 11+ writes a complete, valid zlib stream for empty input.
+        // Both are acceptable as long as the result decompresses to empty data.
+        destination.Position = 0;
+
+        using var decompressed = new MemoryStream();
+        using (var decompression = new ZLibStream(destination, CompressionMode.Decompress, true))
+            decompression.CopyTo(decompressed);
+
+        decompressed.ToArray().Should().BeEmpty();
     }
 
     [Fact]
