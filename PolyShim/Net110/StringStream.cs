@@ -13,28 +13,25 @@ namespace System.IO;
 #endif
 internal sealed class StringStream(ReadOnlyMemory<char> text, Encoding encoding) : Stream
 {
-    private const int ChunkSize = 1024;
-
     private readonly ReadOnlyMemory<char> _text = text;
 
     private readonly Encoding _encoding =
         encoding ?? throw new ArgumentNullException(nameof(encoding));
 
-    private Encoder? _encoder;
-    private char[]? _charBuffer;
-    private byte[]? _pendingBytes;
-    private int _pendingOffset;
-    private int _pendingCount;
+    private readonly Encoder _encoder = encoding.GetEncoder();
+    private readonly byte[] _buffer = new byte[encoding.GetMaxByteCount(1)];
+    private int _bufferOffset;
+    private int _bufferCount;
     private int _charPosition;
-    private bool _encoderFlushed;
-    private bool _disposed;
+
+    private bool _isDisposed;
 
     public StringStream(string text, Encoding encoding)
-        : this((text ?? throw new ArgumentNullException(nameof(text))).AsMemory(), encoding) { }
+        : this(text?.AsMemory() ?? throw new ArgumentNullException(nameof(text)), encoding) { }
 
     public Encoding Encoding => _encoding;
 
-    public override bool CanRead => !_disposed;
+    public override bool CanRead => !_isDisposed;
 
     public override bool CanSeek => false;
 
@@ -60,62 +57,48 @@ internal sealed class StringStream(ReadOnlyMemory<char> text, Encoding encoding)
         if (buffer.Length - offset < count)
             throw new ArgumentException("Offset and length were out of bounds for the array.");
 
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(_isDisposed, this);
 
         var totalBytesRead = 0;
-
         while (totalBytesRead < count)
         {
-            if (_pendingCount == 0)
+            // Drain bytes left over from the previously encoded character
+            if (_bufferCount > 0)
             {
-                if (_encoderFlushed)
-                    break;
+                var bytesToCopy = Math.Min(_bufferCount, count - totalBytesRead);
 
-                // Encode the next chunk of characters into the pending buffer. Stateful encoders
-                // (and lone surrogates at chunk boundaries) are handled by the Encoder, which is
-                // flushed on the last chunk. A chunk may yield no bytes, so keep looping.
-                _charBuffer ??= new char[ChunkSize];
-                _pendingBytes ??= new byte[_encoding.GetMaxByteCount(ChunkSize)];
-
-                var charCount = Math.Min(_text.Length - _charPosition, ChunkSize);
-
-                _text
-                    .Span.Slice(_charPosition, charCount)
-                    .CopyTo(new Span<char>(_charBuffer, 0, charCount));
-
-                _charPosition += charCount;
-                var isFinalChunk = _charPosition >= _text.Length;
-
-                _encoder ??= _encoding.GetEncoder();
-                _pendingOffset = 0;
-                _pendingCount = _encoder.GetBytes(
-                    _charBuffer,
-                    0,
-                    charCount,
-                    _pendingBytes,
-                    0,
-                    isFinalChunk
+                Buffer.BlockCopy(
+                    _buffer,
+                    _bufferOffset,
+                    buffer,
+                    offset + totalBytesRead,
+                    bytesToCopy
                 );
 
-                if (isFinalChunk)
-                    _encoderFlushed = true;
+                _bufferOffset += bytesToCopy;
+                _bufferCount -= bytesToCopy;
+                totalBytesRead += bytesToCopy;
 
                 continue;
             }
 
-            var bytesToCopy = Math.Min(_pendingCount, count - totalBytesRead);
+            if (_charPosition >= _text.Length)
+                break;
 
-            Buffer.BlockCopy(
-                _pendingBytes!,
-                _pendingOffset,
-                buffer,
-                offset + totalBytesRead,
-                bytesToCopy
+            // Encode one character at a time. The encoder tracks surrogate state across calls,
+            // and the final character is flushed so that a trailing lone surrogate is reported.
+            _encoder.Convert(
+                _text.Span.Slice(_charPosition, 1),
+                _buffer,
+                _charPosition == _text.Length - 1,
+                out _,
+                out var bytesUsed,
+                out _
             );
 
-            _pendingOffset += bytesToCopy;
-            _pendingCount -= bytesToCopy;
-            totalBytesRead += bytesToCopy;
+            _charPosition++;
+            _bufferOffset = 0;
+            _bufferCount = bytesUsed;
         }
 
         return totalBytesRead;
@@ -134,7 +117,7 @@ internal sealed class StringStream(ReadOnlyMemory<char> text, Encoding encoding)
 
     protected override void Dispose(bool disposing)
     {
-        _disposed = true;
+        _isDisposed = true;
         base.Dispose(disposing);
     }
 }
