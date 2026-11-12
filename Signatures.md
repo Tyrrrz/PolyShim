@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 627
-- **Types:** 123
+- **Total:** 628
+- **Types:** 124
 - **Members:** 504
 
 ___
@@ -667,6 +667,8 @@ ___
   - [`ReadOnlySpan<char> AsSpan(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
 - `StringMarshalling`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.stringmarshalling) <sup><sub>.NET 7.0</sub></sup>
+- `StringStream`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.io.stringstream) <sup><sub>.NET 11.0</sub></sup>
 - `StringSyntaxAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute) <sup><sub>.NET 7.0</sub></sup>
 - `SupportedOSPlatformAttribute`
