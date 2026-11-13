@@ -15,11 +15,17 @@ internal readonly partial struct ReadOnlySequence<T>(ReadOnlyMemory<T> memory, o
     private readonly ReadOnlyMemory<T> _memory = memory;
     private readonly object _positionToken = positionToken;
 
-    public ReadOnlySequence(T[]? array)
-        : this(new ReadOnlyMemory<T>(array), array ?? EmptyToken) { }
+    public ReadOnlySequence(T[] array)
+        : this(
+            new ReadOnlyMemory<T>(array ?? throw new ArgumentNullException(nameof(array))),
+            array
+        ) { }
 
-    public ReadOnlySequence(T[]? array, int start, int length)
-        : this(new ReadOnlyMemory<T>(array, start, length), array ?? EmptyToken) { }
+    public ReadOnlySequence(T[] array, int start, int length)
+        : this(
+            new ReadOnlyMemory<T>(array ?? throw new ArgumentNullException(nameof(array)), start, length),
+            array
+        ) { }
 
     public ReadOnlySequence(ReadOnlyMemory<T> memory)
         : this(memory, memory.IsEmpty ? EmptyToken : new object()) { }
