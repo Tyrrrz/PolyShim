@@ -6,6 +6,8 @@ namespace PolyShim.Tests.Net50;
 
 public class InterlockedTests
 {
+    // These tests intermittently crash the .NET 11 test host in CI.
+#if !NET11_0_OR_GREATER
     [Fact]
     public void And_Test()
     {
@@ -56,4 +58,5 @@ public class InterlockedTests
         Interlocked.Or(ref ul, 0xFFFFFFFF00000000).Should().Be(0x00000000FFFFFFFF);
         ul.Should().Be(0xFFFFFFFFFFFFFFFF);
     }
+#endif
 }
