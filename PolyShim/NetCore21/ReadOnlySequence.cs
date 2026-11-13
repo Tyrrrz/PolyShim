@@ -54,6 +54,9 @@ internal readonly partial struct ReadOnlySequence<T>(ReadOnlyMemory<T> memory, o
 
     public SequencePosition GetPosition(long offset, SequencePosition origin)
     {
+        if (offset < 0)
+            throw new ArgumentOutOfRangeException(nameof(offset));
+
         var originIndex = GetIndex(origin);
         var position = originIndex + offset;
 
