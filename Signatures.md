@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 629
-- **Types:** 124
-- **Members:** 505
+- **Total:** 636
+- **Types:** 128
+- **Members:** 508
 
 ___
 
@@ -532,6 +532,15 @@ ___
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.range) <sup><sub>.NET Core 3.0</sub></sup>
 - `ReadOnlyMemory<T>`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.readonlymemory-1) <sup><sub>.NET Core 2.1</sub></sup>
+- `ReadOnlyMemoryStream`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.io.readonlymemorystream) <sup><sub>.NET 11.0</sub></sup>
+- `ReadOnlySequence<T>`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.buffers.readonlysequence-1) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`SequencePosition? PositionOf(T)`](https://learn.microsoft.com/dotnet/api/system.buffers.buffersextensions.positionof?system-buffers-buffersextensions-positionof-1(system-buffers-readonlysequence((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`T[] ToArray()`](https://learn.microsoft.com/dotnet/api/system.buffers.buffersextensions.toarray?system-buffers-buffersextensions-toarray-1(system-buffers-readonlysequence((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+  - [`void CopyTo(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.buffers.buffersextensions.copyto?system-buffers-buffersextensions-copyto-1(system-buffers-readonlysequence((-0))-system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `ReadOnlySequenceStream`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.readonlysequencestream) <sup><sub>.NET 11.0</sub></sup>
 - `ReadOnlySet<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlyset-1) <sup><sub>.NET 9.0</sub></sup>
 - `ReadOnlySpan<T>`
@@ -566,6 +575,8 @@ ___
   - [`Task<bool> WaitAsync(int, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-int32-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<bool> WaitAsync(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-timespan)) <sup><sub>.NET Core 1.0</sub></sup>
   - [`Task<bool> WaitAsync(TimeSpan, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.semaphoreslim.waitasync#system-threading-semaphoreslim-waitasync(system-timespan-system-threading-cancellationtoken)) <sup><sub>.NET Core 1.0</sub></sup>
+- `SequencePosition`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.sequenceposition) <sup><sub>.NET Core 2.1</sub></sup>
 - `SetsRequiredMembersAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute) <sup><sub>.NET 7.0</sub></sup>
 - `SHA1`
