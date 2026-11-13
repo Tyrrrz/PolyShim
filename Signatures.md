@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 636
-- **Types:** 128
+- **Total:** 637
+- **Types:** 129
 - **Members:** 508
 
 ___
@@ -539,6 +539,8 @@ ___
   - [`SequencePosition? PositionOf(T)`](https://learn.microsoft.com/dotnet/api/system.buffers.buffersextensions.positionof?system-buffers-buffersextensions-positionof-1(system-buffers-readonlysequence((-0))-0)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`T[] ToArray()`](https://learn.microsoft.com/dotnet/api/system.buffers.buffersextensions.toarray?system-buffers-buffersextensions-toarray-1(system-buffers-readonlysequence((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void CopyTo(Span<T>)`](https://learn.microsoft.com/dotnet/api/system.buffers.buffersextensions.copyto?system-buffers-buffersextensions-copyto-1(system-buffers-readonlysequence((-0))-system-span((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `ReadOnlySequenceSegment<T>`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.readonlysequencesegment-1) <sup><sub>.NET Core 2.1</sub></sup>
 - `ReadOnlySequenceStream`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.buffers.readonlysequencestream) <sup><sub>.NET 11.0</sub></sup>
 - `ReadOnlySet<T>`
