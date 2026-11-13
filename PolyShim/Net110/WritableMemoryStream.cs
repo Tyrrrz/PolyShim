@@ -108,14 +108,15 @@ internal sealed class WritableMemoryStream(Memory<byte> buffer) : Stream
 
     public override void SetLength(long value)
     {
-        if (value < 0 || value > int.MaxValue)
+        if (value < 0)
             throw new ArgumentOutOfRangeException(nameof(value));
 
         ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-        var newLength = (int)value;
-        if (newLength > _memory.Length)
+        if (value > _memory.Length)
             throw new NotSupportedException("Stream has fixed capacity.");
+
+        var newLength = (int)value;
 
         if (newLength > _length)
             _memory.Span[_length..newLength].Clear();
