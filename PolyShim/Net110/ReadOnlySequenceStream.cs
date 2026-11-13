@@ -76,6 +76,7 @@ internal sealed class ReadOnlySequenceStream(ReadOnlySequence<byte> source) : St
     {
         _isDisposed = true;
         _sequence = default;
+        _position = default;
         base.Dispose(disposing);
     }
 }
