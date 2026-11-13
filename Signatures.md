@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 638
+- **Total:** 639
 - **Types:** 130
-- **Members:** 508
+- **Members:** 509
 
 ___
 
@@ -203,6 +203,7 @@ ___
   - [`static string? ProcessPath`](https://learn.microsoft.com/dotnet/api/system.environment.processpath) <sup><sub>.NET 6.0</sub></sup>
 - `EqualityComparer<T>`
   - [`static EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.equalitycomparer-1.create) <sup><sub>.NET 8.0</sub></sup>
+  - [`static EqualityComparer<T> Create<TKey>(Func<T?, TKey?>, IEqualityComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.collections.generic.equalitycomparer-1.create?system-collections-generic-equalitycomparer-1-create-1(system-func((-0-0))-system-collections-generic-iequalitycomparer((-0)))) <sup><sub>.NET 11.0</sub></sup>
 - `EventHandler<TEventArgs>`
   - [**[delegate]**](https://learn.microsoft.com/dotnet/api/system.eventhandler-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `ExcludeFromCodeCoverageAttribute`
