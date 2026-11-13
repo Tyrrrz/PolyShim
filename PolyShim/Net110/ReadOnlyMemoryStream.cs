@@ -96,9 +96,9 @@ internal sealed class ReadOnlyMemoryStream(ReadOnlyMemory<byte> source) : Stream
             _ => throw new ArgumentOutOfRangeException(nameof(origin)),
         };
 
-        var target = basePosition + offset;
-        if (target > int.MaxValue)
+        if (offset > int.MaxValue - basePosition)
             throw new ArgumentOutOfRangeException(nameof(offset));
+        var target = basePosition + offset;
         if (target < 0)
             throw new IOException("Attempted to seek before the beginning of the stream.");
 
