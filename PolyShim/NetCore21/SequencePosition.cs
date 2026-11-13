@@ -23,7 +23,7 @@ internal readonly struct SequencePosition(object? @object, int integer)
     public override bool Equals(object? obj) => obj is SequencePosition other && Equals(other);
 
     public bool Equals(SequencePosition other) =>
-        ReferenceEquals(_object, other._object) && _integer == other._integer;
+        object.Equals(_object, other._object) && _integer == other._integer;
 
     public override int GetHashCode() => HashCode.Combine(_object, _integer);
 
