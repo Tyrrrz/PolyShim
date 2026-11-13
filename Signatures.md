@@ -1,7 +1,7 @@
 # Signatures
 
-- **Total:** 637
-- **Types:** 129
+- **Total:** 638
+- **Types:** 130
 - **Members:** 508
 
 ___
@@ -855,5 +855,7 @@ ___
   - [`static Version Parse(string)`](https://learn.microsoft.com/dotnet/api/system.version.parse) <sup><sub>.NET Core 1.0</sub></sup>
 - `WeakReference<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.weakreference-1) <sup><sub>.NET Core 1.0</sub></sup>
+- `WritableMemoryStream`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.io.writablememorystream) <sup><sub>.NET 11.0</sub></sup>
 - `ZLibStream`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.io.compression.zlibstream) <sup><sub>.NET 6.0</sub></sup>
