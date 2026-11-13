@@ -20,6 +20,14 @@ public class ReadOnlySequenceTests
         // Assert
         fromLong.ToArray().Should().Equal(20, 30, 40, 50);
         fromPosition.ToArray().Should().Equal(30, 40, 50);
+
+        // Slices should preserve absolute positions from the source sequence.
+        sequence.Slice(fromLong.Start).ToArray().Should().Equal(20, 30, 40, 50);
+        fromLong
+            .Slice(sequence.GetPosition(2, sequence.Start))
+            .ToArray()
+            .Should()
+            .Equal(30, 40, 50);
     }
 
     [Fact]
@@ -75,5 +83,33 @@ public class ReadOnlySequenceTests
 
         // Assert
         array.Should().Equal(3, 1, 4, 1, 5);
+    }
+
+    [Fact]
+    public void SegmentConstructor_Test()
+    {
+        // Arrange
+        var second = new BufferSegment(new byte[] { 4, 5, 6 });
+        var first = new BufferSegment(new byte[] { 1, 2, 3 }, second);
+
+        // Act
+        var sequence = new ReadOnlySequence<byte>(first, 1, second, 2);
+
+        // Assert
+        sequence.ToArray().Should().Equal(2, 3, 4, 5);
+    }
+
+    private sealed class BufferSegment : ReadOnlySequenceSegment<byte>
+    {
+        public BufferSegment(ReadOnlyMemory<byte> memory, BufferSegment? next = null)
+        {
+            Memory = memory;
+
+            if (next is not null)
+            {
+                next.RunningIndex = RunningIndex + Memory.Length;
+                Next = next;
+            }
+        }
     }
 }
