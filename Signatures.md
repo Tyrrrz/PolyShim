@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 639
-- **Types:** 130
-- **Members:** 509
+- **Total:** 721
+- **Types:** 132
+- **Members:** 589
 
 ___
 
@@ -35,6 +35,8 @@ ___
   - [`Span<T> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan-1(system-arraysegment((-0)))) <sup><sub>.NET Core 2.1</sub></sup>
 - `Assembly`
   - [`T? GetCustomAttribute<T>() where T : Attribute`](https://learn.microsoft.com/dotnet/api/system.reflection.customattributeextensions.getcustomattribute#system-reflection-customattributeextensions-getcustomattribute-1(system-reflection-assembly)) <sup><sub>.NET Core 1.0</sub></sup>
+- `AsyncEnumerable`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable) <sup><sub>.NET 10.0</sub></sup>
 - `AsyncIteratorMethodBuilder`
   - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.asynciteratormethodbuilder) <sup><sub>.NET Core 3.0</sub></sup>
 - `AsyncIteratorStateMachineAttribute`
@@ -277,10 +279,100 @@ ___
   - [`static HttpMethod Patch`](https://learn.microsoft.com/dotnet/api/system.net.http.httpmethod.patch) <sup><sub>.NET Core 2.1</sub></sup>
 - `IAsyncDisposable`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.iasyncdisposable) <sup><sub>.NET Core 3.0</sub></sup>
+- `IAsyncEnumerable<decimal>`
+  - [`ValueTask<decimal> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<decimal?>`
+  - [`ValueTask<decimal?> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<double>`
+  - [`ValueTask<double> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<double?>`
+  - [`ValueTask<double?> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<float>`
+  - [`ValueTask<float> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<float?>`
+  - [`ValueTask<float?> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<int>`
+  - [`ValueTask<int> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<int?>`
+  - [`ValueTask<int?> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<long>`
+  - [`ValueTask<long> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<long?>`
+  - [`ValueTask<long?> SumAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<object?>`
+  - [`IAsyncEnumerable<TResult> Cast<TResult>()`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.cast) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<TResult> OfType<TResult>()`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.oftype) <sup><sub>.NET 10.0</sub></sup>
 - `IAsyncEnumerable<T>`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerable-1) <sup><sub>.NET Core 3.0</sub></sup>
   - [`ConfiguredCancelableAsyncEnumerable<T> ConfigureAwait(bool)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.configureawait) <sup><sub>.NET Core 3.0</sub></sup>
   - [`ConfiguredCancelableAsyncEnumerable<T> WithCancellation(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.taskasyncenumerableextensions.withcancellation) <sup><sub>.NET Core 3.0</sub></sup>
+  - [`IAsyncEnumerable<(T, TSecond)> Zip<TSecond>(IAsyncEnumerable<TSecond>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.zip) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<IGrouping<TKey, T>> GroupBy<TKey>(Func<T, TKey>, IEqualityComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.groupby) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Append(T)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.append) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Concat(IAsyncEnumerable<T>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.concat) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Distinct(IEqualityComparer<T>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.distinct) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Except(IAsyncEnumerable<T>, IEqualityComparer<T>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.except) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Prepend(T)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.prepend) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Reverse()`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.reverse) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Skip(int)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.skip) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> SkipWhile(Func<T, bool>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.skipwhile) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Take(int)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.take) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> TakeWhile(Func<T, bool>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.takewhile) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Union(IAsyncEnumerable<T>, IEqualityComparer<T>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.union) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Where(Func<T, bool>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> Where(Func<T, int, bool>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T> WhereAwait(Func<T, CancellationToken, ValueTask<bool>>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.whereawait) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<T?> DefaultIfEmpty(T)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.defaultifempty) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<TResult> Select<TResult>(Func<T, int, TResult>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.select) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<TResult> Select<TResult>(Func<T, TResult>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.select) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<TResult> SelectAwait<TResult>(Func<T, CancellationToken, ValueTask<TResult>>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.selectawait) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<TResult> SelectMany<TResult>(Func<T, IAsyncEnumerable<TResult>>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.selectmany) <sup><sub>.NET 10.0</sub></sup>
+  - [`IOrderedAsyncEnumerable<T> OrderBy<TKey>(Func<T, TKey>, IComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.orderby) <sup><sub>.NET 10.0</sub></sup>
+  - [`IOrderedAsyncEnumerable<T> OrderByDescending<TKey>(Func<T, TKey>, IComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.orderbydescending) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<bool> AllAsync(Func<T, bool>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.all) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<bool> AllAwaitAsync(Func<T, CancellationToken, ValueTask<bool>>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.allawaitasync) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<bool> AnyAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.any) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<bool> AnyAsync(Func<T, bool>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.any) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<bool> AnyAwaitAsync(Func<T, CancellationToken, ValueTask<bool>>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.anyawaitasync) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<bool> ContainsAsync(T, IEqualityComparer<T>?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.contains) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<bool> SequenceEqualAsync(IAsyncEnumerable<T>, IEqualityComparer<T>?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sequenceequal) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<decimal> SumAsync(Func<T, decimal>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<decimal?> SumAsync(Func<T, decimal?>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<Dictionary<TKey, T>> ToDictionaryAsync<TKey>(Func<T, TKey>, IEqualityComparer<TKey>?, CancellationToken) where TKey : notnull`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.todictionary) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<double> SumAsync(Func<T, double>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<double?> SumAsync(Func<T, double?>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<float> SumAsync(Func<T, float>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<float?> SumAsync(Func<T, float?>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<HashSet<T>> ToHashSetAsync(IEqualityComparer<T>?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.tohashset) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<int> CountAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.count) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<int> CountAsync(Func<T, bool>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.count) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<int> CountAwaitAsync(Func<T, CancellationToken, ValueTask<bool>>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.countawaitasync) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<int> SumAsync(Func<T, int>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<int?> SumAsync(Func<T, int?>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<List<T>> ToListAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.tolist) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<long> LongCountAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.longcount) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<long> SumAsync(Func<T, long>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<long?> SumAsync(Func<T, long?>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T> AggregateAsync(Func<T, T, T>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregate) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T> ElementAtAsync(int, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.elementat) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T> FirstAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.first) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T> FirstAsync(Func<T, bool>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.first) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T> LastAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.last) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T> SingleAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.single) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T?> ElementAtOrDefaultAsync(int, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.elementatordefault) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T?> FirstOrDefaultAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.firstordefault) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T?> FirstOrDefaultAsync(Func<T, bool>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.firstordefault) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T?> LastOrDefaultAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.lastordefault) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T?> MaxAsync(IComparer<T>?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.max) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T?> MinAsync(IComparer<T>?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.min) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T?> SingleOrDefaultAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.singleordefault) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<TAccumulate> AggregateAsync<TAccumulate>(TAccumulate, Func<TAccumulate, T, TAccumulate>, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregate) <sup><sub>.NET 10.0</sub></sup>
+  - [`ValueTask<T[]> ToArrayAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.toarray) <sup><sub>.NET 10.0</sub></sup>
+- `IAsyncEnumerable<TFirst>`
+  - [`IAsyncEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(IAsyncEnumerable<TSecond>, Func<TFirst, TKey>, Func<TSecond, TKey>, Func<TFirst?, TSecond?, TResult>, IEqualityComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin) <sup><sub>.NET 11.0</sub></sup>
+- `IAsyncEnumerable<TOuter>`
+  - [`IAsyncEnumerable<TResult> Join<TInner, TKey, TResult>(IAsyncEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner, TResult>, IEqualityComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.join) <sup><sub>.NET 10.0</sub></sup>
+  - [`IAsyncEnumerable<TResult> Zip<TSecond, TResult>(IAsyncEnumerable<TSecond>, Func<TOuter, TSecond, TResult>)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.zip) <sup><sub>.NET 10.0</sub></sup>
 - `IAsyncEnumerator<T>`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.collections.generic.iasyncenumerator-1) <sup><sub>.NET Core 3.0</sub></sup>
 - `IDictionary<TKey, TValue>`
@@ -290,6 +382,7 @@ ___
 - `IEnumerable<T>`
   - [`HashSet<T> ToHashSet()`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
   - [`HashSet<T> ToHashSet(IEqualityComparer<T>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.tohashset#system-linq-enumerable-tohashset-1(system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`IAsyncEnumerable<T> ToAsyncEnumerable()`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.toasyncenumerable) <sup><sub>.NET 10.0</sub></sup>
   - [`IEnumerable<(int, T)> Index()`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.index) <sup><sub>.NET 9.0</sub></sup>
   - [`IEnumerable<(T, TOther)> Zip<TOther>(IEnumerable<TOther>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1)))) <sup><sub>.NET Core 3.0</sub></sup>
   - [`IEnumerable<(T, TSecond, TThird)> Zip<TSecond, TThird>(IEnumerable<TSecond>, IEnumerable<TThird>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2)))) <sup><sub>.NET 6.0</sub></sup>
@@ -358,6 +451,10 @@ ___
   - [`static IntPtr Parse(string, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
   - [`static IntPtr Parse(string, NumberStyles)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-globalization-numberstyles)) <sup><sub>.NET 5.0</sub></sup>
   - [`static IntPtr Parse(string, NumberStyles, IFormatProvider?)`](https://learn.microsoft.com/dotnet/api/system.intptr.parse#system-intptr-parse(system-string-system-globalization-numberstyles-system-iformatprovider)) <sup><sub>.NET 5.0</sub></sup>
+- `IOrderedAsyncEnumerable<T>`
+  - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.linq.iorderedasyncenumerable-1) <sup><sub>.NET 10.0</sub></sup>
+  - [`IOrderedAsyncEnumerable<T> ThenBy<TKey>(Func<T, TKey>, IComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.thenby) <sup><sub>.NET 10.0</sub></sup>
+  - [`IOrderedAsyncEnumerable<T> ThenByDescending<TKey>(Func<T, TKey>, IComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.thenbydescending) <sup><sub>.NET 10.0</sub></sup>
 - `IProgress<T>`
   - [**[interface]**](https://learn.microsoft.com/dotnet/api/system.iprogress-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `IReadOnlyDictionary<TKey, TValue>`
