@@ -57,13 +57,13 @@
         >$(DefineConstants);FEATURE_ASYNCINTERFACES</DefineConstants
       >
 
-      <FeatureLinqAsyncEnumerable>false</FeatureLinqAsyncEnumerable>
-      <FeatureLinqAsyncEnumerable
+      <FeatureAsyncLinq>false</FeatureAsyncLinq>
+      <FeatureAsyncLinq
         Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('NuGetPackageId', 'System.Linq.AsyncEnumerable'))"
-        >true</FeatureLinqAsyncEnumerable
+        >true</FeatureAsyncLinq
       >
-      <DefineConstants Condition="$(FeatureLinqAsyncEnumerable)"
-        >$(DefineConstants);FEATURE_LINQ_ASYNCENUMERABLE</DefineConstants
+      <DefineConstants Condition="$(FeatureAsyncLinq)"
+        >$(DefineConstants);FEATURE_ASYNC_LINQ</DefineConstants
       >
 
       <FeatureBase64Url>false</FeatureBase64Url>
