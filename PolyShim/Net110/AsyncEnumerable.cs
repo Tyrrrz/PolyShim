@@ -16,124 +16,6 @@ namespace System.Linq;
 #endif
 internal static class MemberPolyfills_Net110_AsyncEnumerable
 {
-    extension<TFirst>(IAsyncEnumerable<TFirst> first)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
-        public IAsyncEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(
-            IAsyncEnumerable<TSecond> second,
-            Func<TFirst, TKey> firstKeySelector,
-            Func<TSecond, TKey> secondKeySelector,
-            Func<TFirst?, TSecond?, TResult> resultSelector,
-            IEqualityComparer<TKey>? comparer = null
-        )
-        {
-            if (first is null)
-                throw new ArgumentNullException(nameof(first));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (firstKeySelector is null)
-                throw new ArgumentNullException(nameof(firstKeySelector));
-            if (secondKeySelector is null)
-                throw new ArgumentNullException(nameof(secondKeySelector));
-            if (resultSelector is null)
-                throw new ArgumentNullException(nameof(resultSelector));
-
-            return FullJoinIterator(
-                first,
-                second,
-                firstKeySelector,
-                secondKeySelector,
-                resultSelector,
-                comparer
-            );
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
-        public IAsyncEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(
-            IAsyncEnumerable<TSecond> second,
-            Func<TFirst, CancellationToken, ValueTask<TKey>> firstKeySelector,
-            Func<TSecond, CancellationToken, ValueTask<TKey>> secondKeySelector,
-            Func<TFirst?, TSecond?, CancellationToken, ValueTask<TResult>> resultSelector,
-            IEqualityComparer<TKey>? comparer = null
-        )
-        {
-            if (first is null)
-                throw new ArgumentNullException(nameof(first));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (firstKeySelector is null)
-                throw new ArgumentNullException(nameof(firstKeySelector));
-            if (secondKeySelector is null)
-                throw new ArgumentNullException(nameof(secondKeySelector));
-            if (resultSelector is null)
-                throw new ArgumentNullException(nameof(resultSelector));
-
-            return FullJoinAsyncIterator(
-                first,
-                second,
-                firstKeySelector,
-                secondKeySelector,
-                resultSelector,
-                comparer
-            );
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
-        public IAsyncEnumerable<(TFirst? First, TSecond? Second)> FullJoin<TSecond, TKey>(
-            IAsyncEnumerable<TSecond> second,
-            Func<TFirst, TKey> firstKeySelector,
-            Func<TSecond, TKey> secondKeySelector,
-            IEqualityComparer<TKey>? comparer = null
-        )
-        {
-            if (first is null)
-                throw new ArgumentNullException(nameof(first));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (firstKeySelector is null)
-                throw new ArgumentNullException(nameof(firstKeySelector));
-            if (secondKeySelector is null)
-                throw new ArgumentNullException(nameof(secondKeySelector));
-
-            return FullJoinIterator(
-                first,
-                second,
-                firstKeySelector,
-                secondKeySelector,
-                static (firstItem, secondItem) => (firstItem, secondItem),
-                comparer
-            );
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
-        public IAsyncEnumerable<(TFirst? First, TSecond? Second)> FullJoin<TSecond, TKey>(
-            IAsyncEnumerable<TSecond> second,
-            Func<TFirst, CancellationToken, ValueTask<TKey>> firstKeySelector,
-            Func<TSecond, CancellationToken, ValueTask<TKey>> secondKeySelector,
-            IEqualityComparer<TKey>? comparer = null
-        )
-        {
-            if (first is null)
-                throw new ArgumentNullException(nameof(first));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (firstKeySelector is null)
-                throw new ArgumentNullException(nameof(firstKeySelector));
-            if (secondKeySelector is null)
-                throw new ArgumentNullException(nameof(secondKeySelector));
-
-            return FullJoinAsyncIterator(
-                first,
-                second,
-                firstKeySelector,
-                secondKeySelector,
-                static (firstItem, secondItem, _) =>
-                    new ValueTask<(TFirst?, TSecond?)>((firstItem, secondItem)),
-                comparer
-            );
-        }
-    }
-
     private static async IAsyncEnumerable<TResult> FullJoinIterator<TFirst, TSecond, TKey, TResult>(
         IAsyncEnumerable<TFirst> first,
         IAsyncEnumerable<TSecond> second,
@@ -272,6 +154,125 @@ internal static class MemberPolyfills_Net110_AsyncEnumerable
                     .ConfigureAwait(false);
         }
     }
+
+    extension<TFirst>(IAsyncEnumerable<TFirst> first)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
+        public IAsyncEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(
+            IAsyncEnumerable<TSecond> second,
+            Func<TFirst, TKey> firstKeySelector,
+            Func<TSecond, TKey> secondKeySelector,
+            Func<TFirst?, TSecond?, TResult> resultSelector,
+            IEqualityComparer<TKey>? comparer = null
+        )
+        {
+            if (first is null)
+                throw new ArgumentNullException(nameof(first));
+            if (second is null)
+                throw new ArgumentNullException(nameof(second));
+            if (firstKeySelector is null)
+                throw new ArgumentNullException(nameof(firstKeySelector));
+            if (secondKeySelector is null)
+                throw new ArgumentNullException(nameof(secondKeySelector));
+            if (resultSelector is null)
+                throw new ArgumentNullException(nameof(resultSelector));
+
+            return FullJoinIterator(
+                first,
+                second,
+                firstKeySelector,
+                secondKeySelector,
+                resultSelector,
+                comparer
+            );
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
+        public IAsyncEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(
+            IAsyncEnumerable<TSecond> second,
+            Func<TFirst, CancellationToken, ValueTask<TKey>> firstKeySelector,
+            Func<TSecond, CancellationToken, ValueTask<TKey>> secondKeySelector,
+            Func<TFirst?, TSecond?, CancellationToken, ValueTask<TResult>> resultSelector,
+            IEqualityComparer<TKey>? comparer = null
+        )
+        {
+            if (first is null)
+                throw new ArgumentNullException(nameof(first));
+            if (second is null)
+                throw new ArgumentNullException(nameof(second));
+            if (firstKeySelector is null)
+                throw new ArgumentNullException(nameof(firstKeySelector));
+            if (secondKeySelector is null)
+                throw new ArgumentNullException(nameof(secondKeySelector));
+            if (resultSelector is null)
+                throw new ArgumentNullException(nameof(resultSelector));
+
+            return FullJoinAsyncIterator(
+                first,
+                second,
+                firstKeySelector,
+                secondKeySelector,
+                resultSelector,
+                comparer
+            );
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
+        public IAsyncEnumerable<(TFirst? First, TSecond? Second)> FullJoin<TSecond, TKey>(
+            IAsyncEnumerable<TSecond> second,
+            Func<TFirst, TKey> firstKeySelector,
+            Func<TSecond, TKey> secondKeySelector,
+            IEqualityComparer<TKey>? comparer = null
+        )
+        {
+            if (first is null)
+                throw new ArgumentNullException(nameof(first));
+            if (second is null)
+                throw new ArgumentNullException(nameof(second));
+            if (firstKeySelector is null)
+                throw new ArgumentNullException(nameof(firstKeySelector));
+            if (secondKeySelector is null)
+                throw new ArgumentNullException(nameof(secondKeySelector));
+
+            return FullJoinIterator(
+                first,
+                second,
+                firstKeySelector,
+                secondKeySelector,
+                static (firstItem, secondItem) => (firstItem, secondItem),
+                comparer
+            );
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
+        public IAsyncEnumerable<(TFirst? First, TSecond? Second)> FullJoin<TSecond, TKey>(
+            IAsyncEnumerable<TSecond> second,
+            Func<TFirst, CancellationToken, ValueTask<TKey>> firstKeySelector,
+            Func<TSecond, CancellationToken, ValueTask<TKey>> secondKeySelector,
+            IEqualityComparer<TKey>? comparer = null
+        )
+        {
+            if (first is null)
+                throw new ArgumentNullException(nameof(first));
+            if (second is null)
+                throw new ArgumentNullException(nameof(second));
+            if (firstKeySelector is null)
+                throw new ArgumentNullException(nameof(firstKeySelector));
+            if (secondKeySelector is null)
+                throw new ArgumentNullException(nameof(secondKeySelector));
+
+            return FullJoinAsyncIterator(
+                first,
+                second,
+                firstKeySelector,
+                secondKeySelector,
+                static (firstItem, secondItem, _) =>
+                    new ValueTask<(TFirst?, TSecond?)>((firstItem, secondItem)),
+                comparer
+            );
+        }
+    }
+
 }
 #endif
 #endif
