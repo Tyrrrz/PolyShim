@@ -147,7 +147,9 @@ internal static class MemberPolyfills_Net110_AsyncEnumerable
     {
         if (ReferenceEquals(first, AsyncEnumerable.Empty<TFirst>()))
         {
-            await foreach (var item in second.WithCancellation(cancellationToken).ConfigureAwait(false))
+            await foreach (
+                var item in second.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
                 yield return resultSelector(default, item);
 
             yield break;
@@ -155,7 +157,9 @@ internal static class MemberPolyfills_Net110_AsyncEnumerable
 
         if (ReferenceEquals(second, AsyncEnumerable.Empty<TSecond>()))
         {
-            await foreach (var item in first.WithCancellation(cancellationToken).ConfigureAwait(false))
+            await foreach (
+                var item in first.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
                 yield return resultSelector(item, default);
 
             yield break;
@@ -165,7 +169,9 @@ internal static class MemberPolyfills_Net110_AsyncEnumerable
         var secondLookup = secondItems.ToLookup(secondKeySelector, comparer);
         var matchedGroups = new HashSet<IGrouping<TKey, TSecond>>();
 
-        await foreach (var firstItem in first.WithCancellation(cancellationToken).ConfigureAwait(false))
+        await foreach (
+            var firstItem in first.WithCancellation(cancellationToken).ConfigureAwait(false)
+        )
         {
             var key = firstKeySelector(firstItem);
             var group = key is null ? null : secondLookup[key] as IGrouping<TKey, TSecond>;
@@ -208,16 +214,22 @@ internal static class MemberPolyfills_Net110_AsyncEnumerable
     {
         if (ReferenceEquals(first, AsyncEnumerable.Empty<TFirst>()))
         {
-            await foreach (var item in second.WithCancellation(cancellationToken).ConfigureAwait(false))
-                yield return await resultSelector(default, item, cancellationToken).ConfigureAwait(false);
+            await foreach (
+                var item in second.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
+                yield return await resultSelector(default, item, cancellationToken)
+                    .ConfigureAwait(false);
 
             yield break;
         }
 
         if (ReferenceEquals(second, AsyncEnumerable.Empty<TSecond>()))
         {
-            await foreach (var item in first.WithCancellation(cancellationToken).ConfigureAwait(false))
-                yield return await resultSelector(item, default, cancellationToken).ConfigureAwait(false);
+            await foreach (
+                var item in first.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
+                yield return await resultSelector(item, default, cancellationToken)
+                    .ConfigureAwait(false);
 
             yield break;
         }
@@ -231,20 +243,24 @@ internal static class MemberPolyfills_Net110_AsyncEnumerable
         var secondLookup = keyedSecondItems.ToLookup(item => item.Key, item => item.Item, comparer);
         var matchedGroups = new HashSet<IGrouping<TKey, TSecond>>();
 
-        await foreach (var firstItem in first.WithCancellation(cancellationToken).ConfigureAwait(false))
+        await foreach (
+            var firstItem in first.WithCancellation(cancellationToken).ConfigureAwait(false)
+        )
         {
             var key = await firstKeySelector(firstItem, cancellationToken).ConfigureAwait(false);
             var group = key is null ? null : secondLookup[key] as IGrouping<TKey, TSecond>;
             if (group is null)
             {
-                yield return await resultSelector(firstItem, default, cancellationToken).ConfigureAwait(false);
+                yield return await resultSelector(firstItem, default, cancellationToken)
+                    .ConfigureAwait(false);
                 continue;
             }
 
             matchedGroups.Add(group);
 
             foreach (var secondItem in group)
-                yield return await resultSelector(firstItem, secondItem, cancellationToken).ConfigureAwait(false);
+                yield return await resultSelector(firstItem, secondItem, cancellationToken)
+                    .ConfigureAwait(false);
         }
 
         foreach (var group in secondLookup)
@@ -253,7 +269,8 @@ internal static class MemberPolyfills_Net110_AsyncEnumerable
                 continue;
 
             foreach (var secondItem in group)
-                yield return await resultSelector(default, secondItem, cancellationToken).ConfigureAwait(false);
+                yield return await resultSelector(default, secondItem, cancellationToken)
+                    .ConfigureAwait(false);
         }
     }
 }

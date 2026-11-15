@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AwesomeAssertions;
 using Xunit;
@@ -43,6 +44,13 @@ public class AsyncEnumerableTests
             throw new InvalidOperationException("The key selector should not run.");
         Func<int, int, string> resultSelector = (firstItem, secondItem) =>
             $"{firstItem}-{secondItem}";
+        Func<int, CancellationToken, ValueTask<int>> throwingAsyncKeySelector = (_, _) =>
+            throw new InvalidOperationException("The async key selector should not run.");
+        Func<int, int, CancellationToken, ValueTask<string>> asyncResultSelector = (
+            firstItem,
+            secondItem,
+            _
+        ) => new ValueTask<string>($"{firstItem}-{secondItem}");
         var emptyFirstResult = await AsyncEnumerable
             .Empty<int>()
             .FullJoin(
@@ -53,6 +61,17 @@ public class AsyncEnumerableTests
             )
             .ToListAsync();
         emptyFirstResult.Should().Equal("0-3", "0-4", "0-3");
+
+        var emptyFirstAsyncResult = await AsyncEnumerable
+            .Empty<int>()
+            .FullJoin(
+                secondWithDuplicates,
+                throwingAsyncKeySelector,
+                throwingAsyncKeySelector,
+                asyncResultSelector
+            )
+            .ToListAsync();
+        emptyFirstAsyncResult.Should().Equal("0-3", "0-4", "0-3");
 
         var firstForEmptySecond = new[] { 1, 2, 3 }.ToAsyncEnumerable();
         var emptySecondResult = await firstForEmptySecond

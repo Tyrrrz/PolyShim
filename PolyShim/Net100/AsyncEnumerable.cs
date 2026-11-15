@@ -757,6 +757,39 @@ internal static class AsyncEnumerable
             return TakeWhileIterator(source, predicate);
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where
+        public IAsyncEnumerable<T> Where(Func<T, bool> predicate)
+        {
+            if (source is null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate is null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            return WhereIterator(source, predicate);
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where
+        public IAsyncEnumerable<T> Where(Func<T, int, bool> predicate)
+        {
+            if (source is null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate is null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            return WhereIndexedIterator(source, predicate);
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.whereasync
+        public IAsyncEnumerable<T> Where(Func<T, CancellationToken, ValueTask<bool>> predicate)
+        {
+            if (source is null)
+                throw new ArgumentNullException(nameof(source));
+            if (predicate is null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            return WhereAsyncIterator(source, predicate);
+        }
+
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.toarrayasync
         public async ValueTask<T[]> ToArrayAsync(CancellationToken cancellationToken = default) =>
             (await source.ToListAsync(cancellationToken).ConfigureAwait(false)).ToArray();
@@ -814,39 +847,6 @@ internal static class AsyncEnumerable
                 result.Add(item);
 
             return result;
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where
-        public IAsyncEnumerable<T> Where(Func<T, bool> predicate)
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            return WhereIterator(source, predicate);
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where
-        public IAsyncEnumerable<T> Where(Func<T, int, bool> predicate)
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            return WhereIndexedIterator(source, predicate);
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.whereasync
-        public IAsyncEnumerable<T> Where(Func<T, CancellationToken, ValueTask<bool>> predicate)
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            return WhereAsyncIterator(source, predicate);
         }
     }
 
@@ -1019,6 +1019,27 @@ internal static class AsyncEnumerable
                 throw new ArgumentNullException(nameof(keySelector));
 
             return source.CreateOrderedEnumerable(keySelector, comparer, true);
+        }
+    }
+
+    extension(IAsyncEnumerable<object?> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.cast
+        public IAsyncEnumerable<TResult> Cast<TResult>()
+        {
+            if (source is null)
+                throw new ArgumentNullException(nameof(source));
+
+            return CastIterator<TResult>(source);
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.oftype
+        public IAsyncEnumerable<TResult> OfType<TResult>()
+        {
+            if (source is null)
+                throw new ArgumentNullException(nameof(source));
+
+            return OfTypeIterator<TResult>(source);
         }
     }
 
@@ -1204,27 +1225,6 @@ internal static class AsyncEnumerable
                     sum += value;
 
             return sum;
-        }
-    }
-
-    extension(IAsyncEnumerable<object?> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.cast
-        public IAsyncEnumerable<TResult> Cast<TResult>()
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-
-            return CastIterator<TResult>(source);
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.oftype
-        public IAsyncEnumerable<TResult> OfType<TResult>()
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-
-            return OfTypeIterator<TResult>(source);
         }
     }
 
