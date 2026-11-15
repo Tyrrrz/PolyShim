@@ -57,6 +57,15 @@
         >$(DefineConstants);FEATURE_ASYNCINTERFACES</DefineConstants
       >
 
+      <FeatureAsyncLinq>false</FeatureAsyncLinq>
+      <FeatureAsyncLinq
+        Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('NuGetPackageId', 'System.Linq.AsyncEnumerable'))"
+        >true</FeatureAsyncLinq
+      >
+      <DefineConstants Condition="$(FeatureAsyncLinq)"
+        >$(DefineConstants);FEATURE_ASYNC_LINQ</DefineConstants
+      >
+
       <FeatureBase64Url>false</FeatureBase64Url>
       <FeatureBase64Url
         Condition="@(ReferencePath-&gt;AnyHaveMetadataValue('Filename', 'Microsoft.Bcl.Memory'))"
