@@ -1,6 +1,5 @@
 #if (NETCOREAPP && !NET10_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
-// Task, ValueTask, and async enumerable types are polyfilled when unavailable on a target framework
-#if FEATURE_TASK
+#if FEATURE_TASK && !FEATURE_LINQ_ASYNCENUMERABLE
 #nullable enable
 #pragma warning disable CS0436
 
@@ -27,7 +26,15 @@ internal static class AsyncEnumerable
         if (count < 0 || (long)start + count - 1 > int.MaxValue)
             throw new ArgumentOutOfRangeException(nameof(count));
 
-        return RangeIterator(start, count);
+        return Iterate();
+
+        async IAsyncEnumerable<int> Iterate(
+            [EnumeratorCancellation] CancellationToken cancellationToken = default
+        )
+        {
+            for (var i = 0; i < count; i++)
+                yield return start + i;
+        }
     }
 
     // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.repeat
@@ -36,7 +43,15 @@ internal static class AsyncEnumerable
         if (count < 0)
             throw new ArgumentOutOfRangeException(nameof(count));
 
-        return RepeatIterator(element, count);
+        return Iterate();
+
+        async IAsyncEnumerable<T> Iterate(
+            [EnumeratorCancellation] CancellationToken cancellationToken = default
+        )
+        {
+            for (var i = 0; i < count; i++)
+                yield return element;
+        }
     }
 
     extension<T>(IEnumerable<T> source)
@@ -47,7 +62,15 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return ToAsyncEnumerableIterator(source);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                foreach (var item in source)
+                    yield return item;
+            }
         }
     }
 
@@ -209,7 +232,19 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return AppendIterator(source, element);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                    yield return item;
+
+                yield return element;
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.prepend
@@ -218,7 +253,19 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return PrependIterator(source, element);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                yield return element;
+
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                    yield return item;
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.concat
@@ -229,7 +276,22 @@ internal static class AsyncEnumerable
             if (second is null)
                 throw new ArgumentNullException(nameof(second));
 
-            return ConcatIterator(source, second);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                    yield return item;
+
+                await foreach (
+                    var item in second.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                    yield return item;
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.containsasync
@@ -348,7 +410,24 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return DefaultIfEmptyIterator(source, defaultValue);
+            return Iterate();
+
+            async IAsyncEnumerable<T?> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var any = false;
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    any = true;
+                    yield return item;
+                }
+
+                if (!any)
+                    yield return defaultValue;
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.distinct
@@ -357,7 +436,21 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return DistinctIterator(source, comparer);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var seen = new HashSet<T>(comparer);
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (seen.Add(item))
+                        yield return item;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.elementatasync
@@ -635,7 +728,16 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return ReverseIterator(source);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var items = await source.ToListAsync(cancellationToken).ConfigureAwait(false);
+                for (var i = items.Count - 1; i >= 0; i--)
+                    yield return items[i];
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.select
@@ -646,7 +748,17 @@ internal static class AsyncEnumerable
             if (selector is null)
                 throw new ArgumentNullException(nameof(selector));
 
-            return SelectIterator(source, selector);
+            return Iterate();
+
+            async IAsyncEnumerable<TResult> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                    yield return selector(item);
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.select
@@ -657,7 +769,18 @@ internal static class AsyncEnumerable
             if (selector is null)
                 throw new ArgumentNullException(nameof(selector));
 
-            return SelectIndexedIterator(source, selector);
+            return Iterate();
+
+            async IAsyncEnumerable<TResult> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var index = 0;
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                    yield return selector(item, checked(index++));
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.selectasync
@@ -670,7 +793,17 @@ internal static class AsyncEnumerable
             if (selector is null)
                 throw new ArgumentNullException(nameof(selector));
 
-            return SelectAsyncIterator(source, selector);
+            return Iterate();
+
+            async IAsyncEnumerable<TResult> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                    yield return await selector(item, cancellationToken).ConfigureAwait(false);
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.selectmany
@@ -683,7 +816,24 @@ internal static class AsyncEnumerable
             if (selector is null)
                 throw new ArgumentNullException(nameof(selector));
 
-            return SelectManyIterator(source, selector);
+            return Iterate();
+
+            async IAsyncEnumerable<TResult> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    await foreach (
+                        var inner in selector(item)
+                            .WithCancellation(cancellationToken)
+                            .ConfigureAwait(false)
+                    )
+                        yield return inner;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sequenceequalasync
@@ -723,7 +873,23 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return SkipIterator(source, count);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var skipped = 0;
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (skipped < count)
+                        skipped++;
+                    else
+                        yield return item;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.skipwhile
@@ -734,7 +900,24 @@ internal static class AsyncEnumerable
             if (predicate is null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            return SkipWhileIterator(source, predicate);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var skipping = true;
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (skipping && predicate(item))
+                        continue;
+
+                    skipping = false;
+                    yield return item;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.take
@@ -743,7 +926,26 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return TakeIterator(source, count);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                if (count <= 0)
+                    yield break;
+
+                var taken = 0;
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    yield return item;
+
+                    if (++taken >= count)
+                        yield break;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.takewhile
@@ -754,7 +956,22 @@ internal static class AsyncEnumerable
             if (predicate is null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            return TakeWhileIterator(source, predicate);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (!predicate(item))
+                        yield break;
+
+                    yield return item;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where
@@ -765,7 +982,20 @@ internal static class AsyncEnumerable
             if (predicate is null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            return WhereIterator(source, predicate);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (predicate(item))
+                        yield return item;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where
@@ -776,7 +1006,21 @@ internal static class AsyncEnumerable
             if (predicate is null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            return WhereIndexedIterator(source, predicate);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var index = 0;
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (predicate(item, checked(index++)))
+                        yield return item;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.whereasync
@@ -787,7 +1031,20 @@ internal static class AsyncEnumerable
             if (predicate is null)
                 throw new ArgumentNullException(nameof(predicate));
 
-            return WhereAsyncIterator(source, predicate);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (await predicate(item, cancellationToken).ConfigureAwait(false))
+                        yield return item;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.toarrayasync
@@ -865,7 +1122,8 @@ internal static class AsyncEnumerable
 
             return new OrderedAsyncEnumerable<T>(
                 source,
-                items => items.OrderBy(keySelector, comparer)
+                (items, _) =>
+                    new ValueTask<IOrderedEnumerable<T>>(items.OrderBy(keySelector, comparer))
             );
         }
 
@@ -882,7 +1140,10 @@ internal static class AsyncEnumerable
 
             return new OrderedAsyncEnumerable<T>(
                 source,
-                items => items.OrderByDescending(keySelector, comparer)
+                (items, _) =>
+                    new ValueTask<IOrderedEnumerable<T>>(
+                        items.OrderByDescending(keySelector, comparer)
+                    )
             );
         }
 
@@ -897,7 +1158,16 @@ internal static class AsyncEnumerable
             if (keySelector is null)
                 throw new ArgumentNullException(nameof(keySelector));
 
-            return GroupByIterator(source, keySelector, comparer);
+            return Iterate();
+
+            async IAsyncEnumerable<IGrouping<TKey, T>> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var items = await source.ToListAsync(cancellationToken).ConfigureAwait(false);
+                foreach (var group in items.GroupBy(keySelector, comparer))
+                    yield return group;
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.except
@@ -911,7 +1181,23 @@ internal static class AsyncEnumerable
             if (second is null)
                 throw new ArgumentNullException(nameof(second));
 
-            return ExceptIterator(source, second, comparer);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var seen = await second
+                    .ToHashSetAsync(comparer, cancellationToken)
+                    .ConfigureAwait(false);
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (seen.Add(item))
+                        yield return item;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.union
@@ -925,7 +1211,29 @@ internal static class AsyncEnumerable
             if (second is null)
                 throw new ArgumentNullException(nameof(second));
 
-            return UnionIterator(source, second, comparer);
+            return Iterate();
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var seen = new HashSet<T>(comparer);
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (seen.Add(item))
+                        yield return item;
+                }
+
+                await foreach (
+                    var item in second.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (seen.Add(item))
+                        yield return item;
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.zip
@@ -938,7 +1246,21 @@ internal static class AsyncEnumerable
             if (second is null)
                 throw new ArgumentNullException(nameof(second));
 
-            return ZipIterator(source, second, (a, b) => (a, b));
+            return Iterate();
+
+            async IAsyncEnumerable<(T First, TSecond Second)> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await using var firstEnumerator = source.GetAsyncEnumerator(cancellationToken);
+                await using var secondEnumerator = second.GetAsyncEnumerator(cancellationToken);
+
+                while (
+                    await firstEnumerator.MoveNextAsync().ConfigureAwait(false)
+                    && await secondEnumerator.MoveNextAsync().ConfigureAwait(false)
+                )
+                    yield return (firstEnumerator.Current, secondEnumerator.Current);
+            }
         }
     }
 
@@ -964,14 +1286,27 @@ internal static class AsyncEnumerable
             if (resultSelector is null)
                 throw new ArgumentNullException(nameof(resultSelector));
 
-            return JoinIterator(
-                outer,
-                inner,
-                outerKeySelector,
-                innerKeySelector,
-                resultSelector,
-                comparer
-            );
+            return Iterate();
+
+            async IAsyncEnumerable<TResult> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var innerItems = await inner.ToListAsync(cancellationToken).ConfigureAwait(false);
+                var lookup = innerItems.ToLookup(innerKeySelector, comparer);
+
+                await foreach (
+                    var outerItem in outer.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    var key = outerKeySelector(outerItem);
+                    if (key is null)
+                        continue;
+
+                    foreach (var innerItem in lookup[key])
+                        yield return resultSelector(outerItem, innerItem);
+                }
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.zip
@@ -987,7 +1322,21 @@ internal static class AsyncEnumerable
             if (resultSelector is null)
                 throw new ArgumentNullException(nameof(resultSelector));
 
-            return ZipIterator(outer, second, resultSelector);
+            return Iterate();
+
+            async IAsyncEnumerable<TResult> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await using var firstEnumerator = outer.GetAsyncEnumerator(cancellationToken);
+                await using var secondEnumerator = second.GetAsyncEnumerator(cancellationToken);
+
+                while (
+                    await firstEnumerator.MoveNextAsync().ConfigureAwait(false)
+                    && await secondEnumerator.MoveNextAsync().ConfigureAwait(false)
+                )
+                    yield return resultSelector(firstEnumerator.Current, secondEnumerator.Current);
+            }
         }
     }
 
@@ -1004,7 +1353,7 @@ internal static class AsyncEnumerable
             if (keySelector is null)
                 throw new ArgumentNullException(nameof(keySelector));
 
-            return source.CreateOrderedEnumerable(keySelector, comparer, false);
+            return source.CreateOrderedAsyncEnumerable(keySelector, comparer, false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.thenbydescending
@@ -1018,7 +1367,7 @@ internal static class AsyncEnumerable
             if (keySelector is null)
                 throw new ArgumentNullException(nameof(keySelector));
 
-            return source.CreateOrderedEnumerable(keySelector, comparer, true);
+            return source.CreateOrderedAsyncEnumerable(keySelector, comparer, true);
         }
     }
 
@@ -1030,7 +1379,17 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return CastIterator<TResult>(source);
+            return Iterate();
+
+            async IAsyncEnumerable<TResult> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                    yield return (TResult)item!;
+            }
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.oftype
@@ -1039,7 +1398,20 @@ internal static class AsyncEnumerable
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            return OfTypeIterator<TResult>(source);
+            return Iterate();
+
+            async IAsyncEnumerable<TResult> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    if (item is TResult result)
+                        yield return result;
+                }
+            }
         }
     }
 
@@ -1230,17 +1602,44 @@ internal static class AsyncEnumerable
 
     private sealed class OrderedAsyncEnumerable<T>(
         IAsyncEnumerable<T> source,
-        Func<IEnumerable<T>, IOrderedEnumerable<T>> sorter
+        Func<IEnumerable<T>, CancellationToken, ValueTask<IOrderedEnumerable<T>>> sorter
     ) : IOrderedAsyncEnumerable<T>
     {
-        public IOrderedAsyncEnumerable<T> CreateOrderedEnumerable<TKey>(
+        public IOrderedAsyncEnumerable<T> CreateOrderedAsyncEnumerable<TKey>(
             Func<T, TKey> keySelector,
             IComparer<TKey>? comparer,
             bool descending
         ) =>
             new OrderedAsyncEnumerable<T>(
                 source,
-                items => sorter(items).CreateOrderedEnumerable(keySelector, comparer, descending)
+                async (items, cancellationToken) =>
+                {
+                    var ordered = await sorter(items, cancellationToken).ConfigureAwait(false);
+                    return ordered.CreateOrderedEnumerable(keySelector, comparer, descending);
+                }
+            );
+
+        public IOrderedAsyncEnumerable<T> CreateOrderedAsyncEnumerable<TKey>(
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            IComparer<TKey>? comparer,
+            bool descending
+        ) =>
+            new OrderedAsyncEnumerable<T>(
+                source,
+                async (items, cancellationToken) =>
+                {
+                    var ordered = await sorter(items, cancellationToken).ConfigureAwait(false);
+                    var keys = new List<TKey>();
+                    foreach (var item in items)
+                        keys.Add(await keySelector(item, cancellationToken).ConfigureAwait(false));
+
+                    var index = 0;
+                    return ordered.CreateOrderedEnumerable(
+                        _ => keys[index++],
+                        comparer,
+                        descending
+                    );
+                }
             );
 
         public async IAsyncEnumerator<T> GetAsyncEnumerator(
@@ -1248,383 +1647,25 @@ internal static class AsyncEnumerable
         )
         {
             var items = await source.ToListAsync(cancellationToken).ConfigureAwait(false);
-            foreach (var item in sorter(items))
+            var sortedItems = await sorter(items, cancellationToken).ConfigureAwait(false);
+            foreach (var item in sortedItems)
                 yield return item;
         }
     }
 
     private static class EmptyCache<T>
     {
-        internal static readonly IAsyncEnumerable<T> Instance = EmptyIterator<T>();
-    }
+        internal static readonly IAsyncEnumerable<T> Instance = CreateInstance();
 
-    private static async IAsyncEnumerable<IGrouping<TKey, T>> GroupByIterator<T, TKey>(
-        IAsyncEnumerable<T> source,
-        Func<T, TKey> keySelector,
-        IEqualityComparer<TKey>? comparer,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var items = await source.ToListAsync(cancellationToken).ConfigureAwait(false);
-        foreach (var group in items.GroupBy(keySelector, comparer))
-            yield return group;
-    }
-
-    private static async IAsyncEnumerable<T> ExceptIterator<T>(
-        IAsyncEnumerable<T> first,
-        IAsyncEnumerable<T> second,
-        IEqualityComparer<T>? comparer,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var seen = await second.ToHashSetAsync(comparer, cancellationToken).ConfigureAwait(false);
-        await foreach (var item in first.WithCancellation(cancellationToken).ConfigureAwait(false))
+        private static IAsyncEnumerable<T> CreateInstance()
         {
-            if (seen.Add(item))
-                yield return item;
-        }
-    }
-
-    private static async IAsyncEnumerable<T> UnionIterator<T>(
-        IAsyncEnumerable<T> first,
-        IAsyncEnumerable<T> second,
-        IEqualityComparer<T>? comparer,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var seen = new HashSet<T>(comparer);
-        await foreach (var item in first.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (seen.Add(item))
-                yield return item;
-        }
-
-        await foreach (var item in second.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (seen.Add(item))
-                yield return item;
-        }
-    }
-
-    private static async IAsyncEnumerable<TResult> ZipIterator<TFirst, TSecond, TResult>(
-        IAsyncEnumerable<TFirst> first,
-        IAsyncEnumerable<TSecond> second,
-        Func<TFirst, TSecond, TResult> resultSelector,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await using var firstEnumerator = first.GetAsyncEnumerator(cancellationToken);
-        await using var secondEnumerator = second.GetAsyncEnumerator(cancellationToken);
-
-        while (
-            await firstEnumerator.MoveNextAsync().ConfigureAwait(false)
-            && await secondEnumerator.MoveNextAsync().ConfigureAwait(false)
-        )
-            yield return resultSelector(firstEnumerator.Current, secondEnumerator.Current);
-    }
-
-    private static async IAsyncEnumerable<TResult> JoinIterator<TOuter, TInner, TKey, TResult>(
-        IAsyncEnumerable<TOuter> outer,
-        IAsyncEnumerable<TInner> inner,
-        Func<TOuter, TKey> outerKeySelector,
-        Func<TInner, TKey> innerKeySelector,
-        Func<TOuter, TInner, TResult> resultSelector,
-        IEqualityComparer<TKey>? comparer,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var innerItems = await inner.ToListAsync(cancellationToken).ConfigureAwait(false);
-        var lookup = innerItems.ToLookup(innerKeySelector, comparer);
-
-        await foreach (var o in outer.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            var key = outerKeySelector(o);
-            if (key is null)
-                continue;
-
-            foreach (var i in lookup[key])
-                yield return resultSelector(o, i);
-        }
-    }
-
-    private static async IAsyncEnumerable<T> EmptyIterator<T>()
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-        yield break;
-    }
-
-    private static async IAsyncEnumerable<int> RangeIterator(int start, int count)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-        for (var i = 0; i < count; i++)
-            yield return start + i;
-    }
-
-    private static async IAsyncEnumerable<T> RepeatIterator<T>(T element, int count)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-        for (var i = 0; i < count; i++)
-            yield return element;
-    }
-
-    private static async IAsyncEnumerable<T> ToAsyncEnumerableIterator<T>(IEnumerable<T> source)
-    {
-        await Task.CompletedTask.ConfigureAwait(false);
-        foreach (var item in source)
-            yield return item;
-    }
-
-    private static async IAsyncEnumerable<T> AppendIterator<T>(
-        IAsyncEnumerable<T> source,
-        T element,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-            yield return item;
-
-        yield return element;
-    }
-
-    private static async IAsyncEnumerable<T> PrependIterator<T>(
-        IAsyncEnumerable<T> source,
-        T element,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        yield return element;
-
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-            yield return item;
-    }
-
-    private static async IAsyncEnumerable<T> ConcatIterator<T>(
-        IAsyncEnumerable<T> first,
-        IAsyncEnumerable<T> second,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in first.WithCancellation(cancellationToken).ConfigureAwait(false))
-            yield return item;
-
-        await foreach (var item in second.WithCancellation(cancellationToken).ConfigureAwait(false))
-            yield return item;
-    }
-
-    private static async IAsyncEnumerable<T?> DefaultIfEmptyIterator<T>(
-        IAsyncEnumerable<T> source,
-        T defaultValue,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var any = false;
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            any = true;
-            yield return item;
-        }
-
-        if (!any)
-            yield return defaultValue;
-    }
-
-    private static async IAsyncEnumerable<T> DistinctIterator<T>(
-        IAsyncEnumerable<T> source,
-        IEqualityComparer<T>? comparer,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var seen = new HashSet<T>(comparer);
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (seen.Add(item))
-                yield return item;
-        }
-    }
-
-    private static async IAsyncEnumerable<T> ReverseIterator<T>(
-        IAsyncEnumerable<T> source,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var items = await source.ToListAsync(cancellationToken).ConfigureAwait(false);
-        for (var i = items.Count - 1; i >= 0; i--)
-            yield return items[i];
-    }
-
-    private static async IAsyncEnumerable<TResult> SelectIterator<T, TResult>(
-        IAsyncEnumerable<T> source,
-        Func<T, TResult> selector,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-            yield return selector(item);
-    }
-
-    private static async IAsyncEnumerable<TResult> SelectIndexedIterator<T, TResult>(
-        IAsyncEnumerable<T> source,
-        Func<T, int, TResult> selector,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var index = 0;
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-            yield return selector(item, checked(index++));
-    }
-
-    private static async IAsyncEnumerable<TResult> SelectAsyncIterator<T, TResult>(
-        IAsyncEnumerable<T> source,
-        Func<T, CancellationToken, ValueTask<TResult>> selector,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-            yield return await selector(item, cancellationToken).ConfigureAwait(false);
-    }
-
-    private static async IAsyncEnumerable<TResult> SelectManyIterator<T, TResult>(
-        IAsyncEnumerable<T> source,
-        Func<T, IAsyncEnumerable<TResult>> selector,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            await foreach (
-                var inner in selector(item)
-                    .WithCancellation(cancellationToken)
-                    .ConfigureAwait(false)
-            )
-                yield return inner;
-        }
-    }
-
-    private static async IAsyncEnumerable<T> SkipIterator<T>(
-        IAsyncEnumerable<T> source,
-        int count,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var skipped = 0;
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (skipped < count)
-                skipped++;
-            else
-                yield return item;
-        }
-    }
-
-    private static async IAsyncEnumerable<T> SkipWhileIterator<T>(
-        IAsyncEnumerable<T> source,
-        Func<T, bool> predicate,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var skipping = true;
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (skipping && predicate(item))
-                continue;
-
-            skipping = false;
-            yield return item;
-        }
-    }
-
-    private static async IAsyncEnumerable<T> TakeIterator<T>(
-        IAsyncEnumerable<T> source,
-        int count,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        if (count <= 0)
-            yield break;
-
-        var taken = 0;
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            yield return item;
-
-            if (++taken >= count)
+            async IAsyncEnumerable<T> Iterate()
+            {
+                await Task.CompletedTask.ConfigureAwait(false);
                 yield break;
-        }
-    }
+            }
 
-    private static async IAsyncEnumerable<T> TakeWhileIterator<T>(
-        IAsyncEnumerable<T> source,
-        Func<T, bool> predicate,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (!predicate(item))
-                yield break;
-
-            yield return item;
-        }
-    }
-
-    private static async IAsyncEnumerable<T> WhereIterator<T>(
-        IAsyncEnumerable<T> source,
-        Func<T, bool> predicate,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (predicate(item))
-                yield return item;
-        }
-    }
-
-    private static async IAsyncEnumerable<T> WhereIndexedIterator<T>(
-        IAsyncEnumerable<T> source,
-        Func<T, int, bool> predicate,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        var index = 0;
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (predicate(item, checked(index++)))
-                yield return item;
-        }
-    }
-
-    private static async IAsyncEnumerable<T> WhereAsyncIterator<T>(
-        IAsyncEnumerable<T> source,
-        Func<T, CancellationToken, ValueTask<bool>> predicate,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (await predicate(item, cancellationToken).ConfigureAwait(false))
-                yield return item;
-        }
-    }
-
-    private static async IAsyncEnumerable<TResult> CastIterator<TResult>(
-        IAsyncEnumerable<object?> source,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-            yield return (TResult)item!;
-    }
-
-    private static async IAsyncEnumerable<TResult> OfTypeIterator<TResult>(
-        IAsyncEnumerable<object?> source,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        await foreach (var item in source.WithCancellation(cancellationToken).ConfigureAwait(false))
-        {
-            if (item is TResult result)
-                yield return result;
+            return Iterate();
         }
     }
 }

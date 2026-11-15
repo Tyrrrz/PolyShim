@@ -1,6 +1,5 @@
 #if (NETCOREAPP && !NET11_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
-// Task, ValueTask, and async enumerable types are polyfilled when unavailable on a target framework
-#if FEATURE_TASK
+#if FEATURE_TASK && !FEATURE_LINQ_ASYNCENUMERABLE
 #nullable enable
 #pragma warning disable CS0436
 

@@ -333,6 +333,19 @@ public class AsyncEnumerableTests
         (await source.OrderBy(x => x.Length).ThenBy(x => x).ToListAsync())
             .Should()
             .Equal("a", "b", "aa", "bb", "ccc");
+
+        var ordered = (IOrderedAsyncEnumerable<string>)source.OrderBy(x => x.Length);
+        (
+            await ordered
+                .CreateOrderedAsyncEnumerable(
+                    (x, _) => new ValueTask<char>(x[0]),
+                    comparer: null,
+                    descending: false
+                )
+                .ToListAsync()
+        )
+            .Should()
+            .Equal("a", "b", "aa", "bb", "ccc");
     }
 
     [Fact]
