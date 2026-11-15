@@ -1,6 +1,6 @@
 #if (NETCOREAPP && !NET10_0_OR_GREATER) || (NETFRAMEWORK) || (NETSTANDARD)
-// Task and ValueTask are not available on all target frameworks within this TFM range without a NuGet package reference
-#if FEATURE_TASK && FEATURE_VALUETASK
+// Task, ValueTask, and async enumerable types are polyfilled when unavailable on a target framework
+#if FEATURE_TASK
 #nullable enable
 #pragma warning disable CS0436
 
@@ -19,7 +19,7 @@ namespace System.Linq;
 internal static class AsyncEnumerable
 {
     // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.empty
-    public static IAsyncEnumerable<T> Empty<T>() => EmptyIterator<T>();
+    public static IAsyncEnumerable<T> Empty<T>() => EmptyCache<T>.Instance;
 
     // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.range
     public static IAsyncEnumerable<int> Range(int start, int count)
@@ -53,7 +53,7 @@ internal static class AsyncEnumerable
 
     extension<T>(IAsyncEnumerable<T> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregate
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregateasync
         public async ValueTask<T> AggregateAsync(
             Func<T, T, T> accumulator,
             CancellationToken cancellationToken = default
@@ -80,7 +80,7 @@ internal static class AsyncEnumerable
             return result;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregate
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregateasync
         public async ValueTask<TAccumulate> AggregateAsync<TAccumulate>(
             TAccumulate seed,
             Func<TAccumulate, T, TAccumulate> accumulator,
@@ -101,7 +101,7 @@ internal static class AsyncEnumerable
             return result;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.all
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.allasync
         public async ValueTask<bool> AllAsync(
             Func<T, bool> predicate,
             CancellationToken cancellationToken = default
@@ -123,8 +123,8 @@ internal static class AsyncEnumerable
             return true;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.allawaitasync
-        public async ValueTask<bool> AllAwaitAsync(
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.allasync
+        public async ValueTask<bool> AllAsync(
             Func<T, CancellationToken, ValueTask<bool>> predicate,
             CancellationToken cancellationToken = default
         )
@@ -145,7 +145,7 @@ internal static class AsyncEnumerable
             return true;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.any
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.anyasync
         public async ValueTask<bool> AnyAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -159,7 +159,7 @@ internal static class AsyncEnumerable
             return false;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.any
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.anyasync
         public async ValueTask<bool> AnyAsync(
             Func<T, bool> predicate,
             CancellationToken cancellationToken = default
@@ -181,8 +181,8 @@ internal static class AsyncEnumerable
             return false;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.anyawaitasync
-        public async ValueTask<bool> AnyAwaitAsync(
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.anyasync
+        public async ValueTask<bool> AnyAsync(
             Func<T, CancellationToken, ValueTask<bool>> predicate,
             CancellationToken cancellationToken = default
         )
@@ -232,7 +232,7 @@ internal static class AsyncEnumerable
             return ConcatIterator(source, second);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.contains
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.containsasync
         public async ValueTask<bool> ContainsAsync(
             T value,
             IEqualityComparer<T>? comparer = null,
@@ -254,7 +254,7 @@ internal static class AsyncEnumerable
             return false;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.count
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.countasync
         public async ValueTask<int> CountAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -272,7 +272,7 @@ internal static class AsyncEnumerable
             return count;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.count
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.countasync
         public async ValueTask<int> CountAsync(
             Func<T, bool> predicate,
             CancellationToken cancellationToken = default
@@ -298,8 +298,8 @@ internal static class AsyncEnumerable
             return count;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.countawaitasync
-        public async ValueTask<int> CountAwaitAsync(
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.countasync
+        public async ValueTask<int> CountAsync(
             Func<T, CancellationToken, ValueTask<bool>> predicate,
             CancellationToken cancellationToken = default
         )
@@ -324,7 +324,7 @@ internal static class AsyncEnumerable
             return count;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.longcount
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.longcountasync
         public async ValueTask<long> LongCountAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -360,7 +360,7 @@ internal static class AsyncEnumerable
             return DistinctIterator(source, comparer);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.elementat
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.elementatasync
         public async ValueTask<T> ElementAtAsync(
             int index,
             CancellationToken cancellationToken = default
@@ -383,7 +383,7 @@ internal static class AsyncEnumerable
             throw new ArgumentOutOfRangeException(nameof(index));
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.elementatordefault
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.elementatordefaultasync
         public async ValueTask<T?> ElementAtOrDefaultAsync(
             int index,
             CancellationToken cancellationToken = default
@@ -407,7 +407,7 @@ internal static class AsyncEnumerable
             return default;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.first
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.firstasync
         public async ValueTask<T> FirstAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -421,7 +421,7 @@ internal static class AsyncEnumerable
             throw new InvalidOperationException("Sequence contains no elements.");
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.first
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.firstasync
         public async ValueTask<T> FirstAsync(
             Func<T, bool> predicate,
             CancellationToken cancellationToken = default
@@ -443,7 +443,7 @@ internal static class AsyncEnumerable
             throw new InvalidOperationException("Sequence contains no matching element.");
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.firstordefault
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.firstordefaultasync
         public async ValueTask<T?> FirstOrDefaultAsync(
             CancellationToken cancellationToken = default
         )
@@ -459,7 +459,7 @@ internal static class AsyncEnumerable
             return default;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.firstordefault
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.firstordefaultasync
         public async ValueTask<T?> FirstOrDefaultAsync(
             Func<T, bool> predicate,
             CancellationToken cancellationToken = default
@@ -481,7 +481,7 @@ internal static class AsyncEnumerable
             return default;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.last
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.lastasync
         public async ValueTask<T> LastAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -503,7 +503,7 @@ internal static class AsyncEnumerable
             return last;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.lastordefault
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.lastordefaultasync
         public async ValueTask<T?> LastOrDefaultAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -518,7 +518,7 @@ internal static class AsyncEnumerable
             return last;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.single
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.singleasync
         public async ValueTask<T> SingleAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -543,7 +543,7 @@ internal static class AsyncEnumerable
             return result;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.singleordefault
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.singleordefaultasync
         public async ValueTask<T?> SingleOrDefaultAsync(
             CancellationToken cancellationToken = default
         )
@@ -567,7 +567,7 @@ internal static class AsyncEnumerable
             return result;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.max
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.maxasync
         public async ValueTask<T?> MaxAsync(
             IComparer<T>? comparer = null,
             CancellationToken cancellationToken = default
@@ -583,6 +583,9 @@ internal static class AsyncEnumerable
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
             )
             {
+                if (item is null)
+                    continue;
+
                 if (!hasValue || comparer.Compare(item, result!) > 0)
                     result = item;
 
@@ -595,7 +598,7 @@ internal static class AsyncEnumerable
             return result;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.min
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.minasync
         public async ValueTask<T?> MinAsync(
             IComparer<T>? comparer = null,
             CancellationToken cancellationToken = default
@@ -611,6 +614,9 @@ internal static class AsyncEnumerable
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
             )
             {
+                if (item is null)
+                    continue;
+
                 if (!hasValue || comparer.Compare(item, result!) < 0)
                     result = item;
 
@@ -654,8 +660,8 @@ internal static class AsyncEnumerable
             return SelectIndexedIterator(source, selector);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.selectawait
-        public IAsyncEnumerable<TResult> SelectAwait<TResult>(
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.selectasync
+        public IAsyncEnumerable<TResult> Select<TResult>(
             Func<T, CancellationToken, ValueTask<TResult>> selector
         )
         {
@@ -680,7 +686,7 @@ internal static class AsyncEnumerable
             return SelectManyIterator(source, selector);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sequenceequal
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sequenceequalasync
         public async ValueTask<bool> SequenceEqualAsync(
             IAsyncEnumerable<T> second,
             IEqualityComparer<T>? comparer = null,
@@ -751,11 +757,11 @@ internal static class AsyncEnumerable
             return TakeWhileIterator(source, predicate);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.toarray
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.toarrayasync
         public async ValueTask<T[]> ToArrayAsync(CancellationToken cancellationToken = default) =>
             (await source.ToListAsync(cancellationToken).ConfigureAwait(false)).ToArray();
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.todictionary
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.todictionaryasync
         public async ValueTask<Dictionary<TKey, T>> ToDictionaryAsync<TKey>(
             Func<T, TKey> keySelector,
             IEqualityComparer<TKey>? comparer = null,
@@ -777,7 +783,7 @@ internal static class AsyncEnumerable
             return result;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.tohashset
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.tohashsetasync
         public async ValueTask<HashSet<T>> ToHashSetAsync(
             IEqualityComparer<T>? comparer = null,
             CancellationToken cancellationToken = default
@@ -795,7 +801,7 @@ internal static class AsyncEnumerable
             return result;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.tolist
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.tolistasync
         public async ValueTask<List<T>> ToListAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -832,8 +838,8 @@ internal static class AsyncEnumerable
             return WhereIndexedIterator(source, predicate);
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.whereawait
-        public IAsyncEnumerable<T> WhereAwait(Func<T, CancellationToken, ValueTask<bool>> predicate)
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.whereasync
+        public IAsyncEnumerable<T> Where(Func<T, CancellationToken, ValueTask<bool>> predicate)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
@@ -1018,7 +1024,7 @@ internal static class AsyncEnumerable
 
     extension(IAsyncEnumerable<int> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<int> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -1036,7 +1042,7 @@ internal static class AsyncEnumerable
 
     extension(IAsyncEnumerable<int?> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<int?> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -1053,56 +1059,9 @@ internal static class AsyncEnumerable
         }
     }
 
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<int> SumAsync(
-            Func<T, int> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                sum = checked(sum + selector(item));
-
-            return sum;
-        }
-    }
-
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<int?> SumAsync(
-            Func<T, int?> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                if (selector(item) is { } value)
-                    sum = checked(sum + value);
-
-            return sum;
-        }
-    }
-
     extension(IAsyncEnumerable<long> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<long> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -1120,7 +1079,7 @@ internal static class AsyncEnumerable
 
     extension(IAsyncEnumerable<long?> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<long?> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -1137,140 +1096,46 @@ internal static class AsyncEnumerable
         }
     }
 
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<long> SumAsync(
-            Func<T, long> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0L;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                sum = checked(sum + selector(item));
-
-            return sum;
-        }
-    }
-
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<long?> SumAsync(
-            Func<T, long?> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0L;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                if (selector(item) is { } value)
-                    sum = checked(sum + value);
-
-            return sum;
-        }
-    }
-
     extension(IAsyncEnumerable<float> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<float> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            var sum = 0f;
+            var sum = 0d;
             await foreach (
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
             )
                 sum += item;
 
-            return sum;
+            return (float)sum;
         }
     }
 
     extension(IAsyncEnumerable<float?> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<float?> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
                 throw new ArgumentNullException(nameof(source));
 
-            var sum = 0f;
+            var sum = 0d;
             await foreach (
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
             )
                 if (item is { } value)
                     sum += value;
 
-            return sum;
-        }
-    }
-
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<float> SumAsync(
-            Func<T, float> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0f;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                sum += selector(item);
-
-            return sum;
-        }
-    }
-
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<float?> SumAsync(
-            Func<T, float?> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0f;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                if (selector(item) is { } value)
-                    sum += value;
-
-            return sum;
+            return (float)sum;
         }
     }
 
     extension(IAsyncEnumerable<double> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<double> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -1288,7 +1153,7 @@ internal static class AsyncEnumerable
 
     extension(IAsyncEnumerable<double?> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<double?> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -1305,56 +1170,9 @@ internal static class AsyncEnumerable
         }
     }
 
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<double> SumAsync(
-            Func<T, double> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0.0;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                sum += selector(item);
-
-            return sum;
-        }
-    }
-
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<double?> SumAsync(
-            Func<T, double?> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0.0;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                if (selector(item) is { } value)
-                    sum += value;
-
-            return sum;
-        }
-    }
-
     extension(IAsyncEnumerable<decimal> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<decimal> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -1372,7 +1190,7 @@ internal static class AsyncEnumerable
 
     extension(IAsyncEnumerable<decimal?> source)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync
         public async ValueTask<decimal?> SumAsync(CancellationToken cancellationToken = default)
         {
             if (source is null)
@@ -1383,53 +1201,6 @@ internal static class AsyncEnumerable
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
             )
                 if (item is { } value)
-                    sum += value;
-
-            return sum;
-        }
-    }
-
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<decimal> SumAsync(
-            Func<T, decimal> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0m;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                sum += selector(item);
-
-            return sum;
-        }
-    }
-
-    extension<T>(IAsyncEnumerable<T> source)
-    {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sum
-        public async ValueTask<decimal?> SumAsync(
-            Func<T, decimal?> selector,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
-
-            var sum = 0m;
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                if (selector(item) is { } value)
                     sum += value;
 
             return sum;
@@ -1480,6 +1251,11 @@ internal static class AsyncEnumerable
             foreach (var item in sorter(items))
                 yield return item;
         }
+    }
+
+    private static class EmptyCache<T>
+    {
+        internal static readonly IAsyncEnumerable<T> Instance = EmptyIterator<T>();
     }
 
     private static async IAsyncEnumerable<IGrouping<TKey, T>> GroupByIterator<T, TKey>(
