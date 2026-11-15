@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 639
-- **Types:** 130
-- **Members:** 509
+- **Total:** 659
+- **Types:** 135
+- **Members:** 524
 
 ___
 
@@ -99,6 +99,8 @@ ___
   - [`static UIntPtr RotateRight(UIntPtr, int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rotateright#system-numerics-bitoperations-rotateright(system-uintptr-system-int32)) <sup><sub>.NET 7.0</sub></sup>
   - [`static UIntPtr RoundUpToPowerOf2(UIntPtr)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rounduptopowerof2#system-numerics-bitoperations-rounduptopowerof2(system-uintptr)) <sup><sub>.NET 7.0</sub></sup>
   - [`static ulong RoundUpToPowerOf2(ulong)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.rounduptopowerof2#system-numerics-bitoperations-rounduptopowerof2(system-uint64)) <sup><sub>.NET 6.0</sub></sup>
+- `BlockingCollection<T>`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.collections.concurrent.blockingcollection-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `byte`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out byte)`](https://learn.microsoft.com/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)) <sup><sub>.NET 7.0</sub></sup>
@@ -488,12 +490,33 @@ ___
   - [`static string GetRelativePath(string, string)`](https://learn.microsoft.com/dotnet/api/system.io.path.getrelativepath) <sup><sub>.NET Core 2.0</sub></sup>
   - [`static string Join(params string?[])`](https://learn.microsoft.com/dotnet/api/system.io.path.join#system-io-path-join(system-string())) <sup><sub>.NET Core 3.0</sub></sup>
   - [`static string TrimEndingDirectorySeparator(string)`](https://learn.microsoft.com/dotnet/api/system.io.path.trimendingdirectoryseparator#system-io-path-trimendingdirectoryseparator(system-string)) <sup><sub>.NET Core 3.0</sub></sup>
+- `PosixSignal`
+  - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.posixsignal) <sup><sub>.NET 6.0</sub></sup>
 - `Process`
+  - [`static bool TryGetProcessById(int, out Process?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.trygetprocessbyid) <sup><sub>.NET 11.0</sub></sup>
+  - [`static int StartAndForget(ProcessStartInfo)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.startandforget#system-diagnostics-process-startandforget(system-diagnostics-processstartinfo)) <sup><sub>.NET 11.0</sub></sup>
+  - [`static int StartAndForget(string, IEnumerable<string>?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.startandforget#system-diagnostics-process-startandforget(system-string-system-collections-generic-ienumerable((system-string)))) <sup><sub>.NET 11.0</sub></sup>
+  - [`static ProcessTextOutput RunAndCaptureText(ProcessStartInfo, TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetext#system-diagnostics-process-runandcapturetext(system-diagnostics-processstartinfo-system-nullable((system-timespan)))) <sup><sub>.NET 11.0</sub></sup>
+  - [`static ProcessTextOutput RunAndCaptureText(string, IEnumerable<string>?, TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetext#system-diagnostics-process-runandcapturetext(system-string-system-collections-generic-ienumerable((system-string))-system-nullable((system-timespan)))) <sup><sub>.NET 11.0</sub></sup>
+  - [`static Task<ProcessTextOutput> RunAndCaptureTextAsync(ProcessStartInfo, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetextasync#system-diagnostics-process-runandcapturetextasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken)) <sup><sub>.NET 11.0</sub></sup>
+  - [`static Task<ProcessTextOutput> RunAndCaptureTextAsync(string, IEnumerable<string>?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetextasync#system-diagnostics-process-runandcapturetextasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)) <sup><sub>.NET 11.0</sub></sup>
+  - [`(byte[], byte[]) ReadAllBytes(TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readallbytes) <sup><sub>.NET 11.0</sub></sup>
+  - [`(string, string) ReadAllText(TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readalltext) <sup><sub>.NET 11.0</sub></sup>
   - [`bool WaitForExit(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexit#system-diagnostics-process-waitforexit(system-timespan)) <sup><sub>.NET 7.0</sub></sup>
+  - [`IAsyncEnumerable<ProcessOutputLine> ReadAllLinesAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readalllinesasync) <sup><sub>.NET 11.0</sub></sup>
+  - [`IEnumerable<ProcessOutputLine> ReadAllLines(TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readalllines) <sup><sub>.NET 11.0</sub></sup>
   - [`Task WaitForExitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitasync) <sup><sub>.NET 5.0</sub></sup>
+  - [`Task<(byte[], byte[])> ReadAllBytesAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readallbytesasync) <sup><sub>.NET 11.0</sub></sup>
+  - [`Task<(string, string)> ReadAllTextAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readalltextasync) <sup><sub>.NET 11.0</sub></sup>
   - [`void Kill(bool)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
+- `ProcessExitStatus`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.processexitstatus) <sup><sub>.NET 11.0</sub></sup>
+- `ProcessOutputLine`
+  - [**[struct]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.processoutputline) <sup><sub>.NET 11.0</sub></sup>
 - `ProcessStartInfo`
   - [`Collection<string> ArgumentList`](https://learn.microsoft.com/dotnet/api/system.diagnostics.processstartinfo.argumentlist) <sup><sub>.NET Core 3.0</sub></sup>
+- `ProcessTextOutput`
+  - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.processtextoutput) <sup><sub>.NET 11.0</sub></sup>
 - `Progress<T>`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.progress-1) <sup><sub>.NET Core 1.0</sub></sup>
 - `Queue<T>`
@@ -681,6 +704,8 @@ ___
   - [`ReadOnlySpan<char> AsSpan()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`ReadOnlySpan<char> AsSpan(int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`ReadOnlySpan<char> AsSpan(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
+- `StringBuilder`
+  - [`StringBuilder Clear()`](https://learn.microsoft.com/dotnet/api/system.text.stringbuilder.clear) <sup><sub>.NET Core 1.0</sub></sup>
 - `StringMarshalling`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.stringmarshalling) <sup><sub>.NET 7.0</sub></sup>
 - `StringStream`
@@ -762,6 +787,8 @@ ___
   - [`void Deconstruct(out int, out int)`](https://learn.microsoft.com/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@)) <sup><sub>.NET 8.0</sub></sup>
   - [`void Deconstruct(out int, out int, out int)`](https://learn.microsoft.com/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@)) <sup><sub>.NET 8.0</sub></sup>
   - [`void Deconstruct(out int, out int, out int, out int)`](https://learn.microsoft.com/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@-system-int32@)) <sup><sub>.NET 8.0</sub></sup>
+- `Timeout`
+  - [`static TimeSpan InfiniteTimeSpan`](https://learn.microsoft.com/dotnet/api/system.threading.timeout.infinitetimespan) <sup><sub>.NET Core 1.0</sub></sup>
 - `TimeProvider`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.timeprovider) <sup><sub>.NET 8.0</sub></sup>
 - `Timer`
