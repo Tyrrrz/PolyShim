@@ -479,8 +479,7 @@ internal static class MemberPolyfills_Net110_Process
 
             // Unlike native, this doesn't redirect the standard handles to the null file by default,
             // because it's not possible to do that without access to the process handle APIs.
-            using var process =
-                Process.Start(startInfo)
+            using var process = Process.Start(startInfo)
                 ?? throw new InvalidOperationException("The process could not be started.");
 
             return process.Id;
@@ -516,8 +515,7 @@ internal static class MemberPolyfills_Net110_Process
             // Validate before starting the process
             ToTimeoutMilliseconds(timeout);
 
-            using var process =
-                Process.Start(startInfo)
+            using var process = Process.Start(startInfo)
                 ?? throw new InvalidOperationException("The process could not be started.");
 
             if (
@@ -575,8 +573,7 @@ internal static class MemberPolyfills_Net110_Process
 
             var stopwatch = Stopwatch.StartNew();
 
-            using var process =
-                Process.Start(startInfo)
+            using var process = Process.Start(startInfo)
                 ?? throw new InvalidOperationException("The process could not be started.");
 
             var processId = process.Id;
