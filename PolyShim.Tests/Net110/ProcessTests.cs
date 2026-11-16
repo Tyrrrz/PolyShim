@@ -824,4 +824,301 @@ public class ProcessTests
         // Assert
         output.ExitStatus.Canceled.Should().BeTrue();
     }
+
+    [Fact]
+    public void Run_StartInfo_Test()
+    {
+        // Act
+        var status = Process.Run(CreateStartInfo("exit 3", "exit 3", false));
+
+        // Assert
+        status.ExitCode.Should().Be(3);
+        status.Canceled.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Run_FileName_Test()
+    {
+        // Act
+        var status = Process.Run(
+            OperatingSystem.IsWindows() ? "cmd" : "sh",
+            [OperatingSystem.IsWindows() ? "/c" : "-c", "exit 2"]
+        );
+
+        // Assert
+        status.ExitCode.Should().Be(2);
+        status.Canceled.Should().BeFalse();
+    }
+
+    [Fact]
+    public void Run_FileName_Silent_Test()
+    {
+        // Act
+        var status = Process.Run(
+            OperatingSystem.IsWindows() ? "cmd" : "sh",
+            [OperatingSystem.IsWindows() ? "/c" : "-c", "echo out& exit 4"],
+            silent: true
+        );
+
+        // Assert
+        status.ExitCode.Should().Be(4);
+    }
+
+    [Fact]
+    public void Run_Null_Test()
+    {
+        // Act & assert
+        var act = () => Process.Run((ProcessStartInfo)null!);
+        act.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void Run_ShellExecute_Test()
+    {
+        // Arrange
+        var startInfo = CreateStartInfo("exit 0", "exit 0", false);
+        startInfo.UseShellExecute = true;
+        startInfo.RedirectStandardOutput = false;
+        startInfo.RedirectStandardError = false;
+
+        // Act & assert
+        var act = () => Process.Run(startInfo);
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Run_Redirected_Test()
+    {
+        // Act & assert
+        var act = () => Process.Run(CreateOutputStartInfo());
+        act.Should().Throw<InvalidOperationException>();
+    }
+
+    [Fact]
+    public void Run_FileName_Empty_Test()
+    {
+        // Act & assert
+        var act = () => Process.Run("");
+        act.Should().Throw<ArgumentException>();
+    }
+
+    [Fact]
+    public void Run_Timeout_Invalid_Test()
+    {
+        // Act & assert
+        var act = () =>
+            Process.Run(CreateStartInfo("exit 0", "exit 0", false), TimeSpan.FromMilliseconds(-2));
+
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Fact]
+    public void Run_Timeout_Test()
+    {
+        // Act
+        var status = Process.Run(
+            CreateStartInfo("exec sleep 30", "ping -n 30 127.0.0.1", false),
+            TimeSpan.FromMilliseconds(500)
+        );
+
+        // Assert
+        status.Canceled.Should().BeTrue();
+    }
+
+    [Fact]
+    public void Run_Timeout_Exit_Test()
+    {
+        // Act
+        var status = Process.Run(
+            CreateStartInfo("exit 5", "exit 5", false),
+            TimeSpan.FromSeconds(30)
+        );
+
+        // Assert
+        status.ExitCode.Should().Be(5);
+        status.Canceled.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task RunAsync_StartInfo_Test()
+    {
+        // Act
+        var status = await Process.RunAsync(CreateStartInfo("exit 3", "exit 3", false));
+
+        // Assert
+        status.ExitCode.Should().Be(3);
+        status.Canceled.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task RunAsync_FileName_Test()
+    {
+        // Act
+        var status = await Process.RunAsync(
+            OperatingSystem.IsWindows() ? "cmd" : "sh",
+            [OperatingSystem.IsWindows() ? "/c" : "-c", "exit 2"]
+        );
+
+        // Assert
+        status.ExitCode.Should().Be(2);
+        status.Canceled.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task RunAsync_FileName_Silent_Test()
+    {
+        // Act
+        var status = await Process.RunAsync(
+            OperatingSystem.IsWindows() ? "cmd" : "sh",
+            [OperatingSystem.IsWindows() ? "/c" : "-c", "echo out& exit 4"],
+            silent: true
+        );
+
+        // Assert
+        status.ExitCode.Should().Be(4);
+    }
+
+    [Fact]
+    public async Task RunAsync_Null_Test()
+    {
+        // Act & assert
+        var act = async () => await Process.RunAsync((ProcessStartInfo)null!);
+        await act.Should().ThrowAsync<ArgumentNullException>();
+    }
+
+    [Fact]
+    public async Task RunAsync_Redirected_Test()
+    {
+        // Act & assert
+        var act = async () => await Process.RunAsync(CreateOutputStartInfo());
+        await act.Should().ThrowAsync<InvalidOperationException>();
+    }
+
+    [Fact]
+    public async Task RunAsync_FileName_Empty_Test()
+    {
+        // Act & assert
+        var act = async () => await Process.RunAsync("");
+        await act.Should().ThrowAsync<ArgumentException>();
+    }
+
+    [Fact]
+    public async Task RunAsync_Cancellation_Test()
+    {
+        // Arrange
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(500));
+
+        // Act
+        var status = await Process.RunAsync(
+            CreateStartInfo("exec sleep 30", "ping -n 30 127.0.0.1", false),
+            cts.Token
+        );
+
+        // Assert
+        status.Canceled.Should().BeTrue();
+    }
+
+    [Fact]
+    public void WaitForExitStatus_Test()
+    {
+        // Arrange
+        using var process = StartProcess(CreateStartInfo("exit 3", "exit 3", false));
+
+        // Act
+        var status = process.WaitForExitStatus();
+
+        // Assert
+        status.ExitCode.Should().Be(3);
+        status.Canceled.Should().BeFalse();
+    }
+
+    [Fact]
+    public void TryWaitForExitStatus_Test()
+    {
+        // Arrange
+        using var process = StartProcess(CreateStartInfo("exit 3", "exit 3", false));
+
+        // Act
+        var exited = process.TryWaitForExitStatus(TimeSpan.FromSeconds(30), out var status);
+
+        // Assert
+        exited.Should().BeTrue();
+        status!.ExitCode.Should().Be(3);
+    }
+
+    [Fact]
+    public void TryWaitForExitStatus_Timeout_Test()
+    {
+        // Arrange
+        using var process = StartProcess(
+            CreateStartInfo("exec sleep 30", "ping -n 30 127.0.0.1", false)
+        );
+
+        try
+        {
+            // Act
+            var exited = process.TryWaitForExitStatus(
+                TimeSpan.FromMilliseconds(200),
+                out var status
+            );
+
+            // Assert
+            exited.Should().BeFalse();
+            status.Should().BeNull();
+            process.HasExited.Should().BeFalse();
+        }
+        finally
+        {
+            KillSilently(process);
+        }
+    }
+
+    [Fact]
+    public void TryWaitForExitStatus_Timeout_Invalid_Test()
+    {
+        // Arrange
+        using var process = StartProcess(CreateStartInfo("exit 0", "exit 0", false));
+
+        // Act & assert
+        var act = () => process.TryWaitForExitStatus(TimeSpan.FromMilliseconds(-2), out _);
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Fact]
+    public async Task WaitForExitStatusAsync_Test()
+    {
+        // Arrange
+        using var process = StartProcess(CreateStartInfo("exit 3", "exit 3", false));
+
+        // Act
+        var status = await process.WaitForExitStatusAsync();
+
+        // Assert
+        status.ExitCode.Should().Be(3);
+        status.Canceled.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task WaitForExitStatusAsync_Cancellation_Test()
+    {
+        // Arrange
+        using var process = StartProcess(
+            CreateStartInfo("exec sleep 30", "ping -n 30 127.0.0.1", false)
+        );
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(200));
+
+        try
+        {
+            // Act & assert
+            var act = async () => await process.WaitForExitStatusAsync(cts.Token);
+            await act.Should().ThrowAsync<OperationCanceledException>();
+
+            // The process is not killed on cancellation
+            process.HasExited.Should().BeFalse();
+        }
+        finally
+        {
+            KillSilently(process);
+        }
+    }
 }

@@ -291,12 +291,44 @@ internal static class MemberPolyfills_Net110_Process
                     yield return new ProcessOutputLine(line, isStandardError);
             }
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.trywaitforexitstatus
+        public bool TryWaitForExitStatus(
+            TimeSpan timeout,
+            [NotNullWhen(true)] out ProcessExitStatus? exitStatus
+        )
+        {
+            if (!process.WaitForExit(ToTimeoutMilliseconds(timeout)))
+            {
+                exitStatus = null;
+                return false;
+            }
+
+            exitStatus = process.CreateExitStatus(false);
+            return true;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitstatus
+        public ProcessExitStatus WaitForExitStatus()
+        {
+            process.TryWaitForExitStatus(Timeout.InfiniteTimeSpan, out var exitStatus);
+            return exitStatus!;
+        }
     }
 
     // Task infrastructure is required for async method support
 #if FEATURE_TASK
     extension(Process process)
     {
+        // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitstatusasync
+        public async Task<ProcessExitStatus> WaitForExitStatusAsync(
+            CancellationToken cancellationToken = default
+        )
+        {
+            await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+            return process.CreateExitStatus(false);
+        }
+
         // Async counterpart of ReadBytes(...). It doesn't have to run ahead of the consumer, so a single
         // buffer is reused per stream: the next read only starts once the previous chunk was consumed.
         // The buffer is only valid until the enumerator advances.
@@ -458,6 +490,64 @@ internal static class MemberPolyfills_Net110_Process
         public static int StartAndForget(string fileName, IEnumerable<string>? arguments = null) =>
             Process.StartAndForget(CreateStartInfo(fileName, arguments));
 
+        // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.run#system-diagnostics-process-run(system-diagnostics-processstartinfo-system-nullable((system-timespan)))
+        public static ProcessExitStatus Run(ProcessStartInfo startInfo, TimeSpan? timeout = null)
+        {
+            ArgumentNullException.ThrowIfNull(startInfo);
+
+            if (startInfo.UseShellExecute)
+            {
+                throw new InvalidOperationException(
+                    "Run does not support UseShellExecute. Set UseShellExecute to false."
+                );
+            }
+
+            if (
+                startInfo.RedirectStandardInput
+                || startInfo.RedirectStandardOutput
+                || startInfo.RedirectStandardError
+            )
+            {
+                throw new InvalidOperationException(
+                    "Run does not support stream redirection. Use RunAndCaptureText instead."
+                );
+            }
+
+            // Validate before starting the process
+            ToTimeoutMilliseconds(timeout);
+
+            using var process =
+                Process.Start(startInfo)
+                ?? throw new InvalidOperationException("The process could not be started.");
+
+            if (
+                process.TryWaitForExitStatus(
+                    timeout ?? Timeout.InfiniteTimeSpan,
+                    out var exitStatus
+                )
+            )
+                return exitStatus;
+
+            process.TryKill();
+            process.WaitForExit();
+
+            return process.CreateExitStatus(true);
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.run#system-diagnostics-process-run(system-string-system-collections-generic-ienumerable((system-string))-system-boolean-system-nullable((system-timespan)))
+        public static ProcessExitStatus Run(
+            string fileName,
+            IEnumerable<string>? arguments = null,
+            bool silent = false,
+            TimeSpan? timeout = null
+        ) =>
+            // Unlike native, silent mode doesn't redirect the standard handles to the null device,
+            // because it's not possible to do that without access to the process handle APIs.
+            // Instead, the output is captured and discarded, and the standard input is inherited.
+            silent
+                ? Process.RunAndCaptureText(fileName, arguments, timeout).ExitStatus
+                : Process.Run(CreateStartInfo(fileName, arguments), timeout);
+
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetext#system-diagnostics-process-runandcapturetext(system-diagnostics-processstartinfo-system-nullable((system-timespan)))
         public static ProcessTextOutput RunAndCaptureText(
             ProcessStartInfo startInfo,
@@ -528,6 +618,67 @@ internal static class MemberPolyfills_Net110_Process
 
         // Task infrastructure is required for async method support
 #if FEATURE_TASK
+        // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runasync#system-diagnostics-process-runasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken)
+        public static async Task<ProcessExitStatus> RunAsync(
+            ProcessStartInfo startInfo,
+            CancellationToken cancellationToken = default
+        )
+        {
+            ArgumentNullException.ThrowIfNull(startInfo);
+
+            if (startInfo.UseShellExecute)
+            {
+                throw new InvalidOperationException(
+                    "RunAsync does not support UseShellExecute. Set UseShellExecute to false."
+                );
+            }
+
+            if (
+                startInfo.RedirectStandardInput
+                || startInfo.RedirectStandardOutput
+                || startInfo.RedirectStandardError
+            )
+            {
+                throw new InvalidOperationException(
+                    "RunAsync does not support stream redirection. Use RunAndCaptureTextAsync instead."
+                );
+            }
+
+            using var process =
+                Process.Start(startInfo)
+                ?? throw new InvalidOperationException("The process could not be started.");
+
+            try
+            {
+                return await process.WaitForExitStatusAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                process.TryKill();
+                await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);
+
+                return process.CreateExitStatus(true);
+            }
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runasync#system-diagnostics-process-runasync(system-string-system-collections-generic-ienumerable((system-string))-system-boolean-system-threading-cancellationtoken)
+        public static async Task<ProcessExitStatus> RunAsync(
+            string fileName,
+            IEnumerable<string>? arguments = null,
+            bool silent = false,
+            CancellationToken cancellationToken = default
+        ) =>
+            // See the note on the synchronous overload about silent mode
+            silent
+                ? (
+                    await Process
+                        .RunAndCaptureTextAsync(fileName, arguments, cancellationToken)
+                        .ConfigureAwait(false)
+                ).ExitStatus
+                : await Process
+                    .RunAsync(CreateStartInfo(fileName, arguments), cancellationToken)
+                    .ConfigureAwait(false);
+
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetextasync#system-diagnostics-process-runandcapturetextasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken)
         public static async Task<ProcessTextOutput> RunAndCaptureTextAsync(
             ProcessStartInfo startInfo,

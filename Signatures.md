@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 841
+- **Total:** 848
 - **Types:** 137
-- **Members:** 704
+- **Members:** 711
 
 ___
 
@@ -694,18 +694,25 @@ ___
   - [`static bool TryGetProcessById(int, out Process?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.trygetprocessbyid) <sup><sub>.NET 11.0</sub></sup>
   - [`static int StartAndForget(ProcessStartInfo)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.startandforget#system-diagnostics-process-startandforget(system-diagnostics-processstartinfo)) <sup><sub>.NET 11.0</sub></sup>
   - [`static int StartAndForget(string, IEnumerable<string>?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.startandforget#system-diagnostics-process-startandforget(system-string-system-collections-generic-ienumerable((system-string)))) <sup><sub>.NET 11.0</sub></sup>
+  - [`static ProcessExitStatus Run(ProcessStartInfo, TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.run#system-diagnostics-process-run(system-diagnostics-processstartinfo-system-nullable((system-timespan)))) <sup><sub>.NET 11.0</sub></sup>
+  - [`static ProcessExitStatus Run(string, IEnumerable<string>?, bool, TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.run#system-diagnostics-process-run(system-string-system-collections-generic-ienumerable((system-string))-system-boolean-system-nullable((system-timespan)))) <sup><sub>.NET 11.0</sub></sup>
   - [`static ProcessTextOutput RunAndCaptureText(ProcessStartInfo, TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetext#system-diagnostics-process-runandcapturetext(system-diagnostics-processstartinfo-system-nullable((system-timespan)))) <sup><sub>.NET 11.0</sub></sup>
   - [`static ProcessTextOutput RunAndCaptureText(string, IEnumerable<string>?, TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetext#system-diagnostics-process-runandcapturetext(system-string-system-collections-generic-ienumerable((system-string))-system-nullable((system-timespan)))) <sup><sub>.NET 11.0</sub></sup>
+  - [`static Task<ProcessExitStatus> RunAsync(ProcessStartInfo, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runasync#system-diagnostics-process-runasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken)) <sup><sub>.NET 11.0</sub></sup>
+  - [`static Task<ProcessExitStatus> RunAsync(string, IEnumerable<string>?, bool, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runasync#system-diagnostics-process-runasync(system-string-system-collections-generic-ienumerable((system-string))-system-boolean-system-threading-cancellationtoken)) <sup><sub>.NET 11.0</sub></sup>
   - [`static Task<ProcessTextOutput> RunAndCaptureTextAsync(ProcessStartInfo, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetextasync#system-diagnostics-process-runandcapturetextasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken)) <sup><sub>.NET 11.0</sub></sup>
   - [`static Task<ProcessTextOutput> RunAndCaptureTextAsync(string, IEnumerable<string>?, CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetextasync#system-diagnostics-process-runandcapturetextasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)) <sup><sub>.NET 11.0</sub></sup>
   - [`(byte[], byte[]) ReadAllBytes(TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readallbytes) <sup><sub>.NET 11.0</sub></sup>
   - [`(string, string) ReadAllText(TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readalltext) <sup><sub>.NET 11.0</sub></sup>
+  - [`bool TryWaitForExitStatus(TimeSpan, out ProcessExitStatus?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.trywaitforexitstatus) <sup><sub>.NET 11.0</sub></sup>
   - [`bool WaitForExit(TimeSpan)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexit#system-diagnostics-process-waitforexit(system-timespan)) <sup><sub>.NET 7.0</sub></sup>
   - [`IAsyncEnumerable<ProcessOutputLine> ReadAllLinesAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readalllinesasync) <sup><sub>.NET 11.0</sub></sup>
   - [`IEnumerable<ProcessOutputLine> ReadAllLines(TimeSpan?)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readalllines) <sup><sub>.NET 11.0</sub></sup>
+  - [`ProcessExitStatus WaitForExitStatus()`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitstatus) <sup><sub>.NET 11.0</sub></sup>
   - [`Task WaitForExitAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitasync) <sup><sub>.NET 5.0</sub></sup>
   - [`Task<(byte[], byte[])> ReadAllBytesAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readallbytesasync) <sup><sub>.NET 11.0</sub></sup>
   - [`Task<(string, string)> ReadAllTextAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.readalltextasync) <sup><sub>.NET 11.0</sub></sup>
+  - [`Task<ProcessExitStatus> WaitForExitStatusAsync(CancellationToken)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.waitforexitstatusasync) <sup><sub>.NET 11.0</sub></sup>
   - [`void Kill(bool)`](https://learn.microsoft.com/dotnet/api/system.diagnostics.process.kill#system-diagnostics-process-kill(system-boolean)) <sup><sub>.NET Core 3.0</sub></sup>
 - `ProcessExitStatus`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.processexitstatus) <sup><sub>.NET 11.0</sub></sup>
