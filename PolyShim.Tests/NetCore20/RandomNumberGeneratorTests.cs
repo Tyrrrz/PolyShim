@@ -53,7 +53,7 @@ public class RandomNumberGeneratorTests
             rng.GetNonZeroBytes(data);
 
             // Assert
-            data.Should().NotContain((byte)0);
+            data.Should().NotContain(0);
         }
     }
 }

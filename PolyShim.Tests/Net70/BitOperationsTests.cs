@@ -31,9 +31,9 @@ public class BitOperationsTests
     public void RoundUpToPowerOf2_UIntPtr_Test()
     {
         // Act & assert
-        BitOperations.RoundUpToPowerOf2((UIntPtr)0u).Should().Be((UIntPtr)0u);
-        BitOperations.RoundUpToPowerOf2((UIntPtr)3u).Should().Be((UIntPtr)4u);
-        BitOperations.RoundUpToPowerOf2((UIntPtr)1000u).Should().Be((UIntPtr)1024u);
+        BitOperations.RoundUpToPowerOf2((UIntPtr)0u).Should().Be(0u);
+        BitOperations.RoundUpToPowerOf2((UIntPtr)3u).Should().Be(4u);
+        BitOperations.RoundUpToPowerOf2((UIntPtr)1000u).Should().Be(1024u);
     }
 
     [Fact]
@@ -87,11 +87,11 @@ public class BitOperationsTests
 
     [Fact]
     public void RotateLeft_UIntPtr_Test() =>
-        BitOperations.RotateLeft((UIntPtr)0b_1000_0000u, 1).Should().Be((UIntPtr)0b_1_0000_0000u);
+        BitOperations.RotateLeft((UIntPtr)0b_1000_0000u, 1).Should().Be(0b_1_0000_0000u);
 
     [Fact]
     public void RotateRight_UIntPtr_Test() =>
-        BitOperations.RotateRight((UIntPtr)0b_0000_0010u, 1).Should().Be((UIntPtr)0b_0000_0001u);
+        BitOperations.RotateRight((UIntPtr)0b_0000_0010u, 1).Should().Be(0b_0000_0001u);
 
     [Fact]
     public void RotateRight_UIntPtr_FullCircle_Test()
@@ -100,6 +100,6 @@ public class BitOperationsTests
         var bitWidth = UIntPtr.Size * 8;
 
         // Act & assert
-        BitOperations.RotateRight((UIntPtr)1u, bitWidth).Should().Be((UIntPtr)1u);
+        BitOperations.RotateRight((UIntPtr)1u, bitWidth).Should().Be(1u);
     }
 }

@@ -36,7 +36,7 @@ internal static class BinaryPrimitives
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-uint64)
     public static ulong ReverseEndianness(ulong value) =>
         ((ulong)ReverseEndianness((uint)(value & 0xFFFFFFFFUL)) << 32)
-        | (ulong)ReverseEndianness((uint)(value >> 32));
+        | ReverseEndianness((uint)(value >> 32));
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.reverseendianness#system-buffers-binary-binaryprimitives-reverseendianness(system-byte)
     public static byte ReverseEndianness(byte value) => value;
@@ -70,17 +70,11 @@ internal static class BinaryPrimitives
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readuint32bigendian
     public static uint ReadUInt32BigEndian(ReadOnlySpan<byte> source) =>
-        ((uint)source[0] << 24)
-        | ((uint)source[1] << 16)
-        | ((uint)source[2] << 8)
-        | (uint)source[3];
+        ((uint)source[0] << 24) | ((uint)source[1] << 16) | ((uint)source[2] << 8) | source[3];
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readuint32littleendian
     public static uint ReadUInt32LittleEndian(ReadOnlySpan<byte> source) =>
-        (uint)source[0]
-        | ((uint)source[1] << 8)
-        | ((uint)source[2] << 16)
-        | ((uint)source[3] << 24);
+        source[0] | ((uint)source[1] << 8) | ((uint)source[2] << 16) | ((uint)source[3] << 24);
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readint64bigendian
     public static long ReadInt64BigEndian(ReadOnlySpan<byte> source) =>
@@ -91,11 +85,11 @@ internal static class BinaryPrimitives
         | ((long)source[4] << 24)
         | ((long)source[5] << 16)
         | ((long)source[6] << 8)
-        | (long)source[7];
+        | source[7];
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readint64littleendian
     public static long ReadInt64LittleEndian(ReadOnlySpan<byte> source) =>
-        (long)source[0]
+        source[0]
         | ((long)source[1] << 8)
         | ((long)source[2] << 16)
         | ((long)source[3] << 24)
@@ -113,11 +107,11 @@ internal static class BinaryPrimitives
         | ((ulong)source[4] << 24)
         | ((ulong)source[5] << 16)
         | ((ulong)source[6] << 8)
-        | (ulong)source[7];
+        | source[7];
 
     // https://learn.microsoft.com/dotnet/api/system.buffers.binary.binaryprimitives.readuint64littleendian
     public static ulong ReadUInt64LittleEndian(ReadOnlySpan<byte> source) =>
-        (ulong)source[0]
+        source[0]
         | ((ulong)source[1] << 8)
         | ((ulong)source[2] << 16)
         | ((ulong)source[3] << 24)

@@ -22,7 +22,7 @@ internal static class MemberPolyfills_Net90_TimeSpan
             long microseconds = 0
         ) =>
             TimeSpan.FromMinutes(
-                checked((long)days * 1440L + (long)hours * 60L + minutes),
+                checked(days * 1440L + hours * 60L + minutes),
                 seconds,
                 milliseconds,
                 microseconds
@@ -37,7 +37,7 @@ internal static class MemberPolyfills_Net90_TimeSpan
             long microseconds = 0
         ) =>
             TimeSpan.FromMinutes(
-                checked((long)hours * 60L + minutes),
+                checked(hours * 60L + minutes),
                 seconds,
                 milliseconds,
                 microseconds
