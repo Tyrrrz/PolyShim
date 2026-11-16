@@ -10,19 +10,11 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_Net110_Char
 {
-    extension(char c)
+    extension(char ch)
     {
-        // https://learn.microsoft.com/dotnet/api/system.char.equals
+        // https://learn.microsoft.com/dotnet/api/system.char.equals?system-char-equals(system-char-system-stringcomparison)
         public bool Equals(char other, StringComparison comparisonType) =>
-            comparisonType switch
-            {
-                StringComparison.Ordinal => c == other,
-                StringComparison.OrdinalIgnoreCase =>
-                    c == other
-                    || char.ToUpperInvariant(c) == char.ToUpperInvariant(other)
-                    || char.ToLowerInvariant(c) == char.ToLowerInvariant(other),
-                _ => c.ToString().Equals(other.ToString(), comparisonType),
-            };
+            string.Equals($"{ch}", $"{other}", comparisonType);
     }
 }
 #endif
