@@ -120,11 +120,11 @@ internal sealed class BlockingCollection<T> : IDisposable
         return TryTake(out item, (int)totalMilliseconds);
     }
 
-    public bool TryTake([MaybeNullWhen(false)] out T item) => TryTake(out item, Timeout.Infinite);
+    public bool TryTake([MaybeNullWhen(false)] out T item) => TryTake(out item, 0);
 
     public T Take()
     {
-        if (!TryTake(out var item))
+        if (!TryTake(out var item, Timeout.Infinite))
         {
             throw new InvalidOperationException(
                 "The collection argument is empty and has been marked as complete with regards to additions."
@@ -136,7 +136,7 @@ internal sealed class BlockingCollection<T> : IDisposable
 
     public IEnumerable<T> GetConsumingEnumerable()
     {
-        while (TryTake(out var item))
+        while (TryTake(out var item, Timeout.Infinite))
             yield return item;
     }
 
