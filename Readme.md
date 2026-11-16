@@ -59,13 +59,13 @@ It's distributed as a source-only package that can be referenced without imposin
 - Provides member polyfills for:
   - `string.Create(...)`, `string.ReplaceLineEndings(...)`, etc.
   - `Stream.ReadExactly(...)`, `Stream.ReadAtLeast(...)`, etc.
-  - `IEnumerable<T>.Chunk(...)`, `IEnumerable<T>.TakeLast(...)`, etc.
+  - `IEnumerable<T>.Chunk(...)`, `IAsyncEnumerable<T>.TakeLast(...)`, etc.
   - `Task.WaitAsync(...)`, `Task.WhenEach(...)`, etc.
   - `Parallel.ForEachAsync(...)`, `Parallel.ForAsync(...)`, etc.
   - `File.WriteAllTextAsync(...)`, `File.ReadAllTextAsync(...)`, etc.
   - `Environment.ProcessPath`, `Environment.ProcessId`, etc.
   - `OperatingSystem.IsWindows()`, `OperatingSystem.IsLinux()`, etc.
-  - [...and 500+ more](Signatures.md)
+  - [...and 700+ more](Signatures.md)
 - Adjusts polyfills based on available capabilities
 - Targets .NET Standard 1.0+, .NET Core 1.0+, .NET Framework 3.5+
 - Imposes no run-time dependencies
@@ -176,6 +176,7 @@ Some features from newer versions of .NET can also be made available on older fr
 Currently, **PolyShim** recognizes the following packages:
 
 - [`System.Diagnostics.Process`](https://nuget.org/packages/System.Diagnostics.Process) — `Process`, `ProcessStartInfo`, etc.
+- [`System.Linq.AsyncEnumerable`](https://nuget.org/packages/System.Linq.AsyncEnumerable) — `AsyncEnumerable`, `IOrderedAsyncEnumerable<T>`, etc.
 - [`System.Management`](https://nuget.org/packages/System.Management) — `ManagementObjectSearcher`, etc.
 - [`System.Memory`](https://nuget.org/packages/System.Memory) — `Memory<T>`, `Span<T>`, etc.
 - [`System.Net.Http`](https://nuget.org/packages/System.Net.Http) — `HttpClient`, `HttpContent`, etc.
