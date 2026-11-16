@@ -28,8 +28,13 @@ internal static class MemberPolyfills_Net110_Process
             return Timeout.Infinite;
 
         var totalMilliseconds = (long)value.TotalMilliseconds;
-        if (totalMilliseconds < -1 || totalMilliseconds > int.MaxValue)
-            throw new ArgumentOutOfRangeException(nameof(timeout));
+
+        ArgumentOutOfRangeException.ThrowIfLessThan(totalMilliseconds, -1L, nameof(timeout));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(
+            totalMilliseconds,
+            int.MaxValue,
+            nameof(timeout)
+        );
 
         return (int)totalMilliseconds;
     }
@@ -45,10 +50,7 @@ internal static class MemberPolyfills_Net110_Process
         bool redirectStreams = false
     )
     {
-        if (fileName is null)
-            throw new ArgumentNullException(nameof(fileName));
-        if (fileName.Length == 0)
-            throw new ArgumentException("The file name cannot be empty.", nameof(fileName));
+        ArgumentException.ThrowIfNullOrEmpty(fileName);
 
         var startInfo = new ProcessStartInfo(fileName)
         {
@@ -80,7 +82,7 @@ internal static class MemberPolyfills_Net110_Process
 
         // An empty chunk means that the stream has ended, which flushes the decoder and the last
         // line (it doesn't have to be terminated by a line break).
-        public void Append(ArraySegment<byte> data, ICollection<string> outputLines)
+        public IEnumerable<string> ReadLines(ArraySegment<byte> data)
         {
             var isEndOfStream = data.Count == 0;
 
@@ -114,7 +116,8 @@ internal static class MemberPolyfills_Net110_Process
 
                     if (ch == '\r' || ch == '\n')
                     {
-                        outputLines.Add(_line.ToString());
+                        yield return _line.ToString();
+
                         _line.Clear();
                         _isCarriageReturnPending = ch == '\r';
                     }
@@ -131,7 +134,8 @@ internal static class MemberPolyfills_Net110_Process
 
             if (isEndOfStream && _line.Length > 0)
             {
-                outputLines.Add(_line.ToString());
+                yield return _line.ToString();
+
                 _line.Clear();
             }
         }
@@ -187,6 +191,7 @@ internal static class MemberPolyfills_Net110_Process
                         // The pumps run ahead of the consumer, so a buffer can't be reused right away.
                         // Instead, it's handed over to the consumer, which returns it to the pool.
                         var buffer = ArrayPool<byte>.Shared.Rent(BufferSize);
+
                         bytesRead = stream.Read(buffer, 0, buffer.Length);
                         chunks.Add(
                             (new ArraySegment<byte>(buffer, 0, bytesRead), isStandardError, null)
@@ -280,14 +285,9 @@ internal static class MemberPolyfills_Net110_Process
 
             foreach (var (data, isStandardError) in process.ReadBytes(timeoutMilliseconds))
             {
-                var lines = new List<string>();
+                var decoder = isStandardError ? standardErrorDecoder : standardOutputDecoder;
 
-                (isStandardError ? standardErrorDecoder : standardOutputDecoder).Append(
-                    data,
-                    lines
-                );
-
-                foreach (var line in lines)
+                foreach (var line in decoder.ReadLines(data))
                     yield return new ProcessOutputLine(line, isStandardError);
             }
         }
@@ -411,14 +411,10 @@ internal static class MemberPolyfills_Net110_Process
                     .ConfigureAwait(false)
             )
             {
-            var lines = new List<string>();
+                var decoder = isStandardError ? standardErrorDecoder : standardOutputDecoder;
 
-                (isStandardError ? standardErrorDecoder : standardOutputDecoder).Append(data, lines);
-
-                foreach (var line in lines)
+                foreach (var line in decoder.ReadLines(data))
                     yield return new ProcessOutputLine(line, isStandardError);
-
-                lines.Clear();
             }
         }
     }
@@ -429,8 +425,7 @@ internal static class MemberPolyfills_Net110_Process
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.startandforget#system-diagnostics-process-startandforget(system-diagnostics-processstartinfo)
         public static int StartAndForget(ProcessStartInfo startInfo)
         {
-            if (startInfo is null)
-                throw new ArgumentNullException(nameof(startInfo));
+            ArgumentNullException.ThrowIfNull(startInfo);
 
             if (startInfo.UseShellExecute)
             {
@@ -469,8 +464,7 @@ internal static class MemberPolyfills_Net110_Process
             TimeSpan? timeout = null
         )
         {
-            if (startInfo is null)
-                throw new ArgumentNullException(nameof(startInfo));
+            ArgumentNullException.ThrowIfNull(startInfo);
 
             if (startInfo.UseShellExecute)
             {
@@ -540,8 +534,7 @@ internal static class MemberPolyfills_Net110_Process
             CancellationToken cancellationToken = default
         )
         {
-            if (startInfo is null)
-            throw new ArgumentNullException(nameof(startInfo));
+            ArgumentNullException.ThrowIfNull(startInfo);
 
         if (startInfo.UseShellExecute)
         {
@@ -619,8 +612,7 @@ internal static class MemberPolyfills_Net110_Process
             [NotNullWhen(true)] out Process? process
         )
         {
-            if (processId <= 0)
-                throw new ArgumentOutOfRangeException(nameof(processId));
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(processId);
 
             try
             {
