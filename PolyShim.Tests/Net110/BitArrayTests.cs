@@ -17,6 +17,15 @@ public class BitArrayTests
 
         // Act & assert
         bits.PopCount().Should().Be(3);
-        new BitArray(0).PopCount().Should().Be(0);
+    }
+
+    [Fact]
+    public void PopCount_Empty_Test()
+    {
+        // Arrange
+        var bits = new BitArray(0);
+
+        // Act & assert
+        bits.PopCount().Should().Be(0);
     }
 }
