@@ -70,6 +70,77 @@ internal static class MemberPolyfills_Net110_Process
         return startInfo;
     }
 
+    // Runs the process with its output redirected, drained, and discarded (see Run for why). Unlike
+    // RunAndCaptureText, the timeout cancels the process instead of failing, same as without silent.
+    private static ProcessExitStatus RunSilent(
+        string fileName,
+        IEnumerable<string>? arguments,
+        TimeSpan? timeout
+    )
+    {
+        var startInfo = CreateStartInfo(fileName, arguments, true);
+
+        // Validate before starting the process
+        var timeoutMilliseconds = ToTimeoutMilliseconds(timeout);
+
+        var stopwatch = Stopwatch.StartNew();
+
+        using var process =
+            Process.Start(startInfo)
+            ?? throw new InvalidOperationException("The process could not be started.");
+
+        try
+        {
+            // The streams must be drained, otherwise the process may block on a full pipe buffer
+            foreach (var _ in process.ReadBytes(timeoutMilliseconds)) { }
+        }
+        // No time is left, so the process is killed below unless it has already exited
+        catch (TimeoutException) { }
+        catch
+        {
+            process.TryKill();
+            throw;
+        }
+
+        return process.WaitForExitStatusOrKill(
+            TimeSpan.FromMilliseconds(GetRemainingMilliseconds(stopwatch, timeoutMilliseconds))
+        );
+    }
+
+    // Task infrastructure is required for async method support
+#if FEATURE_TASK
+    // Async counterpart of RunSilent(...)
+    private static async Task<ProcessExitStatus> RunSilentAsync(
+        string fileName,
+        IEnumerable<string>? arguments,
+        CancellationToken cancellationToken
+    )
+    {
+        var startInfo = CreateStartInfo(fileName, arguments, true);
+
+        using var process =
+            Process.Start(startInfo)
+            ?? throw new InvalidOperationException("The process could not be started.");
+
+        try
+        {
+            // The streams must be drained, otherwise the process may block on a full pipe buffer
+            await foreach (
+                var _ in process.ReadBytesAsync(cancellationToken).ConfigureAwait(false)
+            ) { }
+        }
+        // The process is killed below unless it has already exited
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested) { }
+        catch
+        {
+            process.TryKill();
+            throw;
+        }
+
+        return await process.WaitForExitStatusOrKillAsync(cancellationToken).ConfigureAwait(false);
+    }
+#endif
+
     private const int BufferSize = 4096;
 
     // Converts chunks of bytes to lines using the same line break rules as TextReader.ReadLine()
@@ -166,6 +237,8 @@ internal static class MemberPolyfills_Net110_Process
         // Yields every chunk of data as soon as the underlying read releases, tagged with the stream
         // it came from. An empty chunk means that the stream has ended.
         // The buffer is only valid until the enumerator advances.
+        // Once the enumerator is disposed, times out, or fails, the reading stops. A read that is
+        // already in progress cannot be interrupted though, so it may still consume one more chunk.
         private IEnumerable<(ArraySegment<byte> Data, bool IsStandardError)> ReadBytes(
             int timeoutMilliseconds
         )
@@ -181,6 +254,10 @@ internal static class MemberPolyfills_Net110_Process
 
             var activePumps = 2;
 
+            // Guards the flag, so that nothing is enqueued after the consumer has drained the queue
+            var gate = new object();
+            var isStopped = false;
+
             void Pump(Stream stream, bool isStandardError)
             {
                 try
@@ -193,9 +270,24 @@ internal static class MemberPolyfills_Net110_Process
                         var buffer = ArrayPool<byte>.Shared.Rent(BufferSize);
 
                         bytesRead = stream.Read(buffer, 0, buffer.Length);
-                        chunks.Add(
-                            (new ArraySegment<byte>(buffer, 0, bytesRead), isStandardError, null)
-                        );
+
+                        lock (gate)
+                        {
+                            // Nobody is going to consume the chunk
+                            if (isStopped)
+                            {
+                                ArrayPool<byte>.Shared.Return(buffer);
+                                return;
+                            }
+
+                            chunks.Add(
+                                (
+                                    new ArraySegment<byte>(buffer, 0, bytesRead),
+                                    isStandardError,
+                                    null
+                                )
+                            );
+                        }
                     } while (bytesRead > 0);
                 }
                 catch (Exception ex)
@@ -218,29 +310,58 @@ internal static class MemberPolyfills_Net110_Process
             new Thread(() => Pump(standardOutput, false)) { IsBackground = true }.Start();
             new Thread(() => Pump(standardError, true)) { IsBackground = true }.Start();
 
-            while (
-                chunks.TryTake(
-                    out var chunk,
-                    GetRemainingMilliseconds(stopwatch, timeoutMilliseconds)
+            var chunk = default((
+                ArraySegment<byte> Data,
+                bool IsStandardError,
+                Exception? Failure
+            ));
+
+            try
+            {
+                while (
+                    chunks.TryTake(
+                        out chunk,
+                        GetRemainingMilliseconds(stopwatch, timeoutMilliseconds)
+                    )
                 )
-            )
-            {
-                // Fail as soon as any of the streams fails, because the other one may never end
-                if (chunk.Failure is not null)
-                    throw chunk.Failure;
+                {
+                    // Fail as soon as any of the streams fails, because the other one may never end
+                    if (chunk.Failure is not null)
+                        throw chunk.Failure;
 
-                yield return (chunk.Data, chunk.IsStandardError);
+                    yield return (chunk.Data, chunk.IsStandardError);
 
-                // The consumer is done with the buffer once it asks for the next chunk
-                ArrayPool<byte>.Shared.Return(chunk.Data.Array!);
+                    // The consumer is done with the buffer once it asks for the next chunk
+                    ArrayPool<byte>.Shared.Return(chunk.Data.Array!);
+                    chunk = default;
+                }
+
+                // Taking fails either because all chunks were read or because of the timeout
+                if (!chunks.IsCompleted)
+                {
+                    throw new TimeoutException(
+                        "The redirected streams were not fully read within the specified timeout."
+                    );
+                }
             }
-
-            // Taking fails either because all chunks were read or because of the timeout
-            if (!chunks.IsCompleted)
+            finally
             {
-                throw new TimeoutException(
-                    "The redirected streams were not fully read within the specified timeout."
-                );
+                // The consumer is gone (disposed early, timed out, or failed), so tell the pumps to stop
+                lock (gate)
+                {
+                    isStopped = true;
+                }
+
+                // The buffer that was handed to the consumer, but not returned yet
+                if (chunk.Data.Array is not null)
+                    ArrayPool<byte>.Shared.Return(chunk.Data.Array);
+
+                // The buffers that were enqueued, but are never going to be consumed
+                while (chunks.TryTake(out var pending, 0))
+                {
+                    if (pending.Data.Array is not null)
+                        ArrayPool<byte>.Shared.Return(pending.Data.Array);
+                }
             }
         }
 
@@ -314,6 +435,19 @@ internal static class MemberPolyfills_Net110_Process
             process.TryWaitForExitStatus(Timeout.InfiniteTimeSpan, out var exitStatus);
             return exitStatus!;
         }
+
+        // Waits for the process to exit, or kills it once the time is up (in which case the status
+        // is marked as canceled)
+        private ProcessExitStatus WaitForExitStatusOrKill(TimeSpan timeout)
+        {
+            if (process.TryWaitForExitStatus(timeout, out var exitStatus))
+                return exitStatus;
+
+            process.TryKill();
+            process.WaitForExit();
+
+            return process.CreateExitStatus(true);
+        }
     }
 
     // Task infrastructure is required for async method support
@@ -327,6 +461,27 @@ internal static class MemberPolyfills_Net110_Process
         {
             await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
             return process.CreateExitStatus(false);
+        }
+
+        // Waits for the process to exit, or kills it once the cancellation is requested (in which
+        // case the status is marked as canceled)
+        private async Task<ProcessExitStatus> WaitForExitStatusOrKillAsync(
+            CancellationToken cancellationToken
+        )
+        {
+            try
+            {
+                return await process
+                    .WaitForExitStatusAsync(cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                process.TryKill();
+                await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);
+
+                return process.CreateExitStatus(true);
+            }
         }
 
         // Async counterpart of ReadBytes(...). It doesn't have to run ahead of the consumer, so a single
@@ -520,18 +675,7 @@ internal static class MemberPolyfills_Net110_Process
                 Process.Start(startInfo)
                 ?? throw new InvalidOperationException("The process could not be started.");
 
-            if (
-                process.TryWaitForExitStatus(
-                    timeout ?? Timeout.InfiniteTimeSpan,
-                    out var exitStatus
-                )
-            )
-                return exitStatus;
-
-            process.TryKill();
-            process.WaitForExit();
-
-            return process.CreateExitStatus(true);
+            return process.WaitForExitStatusOrKill(timeout ?? Timeout.InfiniteTimeSpan);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.run#system-diagnostics-process-run(system-string-system-collections-generic-ienumerable((system-string))-system-boolean-system-nullable((system-timespan)))
@@ -543,9 +687,10 @@ internal static class MemberPolyfills_Net110_Process
         ) =>
             // Unlike native, silent mode doesn't redirect the standard handles to the null device,
             // because it's not possible to do that without access to the process handle APIs.
-            // Instead, the output is captured and discarded, and the standard input is inherited.
+            // Instead, the output is redirected, drained, and discarded, and the standard input is
+            // inherited.
             silent
-                ? Process.RunAndCaptureText(fileName, arguments, timeout).ExitStatus
+                ? RunSilent(fileName, arguments, timeout)
                 : Process.Run(CreateStartInfo(fileName, arguments), timeout);
 
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runandcapturetext#system-diagnostics-process-runandcapturetext(system-diagnostics-processstartinfo-system-nullable((system-timespan)))
@@ -648,17 +793,9 @@ internal static class MemberPolyfills_Net110_Process
                 Process.Start(startInfo)
                 ?? throw new InvalidOperationException("The process could not be started.");
 
-            try
-            {
-                return await process.WaitForExitStatusAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-            {
-                process.TryKill();
-                await process.WaitForExitAsync(CancellationToken.None).ConfigureAwait(false);
-
-                return process.CreateExitStatus(true);
-            }
+            return await process
+                .WaitForExitStatusOrKillAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.process.runasync#system-diagnostics-process-runasync(system-string-system-collections-generic-ienumerable((system-string))-system-boolean-system-threading-cancellationtoken)
@@ -670,11 +807,7 @@ internal static class MemberPolyfills_Net110_Process
         ) =>
             // See the note on the synchronous overload about silent mode
             silent
-                ? (
-                    await Process
-                        .RunAndCaptureTextAsync(fileName, arguments, cancellationToken)
-                        .ConfigureAwait(false)
-                ).ExitStatus
+                ? await RunSilentAsync(fileName, arguments, cancellationToken).ConfigureAwait(false)
                 : await Process
                     .RunAsync(CreateStartInfo(fileName, arguments), cancellationToken)
                     .ConfigureAwait(false);

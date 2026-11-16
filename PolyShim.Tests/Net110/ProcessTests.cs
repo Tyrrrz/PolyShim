@@ -41,6 +41,9 @@ public class ProcessTests
     private static ProcessStartInfo CreateHangingStartInfo() =>
         CreateStartInfo("exec sleep 30", "ping -n 30 127.0.0.1");
 
+    private static string HangingScript =>
+        OperatingSystem.IsWindows() ? "ping -n 30 127.0.0.1" : "exec sleep 30";
+
     private static Process StartProcess(ProcessStartInfo startInfo) =>
         Process.Start(startInfo) ?? throw new InvalidOperationException("Failed to start.");
 
@@ -380,6 +383,30 @@ public class ProcessTests
             // Act & assert
             var act = () => process.ReadAllLines(TimeSpan.FromMilliseconds(500)).ToArray();
             act.Should().Throw<TimeoutException>();
+        }
+        finally
+        {
+            KillSilently(process);
+        }
+    }
+
+    [SkippableFact]
+    public void ReadAllLines_EarlyDisposal_Test()
+    {
+        Skip.If(OperatingSystem.IsWindows());
+
+        // Arrange
+        using var process = StartProcess(CreateStartInfo("exec yes", ""));
+
+        try
+        {
+            // Act
+            // Taking the first line disposes the enumerator while the process keeps writing
+            var line = process.ReadAllLines().First();
+
+            // Assert
+            line.Content.Should().Be("y");
+            line.StandardError.Should().BeFalse();
         }
         finally
         {
@@ -865,6 +892,22 @@ public class ProcessTests
     }
 
     [Fact]
+    public void Run_FileName_Silent_Timeout_Test()
+    {
+        // The process keeps the redirected streams open, so draining them never completes
+        // Act
+        var status = Process.Run(
+            OperatingSystem.IsWindows() ? "cmd" : "sh",
+            [OperatingSystem.IsWindows() ? "/c" : "-c", HangingScript],
+            silent: true,
+            timeout: TimeSpan.FromMilliseconds(500)
+        );
+
+        // Assert
+        status.Canceled.Should().BeTrue();
+    }
+
+    [Fact]
     public void Run_Null_Test()
     {
         // Act & assert
@@ -976,6 +1019,24 @@ public class ProcessTests
 
         // Assert
         status.ExitCode.Should().Be(4);
+    }
+
+    [Fact]
+    public async Task RunAsync_FileName_Silent_Cancellation_Test()
+    {
+        // Arrange
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(500));
+
+        // Act
+        var status = await Process.RunAsync(
+            OperatingSystem.IsWindows() ? "cmd" : "sh",
+            [OperatingSystem.IsWindows() ? "/c" : "-c", HangingScript],
+            silent: true,
+            cancellationToken: cts.Token
+        );
+
+        // Assert
+        status.Canceled.Should().BeTrue();
     }
 
     [Fact]
