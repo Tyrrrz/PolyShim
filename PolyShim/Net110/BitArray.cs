@@ -19,7 +19,7 @@ internal static class MemberPolyfills_Net110_BitArray
             ArgumentNullException.ThrowIfNull(bitArray);
 
             var count = 0;
-            for (var i = 0; i < bitArray.Count; i++)
+            for (var i = 0; i < bitArray.Length; i++)
             {
                 if (bitArray[i])
                     count++;
