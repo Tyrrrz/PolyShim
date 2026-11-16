@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 848
+- **Total:** 856
 - **Types:** 137
-- **Members:** 711
+- **Members:** 719
 
 ___
 
@@ -79,6 +79,8 @@ ___
 - `BinaryWriter`
   - [`void Write(ReadOnlySpan<byte>)`](https://learn.microsoft.com/dotnet/api/system.io.binarywriter.write#system-io-binarywriter-write(system-readonlyspan((system-byte)))) <sup><sub>.NET Core 2.1</sub></sup>
   - [`void Write(ReadOnlySpan<char>)`](https://learn.microsoft.com/dotnet/api/system.io.binarywriter.write#system-io-binarywriter-write(system-readonlyspan((system-char)))) <sup><sub>.NET Core 2.1</sub></sup>
+- `BitArray`
+  - [`int PopCount()`](https://learn.microsoft.com/dotnet/api/system.collections.bitarray.popcount) <sup><sub>.NET 11.0</sub></sup>
 - `BitOperations`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations) <sup><sub>.NET Core 3.0</sub></sup>
   - [`static bool IsPow2(int)`](https://learn.microsoft.com/dotnet/api/system.numerics.bitoperations.ispow2#system-numerics-bitoperations-ispow2(system-int32)) <sup><sub>.NET 6.0</sub></sup>
@@ -127,6 +129,7 @@ ___
   - [`static bool IsAsciiLetterOrDigit(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciiletterordigit) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool IsAsciiLetterUpper(char)`](https://learn.microsoft.com/dotnet/api/system.char.isasciiletterupper) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool IsBetween(char, char, char)`](https://learn.microsoft.com/dotnet/api/system.char.isbetween) <sup><sub>.NET 7.0</sub></sup>
+  - [`bool Equals(char, StringComparison)`](https://learn.microsoft.com/dotnet/api/system.char.equals?system-char-equals(system-char-system-stringcomparison)) <sup><sub>.NET 11.0</sub></sup>
 - `CompilerFeatureRequiredAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute) <sup><sub>.NET 7.0</sub></sup>
 - `ConditionalWeakTable<TKey, TValue>`
@@ -910,6 +913,7 @@ ___
   - [`ReadOnlySpan<char> AsSpan(int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
   - [`ReadOnlySpan<char> AsSpan(int, int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-int32-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
 - `StringBuilder`
+  - [`static StringBuilder MoveChunks(StringBuilder)`](https://learn.microsoft.com/dotnet/api/system.text.stringbuilder.movechunks) <sup><sub>.NET 11.0</sub></sup>
   - [`StringBuilder Clear()`](https://learn.microsoft.com/dotnet/api/system.text.stringbuilder.clear) <sup><sub>.NET Core 1.0</sub></sup>
 - `StringMarshalling`
   - [**[enum]**](https://learn.microsoft.com/dotnet/api/system.runtime.interopservices.stringmarshalling) <sup><sub>.NET 7.0</sub></sup>
@@ -917,6 +921,9 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.io.stringstream) <sup><sub>.NET 11.0</sub></sup>
 - `StringSyntaxAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute) <sup><sub>.NET 7.0</sub></sup>
+  - [`static string CSharp`](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute.csharp) <sup><sub>.NET 11.0</sub></sup>
+  - [`static string FSharp`](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute.fsharp) <sup><sub>.NET 11.0</sub></sup>
+  - [`static string VisualBasic`](https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute.visualbasic) <sup><sub>.NET 11.0</sub></sup>
 - `SupportedOSPlatformAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.supportedosplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `SupportedOSPlatformGuardAttribute`
@@ -1017,6 +1024,7 @@ ___
   - [`bool IsAssignableFrom(Type)`](https://learn.microsoft.com/dotnet/api/system.type.isassignablefrom) <sup><sub>.NET Core 2.0</sub></sup>
   - [`bool IsAssignableTo(Type?)`](https://learn.microsoft.com/dotnet/api/system.type.isassignableto) <sup><sub>.NET 5.0</sub></sup>
   - [`bool IsSubclassOf(Type)`](https://learn.microsoft.com/dotnet/api/system.type.issubclassof) <sup><sub>.NET Core 2.0</sub></sup>
+  - [`Type? GetNullableUnderlyingType()`](https://learn.microsoft.com/dotnet/api/system.type.getnullableunderlyingtype) <sup><sub>.NET 11.0</sub></sup>
 - `T[]`
   - [`Memory<T> AsMemory()`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0())) <sup><sub>.NET Core 2.1</sub></sup>
   - [`Memory<T> AsMemory(int)`](https://learn.microsoft.com/dotnet/api/system.memoryextensions.asmemory#system-memoryextensions-asmemory-1(-0()-system-int32)) <sup><sub>.NET Core 2.1</sub></sup>
@@ -1050,6 +1058,8 @@ ___
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformattribute) <sup><sub>.NET 5.0</sub></sup>
 - `UnsupportedOSPlatformGuardAttribute`
   - [**[class]**](https://learn.microsoft.com/dotnet/api/system.runtime.versioning.unsupportedosplatformguardattribute) <sup><sub>.NET 6.0</sub></sup>
+- `Uri`
+  - [`static string UriSchemeData`](https://learn.microsoft.com/dotnet/api/system.uri.urischemedata) <sup><sub>.NET 11.0</sub></sup>
 - `ushort`
   - [`static bool TryParse(ReadOnlySpan<char>, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>
   - [`static bool TryParse(string?, IFormatProvider?, out ushort)`](https://learn.microsoft.com/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)) <sup><sub>.NET 7.0</sub></sup>

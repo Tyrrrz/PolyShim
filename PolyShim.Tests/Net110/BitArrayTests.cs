@@ -1,0 +1,31 @@
+using System;
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
+using AwesomeAssertions;
+using Xunit;
+
+namespace PolyShim.Tests.Net110;
+
+public class BitArrayTests
+{
+    [Fact]
+    public void PopCount_Test()
+    {
+        // Arrange
+        var bits = new BitArray(new[] { true, false, true, true });
+
+        // Act & assert
+        bits.PopCount().Should().Be(3);
+    }
+
+    [Fact]
+    public void PopCount_Empty_Test()
+    {
+        // Arrange
+        var bits = new BitArray(0);
+
+        // Act & assert
+        bits.PopCount().Should().Be(0);
+    }
+}
