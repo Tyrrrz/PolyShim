@@ -1,6 +1,4 @@
-using System;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AwesomeAssertions;
 using Xunit;
@@ -12,76 +10,79 @@ public class AsyncEnumerableTests
     [Fact]
     public async Task FullJoin_Test()
     {
-        var first = new[] { 1, 2, 3 }.ToAsyncEnumerable();
-        var second = new[] { 3, 4 }.ToAsyncEnumerable();
+        // Arrange
+        var first = new[] { (1, "a"), (2, "b"), (2, "c") }.ToAsyncEnumerable();
+        var second = new[] { (2, "x"), (3, "y"), (2, "z") }.ToAsyncEnumerable();
 
+        // Act
         var result = await first
-            .FullJoin(second, x => x, x => x, (a, b) => $"{a}-{b}")
-            .ToListAsync();
-
-        result.Should().Equal("1-0", "2-0", "3-3", "0-4");
-
-        var tupleResult = await first.FullJoin(second, x => x, x => x).ToListAsync();
-        tupleResult.Should().Equal((1, 0), (2, 0), (3, 3), (0, 4));
+            .FullJoin(
+                second,
+                f => f.Item1,
+                s => s.Item1,
+                (f, s) => $"{f.Item2 ?? "-"}{s.Item2 ?? "-"}"
+            )
+            .ToArrayAsync();
 
         var asyncResult = await first
             .FullJoin(
                 second,
-                (x, _) => new ValueTask<int>(x),
-                (x, _) => new ValueTask<int>(x),
-                (a, b, _) => new ValueTask<string>($"{a}-{b}")
+                (f, _) => new ValueTask<int>(f.Item1),
+                (s, _) => new ValueTask<int>(s.Item1),
+                (f, s, _) => new ValueTask<string>($"{f.Item2 ?? "-"}{s.Item2 ?? "-"}")
             )
-            .ToListAsync();
-        asyncResult.Should().Equal("1-0", "2-0", "3-3", "0-4");
+            .ToArrayAsync();
 
-        var asyncTupleResult = await first
-            .FullJoin(second, (x, _) => new ValueTask<int>(x), (x, _) => new ValueTask<int>(x))
-            .ToListAsync();
-        asyncTupleResult.Should().Equal((1, 0), (2, 0), (3, 3), (0, 4));
+        // Assert
+        result.Should().Equal("a-", "bx", "bz", "cx", "cz", "-y");
+        asyncResult.Should().Equal("a-", "bx", "bz", "cx", "cz", "-y");
+    }
 
-        var secondWithDuplicates = new[] { 3, 4, 3 }.ToAsyncEnumerable();
-        Func<int, int> throwingKeySelector = _ =>
-            throw new InvalidOperationException("The key selector should not run.");
-        Func<int, int, string> resultSelector = (firstItem, secondItem) =>
-            $"{firstItem}-{secondItem}";
-        Func<int, CancellationToken, ValueTask<int>> throwingAsyncKeySelector = (_, _) =>
-            throw new InvalidOperationException("The async key selector should not run.");
-        Func<int, int, CancellationToken, ValueTask<string>> asyncResultSelector = (
-            firstItem,
-            secondItem,
-            _
-        ) => new ValueTask<string>($"{firstItem}-{secondItem}");
-        var emptyFirstResult = await AsyncEnumerable
-            .Empty<int>()
+    [Fact]
+    public async Task FullJoin_EmptyFirstArray_PreservesSecondOrder_Test()
+    {
+        // Arrange
+        var first = AsyncEnumerable.Empty<int>();
+        var second = new[] { 1, 2, 1 }.ToAsyncEnumerable();
+        var secondKeySelectorCalls = 0;
+
+        // Act
+        var result = await first
             .FullJoin(
-                secondWithDuplicates,
-                throwingKeySelector,
-                throwingKeySelector,
-                resultSelector
+                second,
+                f => f,
+                s =>
+                {
+                    secondKeySelectorCalls++;
+                    return s;
+                },
+                (f, s) => $"-{s}"
             )
-            .ToListAsync();
-        emptyFirstResult.Should().Equal("0-3", "0-4", "0-3");
+            .ToArrayAsync();
 
-        var emptyFirstAsyncResult = await AsyncEnumerable
-            .Empty<int>()
-            .FullJoin(
-                secondWithDuplicates,
-                throwingAsyncKeySelector,
-                throwingAsyncKeySelector,
-                asyncResultSelector
-            )
-            .ToListAsync();
-        emptyFirstAsyncResult.Should().Equal("0-3", "0-4", "0-3");
+        // Assert
+        result.Should().Equal("-1", "-2", "-1");
+        secondKeySelectorCalls.Should().Be(0);
+    }
 
-        var firstForEmptySecond = new[] { 1, 2, 3 }.ToAsyncEnumerable();
-        var emptySecondResult = await firstForEmptySecond
+    [Fact]
+    public async Task FullJoin_NullKeys_DoNotMatch_Test()
+    {
+        // Arrange
+        var first = new[] { ("a", null), ("b", "k") }.ToAsyncEnumerable();
+        var second = new[] { ("x", null), ("y", "k") }.ToAsyncEnumerable();
+
+        // Act
+        var result = await first
             .FullJoin(
-                AsyncEnumerable.Empty<int>(),
-                throwingKeySelector,
-                throwingKeySelector,
-                resultSelector
+                second,
+                f => f.Item2,
+                s => s.Item2,
+                (f, s) => $"{f.Item1 ?? "-"}{s.Item1 ?? "-"}"
             )
-            .ToListAsync();
-        emptySecondResult.Should().Equal("1-0", "2-0", "3-0");
+            .ToArrayAsync();
+
+        // Assert
+        result.Should().Equal("a-", "by", "-x");
     }
 }

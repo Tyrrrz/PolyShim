@@ -16,178 +16,9 @@ namespace System.Linq;
 #endif
 internal static class MemberPolyfills_Net110_AsyncEnumerable
 {
-    private static async IAsyncEnumerable<TResult> FullJoinIterator<TFirst, TSecond, TKey, TResult>(
-        IAsyncEnumerable<TFirst> first,
-        IAsyncEnumerable<TSecond> second,
-        Func<TFirst, TKey> firstKeySelector,
-        Func<TSecond, TKey> secondKeySelector,
-        Func<TFirst?, TSecond?, TResult> resultSelector,
-        IEqualityComparer<TKey>? comparer,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        if (ReferenceEquals(first, AsyncEnumerable.Empty<TFirst>()))
-        {
-            await foreach (
-                var item in second.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                yield return resultSelector(default, item);
-
-            yield break;
-        }
-
-        if (ReferenceEquals(second, AsyncEnumerable.Empty<TSecond>()))
-        {
-            await foreach (
-                var item in first.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                yield return resultSelector(item, default);
-
-            yield break;
-        }
-
-        var secondItems = await second.ToListAsync(cancellationToken).ConfigureAwait(false);
-        var secondLookup = secondItems.ToLookup(secondKeySelector, comparer);
-        var matchedGroups = new HashSet<IGrouping<TKey, TSecond>>();
-
-        await foreach (
-            var firstItem in first.WithCancellation(cancellationToken).ConfigureAwait(false)
-        )
-        {
-            var key = firstKeySelector(firstItem);
-            var group = key is null ? null : secondLookup[key] as IGrouping<TKey, TSecond>;
-            if (group is null)
-            {
-                yield return resultSelector(firstItem, default);
-                continue;
-            }
-
-            matchedGroups.Add(group);
-
-            foreach (var secondItem in group)
-                yield return resultSelector(firstItem, secondItem);
-        }
-
-        foreach (var group in secondLookup)
-        {
-            if (matchedGroups.Contains(group))
-                continue;
-
-            foreach (var secondItem in group)
-                yield return resultSelector(default, secondItem);
-        }
-    }
-
-    private static async IAsyncEnumerable<TResult> FullJoinAsyncIterator<
-        TFirst,
-        TSecond,
-        TKey,
-        TResult
-    >(
-        IAsyncEnumerable<TFirst> first,
-        IAsyncEnumerable<TSecond> second,
-        Func<TFirst, CancellationToken, ValueTask<TKey>> firstKeySelector,
-        Func<TSecond, CancellationToken, ValueTask<TKey>> secondKeySelector,
-        Func<TFirst?, TSecond?, CancellationToken, ValueTask<TResult>> resultSelector,
-        IEqualityComparer<TKey>? comparer,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default
-    )
-    {
-        if (ReferenceEquals(first, AsyncEnumerable.Empty<TFirst>()))
-        {
-            await foreach (
-                var item in second.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                yield return await resultSelector(default, item, cancellationToken)
-                    .ConfigureAwait(false);
-
-            yield break;
-        }
-
-        if (ReferenceEquals(second, AsyncEnumerable.Empty<TSecond>()))
-        {
-            await foreach (
-                var item in first.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-                yield return await resultSelector(item, default, cancellationToken)
-                    .ConfigureAwait(false);
-
-            yield break;
-        }
-
-        var keyedSecondItems = new List<(TKey Key, TSecond Item)>();
-        await foreach (var item in second.WithCancellation(cancellationToken).ConfigureAwait(false))
-            keyedSecondItems.Add(
-                (await secondKeySelector(item, cancellationToken).ConfigureAwait(false), item)
-            );
-
-        var secondLookup = keyedSecondItems.ToLookup(item => item.Key, item => item.Item, comparer);
-        var matchedGroups = new HashSet<IGrouping<TKey, TSecond>>();
-
-        await foreach (
-            var firstItem in first.WithCancellation(cancellationToken).ConfigureAwait(false)
-        )
-        {
-            var key = await firstKeySelector(firstItem, cancellationToken).ConfigureAwait(false);
-            var group = key is null ? null : secondLookup[key] as IGrouping<TKey, TSecond>;
-            if (group is null)
-            {
-                yield return await resultSelector(firstItem, default, cancellationToken)
-                    .ConfigureAwait(false);
-                continue;
-            }
-
-            matchedGroups.Add(group);
-
-            foreach (var secondItem in group)
-                yield return await resultSelector(firstItem, secondItem, cancellationToken)
-                    .ConfigureAwait(false);
-        }
-
-        foreach (var group in secondLookup)
-        {
-            if (matchedGroups.Contains(group))
-                continue;
-
-            foreach (var secondItem in group)
-                yield return await resultSelector(default, secondItem, cancellationToken)
-                    .ConfigureAwait(false);
-        }
-    }
-
     extension<TFirst>(IAsyncEnumerable<TFirst> first)
     {
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
-        public IAsyncEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(
-            IAsyncEnumerable<TSecond> second,
-            Func<TFirst, TKey> firstKeySelector,
-            Func<TSecond, TKey> secondKeySelector,
-            Func<TFirst?, TSecond?, TResult> resultSelector,
-            IEqualityComparer<TKey>? comparer = null
-        )
-        {
-            if (first is null)
-                throw new ArgumentNullException(nameof(first));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (firstKeySelector is null)
-                throw new ArgumentNullException(nameof(firstKeySelector));
-            if (secondKeySelector is null)
-                throw new ArgumentNullException(nameof(secondKeySelector));
-            if (resultSelector is null)
-                throw new ArgumentNullException(nameof(resultSelector));
-
-            return FullJoinIterator(
-                first,
-                second,
-                firstKeySelector,
-                secondKeySelector,
-                resultSelector,
-                comparer
-            );
-        }
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin?system-linq-asyncenumerable-fulljoin-4(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-1))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-func((-1-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-func((-0-1-system-threading-cancellationtoken-system-threading-tasks-valuetask((-3))))-system-collections-generic-iequalitycomparer((-2)))
         public IAsyncEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(
             IAsyncEnumerable<TSecond> second,
             Func<TFirst, CancellationToken, ValueTask<TKey>> firstKeySelector,
@@ -207,72 +38,152 @@ internal static class MemberPolyfills_Net110_AsyncEnumerable
             if (resultSelector is null)
                 throw new ArgumentNullException(nameof(resultSelector));
 
-            return FullJoinAsyncIterator(
-                first,
-                second,
-                firstKeySelector,
-                secondKeySelector,
-                resultSelector,
-                comparer
-            );
+            async IAsyncEnumerable<TResult> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                await using var firstEnumerator = first.GetAsyncEnumerator(cancellationToken);
+
+                // No first items: every second item is unmatched (and its key is never computed)
+                if (!await firstEnumerator.MoveNextAsync().ConfigureAwait(false))
+                {
+                    await foreach (
+                        var secondItem in second
+                            .WithCancellation(cancellationToken)
+                            .ConfigureAwait(false)
+                    )
+                    {
+                        yield return await resultSelector(default, secondItem, cancellationToken)
+                            .ConfigureAwait(false);
+                    }
+
+                    yield break;
+                }
+
+                var keyedSecondItems = new List<(TKey Key, TSecond Item)>();
+                await foreach (
+                    var secondItem in second
+                        .WithCancellation(cancellationToken)
+                        .ConfigureAwait(false)
+                )
+                {
+                    var secondKey = await secondKeySelector(secondItem, cancellationToken)
+                        .ConfigureAwait(false);
+
+                    keyedSecondItems.Add((secondKey, secondItem));
+                }
+
+                // No second items: every first item is unmatched (and its key is never computed)
+                if (keyedSecondItems.Count == 0)
+                {
+                    do
+                    {
+                        yield return await resultSelector(
+                                firstEnumerator.Current,
+                                default,
+                                cancellationToken
+                            )
+                            .ConfigureAwait(false);
+                    } while (await firstEnumerator.MoveNextAsync().ConfigureAwait(false));
+
+                    yield break;
+                }
+
+                var lookup = keyedSecondItems.ToLookup(
+                    item => item.Key,
+                    item => item.Item,
+                    comparer
+                );
+
+                var matchedKeys = new HashSet<TKey>(comparer);
+
+                do
+                {
+                    var firstItem = firstEnumerator.Current;
+                    var firstKey = await firstKeySelector(firstItem, cancellationToken)
+                        .ConfigureAwait(false);
+
+                    // Null keys never match
+                    if (firstKey is null || !lookup.Contains(firstKey))
+                    {
+                        yield return await resultSelector(firstItem, default, cancellationToken)
+                            .ConfigureAwait(false);
+
+                        continue;
+                    }
+
+                    matchedKeys.Add(firstKey);
+
+                    foreach (var matchedItem in lookup[firstKey])
+                    {
+                        yield return await resultSelector(firstItem, matchedItem, cancellationToken)
+                            .ConfigureAwait(false);
+                    }
+                } while (await firstEnumerator.MoveNextAsync().ConfigureAwait(false));
+
+                foreach (var group in lookup)
+                {
+                    if (group.Key is not null && matchedKeys.Contains(group.Key))
+                        continue;
+
+                    foreach (var unmatchedItem in group)
+                    {
+                        yield return await resultSelector(default, unmatchedItem, cancellationToken)
+                            .ConfigureAwait(false);
+                    }
+                }
+            }
+
+            return Iterate();
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
-        public IAsyncEnumerable<(TFirst? First, TSecond? Second)> FullJoin<TSecond, TKey>(
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin?system-linq-asyncenumerable-fulljoin-4(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2)))
+        public IAsyncEnumerable<TResult> FullJoin<TSecond, TKey, TResult>(
             IAsyncEnumerable<TSecond> second,
             Func<TFirst, TKey> firstKeySelector,
             Func<TSecond, TKey> secondKeySelector,
+            Func<TFirst?, TSecond?, TResult> resultSelector,
             IEqualityComparer<TKey>? comparer = null
-        )
-        {
-            if (first is null)
-                throw new ArgumentNullException(nameof(first));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (firstKeySelector is null)
-                throw new ArgumentNullException(nameof(firstKeySelector));
-            if (secondKeySelector is null)
-                throw new ArgumentNullException(nameof(secondKeySelector));
-
-            return FullJoinIterator(
-                first,
+        ) =>
+            first.FullJoin(
                 second,
-                firstKeySelector,
-                secondKeySelector,
-                static (firstItem, secondItem) => (firstItem, secondItem),
+                (firstItem, _) => new ValueTask<TKey>(firstKeySelector(firstItem)),
+                (secondItem, _) => new ValueTask<TKey>(secondKeySelector(secondItem)),
+                (firstItem, secondItem, _) =>
+                    new ValueTask<TResult>(resultSelector(firstItem, secondItem)),
                 comparer
             );
-        }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin?system-linq-asyncenumerable-fulljoin-3(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-1))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-func((-1-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-collections-generic-iequalitycomparer((-2)))
         public IAsyncEnumerable<(TFirst? First, TSecond? Second)> FullJoin<TSecond, TKey>(
             IAsyncEnumerable<TSecond> second,
             Func<TFirst, CancellationToken, ValueTask<TKey>> firstKeySelector,
             Func<TSecond, CancellationToken, ValueTask<TKey>> secondKeySelector,
             IEqualityComparer<TKey>? comparer = null
-        )
-        {
-            if (first is null)
-                throw new ArgumentNullException(nameof(first));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (firstKeySelector is null)
-                throw new ArgumentNullException(nameof(firstKeySelector));
-            if (secondKeySelector is null)
-                throw new ArgumentNullException(nameof(secondKeySelector));
-
-            return FullJoinAsyncIterator(
-                first,
+        ) =>
+            first.FullJoin(
                 second,
                 firstKeySelector,
                 secondKeySelector,
-                static (firstItem, secondItem, _) =>
-                    new ValueTask<(TFirst?, TSecond?)>((firstItem, secondItem)),
+                (firstItem, secondItem, _) =>
+                    new ValueTask<(TFirst? First, TSecond? Second)>((firstItem, secondItem)),
                 comparer
             );
-        }
-    }
 
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.fulljoin?system-linq-asyncenumerable-fulljoin-3(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2)))
+        public IAsyncEnumerable<(TFirst? First, TSecond? Second)> FullJoin<TSecond, TKey>(
+            IAsyncEnumerable<TSecond> second,
+            Func<TFirst, TKey> firstKeySelector,
+            Func<TSecond, TKey> secondKeySelector,
+            IEqualityComparer<TKey>? comparer = null
+        ) =>
+            first.FullJoin(
+                second,
+                (firstItem, _) => new ValueTask<TKey>(firstKeySelector(firstItem)),
+                (secondItem, _) => new ValueTask<TKey>(secondKeySelector(secondItem)),
+                comparer
+            );
+    }
 }
 #endif
 #endif
