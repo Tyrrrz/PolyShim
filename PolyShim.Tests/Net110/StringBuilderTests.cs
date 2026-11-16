@@ -13,14 +13,13 @@ public class StringBuilderTests
     public void MoveChunks_Test()
     {
         // Arrange
-        var destination = new StringBuilder("foo");
         var source = new StringBuilder("bar");
 
         // Act
-        destination.MoveChunks(source);
+        var destination = StringBuilder.MoveChunks(source);
 
         // Assert
-        destination.ToString().Should().Be("foobar");
+        destination.ToString().Should().Be("bar");
         source.Length.Should().Be(0);
     }
 }

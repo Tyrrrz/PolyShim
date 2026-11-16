@@ -29,11 +29,15 @@ internal partial class StringSyntaxAttribute
 {
     public const string CompositeFormat = nameof(CompositeFormat);
 
+    public const string CSharp = "C#";
+
     public const string DateOnlyFormat = nameof(DateOnlyFormat);
 
     public const string DateTimeFormat = nameof(DateTimeFormat);
 
     public const string EnumFormat = nameof(EnumFormat);
+
+    public const string FSharp = "F#";
 
     public const string GuidFormat = nameof(GuidFormat);
 
@@ -48,6 +52,8 @@ internal partial class StringSyntaxAttribute
     public const string TimeSpanFormat = nameof(TimeSpanFormat);
 
     public const string Uri = nameof(Uri);
+
+    public const string VisualBasic = "Visual Basic";
 
     public const string Xml = nameof(Xml);
 }

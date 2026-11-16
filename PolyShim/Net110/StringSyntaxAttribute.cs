@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 internal static class MemberPolyfills_Net110_StringSyntaxAttribute
 {
+    // On .NET 7–10, these extension properties cannot be used in attribute arguments.
     extension(StringSyntaxAttribute)
     {
         // https://learn.microsoft.com/dotnet/api/system.diagnostics.codeanalysis.stringsyntaxattribute.csharp
