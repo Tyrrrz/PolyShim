@@ -19,8 +19,7 @@ internal static class MemberPolyfills_Net110_EqualityComparer
             IEqualityComparer<TKey>? keyComparer = null
         )
         {
-            if (keySelector is null)
-                throw new ArgumentNullException(nameof(keySelector));
+            ArgumentNullException.ThrowIfNull(keySelector);
 
             keyComparer ??= EqualityComparer<TKey>.Default;
 

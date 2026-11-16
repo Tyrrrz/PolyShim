@@ -41,8 +41,8 @@ internal sealed class ReadOnlyMemoryStream(ReadOnlyMemory<byte> source) : Stream
         set
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
-            if (value < 0 || value > int.MaxValue)
-                throw new ArgumentOutOfRangeException(nameof(value));
+            ArgumentOutOfRangeException.ThrowIfNegative(value);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, int.MaxValue);
 
             _position = (int)value;
         }
@@ -63,12 +63,9 @@ internal sealed class ReadOnlyMemoryStream(ReadOnlyMemory<byte> source) : Stream
 
     public override int Read(byte[] buffer, int offset, int count)
     {
-        if (buffer is null)
-            throw new ArgumentNullException(nameof(buffer));
-        if (offset < 0)
-            throw new ArgumentOutOfRangeException(nameof(offset));
-        if (count < 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
+        ArgumentNullException.ThrowIfNull(buffer);
+        ArgumentOutOfRangeException.ThrowIfNegative(offset);
+        ArgumentOutOfRangeException.ThrowIfNegative(count);
         if (buffer.Length - offset < count)
             throw new ArgumentException("Offset and length were out of bounds for the array.");
 
@@ -96,8 +93,7 @@ internal sealed class ReadOnlyMemoryStream(ReadOnlyMemory<byte> source) : Stream
             _ => throw new ArgumentOutOfRangeException(nameof(origin)),
         };
 
-        if (offset > int.MaxValue - basePosition)
-            throw new ArgumentOutOfRangeException(nameof(offset));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(offset, int.MaxValue - basePosition);
         var target = basePosition + offset;
         if (target < 0)
             throw new IOException("Attempted to seek before the beginning of the stream.");

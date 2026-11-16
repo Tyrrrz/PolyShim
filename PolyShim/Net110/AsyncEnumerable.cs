@@ -27,16 +27,11 @@ internal static class MemberPolyfills_Net110_AsyncEnumerable
             IEqualityComparer<TKey>? comparer = null
         )
         {
-            if (first is null)
-                throw new ArgumentNullException(nameof(first));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (firstKeySelector is null)
-                throw new ArgumentNullException(nameof(firstKeySelector));
-            if (secondKeySelector is null)
-                throw new ArgumentNullException(nameof(secondKeySelector));
-            if (resultSelector is null)
-                throw new ArgumentNullException(nameof(resultSelector));
+            ArgumentNullException.ThrowIfNull(first);
+            ArgumentNullException.ThrowIfNull(second);
+            ArgumentNullException.ThrowIfNull(firstKeySelector);
+            ArgumentNullException.ThrowIfNull(secondKeySelector);
+            ArgumentNullException.ThrowIfNull(resultSelector);
 
             async IAsyncEnumerable<TResult> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default

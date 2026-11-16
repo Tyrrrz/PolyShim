@@ -16,8 +16,7 @@ internal static class MemberPolyfills_Net60_List
         // https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1.ensurecapacity
         public int EnsureCapacity(int capacity)
         {
-            if (capacity < 0)
-                throw new ArgumentOutOfRangeException(nameof(capacity));
+            ArgumentOutOfRangeException.ThrowIfNegative(capacity);
 
             if (list.Capacity < capacity)
                 list.Capacity = capacity;

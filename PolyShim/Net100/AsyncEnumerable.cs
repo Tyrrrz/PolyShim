@@ -33,8 +33,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.toasyncenumerable
         public IAsyncEnumerable<T> ToAsyncEnumerable()
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -61,12 +60,9 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (func is null)
-                throw new ArgumentNullException(nameof(func));
-            if (resultSelector is null)
-                throw new ArgumentNullException(nameof(resultSelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(func);
+            ArgumentNullException.ThrowIfNull(resultSelector);
 
             var result = seed;
             await foreach (
@@ -157,10 +153,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             await foreach (
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
@@ -188,10 +182,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             await foreach (
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
@@ -229,8 +221,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.append
         public IAsyncEnumerable<T> Append(T element)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -250,10 +241,8 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.concat
         public IAsyncEnumerable<T> Concat(IAsyncEnumerable<T> second)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(second);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -284,8 +273,7 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             await foreach (
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
@@ -304,10 +292,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             var count = 0;
             await foreach (
@@ -342,8 +328,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.defaultifempty?system-linq-asyncenumerable-defaultifempty-1(system-collections-generic-iasyncenumerable((-0))-0)
         public IAsyncEnumerable<T?> DefaultIfEmpty(T defaultValue)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<T?> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -371,8 +356,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.distinct
         public IAsyncEnumerable<T> Distinct(IEqualityComparer<T>? comparer = null)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -397,10 +381,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (index < 0)
-                throw new ArgumentOutOfRangeException(nameof(index));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentOutOfRangeException.ThrowIfNegative(index);
 
             var i = 0;
             await foreach (
@@ -420,8 +402,7 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var items = await source.ToListAsync(cancellationToken).ConfigureAwait(false);
 
@@ -438,8 +419,7 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             if (index < 0)
                 return default;
@@ -462,8 +442,7 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var items = await source.ToListAsync(cancellationToken).ConfigureAwait(false);
 
@@ -480,10 +459,8 @@ internal static class AsyncEnumerable
             IEqualityComparer<T>? comparer = null
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(second);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -510,10 +487,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             await foreach (
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
@@ -546,10 +521,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             await foreach (
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
@@ -622,12 +595,9 @@ internal static class AsyncEnumerable
             IEqualityComparer<TKey>? comparer = null
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (keySelector is null)
-                throw new ArgumentNullException(nameof(keySelector));
-            if (elementSelector is null)
-                throw new ArgumentNullException(nameof(elementSelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
+            ArgumentNullException.ThrowIfNull(elementSelector);
 
             return Iterate();
 
@@ -735,16 +705,11 @@ internal static class AsyncEnumerable
             IEqualityComparer<TKey>? comparer = null
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (inner is null)
-                throw new ArgumentNullException(nameof(inner));
-            if (outerKeySelector is null)
-                throw new ArgumentNullException(nameof(outerKeySelector));
-            if (innerKeySelector is null)
-                throw new ArgumentNullException(nameof(innerKeySelector));
-            if (resultSelector is null)
-                throw new ArgumentNullException(nameof(resultSelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(inner);
+            ArgumentNullException.ThrowIfNull(outerKeySelector);
+            ArgumentNullException.ThrowIfNull(innerKeySelector);
+            ArgumentNullException.ThrowIfNull(resultSelector);
 
             async IAsyncEnumerable<TResult> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -843,10 +808,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             var hasValue = false;
             var last = default(T)!;
@@ -887,10 +850,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             var hasValue = false;
             var last = default(T)!;
@@ -967,10 +928,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             var count = 0L;
             await foreach (
@@ -1012,8 +971,7 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var hasValue = false;
             var result = default(T);
@@ -1042,8 +1000,7 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var hasValue = false;
             var result = default(T);
@@ -1072,10 +1029,8 @@ internal static class AsyncEnumerable
             IComparer<TKey>? comparer = null
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (keySelector is null)
-                throw new ArgumentNullException(nameof(keySelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
 
             return new OrderedAsyncEnumerable<T>(
                 source,
@@ -1103,10 +1058,8 @@ internal static class AsyncEnumerable
             IComparer<TKey>? comparer = null
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (keySelector is null)
-                throw new ArgumentNullException(nameof(keySelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
 
             return new OrderedAsyncEnumerable<T>(
                 source,
@@ -1132,8 +1085,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.prepend
         public IAsyncEnumerable<T> Prepend(T element)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1153,8 +1105,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.reverse
         public IAsyncEnumerable<T> Reverse()
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1173,10 +1124,8 @@ internal static class AsyncEnumerable
             Func<T, int, CancellationToken, ValueTask<TResult>> selector
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (selector is null)
-                throw new ArgumentNullException(nameof(selector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(selector);
 
             async IAsyncEnumerable<TResult> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1214,12 +1163,9 @@ internal static class AsyncEnumerable
             Func<T, TCollection, CancellationToken, ValueTask<TResult>> resultSelector
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (collectionSelector is null)
-                throw new ArgumentNullException(nameof(collectionSelector));
-            if (resultSelector is null)
-                throw new ArgumentNullException(nameof(resultSelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(collectionSelector);
+            ArgumentNullException.ThrowIfNull(resultSelector);
 
             async IAsyncEnumerable<TResult> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1254,12 +1200,9 @@ internal static class AsyncEnumerable
             Func<T, TCollection, CancellationToken, ValueTask<TResult>> resultSelector
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (collectionSelector is null)
-                throw new ArgumentNullException(nameof(collectionSelector));
-            if (resultSelector is null)
-                throw new ArgumentNullException(nameof(resultSelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(collectionSelector);
+            ArgumentNullException.ThrowIfNull(resultSelector);
 
             async IAsyncEnumerable<TResult> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1363,10 +1306,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(second);
 
             await using var firstEnumerator = source.GetAsyncEnumerator(cancellationToken);
             await using var secondEnumerator = second.GetAsyncEnumerator(cancellationToken);
@@ -1399,10 +1340,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             var hasValue = false;
             var result = default(T)!;
@@ -1450,10 +1389,8 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             var hasValue = false;
             var result = default(T)!;
@@ -1534,8 +1471,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.skip
         public IAsyncEnumerable<T> Skip(int count)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1561,10 +1497,8 @@ internal static class AsyncEnumerable
             Func<T, int, CancellationToken, ValueTask<bool>> predicate
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1609,8 +1543,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.take
         public IAsyncEnumerable<T> Take(int count)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1639,10 +1572,8 @@ internal static class AsyncEnumerable
             Func<T, int, CancellationToken, ValueTask<bool>> predicate
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1694,12 +1625,9 @@ internal static class AsyncEnumerable
         )
             where TKey : notnull
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (keySelector is null)
-                throw new ArgumentNullException(nameof(keySelector));
-            if (elementSelector is null)
-                throw new ArgumentNullException(nameof(elementSelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
+            ArgumentNullException.ThrowIfNull(elementSelector);
 
             var result = new Dictionary<TKey, TElement>(comparer);
             await foreach (
@@ -1769,8 +1697,7 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var result = new HashSet<T>(comparer);
             await foreach (
@@ -1786,8 +1713,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.tolistasync
         public async ValueTask<List<T>> ToListAsync(CancellationToken cancellationToken = default)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var result = new List<T>();
             await foreach (
@@ -1806,10 +1732,8 @@ internal static class AsyncEnumerable
             IEqualityComparer<T>? comparer = null
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(second);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1839,10 +1763,8 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where?system-linq-asyncenumerable-where-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-int32-system-threading-cancellationtoken-system-threading-tasks-valuetask((system-boolean)))))
         public IAsyncEnumerable<T> Where(Func<T, int, CancellationToken, ValueTask<bool>> predicate)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (predicate is null)
-                throw new ArgumentNullException(nameof(predicate));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(predicate);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1884,12 +1806,9 @@ internal static class AsyncEnumerable
             Func<T, TSecond, CancellationToken, ValueTask<TResult>> resultSelector
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (resultSelector is null)
-                throw new ArgumentNullException(nameof(resultSelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(second);
+            ArgumentNullException.ThrowIfNull(resultSelector);
 
             return Iterate();
 
@@ -1921,12 +1840,9 @@ internal static class AsyncEnumerable
             IAsyncEnumerable<TThird> third
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (second is null)
-                throw new ArgumentNullException(nameof(second));
-            if (third is null)
-                throw new ArgumentNullException(nameof(third));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(second);
+            ArgumentNullException.ThrowIfNull(third);
 
             async IAsyncEnumerable<(T First, TSecond Second, TThird Third)> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1970,8 +1886,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.cast
         public IAsyncEnumerable<TResult> Cast<TResult>()
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<TResult> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -1991,8 +1906,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.oftype
         public IAsyncEnumerable<TResult> OfType<TResult>()
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             async IAsyncEnumerable<TResult> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -2052,8 +1966,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync?system-linq-asyncenumerable-sumasync(system-collections-generic-iasyncenumerable((system-int32))-system-threading-cancellationtoken)
         public async ValueTask<int> SumAsync(CancellationToken cancellationToken = default)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var sum = 0;
             await foreach (
@@ -2082,8 +1995,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync?system-linq-asyncenumerable-sumasync(system-collections-generic-iasyncenumerable((system-int64))-system-threading-cancellationtoken)
         public async ValueTask<long> SumAsync(CancellationToken cancellationToken = default)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var sum = 0L;
             await foreach (
@@ -2112,8 +2024,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync?system-linq-asyncenumerable-sumasync(system-collections-generic-iasyncenumerable((system-double))-system-threading-cancellationtoken)
         public async ValueTask<double> SumAsync(CancellationToken cancellationToken = default)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var sum = 0.0;
             await foreach (
@@ -2163,8 +2074,7 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.sumasync?system-linq-asyncenumerable-sumasync(system-collections-generic-iasyncenumerable((system-decimal))-system-threading-cancellationtoken)
         public async ValueTask<decimal> SumAsync(CancellationToken cancellationToken = default)
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
+            ArgumentNullException.ThrowIfNull(source);
 
             var sum = 0m;
             await foreach (
@@ -2196,10 +2106,8 @@ internal static class AsyncEnumerable
             IComparer<TKey>? comparer = null
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (keySelector is null)
-                throw new ArgumentNullException(nameof(keySelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
 
             return source.CreateOrderedAsyncEnumerable(keySelector, comparer, false);
         }
@@ -2216,10 +2124,8 @@ internal static class AsyncEnumerable
             IComparer<TKey>? comparer = null
         )
         {
-            if (source is null)
-                throw new ArgumentNullException(nameof(source));
-            if (keySelector is null)
-                throw new ArgumentNullException(nameof(keySelector));
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
 
             return source.CreateOrderedAsyncEnumerable(keySelector, comparer, true);
         }

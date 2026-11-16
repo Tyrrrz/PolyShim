@@ -34,12 +34,9 @@ internal sealed class ReadOnlySequenceStream(ReadOnlySequence<byte> source) : St
 
     public override int Read(byte[] buffer, int offset, int count)
     {
-        if (buffer is null)
-            throw new ArgumentNullException(nameof(buffer));
-        if (offset < 0)
-            throw new ArgumentOutOfRangeException(nameof(offset));
-        if (count < 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
+        ArgumentNullException.ThrowIfNull(buffer);
+        ArgumentOutOfRangeException.ThrowIfNegative(offset);
+        ArgumentOutOfRangeException.ThrowIfNegative(count);
         if (buffer.Length - offset < count)
             throw new ArgumentException("Offset and length were out of bounds for the array.");
 

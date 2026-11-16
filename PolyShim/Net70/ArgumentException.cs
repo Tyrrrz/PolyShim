@@ -19,8 +19,7 @@ internal static class MemberPolyfills_Net70_ArgumentException
             [CallerArgumentExpression(nameof(argument))] string? paramName = null
         )
         {
-            if (argument is null)
-                throw new ArgumentNullException(paramName);
+            ArgumentNullException.ThrowIfNull(argument, paramName);
 
             if (string.IsNullOrEmpty(argument))
                 throw new ArgumentException("The value cannot be an empty string.", paramName);
@@ -32,8 +31,7 @@ internal static class MemberPolyfills_Net70_ArgumentException
             [CallerArgumentExpression(nameof(argument))] string? paramName = null
         )
         {
-            if (argument is null)
-                throw new ArgumentNullException(paramName);
+            ArgumentNullException.ThrowIfNull(argument, paramName);
 
             if (string.IsNullOrWhiteSpace(argument))
             {
