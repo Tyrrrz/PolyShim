@@ -67,8 +67,8 @@ internal static class MemberPolyfills_Net90_EnumerableExtensions
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.enumerable.index
-        public IEnumerable<(int index, T value)> Index() =>
-            source.Select((value, index) => (index, value));
+        public IEnumerable<(int Index, T Item)> Index() =>
+            source.Select((item, index) => (index, item));
     }
 }
 #endif

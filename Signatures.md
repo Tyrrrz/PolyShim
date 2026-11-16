@@ -1,8 +1,8 @@
 # Signatures
 
-- **Total:** 820
+- **Total:** 821
 - **Types:** 132
-- **Members:** 688
+- **Members:** 689
 
 ___
 
@@ -495,6 +495,7 @@ ___
   - [`IEnumerable<T> IntersectBy<TKey>(IEnumerable<TKey>, Func<T, TKey>)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.intersectby#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))) <sup><sub>.NET 6.0</sub></sup>
   - [`IEnumerable<T> IntersectBy<TKey>(IEnumerable<TKey>, Func<T, TKey>, IEqualityComparer<TKey>?)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.intersectby#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))) <sup><sub>.NET 6.0</sub></sup>
   - [`IEnumerable<T> Prepend(T)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.prepend) <sup><sub>.NET Core 1.0</sub></sup>
+  - [`IEnumerable<T> Shuffle()`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.shuffle) <sup><sub>.NET 10.0</sub></sup>
   - [`IEnumerable<T> SkipLast(int)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.skiplast) <sup><sub>.NET Core 2.0</sub></sup>
   - [`IEnumerable<T> Take(Range)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.take#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)) <sup><sub>.NET 6.0</sub></sup>
   - [`IEnumerable<T> TakeLast(int)`](https://learn.microsoft.com/dotnet/api/system.linq.enumerable.takelast) <sup><sub>.NET Core 2.0</sub></sup>
