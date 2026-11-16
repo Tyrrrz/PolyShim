@@ -64,5 +64,7 @@ public class EnumerableExtensionsTests
 
         // Assert
         result.Should().Equal((0, 42), (1, 13), (2, 69), (3, 17));
+        result.Select(x => x.Index).Should().Equal(0, 1, 2, 3);
+        result.Select(x => x.Item).Should().Equal(42, 13, 69, 17);
     }
 }

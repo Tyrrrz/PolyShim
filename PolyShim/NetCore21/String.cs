@@ -31,10 +31,9 @@ internal static class MemberPolyfills_NetCore21_String
             SpanAction<char, TState> action
         )
         {
-            if (length < 0)
-                throw new ArgumentOutOfRangeException(nameof(length));
-            if (action is null)
-                throw new ArgumentNullException(nameof(action));
+            ArgumentOutOfRangeException.ThrowIfNegative(length);
+            ArgumentNullException.ThrowIfNull(action);
+
             if (length == 0)
                 return string.Empty;
 

@@ -36,13 +36,11 @@ public class StringTests
         string.Create(
                 5,
                 'x',
-                (SpanAction<char, char>)(
-                    (span, c) =>
-                    {
-                        for (var i = 0; i < span.Length; i++)
-                            span[i] = c;
-                    }
-                )
+                (span, c) =>
+                {
+                    for (var i = 0; i < span.Length; i++)
+                        span[i] = c;
+                }
             )
             .Should()
             .Be("xxxxx");
@@ -52,14 +50,14 @@ public class StringTests
     public void Create_Empty_Test()
     {
         // Act & assert
-        string.Create(0, 0, (SpanAction<char, int>)((_, _) => { })).Should().Be(string.Empty);
+        string.Create(0, 0, (_, _) => { }).Should().Be(string.Empty);
     }
 
     [Fact]
     public void Create_NegativeLength_Test()
     {
         // Act & assert
-        var act = () => string.Create(-1, 0, (SpanAction<char, int>)((_, _) => { }));
+        var act = () => string.Create(-1, 0, (_, _) => { });
         act.Should().Throw<ArgumentOutOfRangeException>();
     }
 
@@ -67,7 +65,7 @@ public class StringTests
     public void Create_NullAction_Test()
     {
         // Act & assert
-        var act = () => string.Create(5, 0, (SpanAction<char, int>)null!);
+        var act = () => string.Create(5, 0, null!);
         act.Should().Throw<ArgumentNullException>();
     }
 }

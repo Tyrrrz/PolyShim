@@ -19,8 +19,7 @@ internal class ArrayPool<T>
 
     public T[] Rent(int minimumLength)
     {
-        if (minimumLength < 0)
-            throw new ArgumentOutOfRangeException(nameof(minimumLength));
+        ArgumentOutOfRangeException.ThrowIfNegative(minimumLength);
 
         var cached = _cached;
         if (cached is not null && cached.Length >= minimumLength)

@@ -10,6 +10,7 @@ public class MathTests
     public void Clamp_Test()
     {
         // Act & assert
+        // Explicit casts are required for .NET Framework
         Math.Clamp((nint)5, (nint)1, (nint)10).Should().Be((nint)5);
         Math.Clamp((nint)0, (nint)1, (nint)10).Should().Be((nint)1);
         Math.Clamp((nint)15, (nint)1, (nint)10).Should().Be((nint)10);

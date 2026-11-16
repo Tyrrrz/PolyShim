@@ -92,8 +92,7 @@ internal readonly partial struct ReadOnlySequence<T>(
 
     public SequencePosition GetPosition(long offset, SequencePosition origin)
     {
-        if (offset < 0)
-            throw new ArgumentOutOfRangeException(nameof(offset));
+        ArgumentOutOfRangeException.ThrowIfNegative(offset);
 
         var originIndex = GetAbsoluteIndex(origin);
         var position = originIndex + offset;

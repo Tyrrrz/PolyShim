@@ -17,8 +17,7 @@ internal readonly struct Index(int value) : IEquatable<Index>
     public Index(int value, bool fromEnd = false)
         : this(fromEnd ? ~value : value)
     {
-        if (value < 0)
-            throw new ArgumentOutOfRangeException(nameof(value), "Value must be non-negative.");
+        ArgumentOutOfRangeException.ThrowIfNegative(value);
     }
 
     public int Value => _value < 0 ? ~_value : _value;
