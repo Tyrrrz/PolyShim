@@ -57,6 +57,76 @@ public class AsyncEnumerableTests
             .Should()
             .Be(6);
         (await source.AggregateAsync(10, (a, b) => a + b)).Should().Be(16);
+
+        // The first element is the seed when none is provided
+        (await source.AggregateAsync((a, b) => a - b))
+            .Should()
+            .Be(-4);
+        (await source.AggregateAsync((a, b, _) => new ValueTask<int>(a - b))).Should().Be(-4);
+
+        var act = async () => await AsyncEnumerable.Empty<int>().AggregateAsync((a, b) => a + b);
+        await act.Should().ThrowAsync<InvalidOperationException>();
+    }
+
+    [Fact]
+    public async Task AggregateBy_Test()
+    {
+        // Arrange
+        var source = new[] { "a", "bb", "c", "dd", "eee" }.ToAsyncEnumerable();
+
+        // Act & assert
+        (
+            await source
+                .AggregateBy(x => x.Length, 0, (acc, x) => acc + x.Length)
+                .Select(p => (p.Key, p.Value))
+                .ToArrayAsync()
+        )
+            .Should()
+            .Equal((1, 2), (2, 4), (3, 3));
+
+        (
+            await source
+                .AggregateBy(x => x.Length, k => k * 10, (acc, x) => acc + x.Length)
+                .Select(p => (p.Key, p.Value))
+                .ToArrayAsync()
+        )
+            .Should()
+            .Equal((1, 12), (2, 24), (3, 33));
+
+        (
+            await source
+                .AggregateBy(
+                    (x, _) => new ValueTask<int>(x.Length),
+                    0,
+                    (acc, x, _) => new ValueTask<int>(acc + x.Length)
+                )
+                .Select(p => (p.Key, p.Value))
+                .ToArrayAsync()
+        )
+            .Should()
+            .Equal((1, 2), (2, 4), (3, 3));
+
+        (
+            await source
+                .AggregateBy(
+                    (x, _) => new ValueTask<int>(x.Length),
+                    (k, _) => new ValueTask<int>(k * 10),
+                    (acc, x, _) => new ValueTask<int>(acc + x.Length)
+                )
+                .Select(p => (p.Key, p.Value))
+                .ToArrayAsync()
+        )
+            .Should()
+            .Equal((1, 12), (2, 24), (3, 33));
+
+        (
+            await AsyncEnumerable
+                .Empty<string>()
+                .AggregateBy(x => x.Length, 0, (acc, x) => acc + x.Length)
+                .ToArrayAsync()
+        )
+            .Should()
+            .BeEmpty();
     }
 
     [Fact]
@@ -98,6 +168,32 @@ public class AsyncEnumerableTests
     }
 
     [Fact]
+    public async Task Chunk_Test()
+    {
+        // Arrange
+        var source = new[] { 1, 2, 3, 4, 5 }.ToAsyncEnumerable();
+
+        // Act
+        var chunks = await source.Chunk(2).ToArrayAsync();
+
+        // Assert
+        chunks.Should().HaveCount(3);
+        chunks[0].Should().Equal(1, 2);
+        chunks[1].Should().Equal(3, 4);
+        chunks[2].Should().Equal(5);
+
+        (await source.Chunk(5).ToArrayAsync())
+            .Should()
+            .ContainSingle()
+            .Which.Should()
+            .Equal(1, 2, 3, 4, 5);
+        (await AsyncEnumerable.Empty<int>().Chunk(2).ToArrayAsync()).Should().BeEmpty();
+
+        var act = () => source.Chunk(0);
+        act.Should().Throw<ArgumentOutOfRangeException>();
+    }
+
+    [Fact]
     public async Task Concat_Test()
     {
         // Arrange
@@ -133,6 +229,31 @@ public class AsyncEnumerableTests
     }
 
     [Fact]
+    public async Task CountBy_Test()
+    {
+        // Arrange
+        var source = new[] { "a", "bb", "c", "dd", "eee" }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.CountBy(x => x.Length).Select(p => (p.Key, p.Value)).ToArrayAsync())
+            .Should()
+            .Equal((1, 2), (2, 2), (3, 1));
+
+        (
+            await source
+                .CountBy((x, _) => new ValueTask<int>(x.Length))
+                .Select(p => (p.Key, p.Value))
+                .ToArrayAsync()
+        )
+            .Should()
+            .Equal((1, 2), (2, 2), (3, 1));
+
+        (await AsyncEnumerable.Empty<string>().CountBy(x => x.Length).ToArrayAsync())
+            .Should()
+            .BeEmpty();
+    }
+
+    [Fact]
     public async Task DefaultIfEmpty_Test()
     {
         // Act & assert
@@ -141,6 +262,21 @@ public class AsyncEnumerableTests
             .Equal(1, 2);
 
         (await AsyncEnumerable.Empty<int>().DefaultIfEmpty(5).ToArrayAsync()).Should().Equal(5);
+    }
+
+    [Fact]
+    public async Task DistinctBy_Test()
+    {
+        // Arrange
+        var source = new[] { "a", "bb", "c", "dd" }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.DistinctBy(x => x.Length).ToArrayAsync())
+            .Should()
+            .Equal("a", "bb");
+        (await source.DistinctBy((x, _) => new ValueTask<int>(x.Length)).ToArrayAsync())
+            .Should()
+            .Equal("a", "bb");
     }
 
     [Fact]
@@ -168,6 +304,22 @@ public class AsyncEnumerableTests
         (await new[] { 3, 1, 2 }.ToAsyncEnumerable().ElementAtOrDefaultAsync(5))
             .Should()
             .Be(0);
+    }
+
+    [Fact]
+    public async Task ExceptBy_Test()
+    {
+        // Arrange
+        var source = new[] { "a", "bb", "ccc" }.ToAsyncEnumerable();
+        var second = new[] { 2 }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.ExceptBy(second, x => x.Length).ToArrayAsync())
+            .Should()
+            .Equal("a", "ccc");
+        (await source.ExceptBy(second, (x, _) => new ValueTask<int>(x.Length)).ToArrayAsync())
+            .Should()
+            .Equal("a", "ccc");
     }
 
     [Fact]
@@ -223,6 +375,46 @@ public class AsyncEnumerableTests
     }
 
     [Fact]
+    public async Task Index_Test()
+    {
+        // Act & assert
+        (await new[] { "a", "b", "c" }.ToAsyncEnumerable().Index().ToArrayAsync())
+            .Should()
+            .Equal((0, "a"), (1, "b"), (2, "c"));
+        (await AsyncEnumerable.Empty<int>().Index().ToArrayAsync()).Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task IntersectBy_Test()
+    {
+        // Arrange
+        var source = new[] { "a", "bb", "ccc", "dd" }.ToAsyncEnumerable();
+        var second = new[] { 2, 3 }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.IntersectBy(second, x => x.Length).ToArrayAsync())
+            .Should()
+            .Equal("bb", "ccc");
+        (await source.IntersectBy(second, (x, _) => new ValueTask<int>(x.Length)).ToArrayAsync())
+            .Should()
+            .Equal("bb", "ccc");
+    }
+
+    [Fact]
+    public async Task Intersect_Test()
+    {
+        // Act & assert
+        (
+            await new[] { 1, 2, 2, 3 }
+                .ToAsyncEnumerable()
+                .Intersect(new[] { 2, 3, 4 }.ToAsyncEnumerable())
+                .ToArrayAsync()
+        )
+            .Should()
+            .Equal(2, 3);
+    }
+
+    [Fact]
     public async Task Join_Test()
     {
         // Arrange
@@ -263,12 +455,47 @@ public class AsyncEnumerableTests
     }
 
     [Fact]
+    public async Task MaxByAsync_Test()
+    {
+        // Arrange
+        var source = new[] { "bb", "a", "ccc", "dd" }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.MaxByAsync(x => x.Length))
+            .Should()
+            .Be("ccc");
+        (await source.MaxByAsync((x, _) => new ValueTask<int>(x.Length))).Should().Be("ccc");
+        (await new[] { "a", "b" }.ToAsyncEnumerable().MaxByAsync(x => x.Length)).Should().Be("a");
+        (await AsyncEnumerable.Empty<string>().MaxByAsync(x => x.Length)).Should().BeNull();
+
+        var act = async () => await AsyncEnumerable.Empty<int>().MaxByAsync(x => x);
+        await act.Should().ThrowAsync<InvalidOperationException>();
+    }
+
+    [Fact]
     public async Task MaxAsync_Test()
     {
         // Act & assert
         (await new[] { 3, 1, 2 }.ToAsyncEnumerable().MaxAsync())
             .Should()
             .Be(3);
+    }
+
+    [Fact]
+    public async Task MinByAsync_Test()
+    {
+        // Arrange
+        var source = new[] { "bb", "a", "ccc", "b" }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.MinByAsync(x => x.Length))
+            .Should()
+            .Be("a");
+        (await source.MinByAsync((x, _) => new ValueTask<int>(x.Length))).Should().Be("a");
+        (await AsyncEnumerable.Empty<string>().MinByAsync(x => x.Length)).Should().BeNull();
+
+        var act = async () => await AsyncEnumerable.Empty<int>().MinByAsync(x => x);
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]
@@ -293,6 +520,15 @@ public class AsyncEnumerableTests
     }
 
     [Fact]
+    public async Task Order_Test()
+    {
+        // Act & assert
+        (await new[] { 3, 1, 2 }.ToAsyncEnumerable().Order().ToArrayAsync())
+            .Should()
+            .Equal(1, 2, 3);
+    }
+
+    [Fact]
     public async Task OrderByDescending_Test()
     {
         // Arrange
@@ -302,6 +538,15 @@ public class AsyncEnumerableTests
         (await source.OrderByDescending(x => x.Length).ToArrayAsync())
             .Should()
             .Equal("ccc", "bb", "aa", "a", "b");
+    }
+
+    [Fact]
+    public async Task OrderDescending_Test()
+    {
+        // Act & assert
+        (await new[] { 3, 1, 2 }.ToAsyncEnumerable().OrderDescending().ToArrayAsync())
+            .Should()
+            .Equal(3, 2, 1);
     }
 
     [Fact]
@@ -376,6 +621,19 @@ public class AsyncEnumerableTests
     }
 
     [Fact]
+    public async Task Shuffle_Test()
+    {
+        // Arrange
+        var source = new[] { 1, 2, 3, 4, 5 }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.Shuffle().ToArrayAsync())
+            .Should()
+            .BeEquivalentTo([1, 2, 3, 4, 5]);
+        (await AsyncEnumerable.Empty<int>().Shuffle().ToArrayAsync()).Should().BeEmpty();
+    }
+
+    [Fact]
     public async Task SingleAsync_Test()
     {
         // Act & assert
@@ -406,6 +664,20 @@ public class AsyncEnumerableTests
     }
 
     [Fact]
+    public async Task SkipLast_Test()
+    {
+        // Arrange
+        var source = new[] { 1, 2, 3, 4, 5 }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.SkipLast(2).ToArrayAsync())
+            .Should()
+            .Equal(1, 2, 3);
+        (await source.SkipLast(0).ToArrayAsync()).Should().Equal(1, 2, 3, 4, 5);
+        (await source.SkipLast(10).ToArrayAsync()).Should().BeEmpty();
+    }
+
+    [Fact]
     public async Task SkipWhile_Test()
     {
         // Act & assert
@@ -421,6 +693,20 @@ public class AsyncEnumerableTests
         (await new[] { 1, 2, 3, 4, 5 }.ToAsyncEnumerable().Take(2).ToArrayAsync())
             .Should()
             .Equal(1, 2);
+    }
+
+    [Fact]
+    public async Task TakeLast_Test()
+    {
+        // Arrange
+        var source = new[] { 1, 2, 3, 4, 5 }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.TakeLast(2).ToArrayAsync())
+            .Should()
+            .Equal(4, 5);
+        (await source.TakeLast(0).ToArrayAsync()).Should().BeEmpty();
+        (await source.TakeLast(10).ToArrayAsync()).Should().Equal(1, 2, 3, 4, 5);
     }
 
     [Fact]
@@ -469,6 +755,22 @@ public class AsyncEnumerableTests
     }
 
     [Fact]
+    public async Task UnionBy_Test()
+    {
+        // Arrange
+        var source = new[] { "a", "bb" }.ToAsyncEnumerable();
+        var second = new[] { "c", "ddd" }.ToAsyncEnumerable();
+
+        // Act & assert
+        (await source.UnionBy(second, x => x.Length).ToArrayAsync())
+            .Should()
+            .Equal("a", "bb", "ddd");
+        (await source.UnionBy(second, (x, _) => new ValueTask<int>(x.Length)).ToArrayAsync())
+            .Should()
+            .Equal("a", "bb", "ddd");
+    }
+
+    [Fact]
     public async Task Union_Test()
     {
         // Act & assert
@@ -510,6 +812,54 @@ public class AsyncEnumerableTests
             .Should()
             .Equal((1, 3), (2, 4));
         (await first.Zip(second, (x, y) => x * y).ToArrayAsync()).Should().Equal(3, 8);
+    }
+
+    [Fact]
+    public async Task AverageAsync_Test()
+    {
+        // Act & assert
+        (await new[] { 1, 2, 4 }.ToAsyncEnumerable().AverageAsync())
+            .Should()
+            .BeApproximately(7.0 / 3, 0.0001);
+        (
+            await new int?[] { 1, null, 3 }
+                .ToAsyncEnumerable()
+                .AverageAsync()
+        ).Should().Be(2.0);
+        (await new[] { 1L, 2L }.ToAsyncEnumerable().AverageAsync()).Should().Be(1.5);
+        (
+            await new long?[] { 1L, null, 2L }
+                .ToAsyncEnumerable()
+                .AverageAsync()
+        ).Should().Be(1.5);
+        (await new[] { 1.5, 2.5 }.ToAsyncEnumerable().AverageAsync()).Should().Be(2.0);
+        (
+            await new double?[] { 1.5, null, 2.5 }
+                .ToAsyncEnumerable()
+                .AverageAsync()
+        ).Should().Be(2.0);
+        (await new[] { 1f, 2f }.ToAsyncEnumerable().AverageAsync()).Should().Be(1.5f);
+        (
+            await new float?[] { 1f, null, 2f }
+                .ToAsyncEnumerable()
+                .AverageAsync()
+        ).Should().Be(1.5f);
+        (await new[] { 1m, 2m }.ToAsyncEnumerable().AverageAsync()).Should().Be(1.5m);
+        (
+            await new decimal?[] { 1m, null, 2m }
+                .ToAsyncEnumerable()
+                .AverageAsync()
+        ).Should().Be(1.5m);
+
+        (await AsyncEnumerable.Empty<int?>().AverageAsync()).Should().BeNull();
+        (
+            await new int?[] { null, null }
+                .ToAsyncEnumerable()
+                .AverageAsync()
+        ).Should().BeNull();
+
+        var act = async () => await AsyncEnumerable.Empty<int>().AverageAsync();
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]

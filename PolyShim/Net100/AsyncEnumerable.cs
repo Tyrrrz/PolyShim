@@ -125,15 +125,23 @@ internal static class AsyncEnumerable
         public async ValueTask<T> AggregateAsync(
             Func<T, T, CancellationToken, ValueTask<T>> func,
             CancellationToken cancellationToken = default
-        ) =>
-            await source
-                .AggregateAsync(
-                    default!,
-                    func,
-                    (acc, _) => new ValueTask<T>(acc),
-                    cancellationToken
-                )
-                .ConfigureAwait(false);
+        )
+        {
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(func);
+
+            await using var enumerator = source.GetAsyncEnumerator(cancellationToken);
+
+            if (!await enumerator.MoveNextAsync().ConfigureAwait(false))
+                throw new InvalidOperationException("Sequence contains no elements.");
+
+            var result = enumerator.Current;
+            while (await enumerator.MoveNextAsync().ConfigureAwait(false))
+                result = await func(result, enumerator.Current, cancellationToken)
+                    .ConfigureAwait(false);
+
+            return result;
+        }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregateasync?system-linq-asyncenumerable-aggregateasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-0-0))-system-threading-cancellationtoken)
         public async ValueTask<T> AggregateAsync(
@@ -146,6 +154,84 @@ internal static class AsyncEnumerable
                     cancellationToken
                 )
                 .ConfigureAwait(false);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregateby?system-linq-asyncenumerable-aggregateby-3(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-func((-1-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-func((-2-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<TKey, TAccumulate>(
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            Func<TKey, CancellationToken, ValueTask<TAccumulate>> seedSelector,
+            Func<TAccumulate, T, CancellationToken, ValueTask<TAccumulate>> func,
+            IEqualityComparer<TKey>? keyComparer = null
+        )
+            where TKey : notnull
+        {
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
+            ArgumentNullException.ThrowIfNull(seedSelector);
+            ArgumentNullException.ThrowIfNull(func);
+
+            async IAsyncEnumerable<KeyValuePair<TKey, TAccumulate>> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var accumulators = new Dictionary<TKey, TAccumulate>(keyComparer);
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    var key = await keySelector(item, cancellationToken).ConfigureAwait(false);
+                    var accumulator = accumulators.TryGetValue(key, out var existing)
+                        ? existing
+                        : await seedSelector(key, cancellationToken).ConfigureAwait(false);
+
+                    accumulators[key] = await func(accumulator, item, cancellationToken)
+                        .ConfigureAwait(false);
+                }
+
+                foreach (var pair in accumulators)
+                    yield return pair;
+            }
+
+            return Iterate();
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregateby?system-linq-asyncenumerable-aggregateby-3(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-2-system-func((-2-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<TKey, TAccumulate>(
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            TAccumulate seed,
+            Func<TAccumulate, T, CancellationToken, ValueTask<TAccumulate>> func,
+            IEqualityComparer<TKey>? keyComparer = null
+        )
+            where TKey : notnull =>
+            source.AggregateBy(
+                keySelector,
+                (_, _) => new ValueTask<TAccumulate>(seed),
+                func,
+                keyComparer
+            );
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregateby?system-linq-asyncenumerable-aggregateby-3(system-collections-generic-iasyncenumerable((-0))-system-func((-0-1))-system-func((-1-2))-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<TKey, TAccumulate>(
+            Func<T, TKey> keySelector,
+            Func<TKey, TAccumulate> seedSelector,
+            Func<TAccumulate, T, TAccumulate> func,
+            IEqualityComparer<TKey>? keyComparer = null
+        )
+            where TKey : notnull =>
+            source.AggregateBy(
+                (item, _) => new ValueTask<TKey>(keySelector(item)),
+                (key, _) => new ValueTask<TAccumulate>(seedSelector(key)),
+                (accumulator, item, _) => new ValueTask<TAccumulate>(func(accumulator, item)),
+                keyComparer
+            );
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.aggregateby?system-linq-asyncenumerable-aggregateby-3(system-collections-generic-iasyncenumerable((-0))-system-func((-0-1))-2-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<TKey, TAccumulate>(
+            Func<T, TKey> keySelector,
+            TAccumulate seed,
+            Func<TAccumulate, T, TAccumulate> func,
+            IEqualityComparer<TKey>? keyComparer = null
+        )
+            where TKey : notnull => source.AggregateBy(keySelector, _ => seed, func, keyComparer);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.allasync?system-linq-asyncenumerable-allasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((system-boolean))))-system-threading-cancellationtoken)
         public async ValueTask<bool> AllAsync(
@@ -238,6 +324,36 @@ internal static class AsyncEnumerable
             return Iterate();
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.chunk
+        public IAsyncEnumerable<T[]> Chunk(int size)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(size);
+
+            async IAsyncEnumerable<T[]> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var chunk = new List<T>();
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    chunk.Add(item);
+                    if (chunk.Count < size)
+                        continue;
+
+                    yield return chunk.ToArray();
+                    chunk.Clear();
+                }
+
+                if (chunk.Count > 0)
+                    yield return chunk.ToArray();
+            }
+
+            return Iterate();
+        }
+
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.concat
         public IAsyncEnumerable<T> Concat(IAsyncEnumerable<T> second)
         {
@@ -325,6 +441,27 @@ internal static class AsyncEnumerable
         public async ValueTask<int> CountAsync(CancellationToken cancellationToken = default) =>
             await source.CountAsync(_ => true, cancellationToken).ConfigureAwait(false);
 
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.countby?system-linq-asyncenumerable-countby-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<KeyValuePair<TKey, int>> CountBy<TKey>(
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            IEqualityComparer<TKey>? keyComparer = null
+        )
+            where TKey : notnull =>
+            source.AggregateBy(
+                keySelector,
+                0,
+                (count, _, _) => new ValueTask<int>(checked(count + 1)),
+                keyComparer
+            );
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.countby?system-linq-asyncenumerable-countby-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<KeyValuePair<TKey, int>> CountBy<TKey>(
+            Func<T, TKey> keySelector,
+            IEqualityComparer<TKey>? keyComparer = null
+        )
+            where TKey : notnull =>
+            source.CountBy((item, _) => new ValueTask<TKey>(keySelector(item)), keyComparer);
+
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.defaultifempty?system-linq-asyncenumerable-defaultifempty-1(system-collections-generic-iasyncenumerable((-0))-0)
         public IAsyncEnumerable<T?> DefaultIfEmpty(T defaultValue)
         {
@@ -353,27 +490,42 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.defaultifempty?system-linq-asyncenumerable-defaultifempty-1(system-collections-generic-iasyncenumerable((-0)))
         public IAsyncEnumerable<T?> DefaultIfEmpty() => source.DefaultIfEmpty(default!);
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.distinct
-        public IAsyncEnumerable<T> Distinct(IEqualityComparer<T>? comparer = null)
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.distinctby?system-linq-asyncenumerable-distinctby-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<T> DistinctBy<TKey>(
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            IEqualityComparer<TKey>? comparer = null
+        )
         {
             ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
             )
             {
-                var seen = new HashSet<T>(comparer);
+                var seen = new HashSet<TKey>(comparer);
                 await foreach (
                     var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
                 )
                 {
-                    if (seen.Add(item))
+                    var key = await keySelector(item, cancellationToken).ConfigureAwait(false);
+                    if (seen.Add(key))
                         yield return item;
                 }
             }
 
             return Iterate();
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.distinctby?system-linq-asyncenumerable-distinctby-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<T> DistinctBy<TKey>(
+            Func<T, TKey> keySelector,
+            IEqualityComparer<TKey>? comparer = null
+        ) => source.DistinctBy((item, _) => new ValueTask<TKey>(keySelector(item)), comparer);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.distinct
+        public IAsyncEnumerable<T> Distinct(IEqualityComparer<T>? comparer = null) =>
+            source.DistinctBy(item => item, comparer);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.elementatasync?system-linq-asyncenumerable-elementatasync-1(system-collections-generic-iasyncenumerable((-0))-system-int32-system-threading-cancellationtoken)
         public async ValueTask<T> ElementAtAsync(
@@ -453,14 +605,16 @@ internal static class AsyncEnumerable
             return items[i];
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.except
-        public IAsyncEnumerable<T> Except(
-            IAsyncEnumerable<T> second,
-            IEqualityComparer<T>? comparer = null
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.exceptby?system-linq-asyncenumerable-exceptby-2(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-1))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<T> ExceptBy<TKey>(
+            IAsyncEnumerable<TKey> second,
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            IEqualityComparer<TKey>? comparer = null
         )
         {
             ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(second);
+            ArgumentNullException.ThrowIfNull(keySelector);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
@@ -473,13 +627,27 @@ internal static class AsyncEnumerable
                     var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
                 )
                 {
-                    if (seen.Add(item))
+                    var key = await keySelector(item, cancellationToken).ConfigureAwait(false);
+                    if (seen.Add(key))
                         yield return item;
                 }
             }
 
             return Iterate();
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.exceptby?system-linq-asyncenumerable-exceptby-2(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<T> ExceptBy<TKey>(
+            IAsyncEnumerable<TKey> second,
+            Func<T, TKey> keySelector,
+            IEqualityComparer<TKey>? comparer = null
+        ) => source.ExceptBy(second, (item, _) => new ValueTask<TKey>(keySelector(item)), comparer);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.except
+        public IAsyncEnumerable<T> Except(
+            IAsyncEnumerable<T> second,
+            IEqualityComparer<T>? comparer = null
+        ) => source.ExceptBy(second, item => item, comparer);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.firstasync?system-linq-asyncenumerable-firstasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((system-boolean))))-system-threading-cancellationtoken)
         public async ValueTask<T> FirstAsync(
@@ -695,6 +863,76 @@ internal static class AsyncEnumerable
             Func<T, TKey> keySelector,
             IEqualityComparer<TKey>? comparer = null
         ) => source.GroupBy((item, _) => new ValueTask<TKey>(keySelector(item)), comparer);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.index
+        public IAsyncEnumerable<(int Index, T Item)> Index()
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            async IAsyncEnumerable<(int Index, T Item)> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var index = -1;
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    yield return (checked(++index), item);
+                }
+            }
+
+            return Iterate();
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.intersectby?system-linq-asyncenumerable-intersectby-2(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-1))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<T> IntersectBy<TKey>(
+            IAsyncEnumerable<TKey> second,
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            IEqualityComparer<TKey>? comparer = null
+        )
+        {
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(second);
+            ArgumentNullException.ThrowIfNull(keySelector);
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var remaining = await second
+                    .ToHashSetAsync(comparer, cancellationToken)
+                    .ConfigureAwait(false);
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    var key = await keySelector(item, cancellationToken).ConfigureAwait(false);
+                    if (remaining.Remove(key))
+                        yield return item;
+                }
+            }
+
+            return Iterate();
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.intersectby?system-linq-asyncenumerable-intersectby-2(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<T> IntersectBy<TKey>(
+            IAsyncEnumerable<TKey> second,
+            Func<T, TKey> keySelector,
+            IEqualityComparer<TKey>? comparer = null
+        ) =>
+            source.IntersectBy(
+                second,
+                (item, _) => new ValueTask<TKey>(keySelector(item)),
+                comparer
+            );
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.intersect
+        public IAsyncEnumerable<T> Intersect(
+            IAsyncEnumerable<T> second,
+            IEqualityComparer<T>? comparer = null
+        ) => source.IntersectBy(second, item => item, comparer);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.join?system-linq-asyncenumerable-join-4(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-1))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-func((-1-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-func((-0-1-system-threading-cancellationtoken-system-threading-tasks-valuetask((-3))))-system-collections-generic-iequalitycomparer((-2)))
         public IAsyncEnumerable<TResult> Join<TInner, TKey, TResult>(
@@ -965,63 +1203,139 @@ internal static class AsyncEnumerable
             CancellationToken cancellationToken = default
         ) => await source.LongCountAsync(_ => true, cancellationToken).ConfigureAwait(false);
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.maxasync
-        public async ValueTask<T?> MaxAsync(
-            IComparer<T>? comparer = null,
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.maxbyasync?system-linq-asyncenumerable-maxbyasync-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-collections-generic-icomparer((-1))-system-threading-cancellationtoken)
+        public async ValueTask<T?> MaxByAsync<TKey>(
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            IComparer<TKey>? comparer = null,
             CancellationToken cancellationToken = default
         )
         {
             ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
 
-            var hasValue = false;
+            var hasItem = false;
+            var hasKey = false;
             var result = default(T);
+            var resultKey = default(TKey);
             await foreach (
                 var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
             )
             {
-                if (item is null)
+                var key = await keySelector(item, cancellationToken).ConfigureAwait(false);
+
+                // If all keys are null, the first element is returned
+                if (!hasItem)
+                {
+                    result = item;
+                    hasItem = true;
+                }
+
+                if (key is null)
                     continue;
 
-                if (!hasValue || (comparer ?? Comparer<T>.Default).Compare(item, result!) > 0)
+                if (!hasKey || (comparer ?? Comparer<TKey>.Default).Compare(key, resultKey!) > 0)
+                {
                     result = item;
-
-                hasValue = true;
+                    resultKey = key;
+                    hasKey = true;
+                }
             }
 
-            if (!hasValue && default(T) is not null)
+            if (!hasItem && default(T) is not null)
                 throw new InvalidOperationException("Sequence contains no elements.");
 
             return result;
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.maxbyasync?system-linq-asyncenumerable-maxbyasync-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1))-system-threading-cancellationtoken)
+        public async ValueTask<T?> MaxByAsync<TKey>(
+            Func<T, TKey> keySelector,
+            IComparer<TKey>? comparer = null,
+            CancellationToken cancellationToken = default
+        ) =>
+            await source
+                .MaxByAsync(
+                    (item, _) => new ValueTask<TKey>(keySelector(item)),
+                    comparer,
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.maxasync
+        public async ValueTask<T?> MaxAsync(
+            IComparer<T>? comparer = null,
+            CancellationToken cancellationToken = default
+        ) =>
+            await source
+                .MaxByAsync(item => item, comparer, cancellationToken)
+                .ConfigureAwait(false);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.minbyasync?system-linq-asyncenumerable-minbyasync-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-collections-generic-icomparer((-1))-system-threading-cancellationtoken)
+        public async ValueTask<T?> MinByAsync<TKey>(
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            IComparer<TKey>? comparer = null,
+            CancellationToken cancellationToken = default
+        )
+        {
+            ArgumentNullException.ThrowIfNull(source);
+            ArgumentNullException.ThrowIfNull(keySelector);
+
+            var hasItem = false;
+            var hasKey = false;
+            var result = default(T);
+            var resultKey = default(TKey);
+            await foreach (
+                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
+            {
+                var key = await keySelector(item, cancellationToken).ConfigureAwait(false);
+
+                // If all keys are null, the first element is returned
+                if (!hasItem)
+                {
+                    result = item;
+                    hasItem = true;
+                }
+
+                if (key is null)
+                    continue;
+
+                if (!hasKey || (comparer ?? Comparer<TKey>.Default).Compare(key, resultKey!) < 0)
+                {
+                    result = item;
+                    resultKey = key;
+                    hasKey = true;
+                }
+            }
+
+            if (!hasItem && default(T) is not null)
+                throw new InvalidOperationException("Sequence contains no elements.");
+
+            return result;
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.minbyasync?system-linq-asyncenumerable-minbyasync-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1))-system-threading-cancellationtoken)
+        public async ValueTask<T?> MinByAsync<TKey>(
+            Func<T, TKey> keySelector,
+            IComparer<TKey>? comparer = null,
+            CancellationToken cancellationToken = default
+        ) =>
+            await source
+                .MinByAsync(
+                    (item, _) => new ValueTask<TKey>(keySelector(item)),
+                    comparer,
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.minasync
         public async ValueTask<T?> MinAsync(
             IComparer<T>? comparer = null,
             CancellationToken cancellationToken = default
-        )
-        {
-            ArgumentNullException.ThrowIfNull(source);
-
-            var hasValue = false;
-            var result = default(T);
-            await foreach (
-                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
-            )
-            {
-                if (item is null)
-                    continue;
-
-                if (!hasValue || (comparer ?? Comparer<T>.Default).Compare(item, result!) < 0)
-                    result = item;
-
-                hasValue = true;
-            }
-
-            if (!hasValue && default(T) is not null)
-                throw new InvalidOperationException("Sequence contains no elements.");
-
-            return result;
-        }
+        ) =>
+            await source
+                .MinByAsync(item => item, comparer, cancellationToken)
+                .ConfigureAwait(false);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.orderby?system-linq-asyncenumerable-orderby-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-collections-generic-icomparer((-1)))
         public IOrderedAsyncEnumerable<T> OrderBy<TKey>(
@@ -1052,6 +1366,10 @@ internal static class AsyncEnumerable
             IComparer<TKey>? comparer = null
         ) => source.OrderBy((item, _) => new ValueTask<TKey>(keySelector(item)), comparer);
 
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.order
+        public IOrderedAsyncEnumerable<T> Order(IComparer<T>? comparer = null) =>
+            source.OrderBy(item => item, comparer);
+
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.orderbydescending?system-linq-asyncenumerable-orderbydescending-2(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-collections-generic-icomparer((-1)))
         public IOrderedAsyncEnumerable<T> OrderByDescending<TKey>(
             Func<T, CancellationToken, ValueTask<TKey>> keySelector,
@@ -1081,6 +1399,10 @@ internal static class AsyncEnumerable
             IComparer<TKey>? comparer = null
         ) =>
             source.OrderByDescending((item, _) => new ValueTask<TKey>(keySelector(item)), comparer);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.orderdescending
+        public IOrderedAsyncEnumerable<T> OrderDescending(IComparer<T>? comparer = null) =>
+            source.OrderByDescending(item => item, comparer);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.prepend
         public IAsyncEnumerable<T> Prepend(T element)
@@ -1131,12 +1453,14 @@ internal static class AsyncEnumerable
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
             )
             {
-                var index = 0;
                 await foreach (
-                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                    var (index, item) in source
+                        .Index()
+                        .WithCancellation(cancellationToken)
+                        .ConfigureAwait(false)
                 )
                 {
-                    yield return await selector(item, checked(index++), cancellationToken)
+                    yield return await selector(item, index, cancellationToken)
                         .ConfigureAwait(false);
                 }
             }
@@ -1171,16 +1495,14 @@ internal static class AsyncEnumerable
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
             )
             {
-                var index = 0;
                 await foreach (
-                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                    var (index, item) in source
+                        .Index()
+                        .WithCancellation(cancellationToken)
+                        .ConfigureAwait(false)
                 )
                 {
-                    var collection = await collectionSelector(
-                            item,
-                            checked(index++),
-                            cancellationToken
-                        )
+                    var collection = await collectionSelector(item, index, cancellationToken)
                         .ConfigureAwait(false);
 
                     foreach (var collectionItem in collection)
@@ -1208,13 +1530,15 @@ internal static class AsyncEnumerable
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
             )
             {
-                var index = 0;
                 await foreach (
-                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                    var (index, item) in source
+                        .Index()
+                        .WithCancellation(cancellationToken)
+                        .ConfigureAwait(false)
                 )
                 {
                     await foreach (
-                        var collectionItem in collectionSelector(item, checked(index++))
+                        var collectionItem in collectionSelector(item, index)
                             .WithCancellation(cancellationToken)
                             .ConfigureAwait(false)
                     )
@@ -1332,6 +1656,25 @@ internal static class AsyncEnumerable
                     return false;
                 }
             }
+        }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.shuffle
+        public IAsyncEnumerable<T> Shuffle()
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var items = await source.ToArrayAsync(cancellationToken).ConfigureAwait(false);
+                Random.Shared.Shuffle(items);
+
+                foreach (var item in items)
+                    yield return item;
+            }
+
+            return Iterate();
         }
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.singleasync?system-linq-asyncenumerable-singleasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((system-boolean))))-system-threading-cancellationtoken)
@@ -1492,6 +1835,33 @@ internal static class AsyncEnumerable
             return Iterate();
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.skiplast
+        public IAsyncEnumerable<T> SkipLast(int count)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            if (count <= 0)
+                return source;
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                var buffer = new Queue<T>();
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    buffer.Enqueue(item);
+
+                    if (buffer.Count > count)
+                        yield return buffer.Dequeue();
+                }
+            }
+
+            return Iterate();
+        }
+
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.skipwhile?system-linq-asyncenumerable-skipwhile-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-int32-system-threading-cancellationtoken-system-threading-tasks-valuetask((system-boolean)))))
         public IAsyncEnumerable<T> SkipWhile(
             Func<T, int, CancellationToken, ValueTask<bool>> predicate
@@ -1504,16 +1874,17 @@ internal static class AsyncEnumerable
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
             )
             {
-                var index = 0;
                 var skipping = true;
                 await foreach (
-                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                    var (index, item) in source
+                        .Index()
+                        .WithCancellation(cancellationToken)
+                        .ConfigureAwait(false)
                 )
                 {
                     if (
                         skipping
-                        && await predicate(item, checked(index++), cancellationToken)
-                            .ConfigureAwait(false)
+                        && await predicate(item, index, cancellationToken).ConfigureAwait(false)
                     )
                     {
                         continue;
@@ -1567,6 +1938,36 @@ internal static class AsyncEnumerable
             return Iterate();
         }
 
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.takelast
+        public IAsyncEnumerable<T> TakeLast(int count)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            async IAsyncEnumerable<T> Iterate(
+                [EnumeratorCancellation] CancellationToken cancellationToken = default
+            )
+            {
+                if (count <= 0)
+                    yield break;
+
+                var buffer = new Queue<T>();
+                await foreach (
+                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                )
+                {
+                    buffer.Enqueue(item);
+
+                    if (buffer.Count > count)
+                        buffer.Dequeue();
+                }
+
+                foreach (var item in buffer)
+                    yield return item;
+            }
+
+            return Iterate();
+        }
+
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.takewhile?system-linq-asyncenumerable-takewhile-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-int32-system-threading-cancellationtoken-system-threading-tasks-valuetask((system-boolean)))))
         public IAsyncEnumerable<T> TakeWhile(
             Func<T, int, CancellationToken, ValueTask<bool>> predicate
@@ -1579,15 +1980,14 @@ internal static class AsyncEnumerable
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
             )
             {
-                var index = 0;
                 await foreach (
-                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                    var (index, item) in source
+                        .Index()
+                        .WithCancellation(cancellationToken)
+                        .ConfigureAwait(false)
                 )
                 {
-                    if (
-                        !await predicate(item, checked(index++), cancellationToken)
-                            .ConfigureAwait(false)
-                    )
+                    if (!await predicate(item, index, cancellationToken).ConfigureAwait(false))
                     {
                         yield break;
                     }
@@ -1611,10 +2011,6 @@ internal static class AsyncEnumerable
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.takewhile?system-linq-asyncenumerable-takewhile-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-boolean)))
         public IAsyncEnumerable<T> TakeWhile(Func<T, bool> predicate) =>
             source.TakeWhile((item, _, _) => new ValueTask<bool>(predicate(item)));
-
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.toarrayasync
-        public async ValueTask<T[]> ToArrayAsync(CancellationToken cancellationToken = default) =>
-            (await source.ToListAsync(cancellationToken).ConfigureAwait(false)).ToArray();
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.todictionaryasync?system-linq-asyncenumerable-todictionaryasync-3(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-2))))-system-collections-generic-iequalitycomparer((-1))-system-threading-cancellationtoken)
         public async ValueTask<Dictionary<TKey, TElement>> ToDictionaryAsync<TKey, TElement>(
@@ -1726,25 +2122,32 @@ internal static class AsyncEnumerable
             return result;
         }
 
-        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.union
-        public IAsyncEnumerable<T> Union(
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.toarrayasync
+        public async ValueTask<T[]> ToArrayAsync(CancellationToken cancellationToken = default) =>
+            (await source.ToListAsync(cancellationToken).ConfigureAwait(false)).ToArray();
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.unionby?system-linq-asyncenumerable-unionby-2(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask((-1))))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<T> UnionBy<TKey>(
             IAsyncEnumerable<T> second,
-            IEqualityComparer<T>? comparer = null
+            Func<T, CancellationToken, ValueTask<TKey>> keySelector,
+            IEqualityComparer<TKey>? comparer = null
         )
         {
             ArgumentNullException.ThrowIfNull(source);
             ArgumentNullException.ThrowIfNull(second);
+            ArgumentNullException.ThrowIfNull(keySelector);
 
             async IAsyncEnumerable<T> Iterate(
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
             )
             {
-                var seen = new HashSet<T>(comparer);
+                var seen = new HashSet<TKey>(comparer);
                 await foreach (
                     var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
                 )
                 {
-                    if (seen.Add(item))
+                    var key = await keySelector(item, cancellationToken).ConfigureAwait(false);
+                    if (seen.Add(key))
                         yield return item;
                 }
 
@@ -1752,13 +2155,27 @@ internal static class AsyncEnumerable
                     var item in second.WithCancellation(cancellationToken).ConfigureAwait(false)
                 )
                 {
-                    if (seen.Add(item))
+                    var key = await keySelector(item, cancellationToken).ConfigureAwait(false);
+                    if (seen.Add(key))
                         yield return item;
                 }
             }
 
             return Iterate();
         }
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.unionby?system-linq-asyncenumerable-unionby-2(system-collections-generic-iasyncenumerable((-0))-system-collections-generic-iasyncenumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+        public IAsyncEnumerable<T> UnionBy<TKey>(
+            IAsyncEnumerable<T> second,
+            Func<T, TKey> keySelector,
+            IEqualityComparer<TKey>? comparer = null
+        ) => source.UnionBy(second, (item, _) => new ValueTask<TKey>(keySelector(item)), comparer);
+
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.union
+        public IAsyncEnumerable<T> Union(
+            IAsyncEnumerable<T> second,
+            IEqualityComparer<T>? comparer = null
+        ) => source.UnionBy(second, item => item, comparer);
 
         // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.where?system-linq-asyncenumerable-where-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-int32-system-threading-cancellationtoken-system-threading-tasks-valuetask((system-boolean)))))
         public IAsyncEnumerable<T> Where(Func<T, int, CancellationToken, ValueTask<bool>> predicate)
@@ -1770,15 +2187,14 @@ internal static class AsyncEnumerable
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
             )
             {
-                var index = 0;
                 await foreach (
-                    var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+                    var (index, item) in source
+                        .Index()
+                        .WithCancellation(cancellationToken)
+                        .ConfigureAwait(false)
                 )
                 {
-                    if (
-                        await predicate(item, checked(index++), cancellationToken)
-                            .ConfigureAwait(false)
-                    )
+                    if (await predicate(item, index, cancellationToken).ConfigureAwait(false))
                     {
                         yield return item;
                     }
@@ -1959,6 +2375,189 @@ internal static class AsyncEnumerable
                     cancellationToken
                 )
                 .ConfigureAwait(false);
+    }
+
+    extension(IAsyncEnumerable<int?> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-nullable((system-int32))))-system-threading-cancellationtoken)
+        public async ValueTask<double?> AverageAsync(CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            var sum = 0L;
+            var count = 0L;
+            await foreach (
+                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
+            {
+                if (item is not { } value)
+                    continue;
+
+                sum = checked(sum + value);
+                count++;
+            }
+
+            return count > 0 ? (double)sum / count : null;
+        }
+    }
+
+    extension(IAsyncEnumerable<int> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-int32))-system-threading-cancellationtoken)
+        public async ValueTask<double> AverageAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            await source
+                .Select(item => (int?)item)
+                .AverageAsync(cancellationToken)
+                .ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Sequence contains no elements.");
+    }
+
+    extension(IAsyncEnumerable<long?> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-nullable((system-int64))))-system-threading-cancellationtoken)
+        public async ValueTask<double?> AverageAsync(CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            var sum = 0L;
+            var count = 0L;
+            await foreach (
+                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
+            {
+                if (item is not { } value)
+                    continue;
+
+                sum = checked(sum + value);
+                count++;
+            }
+
+            return count > 0 ? (double)sum / count : null;
+        }
+    }
+
+    extension(IAsyncEnumerable<long> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-int64))-system-threading-cancellationtoken)
+        public async ValueTask<double> AverageAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            await source
+                .Select(item => (long?)item)
+                .AverageAsync(cancellationToken)
+                .ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Sequence contains no elements.");
+    }
+
+    extension(IAsyncEnumerable<double?> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-nullable((system-double))))-system-threading-cancellationtoken)
+        public async ValueTask<double?> AverageAsync(CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            var sum = 0.0;
+            var count = 0L;
+            await foreach (
+                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
+            {
+                if (item is not { } value)
+                    continue;
+
+                sum += value;
+                count++;
+            }
+
+            return count > 0 ? sum / count : null;
+        }
+    }
+
+    extension(IAsyncEnumerable<double> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-double))-system-threading-cancellationtoken)
+        public async ValueTask<double> AverageAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            await source
+                .Select(item => (double?)item)
+                .AverageAsync(cancellationToken)
+                .ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Sequence contains no elements.");
+    }
+
+    extension(IAsyncEnumerable<float?> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-nullable((system-single))))-system-threading-cancellationtoken)
+        public async ValueTask<float?> AverageAsync(CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            var sum = 0.0;
+            var count = 0L;
+            await foreach (
+                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
+            {
+                if (item is not { } value)
+                    continue;
+
+                sum += value;
+                count++;
+            }
+
+            return count > 0 ? (float)(sum / count) : null;
+        }
+    }
+
+    extension(IAsyncEnumerable<float> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-single))-system-threading-cancellationtoken)
+        public async ValueTask<float> AverageAsync(CancellationToken cancellationToken = default) =>
+            await source
+                .Select(item => (float?)item)
+                .AverageAsync(cancellationToken)
+                .ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Sequence contains no elements.");
+    }
+
+    extension(IAsyncEnumerable<decimal?> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-nullable((system-decimal))))-system-threading-cancellationtoken)
+        public async ValueTask<decimal?> AverageAsync(CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(source);
+
+            var sum = 0m;
+            var count = 0L;
+            await foreach (
+                var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
+            )
+            {
+                if (item is not { } value)
+                    continue;
+
+                sum += value;
+                count++;
+            }
+
+            return count > 0 ? sum / count : null;
+        }
+    }
+
+    extension(IAsyncEnumerable<decimal> source)
+    {
+        // https://learn.microsoft.com/dotnet/api/system.linq.asyncenumerable.averageasync?system-linq-asyncenumerable-averageasync(system-collections-generic-iasyncenumerable((system-decimal))-system-threading-cancellationtoken)
+        public async ValueTask<decimal> AverageAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            await source
+                .Select(item => (decimal?)item)
+                .AverageAsync(cancellationToken)
+                .ConfigureAwait(false)
+            ?? throw new InvalidOperationException("Sequence contains no elements.");
     }
 
     extension(IAsyncEnumerable<int> source)
