@@ -873,12 +873,12 @@ internal static class AsyncEnumerable
                 [EnumeratorCancellation] CancellationToken cancellationToken = default
             )
             {
-                var index = 0;
+                var index = -1;
                 await foreach (
                     var item in source.WithCancellation(cancellationToken).ConfigureAwait(false)
                 )
                 {
-                    yield return (checked(index++), item);
+                    yield return (checked(++index), item);
                 }
             }
 
